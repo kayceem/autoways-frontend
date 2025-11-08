@@ -1,10 +1,11 @@
-import { useState } from 'react'
+import PageRoutes from "./pages/Routes"
 import './App.css'
 
 function App() {
 
   return (
     <>
+     <PageRoutes />
     </>
   )
 }
