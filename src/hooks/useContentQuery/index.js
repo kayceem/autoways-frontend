@@ -10,6 +10,7 @@ const useContentQuery = () => {
     queryFn: async () => {
     //   const response = await axiosInstance.get(API_END_POINT.content.getAll); 
     //   return response.data;
+    console.log("Using local content data");
     return data;
     },
     retry: 1,
