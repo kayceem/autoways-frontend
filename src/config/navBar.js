@@ -12,8 +12,9 @@ import logoMap from './logoMap';
 
   // Partners dropdown items
   const partnersItems = [
-    { name: "Manipal", link: "/partners/manipal" },
-    { name: "Prativa", link: "/partners/prativa" }
+    { name: "Manipal Teaching Hospital", link: "/partners/manipal", image: logoMap.manipal },
+    { name: "Prativa Secondary School", link: "/partners/prativa", image: logoMap.prativa },
+    { name: "Swift Holidays", link: "/partners/swift", image: logoMap.swift }
   ];
 
   export default {shopItems, partnersItems};

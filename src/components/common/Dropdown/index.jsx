@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import Logo from '../Logo';
 
 const Dropdown = ({ 
   label,
@@ -8,7 +9,7 @@ const Dropdown = ({
   className = ""
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [hoveredIndex, setHoveredIndex] = useState(0);
+  const [hoveredIndex, setHoveredIndex] = useState(-1);
   const dropdownRef = useRef(null);
   const timeoutRef = useRef(null);
 
@@ -24,6 +25,7 @@ const Dropdown = ({
   const handleMouseLeave = () => {
     timeoutRef.current = setTimeout(() => {
       setIsOpen(false);
+      setHoveredIndex(-1);
     }, 150);
   };
 
@@ -91,9 +93,7 @@ const Dropdown = ({
                   className="max-h-128 object-cover transition-opacity duration-300"
                 />
               ) : (
-                <div className="w-full h-64 bg-secondary bg-opacity-10 rounded-lg flex items-center justify-center">
-                  <span className="text-secondary text-opacity-50 text-lg">Image Preview</span>
-                </div>
+              <Logo name="Autoways Pvt. Ltd." className='font-logo' />
               )}
             </div>
 

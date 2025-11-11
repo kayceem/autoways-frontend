@@ -1,0 +1,107 @@
+import { Link } from 'react-router-dom';
+import { ChevronRight } from "lucide-react";
+
+const PartnersSection = ({ partners = {}, className = '' }) => {
+  // Convert partners object to array
+  const partnerArray = Object.entries(partners).map(([key, partner]) => ({
+    id: key,
+    ...partner,
+  }));
+
+  return (
+    <section className={`py-20 md:py-12 px-6 md:px-4 bg-primary ${className}`}>
+      <div className="max-w-7xl mx-auto">
+        {/* Section Header */}
+        <div className="text-center mb-16 md:mb-10">
+          <h2 className="text-4xl md:text-3xl font-bold text-secondary mb-4 md:mb-3">
+            Our Partners
+          </h2>
+          <p className="text-lg md:text-base text-secondary max-w-2xl mx-auto">
+            Collaborating with industry leaders to bring you the best services
+          </p>
+        </div>
+
+        <div className="relative">
+                {/* Fade Effect on Edges */}
+                <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-primary to-transparent z-10 pointer-events-none" />
+                <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-primary to-transparent z-10 pointer-events-none" />
+
+                {/* Scrollable Cards */}
+                <div className="flex gap-8 overflow-x-auto scrollbar-hide px-6 pb-4 scroll-smooth">
+                    {partnerArray.map((partner, index) => (
+                        <Link
+                            key={partner.id}
+                            to={`/partners/${partner.id}`}
+                            className="group flex-shrink-0"
+                            style={{
+                                animation: `slideInFromRight 0.6s ease-out ${
+                                    index * 0.1
+                                }s both`,
+                            }}
+                        >
+                            {/* Fixed Size Card Container */}
+                            <div
+                                className={`rounded-2xl overflow-hidden transition-all duration-500 hover:shadow-2xl hover:scale-[1.02] border border-primary w-[360px]`}
+                            >
+                                {/* Vertical Layout */}
+                                <div className="flex flex-col">
+                                    {/* partner Logo - Top Section (Square) */}
+                                    <div className="w-full aspect-square bg-white flex items-center justify-center p-12 relative overflow-hidden">
+                                        {/* Subtle Glow on Hover */}
+                                        <div className="absolute inset-0 bg-accent/0 group-hover:bg-accent/5 transition-all duration-500" />
+
+                                        {/* Logo with fixed size container */}
+                                        <div className="w-full h-full flex items-center justify-center relative z-10">
+                                            <img
+                                                src={partner.logo || partner.image}
+                                                alt={partner.name}
+                                                className="max-w-full max-h-full object-contain group-hover:scale-110 transition-all duration-500"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    {/* partner Info - Bottom Section */}
+                                    <div
+                                        className={`p-6 flex flex-col items-center justify-center relative bg-transparent h-[40px]`}
+                                    >
+                                        <h3 className="text-xl font-bold text-secondary inline-flex items-center group-hover:text-accent transition-colors duration-300 relative z-10 text-center">
+                                            {partner.name}
+                                        </h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </Link>
+                    ))}
+
+                </div>
+                </div>
+        {/* View All Partners Link */}
+        {partnerArray.length > 8 && (
+          <div className="text-center mt-12 md:mt-8">
+            <Link
+              to="/partners"
+              className="inline-flex items-center gap-2 text-accent font-semibold text-lg md:text-base hover:gap-3 transition-all duration-300"
+            >
+              View All Partners
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M17 8l4 4m0 0l-4 4m4-4H3"
+                />
+              </svg>
+            </Link>
+          </div>
+        )}
+      </div>
+    </section>
+  );
+};
+
+export default PartnersSection;

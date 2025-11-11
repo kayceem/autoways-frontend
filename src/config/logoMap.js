@@ -8,7 +8,10 @@ const logoMap = {
     dongfeng: Logos.DongfengLogo,
     komatsu: Logos.KomatsuLogo,
     xcmg: Logos.XCMGLogo,
-    ather: Logos.AtherLogo
+    ather: Logos.AtherLogo,
+    manipal: Logos.ManipalLogo,
+    prativa: Logos.PrativaLogo,
+    swift: Logos.SwiftHolidaysLogo
 };
 
 export default logoMap;
