@@ -4,18 +4,18 @@ import API_END_POINT from '../../constants/api/apiUrl';
 import handleError from '../../utils/handleError';
 import data from '../../constants/content';
 
-const useContentQuery = () => {
+const useBrandQuery = (brandName) => {
   return useQuery({
-    queryKey: ['site-content'],
+    queryKey: ['brand', brandName],
     queryFn: async () => {
     //   const response = await axiosInstance.get(API_END_POINT.content.getAll); 
     //   return response.data;
     console.log("Using local content data");
-    return data;
+    return data.brands[brandName];
     },
     retry: 1,
     retryDelay: 2000,
     onError: handleError
   });
 };
-export default useContentQuery;
+export default useBrandQuery;

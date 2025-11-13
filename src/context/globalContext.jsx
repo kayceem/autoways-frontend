@@ -5,9 +5,14 @@ const ContentContext = createContext(null);
 
 export function ContentProvider({ children }) {
   const { data, isLoading, isError, refetch } = useContentQuery();
-
+    const value = {
+    content: data ?? {},
+    isLoading,
+    isError,
+    refetch,
+  };
   return (
-    <ContentContext.Provider value={{ content: data, isLoading, isError, refetch }}>
+    <ContentContext.Provider value={value}>
       {children}
     </ContentContext.Provider>
   );

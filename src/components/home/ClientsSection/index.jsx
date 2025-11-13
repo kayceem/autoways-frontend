@@ -1,0 +1,92 @@
+import './index.css';
+const ClientsSection = ({ clients = {}, className = '' }) => {
+  // Convert clients object to array
+  const clientArray = Object.entries(clients).map(([key, client]) => ({
+    id: key,
+    ...client,
+  }));
+
+  // Duplicate the array for seamless infinite scroll
+  const duplicatedClients = [...clientArray, ...clientArray];
+
+  return (
+    <section className={`py-32 px-6 bg-secondary ${className}`}>
+      <div className="max-w-7xl mx-auto">
+        {/* Section Header */}
+        <div className="text-center mb-16">
+          <h2 className="text-5xl font-bold text-primary mb-4">
+            Trusted by Leading Organizations
+          </h2>
+          <p className="text-xl text-primary max-w-2xl mx-auto">
+            Join thousands of satisfied clients who chose us for their automotive needs
+          </p>
+        </div>
+
+        {/* Auto-Scrolling Horizontal Logos */}
+        <div className="relative overflow-hidden mb-24">
+          {/* Gradient Fade on Edges */}
+          <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-secondary to-transparent z-10 pointer-events-none" />
+          <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-secondary to-transparent z-10 pointer-events-none" />
+          
+          {/* Scrolling Container */}
+          <div className="flex gap-12 animate-scroll">
+            {duplicatedClients.map((client, index) => (
+              <div
+                key={`${client.id}-${index}`}
+                className="flex-shrink-0 w-[200px] h-[120px] bg-white rounded-xl p-6 flex items-center justify-center border border-primary/10 hover:shadow-lg transition-shadow duration-300"
+              >
+                <img
+                  src={client.logo || client.image || client.images?.[0]}
+                  alt={client.name || `Client ${client.id}`}
+                  className="max-w-full max-h-full object-contain grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300"
+                  title={client.name}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Numerical Metrics */}
+        <div className="border-t border-primary pt-16">
+          <div className="grid grid-cols-4 gap-12">
+            <div className="text-center">
+              <div className="text-6xl font-bold text-accent mb-3">
+                {clientArray.length}+
+              </div>
+              <div className="text-lg text-primary font-medium">
+                Happy Clients
+              </div>
+            </div>
+            <div className="text-center">
+              <div className="text-6xl font-bold text-accent mb-3">
+                98%
+              </div>
+              <div className="text-lg text-primary font-medium">
+                Satisfaction Rate
+              </div>
+            </div>
+            <div className="text-center">
+              <div className="text-6xl font-bold text-accent mb-3">
+                24/7
+              </div>
+              <div className="text-lg text-primary font-medium">
+                Customer Support
+              </div>
+            </div>
+            <div className="text-center">
+              <div className="text-6xl font-bold text-accent mb-3">
+                15+
+              </div>
+              <div className="text-lg text-primary font-medium">
+                Years Experience
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+  );
+};
+
+export default ClientsSection;
