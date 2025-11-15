@@ -19,7 +19,7 @@ const CTASection = ({ contactInfo = {}, className = '' }) => {
 
           {/* Heading */}
           <h2 className="text-5xl md:text-3xl font-bold text-white mb-4 md:mb-3 leading-tight text-secondary">
-            Ready to Find Your Dream Car?
+            Ready to Find Your Perfect Drive?
           </h2>
 
           {/* Subheading */}

@@ -4,6 +4,7 @@ import LoadingSpinner from "../../components/common/Loading";
 import ProductTypeCard from "../../components/common/ProductTypeCard";
 import useBrandQuery from "../../hooks/useBrandQuery";
 import { useState } from "react";
+import Logo from "../../components/common/Logo";
 
 const BrandLanding = () => {
     const { brand } = useParams();
@@ -27,13 +28,13 @@ const BrandLanding = () => {
         <div className={`min-h-screen bg-primary-${brand}`}>
             {/* Hero Section */}
             <section className="relative h-screen flex items-center justify-center overflow-hidden">
-                {/* Background Image with Mouse Glow Effect */}
+                {/* Background Image */}
                 <div className={`absolute inset-0 bg-secondary`}>
                     {brandData.images?.[0] && (
                         <img
                             src={brandData.images[0]}
                             alt={brandData.name}
-                            className="w-full h-full object-cover opacity-40"
+                            className="w-full h-full object-cover opacity-90"
                         />
                     )}
                     <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/50 to-primary" />
@@ -41,6 +42,7 @@ const BrandLanding = () => {
 
                 {/* Hero Content */}
                 <div className="relative z-10 text-center px-6 max-w-5xl h-90">
+                    {/* <Logo logo={brandData.logo} size={248} className="mx-auto mb-6" /> */}
                     {/* Brand Name with Enhanced Typography and Text Stroke */}
                     <h1
                         className={`font-bold text-8xl text-primary-${brand} mb-6 animate-fade-in-up`}
@@ -60,24 +62,26 @@ const BrandLanding = () => {
                     </h1>
 
                     {/* Description with White Border and Better Typography */}
-                    {brandData.description && (
+                    {/* {brandData.description && (
                         <p
-                            className={`font-medium text-2xl text-primary-${brand} max-w-3xl mx-auto mb-12 opacity-90 animate-fade-in-up-delay`}
-                            style={{
-                                textShadow: `
-                    -0.5px -0.5px 0 #fff,
-                    0.5px -0.5px 0 #fff,
-                    -0.5px 0.5px 0 #fff,
-                    0.5px 0.5px 0 #fff,
-                    0 0 15px rgba(0,0,0,0.2)
-                `,
-                                letterSpacing: "0.01em",
-                                lineHeight: "1.6",
-                            }}
+className={`font-medium text-2xl text-white max-w-3xl mx-auto mb-12 animate-fade-in-up-delay`}
+style={{
+  textShadow: `
+    0 2px 8px rgba(0, 0, 0, 0.9),
+    0 4px 16px rgba(0, 0, 0, 0.7)
+  `,
+  backdropFilter: 'blur(2px)',
+  background: 'linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.1))',
+  padding: '1rem 2rem',
+  borderRadius: '0.5rem',
+  letterSpacing: '0.02em',
+  lineHeight: '1.7',
+  fontWeight: 600,
+}}
                         >
                             {brandData.description}
                         </p>
-                    )}
+                    )} */}
 
                     {/* Scroll Indicator */}
                     <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bottom-1/2 animate-bounce">

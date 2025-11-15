@@ -16,16 +16,16 @@ const Footer = ({ className = "" }) => {
     const currentYear = new Date().getFullYear();
 
     return (
-        <footer className={`bg-primary border-t border-primary ${className}`}>
+        <footer className={`bg-primary-autoways border-t border-primary ${className}`}>
             {/* Main Footer Content */}
-            <div className="max-w-7xl mx-auto px-6 py-16">
+            <div className="max-w-7xl mx-auto px-6 py-12">
                 <div className="grid grid-cols-4 gap-12 mb-12">
                     {/* Company Info */}
                     <div>
-                        <h3 className="text-2xl font-bold text-secondary mb-6">
+                        <h3 className="text-2xl font-bold text-secondary-autoways mb-6">
                             Autoways
                         </h3>
-                        <p className="text-secondary mb-6 leading-relaxed">
+                        <p className="text-secondary-autoways mb-6 leading-relaxed">
                             Your trusted partner in finding the perfect vehicle.
                             Quality, service, and satisfaction guaranteed.
                         </p>
@@ -37,7 +37,7 @@ const Footer = ({ className = "" }) => {
                                     href={socialLinks.facebook}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-secondary hover:bg-accent hover:text-white transition-all duration-300"
+                                    className="w-10 h-10 bg-primary-autoways rounded-full flex items-center justify-center text-secondary-autoways hover:bg-accent hover:text-white transition-all duration-300"
                                     aria-label="Facebook"
                                 >
                                     <SiFacebook className="w-5 h-5" />
@@ -48,7 +48,7 @@ const Footer = ({ className = "" }) => {
                                     href={socialLinks.instagram}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-secondary hover:bg-accent hover:text-white transition-all duration-300"
+                                    className="w-10 h-10 bg-primary-autoways rounded-full flex items-center justify-center text-secondary-autoways hover:bg-accent hover:text-white transition-all duration-300"
                                     aria-label="Instagram"
                                 >
                                     <SiInstagram className="w-5 h-5" />
@@ -59,7 +59,7 @@ const Footer = ({ className = "" }) => {
                                     href={socialLinks.twitter}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-secondary hover:bg-accent hover:text-white transition-all duration-300"
+                                    className="w-10 h-10 bg-primary-autoways rounded-full flex items-center justify-center text-secondary-autoways hover:bg-accent hover:text-white transition-all duration-300"
                                     aria-label="Twitter"
                                 >
                                     <SiX className="w-5 h-5" />
@@ -70,14 +70,14 @@ const Footer = ({ className = "" }) => {
 
                     {/* Quick Links */}
                     <div>
-                        <h4 className="text-lg font-bold text-secondary mb-6">
+                        <h4 className="text-lg font-bold text-secondary-autoways mb-6">
                             Quick Links
                         </h4>
                         <ul className="space-y-3">
                             <li>
                                 <Link
                                     to="/"
-                                    className="text-secondary hover:text-accent transition-colors duration-300"
+                                    className="text-secondary-autoways hover:text-accent transition-colors duration-300"
                                 >
                                     Home
                                 </Link>
@@ -85,7 +85,7 @@ const Footer = ({ className = "" }) => {
                             <li>
                                 <Link
                                     to="/about"
-                                    className="text-secondary hover:text-accent transition-colors duration-300"
+                                    className="text-secondary-autoways hover:text-accent transition-colors duration-300"
                                 >
                                     About Us
                                 </Link>
@@ -93,17 +93,17 @@ const Footer = ({ className = "" }) => {
                             <li>
                                 <Link
                                     to="/contact"
-                                    className="text-secondary hover:text-accent transition-colors duration-300"
+                                    className="text-secondary-autoways hover:text-accent transition-colors duration-300"
                                 >
                                     Contact
                                 </Link>
                             </li>
                             <li>
                                 <Link
-                                    to="/partners"
-                                    className="text-secondary hover:text-accent transition-colors duration-300"
+                                    to="/sister-companies"
+                                    className="text-secondary-autoways hover:text-accent transition-colors duration-300"
                                 >
-                                    Partners
+                                    Sister Companies
                                 </Link>
                             </li>
                         </ul>
@@ -111,7 +111,7 @@ const Footer = ({ className = "" }) => {
 
                     {/* Shop by Brand */}
                     <div>
-                        <h4 className="text-lg font-bold text-secondary mb-6">
+                        <h4 className="text-lg font-bold text-secondary-autoways mb-6">
                             Shop by Brand
                         </h4>
                         <ul className="space-y-3">
@@ -119,7 +119,7 @@ const Footer = ({ className = "" }) => {
                                 <li key={brand.id}>
                                     <Link
                                         to={`/shop/${brand.id}`}
-                                        className="text-secondary hover:text-accent transition-colors duration-300"
+                                        className="text-secondary-autoways hover:text-accent transition-colors duration-300"
                                     >
                                         {brand.name}
                                     </Link>
@@ -140,7 +140,7 @@ const Footer = ({ className = "" }) => {
 
                     {/* Contact Info */}
                     <div>
-                        <h4 className="text-lg font-bold text-secondary mb-6">
+                        <h4 className="text-lg font-bold text-secondary-autoways mb-6">
                             Contact Us
                         </h4>
                         <ul className="space-y-4">
@@ -148,7 +148,7 @@ const Footer = ({ className = "" }) => {
                                 <li>
                                     <a
                                         href={`tel:${phone}`}
-                                        className="flex items-start gap-3 text-secondary hover:text-accent transition-colors duration-300 group"
+                                        className="flex items-start gap-3 text-secondary-autoways hover:text-accent transition-colors duration-300 group"
                                     >
                                         <Phone className="w-5 h-5 flex-shrink-0 mt-0.5" />
                                         <span>{phone}</span>
@@ -159,7 +159,7 @@ const Footer = ({ className = "" }) => {
                                 <li>
                                     <a
                                         href={`mailto:${email}`}
-                                        className="flex items-start gap-3 text-secondary hover:text-accent transition-colors duration-300 group"
+                                        className="flex items-start gap-3 text-secondary-autoways hover:text-accent transition-colors duration-300 group"
                                     >
                                         <Mail className="w-5 h-5 flex-shrink-0 mt-0.5" />
                                         <span>{email}</span>
@@ -167,7 +167,7 @@ const Footer = ({ className = "" }) => {
                                 </li>
                             )}
                             {address && (
-                                <li className="flex items-start gap-3 text-secondary">
+                                <li className="flex items-start gap-3 text-secondary-autoways">
                                     <MapPin className="w-5 h-5 flex-shrink-0 mt-0.5" />
                                     <span>{address}</span>
                                 </li>
@@ -181,19 +181,19 @@ const Footer = ({ className = "" }) => {
             <div className="border-t border-primary">
                 <div className="max-w-7xl mx-auto px-6 py-6">
                     <div className="flex justify-between items-center">
-                        <p className="text-secondary text-sm">
+                        <p className="text-secondary-autoways text-sm">
                             © {currentYear} Autoways. All rights reserved.
                         </p>
                         <div className="flex gap-6">
                             <Link
                                 to="/privacy"
-                                className="text-secondary hover:text-accent transition-colors duration-300 text-sm"
+                                className="text-secondary-autoways hover:text-accent transition-colors duration-300 text-sm"
                             >
                                 Privacy Policy
                             </Link>
                             <Link
                                 to="/terms"
-                                className="text-secondary hover:text-accent transition-colors duration-300 text-sm"
+                                className="text-secondary-autoways hover:text-accent transition-colors duration-300 text-sm"
                             >
                                 Terms of Service
                             </Link>

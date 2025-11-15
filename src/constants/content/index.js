@@ -5,8 +5,8 @@ const oldData = {
         content: "We are a company dedicated to providing the best services to our customers."
     },
     info: {
-        email: "info@autodealership.com",
-        phone: "+1 (555) 123-4567",
+        email: "info@autoways.com.np",
+        phone: "+977 061-582469",
         socialLinks: {
             facebook: "https://facebook.com",
             instagram: "https://instagram.com",
@@ -72,7 +72,7 @@ const oldData = {
                             id: "bull-x1",
                             name: "Bull X1 Truck",
                             type: "truck",
-                            images: [Images.BullLoader],
+                            images: [Images.BullLoader, Images.BullLoader],
                             tag: "Heavy Duty",
                             price: 45000,
                             shortDescription: "Built for the toughest terrains"
@@ -81,7 +81,7 @@ const oldData = {
                             id: "bull-x2",
                             name: "Bull X2 Truck",
                             type: "truck",
-                            images: [Images.BullLoader],
+                            images: [Images.BullLoader, Images.BullLoader],
                             tag: "New Model",
                             price: 50000,
                             shortDescription: "Advanced features for modern needs"
@@ -95,13 +95,6 @@ const data = {
     // Hero Section Images
     hero_images: [
         {
-            url: Images.ToyotaHero,
-            title: 'Discover Your Perfect Drive',
-            subtitle: 'Explore our premium collection of luxury and performance vehicles',
-            ctaText: 'Browse Inventory',
-            alt: 'Luxury sports car on scenic road'
-        },
-        {
             url: Images.HeroImageI,
             title: 'Unmatched Quality & Service',
             subtitle: 'Experience excellence with every purchase at Autoways',
@@ -110,10 +103,10 @@ const data = {
         },
         {
             url: Images.HeroImageII,
-            title: 'Your Journey Starts Here',
-            subtitle: 'Find the vehicle that matches your lifestyle and dreams',
-            ctaText: 'Get Started',
-            alt: 'Modern SUV on mountain road'
+            title: 'Discover Your Perfect Drive',
+            subtitle: 'Explore our premium collection of luxury and performance vehicles',
+            ctaText: 'Browse Inventory',
+            alt: 'Luxury sports car on scenic road'
         },
         {
             url: Images.HeroImageIII,
@@ -121,6 +114,20 @@ const data = {
             subtitle: 'Find the vehicle that matches your lifestyle and dreams',
             ctaText: 'Get Started',
             alt: 'Modern SUV on mountain road'
+        },
+        {
+            url: Images.HeroIV,
+            title: 'Engineering Excellence',
+            subtitle: 'Experience the pinnacle of automotive innovation and design',
+            ctaText: 'Explore Models',
+            alt: 'Advanced vehicle technology showcase'
+        }, 
+        {
+            url: Images.HeroV,
+            title: 'Built to Perform',
+            subtitle: 'Rugged durability and off-road capability for the adventurous spirit',
+            ctaText: 'View Collection',
+            alt: 'Off-road vehicle conquering tough terrain'    
         }
     ],
 
@@ -133,9 +140,9 @@ const data = {
 
     // Contact Information
     info: {
-        email: 'info@autoways.com',
-        phone: '+1 (555) 123-4567',
-        address: '123 Auto Boulevard, Car City, CC 12345',
+        email: "info@autoways.com.np",
+        phone: "+977 061-582469",
+        address: 'Pokhara-9, Nayabazar, Kaski, Nepal',
         socialLinks: {
             facebook: 'https://facebook.com/autoways',
             instagram: 'https://instagram.com/autoways',
@@ -187,34 +194,43 @@ const data = {
         bull: {
             name: 'Bull',
             description: 'The ultimate driving machine. Precision German engineering meets luxurious performance.',
-            images: [Images.HeroImageI],
+            images: [Images.BullHero],
             logo: Images.BullLogo,
             productTypes: [{
-                type: 'Truck',
+                type: 'Loader',
                 image: Images.BullLoader
             },
             {
-                type: 'Loader',
-                image: Images.BullLoader
+                type: 'Skid',
+                image: Images.BullSkid
             }
             ],
             products: {
-                truck:
+                loader:
                     [
                         {
                             id: "bull-x1",
-                            name: "Bull X1 Truck",
-                            type: "truck",
-                            images: [Images.BullLoader],
+                            name: "HD-96",
+                            type: "loader",
+                            images: [Images.BullHD100, Images.BullHD100],
                             tag: "Heavy Duty",
                             price: 45000,
                             shortDescription: "Built for the toughest terrains"
                         },
                         {
                             id: "bull-x2",
-                            name: "Bull X2 Truck",
-                            type: "truck",
-                            images: [Images.BullLoader],
+                            name: "HD-76",
+                            type: "loader",
+                            images: [Images.BullHD100, Images.BullHD100],
+                            tag: "New Model",
+                            price: 50000,
+                            shortDescription: "Advanced features for modern needs"
+                        },
+                        {
+                            id: "bull-x2",
+                            name: "HD-100",
+                            type: "loader",
+                            images: [Images.BullHD100, Images.BullHD100],
                             tag: "New Model",
                             price: 50000,
                             shortDescription: "Advanced features for modern needs"
@@ -225,20 +241,32 @@ const data = {
         dongfeng: {
             name: 'Dongfeng',
             description: 'Luxury redefined. Innovation and elegance in every detail of these iconic vehicles.',
-            images: ['https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=400&q=80'],
+            images: [],
             logo: Images.DongfengLogo
         },
         komatsu: {
             name: 'Komatsu',
             description: 'Electric revolution. Sustainable performance with groundbreaking autonomous technology.',
-            images: ['https://images.unsplash.com/photo-1560958089-b8a1929cea89?w=400&q=80'],
+            images: [Images.KomatsuHero],
             logo: Images.KomatsuLogo
         },
         eicher: {
             name: 'Eicher',
             description: 'The pursuit of perfection. Japanese luxury with meticulous craftsmanship and comfort.',
-            images: ['https://images.unsplash.com/photo-1621939514649-280e2ee25f60?w=400&q=80'],
+            images: [Images.EicherHero],
             logo: Images.EicherLogo
+        },
+        xcmg: {
+            name: 'XCMG',
+            description: 'Built to perform. Rugged durability and off-road capability for the adventurous spirit.',
+            images: [],
+            logo: Images.XCMGLogo
+        },
+        ather: {
+            name: 'Ather',
+            description: 'Futuristic design. Cutting-edge technology and eco-friendly performance in perfect harmony.',
+            images: [],
+            logo: Images.AtherLogo
         }
     },
 
@@ -261,7 +289,20 @@ const data = {
             description: 'Travel agency partner offering exclusive deals for our customers.',
             logo: Images.SwiftHolidaysLogo,
             category: 'Travel'
+        },
+        info_max: {
+            name: 'InfoMax College',
+            description: 'Educational institution partner providing community engagement and support.',
+            logo: Images.InfoMaxLogo,
+            category: 'Education'
+        },
+        evergreen: {
+            name:'Evergreen Montessori School',
+            description:'Educational institution partner providing community engagement and support.',
+            logo:Images.EvergreenLogo,
+            category:'Education'
         }
+
     },
 
     // Clients Section

@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Logo from '../Logo';
+import logoMap from '../../../config/logoMap';
 
 const Dropdown = ({ 
   label,
@@ -57,7 +58,7 @@ const Dropdown = ({
       <div 
         className={`fixed left-0 right-0 bg-accent shadow-2xl transition-all duration-300 ease-in-out z-50 ${
           isOpen 
-            ? 'opacity-100 translate-y-0 pointer-events-auto' 
+            ? 'opacity-92 translate-y-0 pointer-events-auto' 
             : 'opacity-0 -translate-y-4 pointer-events-none'
         }`}
         style={{ 
@@ -93,7 +94,7 @@ const Dropdown = ({
                   className="max-h-128 object-cover transition-opacity duration-300"
                 />
               ) : (
-              <Logo name="Autoways Pvt. Ltd." className='font-logo' />
+              <Logo logo={logoMap.autoways} name="Autoways" className='font-logo' />
               )}
             </div>
 

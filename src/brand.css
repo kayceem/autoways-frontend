@@ -1,75 +1,169 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 :root {
-/* Toyota Brand Colors */
---color-primary-toyota: #ce1d1d;
---color-secondary-toyota: #f8eded;
---color-accent-toyota: #b52626;
---color-dark-toyota: #161515;
+    --color-primary-autoways: #1a7742;
+    --color-secondary-autoways: #ffffff;
+    /* Toyota Brand Colors */
+    --color-primary-toyota: #ce1d1d;
+    --color-secondary-toyota: #f8eded;
+    --color-accent-toyota: #b52626;
+    --color-dark-toyota: #161515;
 
-/* Bull India Brand Colors */
---color-primary-bull: #ffd700;
---color-secondary-bull: #1a1a1a;
---color-accent-bull: #ff6b00;
---color-dark-bull: #000000;
+    /* Bull India Brand Colors */
+    --color-primary-bull: #ffd700;
+    --color-secondary-bull: #1a1a1a;
+    --color-accent-bull: #ff6b00;
+    --color-dark-bull: #000000;
 
-/* Komatsu Brand Colors */
---color-primary-komatsu: #ffdd00;
---color-secondary-komatsu: #000000;
---color-accent-komatsu: #1a1a1a;
---color-highlight-komatsu: #c8102e;
+    /* Komatsu Brand Colors */
+    --color-primary-komatsu: #ffdd00;
+    --color-secondary-komatsu: #000000;
+    --color-accent-komatsu: #1a1a1a;
+    --color-highlight-komatsu: #c8102e;
 
-/* Dongfeng Brand Colors */
---color-primary-dongfeng: #003da5;
---color-secondary-dongfeng: #e30613;
---color-accent-dongfeng: #ffffff;
---color-dark-dongfeng: #1a1a1a;
+    /* Dongfeng Brand Colors */
+    --color-primary-dongfeng: #003da5;
+    --color-secondary-dongfeng: #e30613;
+    --color-accent-dongfeng: #ffffff;
+    --color-dark-dongfeng: #1a1a1a;
 }
 
+.bg-primary-autoways {
+    background-color: var(--color-primary-autoways);
+}
+.bg-secondary-autoways {
+    background-color: var(--color-secondary-autoways);
+}
+.text-primary-autoways {
+    color: var(--color-primary-autoways);
+}
+.text-secondary-autoways {
+    color: var(--color-secondary-autoways);
+}
 /* Toyota Utility Classes */
-.bg-primary-toyota { background-color: var(--color-primary-toyota); }
-.bg-secondary-toyota { background-color: var(--color-secondary-toyota); }
-.bg-accent-toyota { background-color: var(--color-accent-toyota); }
-.bg-dark-toyota { background-color: var(--color-dark-toyota); }
-.text-primary-toyota { color: var(--color-primary-toyota); }
-.text-secondary-toyota { color: var(--color-secondary-toyota); }
-.text-accent-toyota { color: var(--color-accent-toyota); }
-.text-dark-toyota { color: var(--color-dark-toyota); }
-.border-primary-toyota { border-color: var(--color-primary-toyota); }
-.border-secondary-toyota { border-color: var(--color-secondary-toyota); }
+.bg-primary-toyota {
+    background-color: var(--color-primary-toyota);
+}
+.bg-secondary-toyota {
+    background-color: var(--color-secondary-toyota);
+}
+.bg-accent-toyota {
+    background-color: var(--color-accent-toyota);
+}
+.bg-dark-toyota {
+    background-color: var(--color-dark-toyota);
+}
+.text-primary-toyota {
+    color: var(--color-primary-toyota);
+}
+.text-secondary-toyota {
+    color: var(--color-secondary-toyota);
+}
+.text-accent-toyota {
+    color: var(--color-accent-toyota);
+}
+.text-dark-toyota {
+    color: var(--color-dark-toyota);
+}
+.border-primary-toyota {
+    border-color: var(--color-primary-toyota);
+}
+.border-secondary-toyota {
+    border-color: var(--color-secondary-toyota);
+}
 
 /* Bull India Utility Classes */
-.bg-primary-bull { background-color: var(--color-primary-bull); }
-.bg-secondary-bull { background-color: var(--color-secondary-bull); }
-.bg-accent-bull { background-color: var(--color-accent-bull); }
-.bg-dark-bull { background-color: var(--color-dark-bull); }
-.text-primary-bull { color: var(--color-primary-bull); }
-.text-secondary-bull { color: var(--color-secondary-bull); }
-.text-accent-bull { color: var(--color-accent-bull); }
-.text-dark-bull { color: var(--color-dark-bull); }
-.border-primary-bull { border-color: var(--color-primary-bull); }
-.border-secondary-bull { border-color: var(--color-secondary-bull); }
+.bg-primary-bull {
+    background-color: var(--color-primary-bull);
+}
+.bg-secondary-bull {
+    background-color: var(--color-secondary-bull);
+}
+.bg-accent-bull {
+    background-color: var(--color-accent-bull);
+}
+.bg-dark-bull {
+    background-color: var(--color-dark-bull);
+}
+.text-primary-bull {
+    color: var(--color-primary-bull);
+}
+.text-secondary-bull {
+    color: var(--color-secondary-bull);
+}
+.text-accent-bull {
+    color: var(--color-accent-bull);
+}
+.text-dark-bull {
+    color: var(--color-dark-bull);
+}
+.border-primary-bull {
+    border-color: var(--color-primary-bull);
+}
+.border-secondary-bull {
+    border-color: var(--color-secondary-bull);
+}
 
 /* Komatsu Utility Classes */
-.bg-primary-komatsu { background-color: var(--color-primary-komatsu); }
-.bg-secondary-komatsu { background-color: var(--color-secondary-komatsu); }
-.bg-accent-komatsu { background-color: var(--color-accent-komatsu); }
-.bg-highlight-komatsu { background-color: var(--color-highlight-komatsu); }
-.text-primary-komatsu { color: var(--color-primary-komatsu); }
-.text-secondary-komatsu { color: var(--color-secondary-komatsu); }
-.text-accent-komatsu { color: var(--color-accent-komatsu); }
-.text-highlight-komatsu { color: var(--color-highlight-komatsu); }
-.border-primary-komatsu { border-color: var(--color-primary-komatsu); }
-.border-secondary-komatsu { border-color: var(--color-secondary-komatsu); }
+.bg-primary-komatsu {
+    background-color: var(--color-primary-komatsu);
+}
+.bg-secondary-komatsu {
+    background-color: var(--color-secondary-komatsu);
+}
+.bg-accent-komatsu {
+    background-color: var(--color-accent-komatsu);
+}
+.bg-highlight-komatsu {
+    background-color: var(--color-highlight-komatsu);
+}
+.text-primary-komatsu {
+    color: var(--color-primary-komatsu);
+}
+.text-secondary-komatsu {
+    color: var(--color-secondary-komatsu);
+}
+.text-accent-komatsu {
+    color: var(--color-accent-komatsu);
+}
+.text-highlight-komatsu {
+    color: var(--color-highlight-komatsu);
+}
+.border-primary-komatsu {
+    border-color: var(--color-primary-komatsu);
+}
+.border-secondary-komatsu {
+    border-color: var(--color-secondary-komatsu);
+}
 
 /* Dongfeng Utility Classes */
-.bg-primary-dongfeng { background-color: var(--color-primary-dongfeng); }
-.bg-secondary-dongfeng { background-color: var(--color-secondary-dongfeng); }
-.bg-accent-dongfeng { background-color: var(--color-accent-dongfeng); }
-.bg-dark-dongfeng { background-color: var(--color-dark-dongfeng); }
-.text-primary-dongfeng { color: var(--color-primary-dongfeng); }
-.text-secondary-dongfeng { color: var(--color-secondary-dongfeng); }
-.text-accent-dongfeng { color: var(--color-accent-dongfeng); }
-.text-dark-dongfeng { color: var(--color-dark-dongfeng); }
-.border-primary-dongfeng { border-color: var(--color-primary-dongfeng); }
-.border-secondary-dongfeng { border-color: var(--color-secondary-dongfeng); }
+.bg-primary-dongfeng {
+    background-color: var(--color-primary-dongfeng);
+}
+.bg-secondary-dongfeng {
+    background-color: var(--color-secondary-dongfeng);
+}
+.bg-accent-dongfeng {
+    background-color: var(--color-accent-dongfeng);
+}
+.bg-dark-dongfeng {
+    background-color: var(--color-dark-dongfeng);
+}
+.text-primary-dongfeng {
+    color: var(--color-primary-dongfeng);
+}
+.text-secondary-dongfeng {
+    color: var(--color-secondary-dongfeng);
+}
+.text-accent-dongfeng {
+    color: var(--color-accent-dongfeng);
+}
+.text-dark-dongfeng {
+    color: var(--color-dark-dongfeng);
+}
+.border-primary-dongfeng {
+    border-color: var(--color-primary-dongfeng);
+}
+.border-secondary-dongfeng {
+    border-color: var(--color-secondary-dongfeng);
+}

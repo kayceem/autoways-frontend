@@ -11,7 +11,10 @@ const logoMap = {
     ather: Logos.AtherLogo,
     manipal: Logos.ManipalLogo,
     prativa: Logos.PrativaLogo,
-    swift: Logos.SwiftHolidaysLogo
+    swift: Logos.SwiftHolidaysLogo,
+    autoways: Logos.AutowaysLogo,
+    infomax: Logos.InfoMaxLogo,
+    evergreen: Logos.EvergreenLogo,
 };
 
 export default logoMap;
