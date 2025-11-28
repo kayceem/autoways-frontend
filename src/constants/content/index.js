@@ -121,13 +121,13 @@ const data = {
             subtitle: 'Experience the pinnacle of automotive innovation and design',
             ctaText: 'Explore Models',
             alt: 'Advanced vehicle technology showcase'
-        }, 
+        },
         {
             url: Images.HeroV,
             title: 'Built to Perform',
             subtitle: 'Rugged durability and off-road capability for the adventurous spirit',
             ctaText: 'View Collection',
-            alt: 'Off-road vehicle conquering tough terrain'    
+            alt: 'Off-road vehicle conquering tough terrain'
         }
     ],
 
@@ -151,47 +151,75 @@ const data = {
             linkedin: 'https://linkedin.com/company/autoways'
         }
     },
+    locations: {
+        center: [28.216404638438576, 83.98947531110578],
+        points: [
+            {
+                id: 1,
+                name: 'Kathmandu',
+                position: [27.677199603297105, 85.3016552380678],
+                info: 'Corporate Office'
+            },
+            {
+                id: 2,
+                name: 'Pokhara',
+                position: [28.216404638438576, 83.98947531110578],
+                info: 'Head Office'
+            },
+            {
+                id: 3,
+                name: 'Narayangarh',
+                position: [27.675309702690157, 84.43153021108655],
+                info: 'Narayangarh Branch'
+            },
+            {
+                id: 4,
+                name: 'Birgunj',
+                position: [27.0104, 84.8788],
+                info: 'Birgunj Branch'
+            },
+            {
+                id: 5,
+                name: 'Butwal',
+                position: [27.672804398931735, 83.4643811642423],
+                info: 'Butwal Branch'
+            },
+            {
+                id: 6,
+                name: 'Dhangadi',
+                position: [28.68546267882992, 80.6201175002807],
+                info: 'Dhangadi Branch'
+            },
+            {
+                id: 7,
+                name: 'Dang',
+                position: [28.004397863091956, 82.47660288245483],
+                info: 'Dang Dealership'
+            },
+            {
+                id: 8,
+                name: 'Itahari',
+                position: [26.66282928488298, 87.27508308436812],
+                info: 'Itahari Dealership'
+            },
+            {
+                id: 9,
+                name: 'Surkhet',
+                position: [28.592557669142433, 81.61688115740088],
+                info: 'Surkhet Dealership'
+            },
+            {
+                id: 10,
+                name: 'Damak',
+                position: [26.661290277841076, 87.70011923952679],
+                info: 'Damak Dealership'
+            }
+        ]
+    },
 
     // Brands Section
     brands: {
-        toyota: {
-            name: 'Toyota',
-            description: 'Japanese engineering excellence with legendary reliability and fuel efficiency for every journey.',
-            images: [Images.HeroImageIII],
-            logo: Images.ToyotaLogo,
-            productTypes: [{
-                type: 'Sedan',
-                image: Images.ToyotaSedan
-            },
-            {
-                type: 'SUV',
-                image: Images.ToyotaSUV
-            }],
-            products: {
-                sedan:
-                    [
-                        {
-                            id: "camry-2024",
-                            name: "Toyota Camry 2024",
-                            type: "sedan",
-                            images: [Images.ToyotaCamry, Images.ToyotaCamryRight],
-                            tag: "New Arrival",
-                            price: 28000,
-                            shortDescription: "The perfect blend of luxury and performance"
-                        },
-                        {
-                            id: "rav4-2024",
-                            name: "Toyota RAV4 2024",
-                            type: "sedan",
-                            images: [Images.ToyotaCamry, Images.ToyotaCamryRight],
-                            tag: "Best Seller",
-                            price: 35000,
-                            shortDescription: "A versatile SUV for all your adventures"
-                        }
-                    ]
 
-            },
-        },
         bull: {
             name: 'Bull',
             description: 'The ultimate driving machine. Precision German engineering meets luxurious performance.',
@@ -238,6 +266,44 @@ const data = {
                         }
                     ]
             }
+        },
+        toyota: {
+            name: 'Toyota',
+            description: 'Japanese engineering excellence with legendary reliability and fuel efficiency for every journey.',
+            images: [Images.HeroImageIII],
+            logo: Images.ToyotaLogo,
+            productTypes: [{
+                type: 'Sedan',
+                image: Images.ToyotaSedan
+            },
+            {
+                type: 'SUV',
+                image: Images.ToyotaSUV
+            }],
+            products: {
+                sedan:
+                    [
+                        {
+                            id: "camry-2024",
+                            name: "Toyota Camry 2024",
+                            type: "sedan",
+                            images: [Images.ToyotaCamry, Images.ToyotaCamryRight],
+                            tag: "New Arrival",
+                            price: 28000,
+                            shortDescription: "The perfect blend of luxury and performance"
+                        },
+                        {
+                            id: "rav4-2024",
+                            name: "Toyota RAV4 2024",
+                            type: "sedan",
+                            images: [Images.ToyotaCamry, Images.ToyotaCamryRight],
+                            tag: "Best Seller",
+                            price: 35000,
+                            shortDescription: "A versatile SUV for all your adventures"
+                        }
+                    ]
+
+            },
         },
         dongfeng: {
             name: 'Dongfeng',
@@ -298,10 +364,10 @@ const data = {
             category: 'Education'
         },
         evergreen: {
-            name:'Evergreen Montessori School',
-            description:'Educational institution partner providing community engagement and support.',
-            logo:Images.EvergreenLogo,
-            category:'Education'
+            name: 'Evergreen Montessori School',
+            description: 'Educational institution partner providing community engagement and support.',
+            logo: Images.EvergreenLogo,
+            category: 'Education'
         }
 
     },
@@ -318,11 +384,11 @@ const data = {
         },
         innovatesolutions: {
             name: 'Innovate Solutions',
-            logo: Images.BullLogo
+            logo: Images.AtherLogo
         },
         citybusiness: {
             name: 'City Business Group',
-            logo: Images.BullLogo
+            logo: Images.KomatsuLogo
         },
         primeventures: {
             name: 'Prime Ventures',
@@ -330,7 +396,7 @@ const data = {
         },
         alphaenterprises: {
             name: 'Alpha Enterprises',
-            logo: Images.EicherLogo
+            logo: Images.XCMGLogo
         },
         summitconsulting: {
             name: 'Summit Consulting',

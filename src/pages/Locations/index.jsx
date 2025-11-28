@@ -1,9 +1,14 @@
 import NepalMap from '../../components/locations/NepalMap';
 import './index.css';
+import { useContent } from '../../context/globalContext';
+import LoadingSpinner from '../../components/common/Loading';
 
 const Locations = () => {
+      const { content, isLoading } = useContent();
+    if (isLoading) return <LoadingSpinner size={64} />;
+    const locations = content?.locations?.points || [];
     return (
-        <main className="locations-page">
+        <div className="locations-page">
             <div className="locations-container">
                 {/* Header Section */}
                 <div className="locations-header">
@@ -21,38 +26,16 @@ const Locations = () => {
                 {/* Locations Info Section */}
                 <div className="locations-info">
                     <div className="info-grid">
-                        <div className="info-card">
-                            <h3 className="info-title">Kathmandu</h3>
-                            <p className="info-description">Capital City - Main Office</p>
-                        </div>
-                        <div className="info-card">
-                            <h3 className="info-title">Pokhara</h3>
-                            <p className="info-description">Pokhara Branch</p>
-                        </div>
-                        <div className="info-card">
-                            <h3 className="info-title">Biratnagar</h3>
-                            <p className="info-description">Biratnagar Branch</p>
-                        </div>
-                        <div className="info-card">
-                            <h3 className="info-title">Birgunj</h3>
-                            <p className="info-description">Birgunj Branch</p>
-                        </div>
-                        <div className="info-card">
-                            <h3 className="info-title">Nepalgunj</h3>
-                            <p className="info-description">Nepalgunj Branch</p>
-                        </div>
-                        <div className="info-card">
-                            <h3 className="info-title">Dharan</h3>
-                            <p className="info-description">Dharan Branch</p>
-                        </div>
-                        <div className="info-card">
-                            <h3 className="info-title">Hetauda</h3>
-                            <p className="info-description">Hetauda Branch</p>
-                        </div>
+                        {locations.map((location) => (
+                            <div key={location.id} className="info-card">
+                                <h3 className="info-title">{location.name}</h3>
+                                <p className="info-description">{location.info}</p>
+                            </div>
+                        ))}
                     </div>
                 </div>
             </div>
-        </main>
+        </div>
     );
 };
 

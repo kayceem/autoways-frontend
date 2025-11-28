@@ -30,12 +30,16 @@ const ContactForm = () => {
     if (!formData.subject.trim()) {
       newErrors.subject = 'Subject is required';
     }
-
-    if (!formData.message.trim()) {
-      newErrors.message = 'Message is required';
-    } else if (formData.message.trim().length < 10) {
-      newErrors.message = 'Message must be at least 10 characters';
+    if (!formData.phone.trim()) {
+      newErrors.phone = 'Phone number is required';
+    } else if (!/^\+?[0-9\s\-()]{10,15}$/.test(formData.phone)) {
+      newErrors.phone = 'Please enter a valid phone number';
     }
+    // if (!formData.message.trim()) {
+    //   newErrors.message = 'Message is required';
+    // } else if (formData.message.trim().length < 10) {
+    //   newErrors.message = 'Message must be at least 10 characters';
+    // }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -154,7 +158,7 @@ const ContactForm = () => {
           {/* Phone Field */}
           <div>
             <label htmlFor="phone" className="block text-sm font-medium text-secondary mb-2">
-              Phone Number <span className="text-neutral-400 text-xs">(Optional)</span>
+              Phone Number  <span className="text-error">*</span>
             </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -201,7 +205,7 @@ const ContactForm = () => {
           {/* Message Field */}
           <div>
             <label htmlFor="message" className="block text-sm font-medium text-secondary mb-2">
-              Message <span className="text-error">*</span>
+              Message
             </label>
             <textarea
               id="message"

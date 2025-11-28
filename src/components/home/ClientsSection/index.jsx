@@ -59,7 +59,7 @@ const ClientsSection = ({ clients = {}, className = '' }) => {
             </div>
             <div className="text-center">
               <div className="text-6xl font-bold text-accent mb-3">
-                98%
+                99%
               </div>
               <div className="text-lg text-primary font-medium">
                 Satisfaction Rate
