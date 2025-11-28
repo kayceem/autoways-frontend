@@ -134,7 +134,7 @@ const data = {
     // About Us Section
     about_us: {
         title: 'Welcome to Autoways',
-        content: 'At Autoways, we\'re more than just a dealership—we\'re your trusted partner in finding the perfect vehicle. With over 15 years of experience, we pride ourselves on delivering exceptional customer service, transparent pricing, and an unmatched selection of premium vehicles. Our team of automotive experts is dedicated to making your car-buying experience smooth, enjoyable, and tailored to your unique needs.',
+        content: 'Grounded in a rich history of entrepreneurship,Autoways was established in 2002 AD. The Group was founded on the pillar of ‘CustomerSatisfaction Through Service Excellence’ is uniquelypositioned by its diverse and decentralized businessoutlets. It has a national footprint with 6 Branchesall over Nepal. Autoways has created opportunitiesand attractive benefits for its +1800 employees. We proudly associate ourselves with the world’sleading automotive brands including BULLmachines, Toyota, Komat’su, Eicher and Ather.',
         image: Images.AutowaysAbout
     },
 
@@ -142,6 +142,7 @@ const data = {
     info: {
         email: "info@autoways.com.np",
         phone: "+977 061-582469",
+        corporate_address: 'Kathnmandu, Nepal',
         address: 'Pokhara-9, Nayabazar, Kaski, Nepal',
         socialLinks: {
             facebook: 'https://facebook.com/autoways',

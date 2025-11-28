@@ -6,7 +6,7 @@ import { useContent } from "../../../context/globalContext";
 const Footer = ({ className = "" }) => {
     const { content, isLoading } = useContent();
     const { info = {}, brands = {} } = content;
-    const { email = "", phone = "", address = "", socialLinks = {} } = info;
+    const { email = "", phone = "", address = "", corporate_address = "",socialLinks = {} } = info;
 
     // Convert brands object to array (limit to 6 for footer)
     const brandArray = Object.entries(brands)
@@ -166,10 +166,16 @@ const Footer = ({ className = "" }) => {
                                     </a>
                                 </li>
                             )}
+                            {corporate_address && (
+                                <li className="flex items-start gap-3 text-secondary-autoways">
+                                    <MapPin className="w-5 h-5 flex-shrink-0 mt-0.5" />
+                                    <span>Corporate Office: {corporate_address}</span>
+                                </li>
+                            )}
                             {address && (
                                 <li className="flex items-start gap-3 text-secondary-autoways">
                                     <MapPin className="w-5 h-5 flex-shrink-0 mt-0.5" />
-                                    <span>{address}</span>
+                                    <span>Head Office: {address}</span>
                                 </li>
                             )}
                         </ul>

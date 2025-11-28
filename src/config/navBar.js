@@ -16,7 +16,7 @@ import logoMap from './logoMap';
     { name: "Prativa Secondary School", link: "/sister-companies/prativa", image: logoMap.prativa },
     { name: "Swift Holidays", link: "/sister-companies/swift", image: logoMap.swift },
     { name: "Info Max College", link: "/sister-companies/info-max",  image: logoMap.infomax },
-    { name: "Evergreen Montessori", link: "/sister-companies/evergreen", image: logoMap.evergreen },
+    { name: "Evergreen Academy", link: "/sister-companies/evergreen", image: logoMap.evergreen },
   ];
 
   export default {shopItems, partnersItems};

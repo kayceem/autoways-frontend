@@ -9,8 +9,9 @@ import ManipalLogo from './images/manipal-logo.webp';
 import PrativaLogo from './images/prativa-logo.webp';
 import SwiftHolidaysLogo from './images/swift-logo.png';
 import AutowaysLogo from './images/autoways-logo.png';
+import AutowaysTextLogo from './images/autoways-text-logo.png';
 import InfoMaxLogo from './images/infomax-logo.png';
-import EvergreenLogo from './images/evergreen-logo.png';
+import EvergreenLogo from './images/evergreen-logo.webp';
 import EicherHero from './images/brands/eicher-hero.jpg';
 import KomatsuHero from './images/brands/komatsu-hero.jpg';
 import BullHD100 from './images/brands/bull-hd100.webp';
@@ -26,6 +27,7 @@ import BullHero from './images/brands/bull-hero.png';
 import AutowaysAbout from './images/autoways-about.jpg';
 import HeroImageII from './images/hero-image-ii.jpg';
 import HeroImageIII from './images/hero-image-iii.jpg';
+import AutowaysA from './images/autoways-a.png';
 
 export default{
     ToyotaLogo,
@@ -58,5 +60,7 @@ export default{
     HeroImageIII,
     HeroIV:EicherHero,
     HeroV:KomatsuHero,
-    BullHD100
+    BullHD100,
+    AutowaysA,
+    AutowaysTextLogo
 };

@@ -15,6 +15,8 @@ const logoMap = {
     autoways: Logos.AutowaysLogo,
     infomax: Logos.InfoMaxLogo,
     evergreen: Logos.EvergreenLogo,
+    autowaysA: Logos.AutowaysA,
+    autowaysTextLogo: Logos.AutowaysTextLogo,
 };
 
 export default logoMap;

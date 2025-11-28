@@ -36,7 +36,7 @@ const Navbar = ({ className = "" }) => {
         sticky top-0 z-50 
       `}
         >
-            <Header isVisible={isVisible} /> 
+            {/* <Header isVisible={isVisible} /> */}
             {/* Main Navbar */}
             <nav className="bg-primary text-secondary">
                 <div className="max-w-8xl mx-auto px-6 py-4">
@@ -44,18 +44,28 @@ const Navbar = ({ className = "" }) => {
                         {/* Left - Logo */}
                         <div className="flex-shrink-0">
                             <Logo
-                                logo={!isVisible? logoMap.autoways: ""}
+                                // logo={!isVisible ? logoMap.autowaysTextLogo : ""}
+                                autowaysLogo={logoMap.autowaysTextLogo}
                                 className="font-logo"
-                                name="Ʌutoways"
-                                size={42}
+                                size={128}
                             />
                         </div>
 
                         {/* Middle - Navigation Links */}
                         <div className="flex items-center gap-8">
+                            <Link
+                                to="/shop/bull"
+                                className="text-secondary hover:text-accent transition-colors duration-200 font-medium py-2"
+                            >
+                                Bull
+                            </Link>
                             <Dropdown
-                                label="Shop"
+                                label="Dealerships"
                                 items={navBarItems.shopItems}
+                            />
+                            <Dropdown
+                                label="Sister Companies"
+                                items={navBarItems.partnersItems}
                             />
 
                             <Link
@@ -88,11 +98,6 @@ const Navbar = ({ className = "" }) => {
                             >
                                 About Us
                             </Link>
-
-                            <Dropdown
-                                label="Sister Companies"
-                                items={navBarItems.partnersItems}
-                            />
                         </div>
 
                         {/* Right - Contact and Find a Store */}
