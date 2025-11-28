@@ -14,7 +14,7 @@ const PartnersSection = ({ partners = {}, className = '' }) => {
         {/* Section Header */}
         <div className="text-center mb-16 md:mb-10">
           <h2 className="text-4xl md:text-3xl font-bold text-secondary mb-4 md:mb-3">
-            Our Partners
+            Our Sister Companies
           </h2>
           <p className="text-lg md:text-base text-secondary max-w-2xl mx-auto">
             Collaborating with industry leaders to bring you the best services
@@ -31,7 +31,7 @@ const PartnersSection = ({ partners = {}, className = '' }) => {
                     {partnerArray.map((partner, index) => (
                         <Link
                             key={partner.id}
-                            to={`/partners/${partner.id}`}
+                            to={`/sister-companies/${partner.id}`}
                             className="group flex-shrink-0"
                             style={{
                                 animation: `slideInFromRight 0.6s ease-out ${
@@ -79,10 +79,10 @@ const PartnersSection = ({ partners = {}, className = '' }) => {
         {partnerArray.length > 8 && (
           <div className="text-center mt-12 md:mt-8">
             <Link
-              to="/partners"
+              to="/sister-companies"
               className="inline-flex items-center gap-2 text-accent font-semibold text-lg md:text-base hover:gap-3 transition-all duration-300"
             >
-              View All Partners
+              View All Sister Companies
               <svg
                 className="w-5 h-5"
                 fill="none"

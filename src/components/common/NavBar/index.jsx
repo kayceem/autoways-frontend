@@ -5,6 +5,7 @@ import Dropdown from "../Dropdown";
 import Header from "../Header";
 import navBarItems from "../../../config/navBar";
 import { useState, useEffect, useRef } from "react";
+import logoMap from "../../../config/logoMap";
 
 const Navbar = ({ className = "" }) => {
     // State to manage the navbar's visibility
@@ -35,7 +36,7 @@ const Navbar = ({ className = "" }) => {
         sticky top-0 z-50 
       `}
         >
-            <Header isVisible={isVisible} />
+            {/* <Header isVisible={isVisible} /> */}
             {/* Main Navbar */}
             <nav className="bg-primary text-secondary">
                 <div className="max-w-8xl mx-auto px-6 py-4">
@@ -43,29 +44,60 @@ const Navbar = ({ className = "" }) => {
                         {/* Left - Logo */}
                         <div className="flex-shrink-0">
                             <Logo
-                                name="Autoways Pvt. Ltd."
+                                // logo={!isVisible ? logoMap.autowaysTextLogo : ""}
+                                autowaysLogo={logoMap.autowaysTextLogo}
                                 className="font-logo"
+                                size={128}
                             />
                         </div>
 
                         {/* Middle - Navigation Links */}
                         <div className="flex items-center gap-8">
+                            <Link
+                                to="/shop/bull"
+                                className="text-secondary hover:text-accent transition-colors duration-200 font-medium py-2"
+                            >
+                                Bull
+                            </Link>
                             <Dropdown
-                                label="Shop"
+                                label="Dealerships"
                                 items={navBarItems.shopItems}
                             />
+                            <Dropdown
+                                label="Sister Companies"
+                                items={navBarItems.partnersItems}
+                            />
 
+                            <Link
+                                to="/careers"
+                                className="text-secondary hover:text-accent transition-colors duration-200 font-medium py-2"
+                            >
+                                Careers
+                            </Link>
+                            <Link
+                                to="/testimonials"
+                                className="text-secondary hover:text-accent transition-colors duration-200 font-medium py-2"
+                            >
+                                Testimonials
+                            </Link>
+                            <Link
+                                to="/gallery"
+                                className="text-secondary hover:text-accent transition-colors duration-200 font-medium py-2"
+                            >
+                                Gallery
+                            </Link>
+                            <Link
+                                to="/team"
+                                className="text-secondary hover:text-accent transition-colors duration-200 font-medium py-2"
+                            >
+                                Team
+                            </Link>
                             <Link
                                 to="/about"
                                 className="text-secondary hover:text-accent transition-colors duration-200 font-medium py-2"
                             >
                                 About Us
                             </Link>
-
-                            <Dropdown
-                                label="Partners"
-                                items={navBarItems.partnersItems}
-                            />
                         </div>
 
                         {/* Right - Contact and Find a Store */}
