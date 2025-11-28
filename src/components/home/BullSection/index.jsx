@@ -1,15 +1,41 @@
+import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
+import { Play, Pause } from "lucide-react";
 import { useContent } from "../../../context/globalContext";
 import LoadingSpinner from "../../common/Loading";
 import "./index.css";
 
 const BullSection = ({ className = "" }) => {
     const { content, isLoading } = useContent();
+    const [isPlaying, setIsPlaying] = useState(true);
+    const[pausePlaying, setPaudePlaying] = useState(true);
+    const videoRef = useRef(null);
 
     if (isLoading) return <LoadingSpinner size={64} />;
 
     const bull = content?.brands?.bull;
     const brandName = bull?.name || "Bull";
+
+    const togglePlayPause = () => {
+        setPaudePlaying(true);
+        if (videoRef.current) {
+            if (isPlaying) {
+                videoRef.current.pause();
+            } else {
+                // If video ended, restart from beginning
+                if (videoRef.current.ended) {
+                    videoRef.current.currentTime = 0;
+                }
+                videoRef.current.play();
+            }
+            setIsPlaying(!isPlaying);
+        }
+    };
+
+    const handleVideoEnd = () => {
+        setIsPlaying(false);
+        setPaudePlaying(false);
+    };
 
     return (
         <section
@@ -28,48 +54,85 @@ const BullSection = ({ className = "" }) => {
 
             <div className="max-w-7xl mx-auto px-6 relative z-10">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
-                    {/* Left Side - Bull Image with Creative Treatment */}
+                    {/* Left Side - Portrait Video */}
                     <div className="relative flex justify-center order-2 lg:order-1">
-                        <div className="relative w-full max-w-lg">
+                        <div className="relative w-full max-w-sm">
                             {/* Geometric Frame */}
-                            <div className="absolute inset-4 border-2 border-accent/30 rounded-3xl transform rotate-3" />
-                            <div className="absolute inset-4 border-2 border-accent/20 rounded-3xl transform -rotate-3" />
+                            <div className="absolute -inset-3 border-2 border-accent/30 rounded-3xl transform rotate-2" />
+                            <div className="absolute -inset-3 border-2 border-accent/20 rounded-3xl transform -rotate-2" />
 
-                            {/* Main Image Container */}
-                            <div className="relative aspect-square p-8">
-                                {/* Circular Background */}
-                                <div className="absolute inset-12 bg-gradient-to-br from-accent/20 via-accent/10 to-transparent rounded-full" />
+                            {/* Video Container - Portrait Aspect Ratio */}
+                            <div className="relative aspect-[9/16] rounded-2xl overflow-hidden shadow-2xl group">
+                                {/* Gradient Border Effect */}
+                                <div className="absolute -inset-[2px] bg-gradient-to-br from-accent via-accent/50 to-transparent rounded-2xl -z-10" />
 
-                                {/* Animated Ring */}
-                                <div className="absolute inset-8 border-4 border-dashed border-accent/20 rounded-full animate-spin-slow" />
-
-                                {/* Bull Image */}
-                                <img
+                                {/* Video Element */}
+                                <video
+                                    ref={videoRef}
                                     src={
-                                        bull?.products?.loader?.[0]?.images?.[0]
+                                        bull?.video || "/videos/bull-promo.mp4"
                                     }
-                                    alt="Bull representing strength and power"
-                                    className="relative z-10 w-full h-full object-contain drop-shadow-2xl transform hover:scale-105 transition-transform duration-500"
+                                    autoPlay
+                                    muted
+                                    playsInline
+                                    onEnded={handleVideoEnd}
+                                    className="w-full h-full object-cover"
                                 />
 
-                                {/* Accent Dots */}
-                                {/* <div className="absolute bottom-8 left-4 w-3 h-3 bg-accent/60 rounded-full" /> */}
-                                {/* <div className="absolute top-1/3 left-0 w-2 h-2 bg-accent/40 rounded-full" /> */}
+                                {/* Video Overlay - subtle gradient for depth */}
+                                <div className="absolute inset-0 bg-gradient-to-t from-primary/40 via-transparent to-transparent pointer-events-none" />
+
+                                {/* Play/Pause Button */}
+                                <button
+                                    onClick={togglePlayPause}
+                                    className="absolute bottom-4 right-4 w-12 h-12 bg-black/50 backdrop-blur-sm rounded-full flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-black/70 hover:scale-110 z-10"
+                                    aria-label={
+                                        isPlaying ? "Pause video" : "Play video"
+                                    }
+                                >
+                                    {isPlaying ? (
+                                        <Pause size={20} fill="currentColor" />
+                                    ) : (
+                                        <Play
+                                            size={20}
+                                            fill="currentColor"
+                                            className="ml-1"
+                                        />
+                                    )}
+                                </button>
+
+                                {/* Status indicator */}
+                                {pausePlaying && (
+                                    <div className="absolute bottom-4 left-4 flex items-center gap-2 text-white/80">
+                                        <div
+                                            className={`w-2 h-2 rounded-full ${
+                                                isPlaying
+                                                    ? "bg-red-500 animate-pulse"
+                                                    : "bg-gray-400"
+                                            }`}
+                                        />
+                                        <span className="text-xs font-medium uppercase tracking-wider">
+                                            {isPlaying ? "Playing" : "Paused"}
+                                        </span>
+                                    </div>
+                                )}
                             </div>
 
                             {/* Stats Badge */}
-                            <div
-                                className={`absolute -bottom-4 -right-4 bg-secondary-${brandName.toLowerCase()} text-primary-${brandName.toLowerCase()} px-6 py-4 rounded-2xl shadow-xl`}
+                            {/* <div
+                                className={`absolute -bottom-4 -right-4 bg-secondary-${brandName.toLowerCase()} text-primary-${brandName.toLowerCase()} px-6 py-4 rounded-2xl shadow-xl z-10`}
                             >
-                                <div
-                                    className={`text-3xl font-bold text-accent`}
-                                >
+                                <div className="text-3xl font-bold text-accent">
                                     100%
                                 </div>
                                 <div className="text-sm font-medium opacity-80">
                                     Reliability
                                 </div>
-                            </div>
+                            </div> */}
+
+                            {/* Decorative Elements */}
+                            <div className="absolute -top-6 -left-6 w-12 h-12 border-2 border-accent/30 rounded-full" />
+                            <div className="absolute -bottom-8 -right-8 w-16 h-16 border-2 border-accent/20 rounded-full" />
                         </div>
                     </div>
 
@@ -189,7 +252,10 @@ const BullSection = ({ className = "" }) => {
                             </div>
 
                             {/* CTA Button */}
-                            <Link to="/shop/bull" className={`group inline-flex items-center gap-3 bg-accent-${brandName.toLowerCase()} text-primary px-8 py-4 rounded-full font-semibold hover:bg-accent/90 transition-all duration-300 hover:shadow-lg hover:shadow-accent/25`}>
+                            <Link
+                                to="/shop/bull"
+                                className={`group inline-flex items-center gap-3 bg-accent-${brandName.toLowerCase()} text-primary px-8 py-4 rounded-full font-semibold hover:bg-accent/90 transition-all duration-300 hover:shadow-lg hover:shadow-accent/25`}
+                            >
                                 <span>Explore Products</span>
                                 <svg
                                     className="w-5 h-5 transform group-hover:translate-x-1 transition-transform"

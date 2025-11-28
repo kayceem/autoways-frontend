@@ -1,96 +1,4 @@
 import Images from '../../assets';
-const oldData = {
-    about_us: {
-        title: "About Us",
-        content: "We are a company dedicated to providing the best services to our customers."
-    },
-    info: {
-        email: "info@autoways.com.np",
-        phone: "+977 061-582469",
-        socialLinks: {
-            facebook: "https://facebook.com",
-            instagram: "https://instagram.com",
-            twitter: "https://twitter.com"
-        }
-    },
-    brand: {
-        toyota: {
-            name: 'Toyota',
-            description: 'Toyota is a Japanese multinational automotive manufacturer known for its reliable and fuel-efficient vehicles.',
-            images: [Images.ToyotaHero, Images.ToyotaThumbnail],
-            productTypes: [{
-                type: 'Sedan',
-                image: Images.ToyotaSedan
-            },
-            {
-                type: 'SUV',
-                image: Images.ToyotaSUV
-            }],
-            products: {
-                sedan:
-                    [
-                        {
-                            id: "camry-2024",
-                            name: "Toyota Camry 2024",
-                            type: "sedan",
-                            images: [Images.ToyotaCamry, Images.ToyotaCamryRight],
-                            tag: "New Arrival",
-                            price: 28000,
-                            shortDescription: "The perfect blend of luxury and performance"
-                        },
-                        {
-                            id: "rav4-2024",
-                            name: "Toyota RAV4 2024",
-                            type: "sedan",
-                            images: [Images.ToyotaCamry, Images.ToyotaCamryRight],
-                            tag: "Best Seller",
-                            price: 35000,
-                            shortDescription: "A versatile SUV for all your adventures"
-                        }
-                    ]
-
-            },
-        },
-
-        bull: {
-            name: 'Bull Motors',
-            description: 'Bull Motors is a rugged vehicle brand specializing in off-road and heavy-duty trucks.',
-            images: [Images.BullHero, Images.BullLoader],
-            productTypes: [{
-                type: 'Truck',
-                image: Images.BullLoader
-            },
-            {
-                type: 'Loader',
-                image: Images.BullLoader
-            }
-            ],
-            products: {
-                truck:
-                    [
-                        {
-                            id: "bull-x1",
-                            name: "Bull X1 Truck",
-                            type: "truck",
-                            images: [Images.BullLoader, Images.BullLoader],
-                            tag: "Heavy Duty",
-                            price: 45000,
-                            shortDescription: "Built for the toughest terrains"
-                        },
-                        {
-                            id: "bull-x2",
-                            name: "Bull X2 Truck",
-                            type: "truck",
-                            images: [Images.BullLoader, Images.BullLoader],
-                            tag: "New Model",
-                            price: 50000,
-                            shortDescription: "Advanced features for modern needs"
-                        }
-                    ]
-            }
-        },
-    }
-}
 const data = {
     // Hero Section Images
     hero_images: [
@@ -224,6 +132,7 @@ const data = {
             name: 'Bull',
             description: 'The ultimate driving machine. Precision German engineering meets luxurious performance.',
             images: [Images.BullHero],
+            video: Images.BullVideo,
             logo: Images.BullLogo,
             productTypes: [{
                 type: 'Loader',
@@ -292,15 +201,6 @@ const data = {
                             price: 28000,
                             shortDescription: "The perfect blend of luxury and performance"
                         },
-                        {
-                            id: "rav4-2024",
-                            name: "Toyota RAV4 2024",
-                            type: "sedan",
-                            images: [Images.ToyotaCamry, Images.ToyotaCamryRight],
-                            tag: "Best Seller",
-                            price: 35000,
-                            shortDescription: "A versatile SUV for all your adventures"
-                        }
                     ]
 
             },

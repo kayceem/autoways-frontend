@@ -8,15 +8,99 @@ const AboutSection = ({ aboutData = {}, className = "" }) => {
         content = "",
         image = "",
     } = aboutData;
+
     const brandName = aboutData.brandName || "Autoways";
+
     return (
         <section
             className={`relative py-32 bg-primary-${brandName.toLowerCase()} overflow-hidden ${className}`}
         >
-            <div className="max-w-7xl mx-auto px-6">
-                <div className="grid grid-cols-2 gap-20 items-center">
+            {/* Wavy Background Pattern */}
+            <div className="absolute inset-0 opacity-[0.09]">
+                <svg
+                    className="absolute w-full h-full"
+                    preserveAspectRatio="none"
+                    viewBox="0 0 1440 800"
+                    fill="none"
+                >
+                    {/* Flowing Wave 1 */}
+                    <path
+                        d="M-100,200 C200,100 400,300 600,200 S1000,100 1200,200 S1600,300 1800,200"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        fill="none"
+                    />
+                    {/* Flowing Wave 2 */}
+                    <path
+                        d="M-100,350 C150,250 350,450 600,350 S900,250 1150,350 S1400,450 1700,350"
+                        stroke="currentColor"
+                        strokeWidth="1"
+                        fill="none"
+                    />
+                    {/* Flowing Wave 3 */}
+                    <path
+                        d="M-50,500 C200,400 450,600 700,500 S1050,400 1300,500 S1550,600 1800,500"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        fill="none"
+                    />
+                    {/* Flowing Wave 4 */}
+                    <path
+                        d="M-100,650 C100,550 350,750 650,650 S950,550 1250,650 S1550,750 1800,650"
+                        stroke="currentColor"
+                        strokeWidth="1"
+                        fill="none"
+                    />
+                </svg>
+            </div>
+
+            {/* Curved Accent Lines */}
+            <div className="absolute inset-0 opacity-[0.1]">
+                <svg
+                    className="absolute w-full h-full"
+                    preserveAspectRatio="none"
+                    viewBox="0 0 1440 800"
+                    fill="none"
+                >
+                    {/* Sweeping Curve 1 */}
+                    <path
+                        d="M0,100 Q360,400 720,200 T1440,300"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        fill="none"
+                    />
+                    {/* Sweeping Curve 2 */}
+                    <path
+                        d="M0,600 Q400,300 800,500 T1440,400"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        fill="none"
+                    />
+                    {/* Circular Arc */}
+                    <circle
+                        cx="1200"
+                        cy="150"
+                        r="200"
+                        stroke="currentColor"
+                        strokeWidth="1"
+                        fill="none"
+                    />
+                    {/* Circular Arc 2 */}
+                    <circle
+                        cx="200"
+                        cy="700"
+                        r="150"
+                        stroke="currentColor"
+                        strokeWidth="1"
+                        fill="none"
+                    />
+                </svg>
+            </div>
+
+            <div className="max-w-8xl mx-auto px-20 relative z-10">
+                <div className="flex gap-20 justify-start items-center">
                     {/* Left Side - Text Content */}
-                    <div className="relative">
+                    <div className="w-xl">
                         {/* Decorative Element */}
                         <div className="absolute -left-4 top-0 w-1 h-24 bg-accent" />
 
@@ -50,20 +134,20 @@ const AboutSection = ({ aboutData = {}, className = "" }) => {
                     </div>
 
                     {/* Right Side - Diagonal Cut Image */}
-                    <div className="relative">
+                    <div className="w-full">
                         <div className="relative h-[650px]">
                             {/* Diagonal Cut Container */}
                             <div
                                 className="absolute inset-0 overflow-hidden rounded-3xl"
                                 style={{
                                     clipPath:
-                                        "polygon(15% 0, 100% 0, 100% 100%, 0 100%)",
+                                        "polygon(0 0, 100% 0, 100% 100%, 0 100%)",
                                 }}
                             >
                                 <img
                                     src={image}
                                     alt={title}
-                                    className="w-full h-full object-cover scale-105 hover:scale-110 transition-transform duration-700"
+                                    className="w-full h-full object-fill scale-100 hover:scale-120 transition-transform duration-700"
                                 />
                                 {/* Modern Gradient Overlay */}
                                 <div className="absolute inset-0 bg-gradient-to-br from-accent/20 via-transparent to-transparent mix-blend-overlay" />
