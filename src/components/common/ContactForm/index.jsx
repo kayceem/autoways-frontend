@@ -123,7 +123,7 @@ const ContactForm = () => {
                     ? 'border-error focus:ring-error/20'
                     : 'border-neutral-300 focus:border-secondary focus:ring-secondary/20'
                 }`}
-                placeholder="John Doe"
+                placeholder="Ram Bahadur"
               />
             </div>
             {errors.name && <p className="mt-1 text-sm text-error">{errors.name}</p>}
@@ -149,7 +149,7 @@ const ContactForm = () => {
                     ? 'border-error focus:ring-error/20'
                     : 'border-neutral-300 focus:border-secondary focus:ring-secondary/20'
                 }`}
-                placeholder="john@example.com"
+                placeholder="ram@example.com"
               />
             </div>
             {errors.email && <p className="mt-1 text-sm text-error">{errors.email}</p>}
