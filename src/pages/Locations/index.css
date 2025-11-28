@@ -1,0 +1,89 @@
+.locations-page {
+    min-height: 100vh;
+    background: linear-gradient(to bottom, #f7fafc, #edf2f7);
+    padding: 80px 0 60px;
+}
+
+.locations-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.locations-header {
+    text-align: center;
+    margin-bottom: 48px;
+}
+
+.locations-title {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #1a202c;
+    margin-bottom: 16px;
+}
+
+.locations-subtitle {
+    font-size: 1.25rem;
+    color: #4a5568;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.map-section {
+    margin-bottom: 60px;
+}
+
+.locations-info {
+    margin-top: 48px;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+}
+
+.info-card {
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.info-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.info-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #2d3748;
+    margin-bottom: 8px;
+}
+
+.info-description {
+    font-size: 1rem;
+    color: #718096;
+    margin: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .locations-page {
+        padding: 60px 0 40px;
+    }
+
+    .locations-title {
+        font-size: 2rem;
+    }
+
+    .locations-subtitle {
+        font-size: 1rem;
+    }
+
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+}
