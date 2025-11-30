@@ -4,28 +4,28 @@
     --color-primary-autoways: #1a7742;
     --color-secondary-autoways: #ffffff;
     /* Toyota Brand Colors */
-    --color-primary-toyota: #ce1d1d;
-    --color-secondary-toyota: #f8eded;
-    --color-accent-toyota: #b52626;
+    --color-primary-toyota: #1a7742;
+    --color-secondary-toyota: #ffffff;
+    --color-accent-toyota: #80c24e;
     --color-dark-toyota: #161515;
 
     /* Bull India Brand Colors */
-    --color-primary-bull: #ffd700;
-    --color-secondary-bull: #1a1a1a;
-    --color-accent-bull: #ff6b00;
-    --color-dark-bull: #000000;
+    --color-primary-bull: #1a7742;
+    --color-secondary-bull: #ffffff;
+    --color-accent-bull: #80c24e;
+    --color-dark-bull: #161515;
 
     /* Komatsu Brand Colors */
-    --color-primary-komatsu: #ffdd00;
-    --color-secondary-komatsu: #000000;
-    --color-accent-komatsu: #1a1a1a;
-    --color-highlight-komatsu: #c8102e;
+    --color-primary-komatsu: #1a7742;
+    --color-secondary-komatsu: #ffffff;
+    --color-accent-komatsu: #80c24e;
+    --color-highlight-komatsu: #161515;
 
     /* Dongfeng Brand Colors */
-    --color-primary-dongfeng: #003da5;
-    --color-secondary-dongfeng: #e30613;
-    --color-accent-dongfeng: #ffffff;
-    --color-dark-dongfeng: #1a1a1a;
+    --color-primary-dongfeng: #1a7742;
+    --color-secondary-dongfeng: #ffffff;
+    --color-accent-dongfeng: #80c24e;
+    --color-dark-dongfeng: #161515;
 }
 
 .bg-primary-autoways {

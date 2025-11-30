@@ -1,96 +1,4 @@
 import Images from '../../assets';
-const oldData = {
-    about_us: {
-        title: "About Us",
-        content: "We are a company dedicated to providing the best services to our customers."
-    },
-    info: {
-        email: "info@autoways.com.np",
-        phone: "+977 061-582469",
-        socialLinks: {
-            facebook: "https://facebook.com",
-            instagram: "https://instagram.com",
-            twitter: "https://twitter.com"
-        }
-    },
-    brand: {
-        toyota: {
-            name: 'Toyota',
-            description: 'Toyota is a Japanese multinational automotive manufacturer known for its reliable and fuel-efficient vehicles.',
-            images: [Images.ToyotaHero, Images.ToyotaThumbnail],
-            productTypes: [{
-                type: 'Sedan',
-                image: Images.ToyotaSedan
-            },
-            {
-                type: 'SUV',
-                image: Images.ToyotaSUV
-            }],
-            products: {
-                sedan:
-                    [
-                        {
-                            id: "camry-2024",
-                            name: "Toyota Camry 2024",
-                            type: "sedan",
-                            images: [Images.ToyotaCamry, Images.ToyotaCamryRight],
-                            tag: "New Arrival",
-                            price: 28000,
-                            shortDescription: "The perfect blend of luxury and performance"
-                        },
-                        {
-                            id: "rav4-2024",
-                            name: "Toyota RAV4 2024",
-                            type: "sedan",
-                            images: [Images.ToyotaCamry, Images.ToyotaCamryRight],
-                            tag: "Best Seller",
-                            price: 35000,
-                            shortDescription: "A versatile SUV for all your adventures"
-                        }
-                    ]
-
-            },
-        },
-
-        bull: {
-            name: 'Bull Motors',
-            description: 'Bull Motors is a rugged vehicle brand specializing in off-road and heavy-duty trucks.',
-            images: [Images.BullHero, Images.BullLoader],
-            productTypes: [{
-                type: 'Truck',
-                image: Images.BullLoader
-            },
-            {
-                type: 'Loader',
-                image: Images.BullLoader
-            }
-            ],
-            products: {
-                truck:
-                    [
-                        {
-                            id: "bull-x1",
-                            name: "Bull X1 Truck",
-                            type: "truck",
-                            images: [Images.BullLoader, Images.BullLoader],
-                            tag: "Heavy Duty",
-                            price: 45000,
-                            shortDescription: "Built for the toughest terrains"
-                        },
-                        {
-                            id: "bull-x2",
-                            name: "Bull X2 Truck",
-                            type: "truck",
-                            images: [Images.BullLoader, Images.BullLoader],
-                            tag: "New Model",
-                            price: 50000,
-                            shortDescription: "Advanced features for modern needs"
-                        }
-                    ]
-            }
-        },
-    }
-}
 const data = {
     // Hero Section Images
     hero_images: [
@@ -158,62 +66,66 @@ const data = {
                 id: 1,
                 name: 'Kathmandu',
                 position: [27.677199603297105, 85.3016552380678],
-                info: 'Corporate Office'
+                address: 'Dhobigat-03, Lalitpur',
+                info: 'Corporate Office',
+                phone: '+977 01-5921699'
             },
             {
                 id: 2,
                 name: 'Pokhara',
                 position: [28.216404638438576, 83.98947531110578],
-                info: 'Head Office'
+                address: 'Nayabazar-09, Kaski',
+                info: 'Head Office',
+                phone: '+977 061-582469'
             },
             {
                 id: 3,
-                name: 'Narayangarh',
+                name: 'Chitwan',
                 position: [27.675309702690157, 84.43153021108655],
-                info: 'Narayangarh Branch'
+                adress:'Bharatpur-11, Chitwan',
+                info: 'Chitwan Branch',
+                phone: '+977 056-590924/056-590935'
             },
             {
                 id: 4,
                 name: 'Birgunj',
                 position: [27.0104, 84.8788],
-                info: 'Birgunj Branch'
+                address:'Gandakchowk, Bahuwari-15',
+                info: 'Birgunj Branch',
+                phone: '+977 9855073521'
             },
             {
                 id: 5,
                 name: 'Butwal',
                 position: [27.672804398931735, 83.4643811642423],
-                info: 'Butwal Branch'
+                address:'Kalikanagar-10, Butwal',
+                info: 'Butwal Branch',
+                phone: '+977 071-419017'
             },
             {
                 id: 6,
                 name: 'Dhangadi',
                 position: [28.68546267882992, 80.6201175002807],
-                info: 'Dhangadi Branch'
+                info: 'Dhangadi Branch',
+                address:'Mohan Pura-13, Dhangadi',
+                phone: '+977 9858480133'
             },
             {
                 id: 7,
                 name: 'Dang',
                 position: [28.004397863091956, 82.47660288245483],
-                info: 'Dang Dealership'
+                address:'Ratanpur-14, Dang',
+                info: 'Dang Dealership',
+                phone: '+977 9857030854'
             },
             {
                 id: 8,
-                name: 'Itahari',
-                position: [26.66282928488298, 87.27508308436812],
-                info: 'Itahari Dealership'
-            },
-            {
-                id: 9,
                 name: 'Surkhet',
                 position: [28.592557669142433, 81.61688115740088],
-                info: 'Surkhet Dealership'
+                address:'Birendranagar-06, Surkhet',
+                info: 'Surkhet Dealership',
+                phone: '+977 9858030851'
             },
-            {
-                id: 10,
-                name: 'Damak',
-                position: [26.661290277841076, 87.70011923952679],
-                info: 'Damak Dealership'
-            }
         ]
     },
 
@@ -224,6 +136,7 @@ const data = {
             name: 'Bull',
             description: 'The ultimate driving machine. Precision German engineering meets luxurious performance.',
             images: [Images.BullHero],
+            video: Images.BullVideo,
             logo: Images.BullLogo,
             productTypes: [{
                 type: 'Loader',
@@ -292,15 +205,6 @@ const data = {
                             price: 28000,
                             shortDescription: "The perfect blend of luxury and performance"
                         },
-                        {
-                            id: "rav4-2024",
-                            name: "Toyota RAV4 2024",
-                            type: "sedan",
-                            images: [Images.ToyotaCamry, Images.ToyotaCamryRight],
-                            tag: "Best Seller",
-                            price: 35000,
-                            shortDescription: "A versatile SUV for all your adventures"
-                        }
                     ]
 
             },

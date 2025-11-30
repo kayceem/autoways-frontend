@@ -1,6 +1,7 @@
 import { useContent } from '../../context/globalContext';
 import LoadingSpinner from '../../components/common/Loading';
 import HeroSection from '../../components/home/HeroSection';
+import BullSection from '../../components/home/BullSection';
 import BrandsSection from '../../components/home/BrandsSection';
 import AboutSection from '../../components/home/AboutSection';
 import CTASection from '../../components/home/CTA';
@@ -34,6 +35,9 @@ const Home = () => {
       {content.hero_images && content.hero_images.length > 0 && (
         <HeroSection heroImages={content.hero_images} />
       )}
+
+      {/* Bull Section - Power and reliability showcase */}
+      <BullSection />
 
       {/* Brands Section - Featured automotive brands */}
       {content.brands && Object.keys(content.brands).length > 0 && (
