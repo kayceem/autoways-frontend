@@ -39,7 +39,7 @@ const BullSection = ({ className = "" }) => {
 
     return (
         <section
-            className={`relative py-24 bg-primary-${brandName.toLowerCase()} overflow-hidden ${className}`}
+            className={`relative py-24 bg-primary overflow-hidden ${className}`}
         >   
          <div className="absolute inset-0 opacity-[0.09]">
                 <svg
@@ -258,7 +258,7 @@ const BullSection = ({ className = "" }) => {
                             </h2>
 
                             {/* Description */}
-                            <p className="text-lg text-white/80 leading-relaxed mb-10">
+                            <p className="text-lg text-secondary/80 leading-relaxed mb-10">
                                 Experience the unwavering strength and
                                 reliability that drives your journey forward.
                                 Our commitment to excellence ensures you get the
@@ -270,7 +270,7 @@ const BullSection = ({ className = "" }) => {
                                 <div className="group p-4 bg-secondary/5 rounded-xl hover:bg-accent/10 transition-colors duration-300 cursor-default">
                                     <div className="w-10 h-10 text-accent rounded-lg flex items-center justify-center mb-3 mx-auto lg:mx-0 group-hover:bg-accent/30 transition-colors">
                                         <svg
-                                            className={`w-5 h-5 text-accent-${brandName.toLowerCase()}`}
+                                            className={`w-5 h-5 text-primary-${brandName.toLowerCase()}`}
                                             fill="none"
                                             viewBox="0 0 24 24"
                                             stroke="currentColor"
@@ -283,7 +283,7 @@ const BullSection = ({ className = "" }) => {
                                             />
                                         </svg>
                                     </div>
-                                    <div className="text-white/80 font-semibold text-sm">
+                                    <div className="text-primary/80 font-semibold text-sm">
                                         Unmatched Strength
                                     </div>
                                 </div>
@@ -304,7 +304,7 @@ const BullSection = ({ className = "" }) => {
                                             />
                                         </svg>
                                     </div>
-                                    <div className="text-white/80 font-semibold text-sm">
+                                    <div className="text-primary/80 font-semibold text-sm">
                                         Trusted Performance
                                     </div>
                                 </div>
@@ -325,7 +325,7 @@ const BullSection = ({ className = "" }) => {
                                             />
                                         </svg>
                                     </div>
-                                    <div className="text-white/80 font-semibold text-sm">
+                                    <div className="text-primary/80 font-semibold text-sm">
                                         Built to Last
                                     </div>
                                 </div>

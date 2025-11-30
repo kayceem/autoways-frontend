@@ -44,7 +44,7 @@ const BrandLanding = () => {
                 <div className="relative z-10 text-center px-6 max-w-5xl h-90">
                     {/* <Logo logo={brandData.logo} size={248} className="mx-auto mb-6" /> */}
                     {/* Brand Name with Enhanced Typography and Text Stroke */}
-                    <h1
+                    {/* <h1
                         className={`font-bold text-8xl text-primary-${brand} mb-6 animate-fade-in-up`}
                         style={{
                             textShadow: `
@@ -59,7 +59,7 @@ const BrandLanding = () => {
                         }}
                     >
                         {brandData.name}
-                    </h1>
+                    </h1> */}
 
                     {/* Description with White Border and Better Typography */}
                     {/* {brandData.description && (
@@ -84,9 +84,9 @@ style={{
                     )} */}
 
                     {/* Scroll Indicator */}
-                    <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bottom-1/2 animate-bounce">
+                    {/* <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bottom-1/2 animate-bounce">
                         <Mouse size={40} className="text-accent" />
-                    </div>
+                    </div> */}
                 </div>
             </section>
 
@@ -96,11 +96,11 @@ style={{
                     {/* Section Header */}
                     <div className="text-center mb-16">
                         <h2
-                            className={`font-bold text-5xl text-secondary-${brand} mb-4`}
+                            className={`font-bold text-5xl text-primary-${brand} mb-4`}
                         >
                             Explore Our Collection
                         </h2>
-                        <div className="w-24 h-1 bg-accent mx-auto" />
+                        <div className="w-24 h-1 bg-secondary mx-auto" />
                     </div>
 
                     {/* Product Type Cards Grid */}

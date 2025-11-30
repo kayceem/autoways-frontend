@@ -42,7 +42,11 @@ const data = {
     // About Us Section
     about_us: {
         title: 'Welcome to Autoways',
-        content: 'Grounded in a rich history of entrepreneurship,Autoways was established in 2002 AD. The Group was founded on the pillar of ‘CustomerSatisfaction Through Service Excellence’ is uniquelypositioned by its diverse and decentralized businessoutlets. It has a national footprint with 6 Branchesall over Nepal. Autoways has created opportunitiesand attractive benefits for its +1800 employees. We proudly associate ourselves with the world’sleading automotive brands including BULLmachines, Toyota, Komat’su, Eicher and Ather.',
+        content: "Rooted in a strong legacy of entrepreneurship, Autoways has been a trusted name in Nepal’s automotive industry since its establishment in 2002 AD. Built on the core principle of “Inspiring customer loyalty through excellence in every service we provide” the company has cultivated a reputation for unwavering quality, professionalism, and integrity. \
+With a strong commitment to innovation and operational excellence, Autoways continues to empower its talented workforce and contribute meaningfully to the nation’s economic progress. Our dedication to delivering superior services has fostered long-lasting relationships with customers, partners, and communities across Nepal. \
+Autoways is privileged to represent some of the world’s most esteemed automotive brands including BULL Machines, Toyota, Komatsu, Ather, and Eicher, bringing global standards, advanced technology, and exceptional value to the market. \
+Driven by purpose and shaped by excellence, Autoways remains committed to elevating mobility, advancing industry standards, and setting new benchmarks for quality and service in Nepal. \
+",
         image: Images.AutowaysAbout
     },
 

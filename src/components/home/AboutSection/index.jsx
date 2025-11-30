@@ -13,7 +13,7 @@ const AboutSection = ({ aboutData = {}, className = "" }) => {
 
     return (
         <section
-            className={`relative py-32 bg-primary-${brandName.toLowerCase()} overflow-hidden ${className}`}
+            className={`relative py-32 bg-secondary-${brandName.toLowerCase()} overflow-hidden ${className}`}
         >
             {/* Wavy Background Pattern */}
             <div className="absolute inset-0 opacity-[0.09]">
@@ -113,12 +113,12 @@ const AboutSection = ({ aboutData = {}, className = "" }) => {
                             </div>
 
                             {/* Title */}
-                            <h2 className="text-6xl font-bold text-primary mb-8 leading-tight">
+                            <h2 className="text-6xl font-bold text-secondary mb-8 leading-tight">
                                 {title}
                             </h2>
 
                             {/* Content */}
-                            <p className="text-xl text-primary leading-relaxed mb-10">
+                            <p className="text-xl text-secondary leading-relaxed mb-10">
                                 {content}
                             </p>
 

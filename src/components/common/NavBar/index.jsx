@@ -88,12 +88,6 @@ const Navbar = ({ className = "" }) => {
                             >
                                 CSR
                             </Link>
-                            <Link
-                                to="/team"
-                                className="text-secondary hover:text-accent transition-colors duration-200 font-medium py-2"
-                            >
-                                Team
-                            </Link>
                             <Dropdown
                                 label="Sister Companies"
                                 items={navBarItems.partnersItems}
