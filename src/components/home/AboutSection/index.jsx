@@ -98,7 +98,7 @@ const AboutSection = ({ aboutData = {}, className = "" }) => {
             </div>
 
             <div className="max-w-8xl mx-auto px-20 relative z-10">
-                <div className="flex gap-20 justify-start items-center">
+                <div className="flex gap-20 justify-between items-center">
                     {/* Left Side - Text Content */}
                     <div className="w-xl">
                         {/* Decorative Element */}
@@ -134,7 +134,7 @@ const AboutSection = ({ aboutData = {}, className = "" }) => {
                     </div>
 
                     {/* Right Side - Diagonal Cut Image */}
-                    <div className="w-full">
+                    <div className="w-[850px]">
                         <div className="relative h-[650px]">
                             {/* Diagonal Cut Container */}
                             <div

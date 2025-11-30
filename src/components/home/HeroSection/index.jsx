@@ -28,7 +28,7 @@ const HeroSection = ({ heroImages = [], className = '' }) => {
           bulletClass: 'swiper-pagination-bullet',
           bulletActiveClass: 'swiper-pagination-bullet-active',
         }}
-        navigation={true}
+        navigation={false}
         loop={true}
         className="h-full w-full"
         lazy={"true"}
