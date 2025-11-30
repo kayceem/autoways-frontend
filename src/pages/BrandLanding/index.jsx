@@ -25,7 +25,7 @@ const BrandLanding = () => {
     }
 
     return (
-        <div className={`min-h-screen bg-primary-${brand}`}>
+        <div className={`min-h-screen bg-primary`}>
             {/* Hero Section */}
             <section className="relative h-screen flex items-center justify-center overflow-hidden">
                 {/* Background Image */}
@@ -123,7 +123,7 @@ style={{
                         brandData.productTypes.length === 0) && (
                         <div className="text-center py-20">
                             <p
-                                className={`text-secondary-${brand} text-xl opacity-50`}
+                                className={`text-primary-${brand} text-xl opacity-50`}
                             >
                                 No products available
                             </p>

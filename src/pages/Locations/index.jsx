@@ -29,7 +29,10 @@ const Locations = () => {
                         {locations.map((location) => (
                             <div key={location.id} className="info-card">
                                 <h3 className="info-title">{location.name}</h3>
+                                <p className="info-address">{location.address}</p>
                                 <p className="info-description">{location.info}</p>
+                                <p className="info-email">{content.info.email}</p>
+                                <p className="info-contact">{content.info.phone}</p>
                             </div>
                         ))}
                     </div>

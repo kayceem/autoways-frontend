@@ -66,62 +66,66 @@ const data = {
                 id: 1,
                 name: 'Kathmandu',
                 position: [27.677199603297105, 85.3016552380678],
-                info: 'Corporate Office'
+                address: 'Dhobigat-03, Lalitpur',
+                info: 'Corporate Office',
+                phone: '+977 01-5921699'
             },
             {
                 id: 2,
                 name: 'Pokhara',
                 position: [28.216404638438576, 83.98947531110578],
-                info: 'Head Office'
+                address: 'Nayabazar-09, Kaski',
+                info: 'Head Office',
+                phone: '+977 061-582469'
             },
             {
                 id: 3,
-                name: 'Narayangarh',
+                name: 'Chitwan',
                 position: [27.675309702690157, 84.43153021108655],
-                info: 'Narayangarh Branch'
+                adress:'Bharatpur-11, Chitwan',
+                info: 'Chitwan Branch',
+                phone: '+977 056-590924/056-590935'
             },
             {
                 id: 4,
                 name: 'Birgunj',
                 position: [27.0104, 84.8788],
-                info: 'Birgunj Branch'
+                address:'Gandakchowk, Bahuwari-15',
+                info: 'Birgunj Branch',
+                phone: '+977 9855073521'
             },
             {
                 id: 5,
                 name: 'Butwal',
                 position: [27.672804398931735, 83.4643811642423],
-                info: 'Butwal Branch'
+                address:'Kalikanagar-10, Butwal',
+                info: 'Butwal Branch',
+                phone: '+977 071-419017'
             },
             {
                 id: 6,
                 name: 'Dhangadi',
                 position: [28.68546267882992, 80.6201175002807],
-                info: 'Dhangadi Branch'
+                info: 'Dhangadi Branch',
+                address:'Mohan Pura-13, Dhangadi',
+                phone: '+977 9858480133'
             },
             {
                 id: 7,
                 name: 'Dang',
                 position: [28.004397863091956, 82.47660288245483],
-                info: 'Dang Dealership'
+                address:'Ratanpur-14, Dang',
+                info: 'Dang Dealership',
+                phone: '+977 9857030854'
             },
             {
                 id: 8,
-                name: 'Itahari',
-                position: [26.66282928488298, 87.27508308436812],
-                info: 'Itahari Dealership'
-            },
-            {
-                id: 9,
                 name: 'Surkhet',
                 position: [28.592557669142433, 81.61688115740088],
-                info: 'Surkhet Dealership'
+                address:'Birendranagar-06, Surkhet',
+                info: 'Surkhet Dealership',
+                phone: '+977 9858030851'
             },
-            {
-                id: 10,
-                name: 'Damak',
-                position: [26.661290277841076, 87.70011923952679],
-                info: 'Damak Dealership'
-            }
         ]
     },
 

@@ -63,16 +63,18 @@ const Navbar = ({ className = "" }) => {
                                 label="Dealerships"
                                 items={navBarItems.shopItems}
                             />
-                            <Dropdown
-                                label="Sister Companies"
-                                items={navBarItems.partnersItems}
-                            />
 
                             <Link
-                                to="/careers"
+                                to="/spares-and-parts"
                                 className="text-secondary hover:text-accent transition-colors duration-200 font-medium py-2"
                             >
-                                Careers
+                                Spares & Parts
+                            </Link>
+                            <Link
+                                to="/news-and-media"
+                                className="text-secondary hover:text-accent transition-colors duration-200 font-medium py-2"
+                            >
+                                News & Media
                             </Link>
                             <Link
                                 to="/testimonials"
@@ -81,10 +83,10 @@ const Navbar = ({ className = "" }) => {
                                 Testimonials
                             </Link>
                             <Link
-                                to="/gallery"
+                                to="/csr"
                                 className="text-secondary hover:text-accent transition-colors duration-200 font-medium py-2"
                             >
-                                Gallery
+                                CSR
                             </Link>
                             <Link
                                 to="/team"
@@ -92,6 +94,10 @@ const Navbar = ({ className = "" }) => {
                             >
                                 Team
                             </Link>
+                            <Dropdown
+                                label="Sister Companies"
+                                items={navBarItems.partnersItems}
+                            />
                             <Link
                                 to="/about"
                                 className="text-secondary hover:text-accent transition-colors duration-200 font-medium py-2"
