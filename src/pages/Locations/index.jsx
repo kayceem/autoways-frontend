@@ -32,7 +32,7 @@ const Locations = () => {
                                 <p className="info-address">{location.address}</p>
                                 <p className="info-description">{location.info}</p>
                                 <p className="info-email">{content.info.email}</p>
-                                <p className="info-contact">{content.info.phone}</p>
+                                <p className="info-contact">{location.phone}</p>
                             </div>
                         ))}
                     </div>

@@ -9,13 +9,12 @@ import App from './App.jsx'
 
 const queryClient = new QueryClient();
 
+
 createRoot(document.getElementById('root')).render(
 <BrowserRouter>
   <QueryClientProvider client={queryClient}>
-    <ContentProvider>
       <App />
       <Toaster/>
-    </ContentProvider>
   </QueryClientProvider>
 </BrowserRouter>
 )

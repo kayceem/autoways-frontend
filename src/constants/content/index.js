@@ -86,7 +86,7 @@ Driven by purpose and shaped by excellence, Autoways remains committed to elevat
                 id: 3,
                 name: 'Chitwan',
                 position: [27.675309702690157, 84.43153021108655],
-                adress:'Bharatpur-11, Chitwan',
+                address:'Bharatpur-11, Chitwan',
                 info: 'Chitwan Branch',
                 phone: '+977 056-590924/056-590935'
             },
