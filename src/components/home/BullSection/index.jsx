@@ -126,7 +126,7 @@ const BullSection = ({ className = "" }) => {
 
                             {/* Stats Badge */}
                             {/* <div
-                                className={`absolute -bottom-4 -right-4 bg-secondary-${brandName.toLowerCase()} text-primary-${brandName.toLowerCase()} px-6 py-4 rounded-2xl shadow-xl z-10`}
+                                className={`absolute -bottom-4 -right-4 bg-secondary text-primary px-6 py-4 rounded-2xl shadow-xl z-10`}
                             >
                                 <div className="text-3xl font-bold text-accent">
                                     100%
@@ -150,11 +150,11 @@ const BullSection = ({ className = "" }) => {
                         <div className="max-w-xl mx-auto lg:mx-0">
                             {/* Label */}
                             <div
-                                className={`inline-flex items-center gap-2 mb-6 px-4 py-2 bg-accent-${brandName.toLowerCase()}/10 rounded-full`}
+                                className={`inline-flex items-center gap-2 mb-6 px-4 py-2 bg-accent/10 rounded-full`}
                             >
                                 <div className="w-2 h-2 bg-accent rounded-full animate-pulse" />
                                 <span
-                                    className={`text-accent-${brandName.toLowerCase()} font-semibold text-sm uppercase tracking-widest`}
+                                    className={`text-accent font-semibold text-sm uppercase tracking-widest`}
                                 >
                                     Power & Reliability
                                 </span>
@@ -164,7 +164,7 @@ const BullSection = ({ className = "" }) => {
                             <h2 className="text-5xl lg:text-6xl font-bold text-secondary mb-6 leading-tight">
                                 Built Like a{" "}
                                 <span
-                                    className={`text-accent-${brandName.toLowerCase()} relative`}
+                                    className={`text-accent relative`}
                                 >
                                     Bull
                                     <svg
@@ -196,7 +196,7 @@ const BullSection = ({ className = "" }) => {
                                 <div className="group p-4 bg-secondary/5 rounded-xl hover:bg-accent/10 transition-colors duration-300 cursor-default">
                                     <div className="w-10 h-10 text-accent rounded-lg flex items-center justify-center mb-3 mx-auto lg:mx-0 group-hover:bg-accent/30 transition-colors">
                                         <svg
-                                            className={`w-5 h-5 text-primary-${brandName.toLowerCase()}`}
+                                            className={`w-5 h-5 text-accent`}
                                             fill="none"
                                             viewBox="0 0 24 24"
                                             stroke="currentColor"
@@ -217,7 +217,7 @@ const BullSection = ({ className = "" }) => {
                                 <div className="group p-4 bg-secondary/5 rounded-xl hover:bg-accent/10 transition-colors duration-300 cursor-default">
                                     <div className="w-10 h-10 bg-accent/20 rounded-lg flex items-center justify-center mb-3 mx-auto lg:mx-0 group-hover:bg-accent/30 transition-colors">
                                         <svg
-                                            className={`w-5 h-5 text-accent-${brandName.toLowerCase()}`}
+                                            className={`w-5 h-5 text-accent`}
                                             fill="none"
                                             viewBox="0 0 24 24"
                                             stroke="currentColor"
@@ -238,7 +238,7 @@ const BullSection = ({ className = "" }) => {
                                 <div className="group p-4 bg-secondary/5 rounded-xl hover:bg-accent/10 transition-colors duration-300 cursor-default">
                                     <div className="w-10 h-10 bg-accent/20 rounded-lg flex items-center justify-center mb-3 mx-auto lg:mx-0 group-hover:bg-accent/30 transition-colors">
                                         <svg
-                                            className={`w-5 h-5 text-accent-${brandName.toLowerCase()}`}
+                                            className={`w-5 h-5 text-accent`}
                                             fill="none"
                                             viewBox="0 0 24 24"
                                             stroke="currentColor"
@@ -260,7 +260,7 @@ const BullSection = ({ className = "" }) => {
                             {/* CTA Button */}
                             <Link
                                 to="/shop/bull"
-                                className={`group inline-flex items-center gap-3 bg-accent-${brandName.toLowerCase()} text-primary px-8 py-4 rounded-full font-semibold hover:bg-accent/90 transition-all duration-300 hover:shadow-lg hover:shadow-accent/25`}
+                                className={`group inline-flex items-center gap-3 bg-accent text-primary px-8 py-4 rounded-full font-semibold hover:bg-accent/90 transition-all duration-300 hover:shadow-lg hover:shadow-accent/25`}
                             >
                                 <span>Explore Products</span>
                                 <svg

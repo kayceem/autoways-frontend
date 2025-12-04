@@ -20,7 +20,7 @@ const ProductTypeCard = ({ type, image, link, brandName, className = "" }) => {
                     <div className="absolute inset-0 bg-gradient-to-t from-primary via-primary/50 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
 
                     {/* Animated Border */}
-                    <div className={`absolute inset-0 border-2 border-accent-${brandName.toLowerCase()} opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl`} />
+                    <div className={`absolute inset-0 border-2 border-accent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl`} />
                 </div>
 
                 {/* Shine Effect */}
@@ -32,7 +32,7 @@ const ProductTypeCard = ({ type, image, link, brandName, className = "" }) => {
             <div className="transform translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
                 {/* Type Name */}
                 <h3
-                    className={`font-bold text-3xl text-primary-${brandName.toLowerCase()} mb-2 transform transition-transform duration-300`}
+                    className={`font-bold text-3xl text-primary mb-2 transform transition-transform duration-300`}
                 >
                     {type}
                 </h3>
@@ -40,13 +40,13 @@ const ProductTypeCard = ({ type, image, link, brandName, className = "" }) => {
                 {/* Explore Button */}
                 <div className="flex items-center gap-2 text-accent opacity-0 group-hover:opacity-100 transform translate-x-4 group-hover:translate-x-0 transition-all duration-500 delay-100">
                     <span
-                        className={`text-sm text-primary-${brandName.toLowerCase()} uppercase tracking-wider`}
+                        className={`text-sm text-primary uppercase tracking-wider`}
                     >
                         Explore
                     </span>
                     <ArrowRight
                         size={20}
-                        className={`transform text-primary-${brandName.toLowerCase()} group-hover:translate-x-2 transition-transform duration-300`}
+                        className={`transform text-primary group-hover:translate-x-2 transition-transform duration-300`}
                     />
                 </div>
             </div>

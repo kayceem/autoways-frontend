@@ -248,7 +248,7 @@ const AboutUs = () => {
                     className="flex-shrink-0 w-full md:w-[700px] scroll-snap-align-center"
                     style={{ scrollSnapAlign: 'center' }}
                   >
-                    <div className="relative bg-primary rounded-2xl overflow-hidden shadow-2xl h-[350px] group">
+                    <div className="relative bg-primary rounded-2xl overflow-hidden shadow-2xl h-[450px] group">
                       {/* Background Image */}
                       <div
                         className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
@@ -267,7 +267,7 @@ const AboutUs = () => {
                         </div>
 
                         {/* Text Card on Left Middle */}
-                        <div className="max-w-md bg-dark/70 backdrop-blur-sm rounded-xl p-6 border border-accent/20">
+                        <div className="max-w-md bg-primary backdrop-blur-sm rounded-xl p-6 border border-accent/20">
                           <h3 className="text-2xl font-bold text-secondary mb-3">
                             {milestone.title}
                           </h3>
@@ -355,7 +355,7 @@ const AboutUs = () => {
               <button className="px-8 py-4 bg-dark text-secondary rounded-lg font-semibold hover:bg-opacity-90 transition-all transform hover:scale-105 shadow-lg">
                 View Careers
               </button>
-              <button className="px-8 py-4 bg-secondary text-secondary rounded-lg font-semibold hover:bg-opacity-90 transition-all transform hover:scale-105 shadow-lg">
+              <button className="px-8 py-4 bg-accent text-secondary rounded-lg font-semibold hover:bg-opacity-90 transition-all transform hover:scale-105 shadow-lg">
                 Contact Us
               </button>
             </div>

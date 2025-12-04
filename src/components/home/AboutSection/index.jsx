@@ -14,7 +14,7 @@ const AboutSection = ({ aboutData = {}, className = "" }) => {
 
     return (
         <section
-            className={`relative py-32 bg-secondary-${brandName.toLowerCase()} overflow-hidden ${className}`}
+            className={`relative py-32 bg-primary overflow-hidden ${className}`}
         >
             {/* Wave Background - Top */}
             <WaveBackground

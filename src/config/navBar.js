@@ -2,7 +2,6 @@ import logoMap from './logoMap';
 
   const shopItems = [
     { name: "Toyota", link: "/shop/toyota", image: logoMap.toyota },
-    { name: "Bull", link: "/shop/bull", image: logoMap.bull },
     { name: "Eicher", link: "/shop/eicher", image: logoMap.eicher },
     { name: "Komatsu", link: "/shop/komatsu", image: logoMap.komatsu },
     { name: "Dongfeng", link: "/shop/dongfeng", image: logoMap.dongfeng },

@@ -222,7 +222,7 @@ const CSR = () => {
               <button className="px-8 py-4 bg-dark text-secondary rounded-lg font-semibold hover:bg-opacity-90 transition-all transform hover:scale-105 shadow-lg">
                 Become a Partner
               </button>
-              <button className="px-8 py-4 bg-secondary text-dark rounded-lg font-semibold hover:bg-opacity-90 transition-all transform hover:scale-105 shadow-lg">
+              <button className="px-8 py-4 bg-accent text-dark rounded-lg font-semibold hover:bg-opacity-90 transition-all transform hover:scale-105 shadow-lg">
                 Learn More
               </button>
             </div>

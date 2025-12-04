@@ -155,7 +155,7 @@ const NewsMedia = () => {
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="flex-1 px-6 py-3 rounded-lg bg-secondary text-dark focus:outline-none focus:ring-2 focus:ring-accent"
+                className="flex-1 px-6 py-3 rounded-lg bg-accent text-dark focus:outline-none focus:ring-2 focus:ring-accent"
               />
               <button className="px-8 py-3 bg-dark text-secondary rounded-lg font-semibold hover:bg-opacity-90 transition-colors">
                 Subscribe
