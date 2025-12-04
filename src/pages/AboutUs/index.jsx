@@ -180,9 +180,9 @@ const AboutUs = () => {
       </section>
 
       {/* Timeline - Milestones (Horizontal Swipeable) */}
-      <section className="py-20 px-6 bg-primary bg-opacity-50">
-        <div className="max-w-12xl mx-auto">
-          <div className="text-center mb-12 animate-fade-in-up">
+      <section className="py-20 bg-primary bg-opacity-50 w-full">
+        <div className="w-full">
+          <div className="text-center mb-12 animate-fade-in-up px-6">
             <h2 className="font-bold text-4xl text-secondary mb-4">Our Journey</h2>
             <div className="w-24 h-1 bg-accent mx-auto mb-6" />
             <p className="text-secondary-bull opacity-80 max-w-2xl mx-auto">
@@ -191,7 +191,7 @@ const AboutUs = () => {
           </div>
 
           {/* Timeline Years Bar (Swipeable) */}
-          <div className="relative mb-12">
+          <div className="relative mb-12 px-6">
             <div className="overflow-x-auto scrollbar-hide">
               <div className="flex gap-4 pb-4 min-w-max justify-center mx-auto">
                 {milestones.map((milestone, index) => (
@@ -216,7 +216,7 @@ const AboutUs = () => {
             {/* Previous Button */}
             <button
               onClick={handlePrevious}
-              className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-accent text-dark p-4 rounded-full shadow-lg hover:scale-110 transition-transform duration-300"
+              className="absolute left-2 top-1/2 -translate-y-1/2 z-10 bg-accent text-dark p-4 rounded-full shadow-lg hover:scale-110 transition-transform duration-300"
               aria-label="Previous milestone"
             >
               <svg className="w-6 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -227,7 +227,7 @@ const AboutUs = () => {
             {/* Next Button */}
             <button
               onClick={handleNext}
-              className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-accent text-dark p-4 rounded-full shadow-lg hover:scale-110 transition-transform duration-300"
+              className="absolute right-2 top-1/2 -translate-y-1/2 z-10 bg-accent text-dark p-4 rounded-full shadow-lg hover:scale-110 transition-transform duration-300"
               aria-label="Next milestone"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -238,17 +238,17 @@ const AboutUs = () => {
             {/* Milestones Container */}
             <div
               ref={timelineContainerRef}
-              className="overflow-x-auto scrollbar-hide scroll-smooth mx-12"
+              className="overflow-x-auto scrollbar-hide scroll-smooth px-16"
               style={{ scrollSnapType: 'x mandatory' }}
             >
               <div className="flex gap-6">
                 {milestones.map((milestone, index) => (
                   <div
                     key={index}
-                    className="flex-shrink-0 w-full md:w-[600px] scroll-snap-align-center"
+                    className="flex-shrink-0 w-full md:w-[700px] scroll-snap-align-center"
                     style={{ scrollSnapAlign: 'center' }}
                   >
-                    <div className="relative bg-primary rounded-2xl overflow-hidden shadow-2xl h-[500px] group">
+                    <div className="relative bg-primary rounded-2xl overflow-hidden shadow-2xl h-[350px] group">
                       {/* Background Image */}
                       <div
                         className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
@@ -256,25 +256,28 @@ const AboutUs = () => {
                           backgroundImage: `url(${milestone.image})`,
                         }}
                       >
-                        <div className="absolute inset-0 bg-gradient-to-t from-dark via-dark/80 to-transparent" />
+                        <div className="absolute inset-0 bg-gradient-to-r from-dark via-dark/70 to-transparent" />
                       </div>
 
-                      {/* Content Card */}
-                      <div className="absolute inset-0 flex flex-col justify-end p-8">
-                        {/* Year Badge */}
-                        <div className="inline-block self-start bg-accent text-dark px-6 py-3 rounded-full font-bold text-2xl mb-4 shadow-lg">
+                      {/* Content Layout */}
+                      <div className="absolute inset-0 flex flex-col p-6">
+                        {/* Year Badge at Top */}
+                        <div className="inline-block self-start bg-accent text-dark px-6 py-2 rounded-full font-bold text-xl shadow-lg mb-auto">
                           {milestone.year}
                         </div>
 
-                        {/* Title and Description */}
-                        <div className="bg-dark/60 backdrop-blur-sm rounded-xl p-6 border border-accent/20">
-                          <h3 className="text-3xl font-bold text-secondary mb-3">
+                        {/* Text Card on Left Middle */}
+                        <div className="max-w-md bg-dark/70 backdrop-blur-sm rounded-xl p-6 border border-accent/20">
+                          <h3 className="text-2xl font-bold text-secondary mb-3">
                             {milestone.title}
                           </h3>
-                          <p className="text-secondary-bull opacity-90 text-lg leading-relaxed">
+                          <p className="text-secondary-bull opacity-90 text-base leading-relaxed">
                             {milestone.description}
                           </p>
                         </div>
+
+                        {/* Spacer for bottom */}
+                        <div className="h-6"></div>
                       </div>
                     </div>
                   </div>
@@ -284,7 +287,7 @@ const AboutUs = () => {
           </div>
 
           {/* Progress Indicators */}
-          <div className="flex justify-center gap-2 mt-8">
+          <div className="flex justify-center gap-2 mt-8 px-6">
             {milestones.map((_, index) => (
               <button
                 key={index}
