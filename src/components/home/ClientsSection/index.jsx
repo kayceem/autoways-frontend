@@ -24,8 +24,8 @@ const ClientsSection = ({ clients = {}, className = "" }) => {
             {/* Wave Background - Bottom */}
             <WaveBackground
                 position="bottom"
-                opacity={0.12}
-                waveColor="#f5f5f5"
+                opacity={0.15}
+                waveColor="#b9b3b3ff"
                 animate={true}
             />
 
