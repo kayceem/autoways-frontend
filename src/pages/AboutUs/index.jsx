@@ -64,27 +64,27 @@ const AboutUs = () => {
       <section className="py-12 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
-            <div className="text-center p-6 bg-primary-bull rounded-lg shadow-lg animate-fade-in-up">
+            <div className="text-center p-6 bg-primary rounded-lg shadow-lg animate-fade-in-up">
               <div className="text-4xl font-bold text-accent mb-2">{stats.yearsOfExperience}</div>
               <div className="text-secondary-bull opacity-70 text-sm">Years Experience</div>
             </div>
-            <div className="text-center p-6 bg-primary-bull rounded-lg shadow-lg animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
+            <div className="text-center p-6 bg-primary rounded-lg shadow-lg animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
               <div className="text-4xl font-bold text-accent mb-2">{stats.happyCustomers}</div>
               <div className="text-secondary-bull opacity-70 text-sm">Happy Customers</div>
             </div>
-            <div className="text-center p-6 bg-primary-bull rounded-lg shadow-lg animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+            <div className="text-center p-6 bg-primary rounded-lg shadow-lg animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
               <div className="text-4xl font-bold text-accent mb-2">{stats.vehiclesSold}</div>
               <div className="text-secondary-bull opacity-70 text-sm">Vehicles Sold</div>
             </div>
-            <div className="text-center p-6 bg-primary-bull rounded-lg shadow-lg animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
+            <div className="text-center p-6 bg-primary rounded-lg shadow-lg animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
               <div className="text-4xl font-bold text-accent mb-2">{stats.serviceCenters}</div>
               <div className="text-secondary-bull opacity-70 text-sm">Service Centers</div>
             </div>
-            <div className="text-center p-6 bg-primary-bull rounded-lg shadow-lg animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
+            <div className="text-center p-6 bg-primary rounded-lg shadow-lg animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
               <div className="text-4xl font-bold text-accent mb-2">{stats.brands}</div>
               <div className="text-secondary-bull opacity-70 text-sm">Global Brands</div>
             </div>
-            <div className="text-center p-6 bg-primary-bull rounded-lg shadow-lg animate-fade-in-up" style={{ animationDelay: '0.5s' }}>
+            <div className="text-center p-6 bg-primary rounded-lg shadow-lg animate-fade-in-up" style={{ animationDelay: '0.5s' }}>
               <div className="text-4xl font-bold text-accent mb-2">{stats.employees}</div>
               <div className="text-secondary-bull opacity-70 text-sm">Team Members</div>
             </div>
@@ -115,10 +115,10 @@ const AboutUs = () => {
       </section>
 
       {/* Mission & Vision */}
-      <section className="py-20 px-6 bg-primary-bull bg-opacity-50">
+      <section className="py-20 px-6 bg-primary bg-opacity-50">
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-2 gap-8">
-            <div className="bg-primary-bull rounded-lg p-8 shadow-lg animate-fade-in-up">
+            <div className="bg-primary rounded-lg p-8 shadow-lg animate-fade-in-up">
               <div className="flex items-center gap-4 mb-6">
                 <div className="w-16 h-16 bg-accent rounded-full flex items-center justify-center">
                   <svg className="w-8 h-8 text-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -131,7 +131,7 @@ const AboutUs = () => {
                 {mission.content}
               </p>
             </div>
-            <div className="bg-primary-bull rounded-lg p-8 shadow-lg animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+            <div className="bg-primary rounded-lg p-8 shadow-lg animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
               <div className="flex items-center gap-4 mb-6">
                 <div className="w-16 h-16 bg-accent rounded-full flex items-center justify-center">
                   <svg className="w-8 h-8 text-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -163,7 +163,7 @@ const AboutUs = () => {
             {values.map((value, index) => (
               <div
                 key={value.id}
-                className="bg-primary-bull rounded-lg p-8 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 animate-fade-in-up"
+                className="bg-primary rounded-lg p-8 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 animate-fade-in-up"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
                 <div className="w-12 h-12 bg-accent rounded-lg flex items-center justify-center mb-4">
@@ -180,8 +180,8 @@ const AboutUs = () => {
       </section>
 
       {/* Timeline - Milestones (Horizontal Swipeable) */}
-      <section className="py-20 px-6 bg-primary-bull bg-opacity-50">
-        <div className="max-w-7xl mx-auto">
+      <section className="py-20 px-6 bg-primary bg-opacity-50">
+        <div className="max-w-12xl mx-auto">
           <div className="text-center mb-12 animate-fade-in-up">
             <h2 className="font-bold text-4xl text-secondary mb-4">Our Journey</h2>
             <div className="w-24 h-1 bg-accent mx-auto mb-6" />
@@ -201,7 +201,7 @@ const AboutUs = () => {
                     className={`px-6 py-3 rounded-full font-bold text-lg transition-all duration-300 whitespace-nowrap ${
                       activeTimelineIndex === index
                         ? 'bg-accent text-dark scale-110 shadow-lg'
-                        : 'bg-primary-bull text-secondary-bull hover:bg-accent hover:text-dark'
+                        : 'bg-primary text-secondary-bull hover:bg-accent hover:text-dark'
                     }`}
                   >
                     {milestone.year}
@@ -219,7 +219,7 @@ const AboutUs = () => {
               className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-accent text-dark p-4 rounded-full shadow-lg hover:scale-110 transition-transform duration-300"
               aria-label="Previous milestone"
             >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-6 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
             </button>
@@ -248,7 +248,7 @@ const AboutUs = () => {
                     className="flex-shrink-0 w-full md:w-[600px] scroll-snap-align-center"
                     style={{ scrollSnapAlign: 'center' }}
                   >
-                    <div className="relative bg-primary-bull rounded-2xl overflow-hidden shadow-2xl h-[500px] group">
+                    <div className="relative bg-primary rounded-2xl overflow-hidden shadow-2xl h-[500px] group">
                       {/* Background Image */}
                       <div
                         className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
@@ -292,7 +292,7 @@ const AboutUs = () => {
                 className={`h-2 rounded-full transition-all duration-300 ${
                   activeTimelineIndex === index
                     ? 'w-8 bg-accent'
-                    : 'w-2 bg-secondary-bull opacity-30 hover:opacity-50'
+                    : 'w-2 bg-secondary opacity-30 hover:opacity-50'
                 }`}
                 aria-label={`Go to milestone ${index + 1}`}
               />
@@ -315,7 +315,7 @@ const AboutUs = () => {
             {team.members.map((member, index) => (
               <div
                 key={member.id}
-                className="bg-primary-bull rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 animate-fade-in-up"
+                className="bg-primary rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 animate-fade-in-up"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
                 <div className="h-48 bg-gradient-to-br from-accent to-primary-bull flex items-center justify-center">

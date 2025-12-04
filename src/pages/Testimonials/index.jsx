@@ -66,19 +66,19 @@ const Testimonials = () => {
 
           {/* Stats Section */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-12">
-            <div className="text-center p-6 bg-primary-bull rounded-lg shadow-lg">
+            <div className="text-center p-6 bg-primary rounded-lg shadow-lg">
               <div className="text-4xl font-bold text-accent mb-2">10,000+</div>
               <div className="text-secondary-bull opacity-70">Happy Customers</div>
             </div>
-            <div className="text-center p-6 bg-primary-bull rounded-lg shadow-lg">
+            <div className="text-center p-6 bg-primary rounded-lg shadow-lg">
               <div className="text-4xl font-bold text-accent mb-2">15,000+</div>
               <div className="text-secondary-bull opacity-70">Vehicles Sold</div>
             </div>
-            <div className="text-center p-6 bg-primary-bull rounded-lg shadow-lg">
+            <div className="text-center p-6 bg-primary rounded-lg shadow-lg">
               <div className="text-4xl font-bold text-accent mb-2">4.9/5</div>
               <div className="text-secondary-bull opacity-70">Average Rating</div>
             </div>
-            <div className="text-center p-6 bg-primary-bull rounded-lg shadow-lg">
+            <div className="text-center p-6 bg-primary rounded-lg shadow-lg">
               <div className="text-4xl font-bold text-accent mb-2">20+</div>
               <div className="text-secondary-bull opacity-70">Years Experience</div>
             </div>
@@ -97,7 +97,7 @@ const Testimonials = () => {
                 className={`px-6 py-2 rounded-full font-semibold transition-all duration-300 ${
                   selectedCategory === category
                     ? 'bg-accent text-dark shadow-lg scale-105'
-                    : 'bg-primary-bull text-secondary hover:bg-opacity-80'
+                    : 'bg-primary text-secondary hover:bg-opacity-80'
                 }`}
               >
                 {category}
@@ -114,7 +114,7 @@ const Testimonials = () => {
             {filteredTestimonials.map((testimonial, index) => (
               <div
                 key={testimonial.id}
-                className="bg-primary-bull rounded-lg p-8 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 animate-fade-in-up relative"
+                className="bg-primary rounded-lg p-8 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 animate-fade-in-up relative"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
                 {/* Quote Icon */}

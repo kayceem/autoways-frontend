@@ -49,23 +49,23 @@ const CSR = () => {
       <section className="py-12 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
-            <div className="text-center p-6 bg-primary-bull rounded-lg shadow-lg animate-fade-in-up">
+            <div className="text-center p-6 bg-primary rounded-lg shadow-lg animate-fade-in-up">
               <div className="text-4xl font-bold text-accent mb-2">{stats.yearsActive}</div>
               <div className="text-secondary-bull opacity-70 text-sm">Years Active</div>
             </div>
-            <div className="text-center p-6 bg-primary-bull rounded-lg shadow-lg animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
+            <div className="text-center p-6 bg-primary rounded-lg shadow-lg animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
               <div className="text-4xl font-bold text-accent mb-2">{stats.beneficiaries}</div>
               <div className="text-secondary-bull opacity-70 text-sm">Beneficiaries</div>
             </div>
-            <div className="text-center p-6 bg-primary-bull rounded-lg shadow-lg animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+            <div className="text-center p-6 bg-primary rounded-lg shadow-lg animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
               <div className="text-4xl font-bold text-accent mb-2">{stats.initiatives}</div>
               <div className="text-secondary-bull opacity-70 text-sm">Initiatives</div>
             </div>
-            <div className="text-center p-6 bg-primary-bull rounded-lg shadow-lg animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
+            <div className="text-center p-6 bg-primary rounded-lg shadow-lg animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
               <div className="text-4xl font-bold text-accent mb-2">{stats.partnersCount}</div>
               <div className="text-secondary-bull opacity-70 text-sm">Partners</div>
             </div>
-            <div className="text-center p-6 bg-primary-bull rounded-lg shadow-lg animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
+            <div className="text-center p-6 bg-primary rounded-lg shadow-lg animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
               <div className="text-4xl font-bold text-accent mb-2">{stats.investment}</div>
               <div className="text-secondary-bull opacity-70 text-sm">CSR Investment</div>
             </div>
@@ -112,7 +112,7 @@ const CSR = () => {
 
                     {/* Category Badge */}
                     <div className="absolute bottom-6 left-6">
-                      <span className="bg-primary-bull text-accent px-4 py-2 rounded-full font-semibold text-sm">
+                      <span className="bg-primary text-accent px-4 py-2 rounded-full font-semibold text-sm">
                         {initiative.category}
                       </span>
                     </div>
@@ -127,7 +127,7 @@ const CSR = () => {
                     {initiative.description}
                   </p>
 
-                  <div className="bg-primary-bull rounded-lg p-6">
+                  <div className="bg-primary rounded-lg p-6">
                     <h4 className="text-xl font-bold text-accent mb-4">Key Activities:</h4>
                     <ul className="space-y-3">
                       {initiative.activities.map((activity, idx) => (
@@ -148,14 +148,14 @@ const CSR = () => {
       </section>
 
       {/* Commitment Section */}
-      <section className="py-20 px-6 bg-primary-bull bg-opacity-50">
+      <section className="py-20 px-6 bg-primary bg-opacity-50">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-12 animate-fade-in-up">
             <h2 className="font-bold text-4xl text-secondary mb-4">{commitment.title}</h2>
             <div className="w-24 h-1 bg-accent mx-auto mb-6" />
           </div>
 
-          <div className="bg-primary-bull rounded-2xl p-8 md:p-12 shadow-2xl animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+          <div className="bg-primary rounded-2xl p-8 md:p-12 shadow-2xl animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
             <p className="text-secondary-bull opacity-80 leading-relaxed text-lg mb-8">
               {commitment.content}
             </p>
@@ -187,7 +187,7 @@ const CSR = () => {
             {partners.map((partner, index) => (
               <div
                 key={partner.id}
-                className="bg-primary-bull rounded-lg p-6 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 animate-fade-in-up"
+                className="bg-primary rounded-lg p-6 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 animate-fade-in-up"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
                 <div className="h-32 flex items-center justify-center mb-4 bg-secondary rounded-lg p-4">
