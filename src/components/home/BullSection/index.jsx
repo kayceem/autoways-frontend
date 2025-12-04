@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Play, Pause } from "lucide-react";
 import { useContent } from "../../../context/globalContext";
 import LoadingSpinner from "../../common/Loading";
+import WaveBackground from "../../common/WaveBackground";
 import "./index.css";
 
 const BullSection = ({ className = "" }) => {
@@ -40,7 +41,23 @@ const BullSection = ({ className = "" }) => {
     return (
         <section
             className={`relative py-24 bg-primary overflow-hidden ${className}`}
-        >   
+        >
+            {/* Wave Background - Top */}
+            <WaveBackground
+                position="top"
+                opacity={0.15}
+                waveColor="#f5f5f5"
+                animate={true}
+            />
+
+            {/* Wave Background - Bottom */}
+            <WaveBackground
+                position="bottom"
+                opacity={0.1}
+                waveColor="#232323"
+                animate={true}
+            />
+
             <div className="max-w-7xl mx-auto px-6 relative z-10">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
                     {/* Left Side - Portrait Video */}

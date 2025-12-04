@@ -66,3 +66,31 @@
 .text-success { color: var(--color-success); }
 .text-error { color: var(--color-error); }
 .text-warning { color: var(--color-warning); }
+
+/* Wave Animations */
+@keyframes wave-slow {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(-25px); }
+}
+
+@keyframes wave-medium {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(-15px); }
+}
+
+@keyframes wave-fast {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(-10px); }
+}
+
+.animate-wave-slow {
+  animation: wave-slow 20s ease-in-out infinite;
+}
+
+.animate-wave-medium {
+  animation: wave-medium 15s ease-in-out infinite;
+}
+
+.animate-wave-fast {
+  animation: wave-fast 10s ease-in-out infinite;
+}

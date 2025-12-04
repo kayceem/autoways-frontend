@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
+import WaveBackground from "../../common/WaveBackground";
 
 const AboutSection = ({ aboutData = {}, className = "" }) => {
     const {
@@ -15,6 +16,22 @@ const AboutSection = ({ aboutData = {}, className = "" }) => {
         <section
             className={`relative py-32 bg-secondary-${brandName.toLowerCase()} overflow-hidden ${className}`}
         >
+            {/* Wave Background - Top */}
+            <WaveBackground
+                position="top"
+                opacity={0.12}
+                waveColor="#f5f5f5"
+                animate={true}
+            />
+
+            {/* Wave Background - Bottom */}
+            <WaveBackground
+                position="bottom"
+                opacity={0.08}
+                waveColor="#ffffff"
+                animate={true}
+            />
+
             <div className="max-w-8xl mx-auto px-20 relative z-10">
                 <div className="flex gap-20 justify-between items-center">
                     {/* Left Side - Text Content */}
