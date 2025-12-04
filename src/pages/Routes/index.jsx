@@ -9,10 +9,13 @@ import Testimonials from "../Testimonials";
 import AboutUs from "../AboutUs";
 import Navbar from "../../components/common/NavBar";
 import Footer from "../../components/common/Footer";
+import ScrollToTop from "../../components/common/ScrollToTop";
+
 const PageRoutes = () => {
     return (
         <div>
             <Navbar />
+            <ScrollToTop />
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/contact" element={<Contact />} />
