@@ -763,6 +763,457 @@ Driven by purpose and shaped by excellence, Autoways remains committed to elevat
             quote: 'Success is not just about profit, but about the positive impact we create in the communities we serve.',
             author: 'Autoways Leadership Team'
         }
+    },
+
+    // Sister Companies Section
+    sister_companies: {
+        hero: {
+            title: 'Our Sister Companies',
+            subtitle: 'A family of excellence across diverse industries',
+            description: 'United by shared values of quality, innovation, and customer excellence, our sister companies represent a diverse portfolio of successful businesses contributing to Nepal\'s economic growth.'
+        },
+        companies: [
+            {
+                id: 1,
+                name: 'Swift Holidays',
+                tagline: 'Your Gateway to Unforgettable Adventures',
+                description: 'Premier travel and tourism company offering curated travel experiences across Nepal and beyond. From trekking expeditions to luxury tours, Swift Holidays creates memorable journeys tailored to your dreams.',
+                logo: Images.SwiftHolidaysLogo,
+                image: Images.HeroImageIII,
+                category: 'Travel & Tourism',
+                services: [
+                    'Adventure Trekking & Expeditions',
+                    'Luxury Tour Packages',
+                    'Hotel & Resort Bookings',
+                    'Corporate Travel Solutions',
+                    'Visa & Documentation Support'
+                ],
+                contact: {
+                    email: 'info@swiftholidays.com',
+                    phone: '+977 061-582400',
+                    website: 'www.swiftholidays.com'
+                },
+                stats: {
+                    yearsOfExperience: '15+',
+                    happyClients: '5,000+',
+                    destinations: '50+',
+                    rating: '4.9/5'
+                }
+            },
+            {
+                id: 2,
+                name: 'Manipal Teaching Hospital',
+                tagline: 'Caring for Health, Caring for Life',
+                description: 'Leading multi-specialty teaching hospital delivering world-class healthcare with state-of-the-art facilities, experienced medical professionals, and compassionate patient care.',
+                logo: Images.ManipalLogo,
+                image: Images.HeroImageII,
+                category: 'Healthcare',
+                services: [
+                    'Emergency & Trauma Care',
+                    'Advanced Surgical Procedures',
+                    'Diagnostic & Imaging Services',
+                    'Specialized Medical Departments',
+                    'Health Check-up Packages'
+                ],
+                contact: {
+                    email: 'info@manipalhospital.edu.np',
+                    phone: '+977 061-417766',
+                    website: 'www.manipalhospital.edu.np'
+                },
+                stats: {
+                    yearsOfExperience: '20+',
+                    patients: '100,000+',
+                    specialists: '150+',
+                    beds: '350+'
+                }
+            },
+            {
+                id: 3,
+                name: 'Prativa Secondary School',
+                tagline: 'Nurturing Tomorrow\'s Leaders',
+                description: 'Excellence in education with modern teaching methodologies, comprehensive curriculum, and holistic development approach preparing students for global challenges.',
+                logo: Images.PrativaLogo,
+                image: Images.AutowaysAbout,
+                category: 'Education',
+                services: [
+                    'Quality Secondary Education',
+                    'Extracurricular Activities',
+                    'Sports & Physical Education',
+                    'Science & Technology Labs',
+                    'Career Counseling & Guidance'
+                ],
+                contact: {
+                    email: 'info@prativaschool.edu.np',
+                    phone: '+977 061-540234',
+                    website: 'www.prativaschool.edu.np'
+                },
+                stats: {
+                    established: '2005',
+                    students: '800+',
+                    teachers: '50+',
+                    successRate: '95%'
+                }
+            },
+            {
+                id: 4,
+                name: 'InfoMax College',
+                tagline: 'Empowering Through Technology Education',
+                description: 'Leading technical education institution specializing in IT, management, and professional courses with industry-aligned curriculum and experienced faculty.',
+                logo: Images.InfoMaxLogo,
+                image: Images.ToyotaCamry,
+                category: 'Higher Education',
+                services: [
+                    'BIT, BCA, BIM Programs',
+                    'Management Courses',
+                    'IT Certification Programs',
+                    'Industry Internships',
+                    'Placement Support'
+                ],
+                contact: {
+                    email: 'info@infomaxcollege.edu.np',
+                    phone: '+977 061-536987',
+                    website: 'www.infomaxcollege.edu.np'
+                },
+                stats: {
+                    established: '2008',
+                    students: '1,200+',
+                    faculty: '60+',
+                    placementRate: '90%'
+                }
+            },
+            {
+                id: 5,
+                name: 'Evergreen Montessori School',
+                tagline: 'Growing Minds, Nurturing Hearts',
+                description: 'Premier Montessori education fostering creativity, independence, and love for learning in a nurturing environment for young minds to flourish.',
+                logo: Images.EvergreenLogo,
+                image: Images.HeroImageI,
+                category: 'Early Education',
+                services: [
+                    'Montessori Methodology',
+                    'Play-based Learning',
+                    'Creative Arts & Music',
+                    'Outdoor Activities',
+                    'Parent Partnership Programs'
+                ],
+                contact: {
+                    email: 'info@evergreenmontessori.edu.np',
+                    phone: '+977 061-523456',
+                    website: 'www.evergreenmontessori.edu.np'
+                },
+                stats: {
+                    established: '2010',
+                    students: '300+',
+                    staff: '25+',
+                    ageGroup: '2-6 years'
+                }
+            }
+        ],
+        values: {
+            title: 'Our Shared Values',
+            description: 'United across industries by common principles of excellence, integrity, and customer-first approach',
+            items: [
+                {
+                    id: 1,
+                    title: 'Quality First',
+                    description: 'Uncompromising standards in products and services',
+                    icon: 'quality'
+                },
+                {
+                    id: 2,
+                    title: 'Innovation',
+                    description: 'Continuously evolving to meet changing needs',
+                    icon: 'innovation'
+                },
+                {
+                    id: 3,
+                    title: 'Customer Excellence',
+                    description: 'Exceeding expectations in every interaction',
+                    icon: 'customer'
+                },
+                {
+                    id: 4,
+                    title: 'Social Responsibility',
+                    description: 'Contributing positively to communities',
+                    icon: 'social'
+                }
+            ]
+        }
+    },
+
+    // Spares and Parts Section
+    spares_parts: {
+        hero: {
+            title: 'Genuine Spares & Parts',
+            subtitle: 'Quality parts for lasting performance',
+            description: 'Comprehensive inventory of genuine OEM parts and accessories for all our represented brands. Expert support, competitive pricing, and quick delivery across Nepal.',
+            image: Images.BullHero
+        },
+        categories: [
+            {
+                id: 1,
+                name: 'Engine Parts',
+                description: 'Complete range of engine components and replacement parts',
+                icon: 'engine',
+                image: Images.BullLoader,
+                subcategories: [
+                    'Pistons & Rings',
+                    'Cylinder Heads',
+                    'Gaskets & Seals',
+                    'Timing Belts & Chains',
+                    'Oil Filters',
+                    'Air Filters',
+                    'Fuel Injectors',
+                    'Spark Plugs'
+                ]
+            },
+            {
+                id: 2,
+                name: 'Transmission Parts',
+                description: 'Gearbox components and transmission system parts',
+                icon: 'transmission',
+                image: Images.ToyotaSedan,
+                subcategories: [
+                    'Clutch Kits',
+                    'Gearbox Oil',
+                    'Transmission Filters',
+                    'Synchro Rings',
+                    'Bearings & Shafts',
+                    'Torque Converters'
+                ]
+            },
+            {
+                id: 3,
+                name: 'Brake System',
+                description: 'Complete braking system components for safety',
+                icon: 'brakes',
+                image: Images.BullSkid,
+                subcategories: [
+                    'Brake Pads',
+                    'Brake Discs & Rotors',
+                    'Brake Fluid',
+                    'Brake Calipers',
+                    'Brake Lines & Hoses',
+                    'Master Cylinders',
+                    'ABS Components'
+                ]
+            },
+            {
+                id: 4,
+                name: 'Suspension & Steering',
+                description: 'Steering and suspension parts for smooth ride',
+                icon: 'suspension',
+                image: Images.ToyotaSUV,
+                subcategories: [
+                    'Shock Absorbers',
+                    'Struts & Springs',
+                    'Control Arms',
+                    'Ball Joints',
+                    'Tie Rod Ends',
+                    'Steering Racks',
+                    'Bushings'
+                ]
+            },
+            {
+                id: 5,
+                name: 'Electrical Components',
+                description: 'Complete electrical and electronic parts',
+                icon: 'electrical',
+                image: Images.KomatsuHero,
+                subcategories: [
+                    'Batteries',
+                    'Alternators',
+                    'Starters',
+                    'Sensors',
+                    'Wiring Harnesses',
+                    'Relays & Fuses',
+                    'Lighting Components',
+                    'ECU Modules'
+                ]
+            },
+            {
+                id: 6,
+                name: 'Body & Exterior',
+                description: 'Body panels, lights, and exterior accessories',
+                icon: 'body',
+                image: Images.EicherHero,
+                subcategories: [
+                    'Headlights & Tail Lights',
+                    'Bumpers & Grilles',
+                    'Mirrors',
+                    'Door Handles',
+                    'Windshields',
+                    'Weather Strips',
+                    'Emblems & Badges'
+                ]
+            },
+            {
+                id: 7,
+                name: 'Interior Parts',
+                description: 'Interior components and comfort accessories',
+                icon: 'interior',
+                image: Images.ToyotaCamry,
+                subcategories: [
+                    'Seats & Seat Covers',
+                    'Dashboard Components',
+                    'Door Panels',
+                    'Floor Mats',
+                    'Audio Systems',
+                    'Climate Control Parts',
+                    'Instrument Clusters'
+                ]
+            },
+            {
+                id: 8,
+                name: 'Fluids & Lubricants',
+                description: 'Essential fluids and maintenance products',
+                icon: 'fluids',
+                image: Images.BullHD100,
+                subcategories: [
+                    'Engine Oil',
+                    'Transmission Oil',
+                    'Brake Fluid',
+                    'Coolants',
+                    'Hydraulic Oil',
+                    'Greases',
+                    'Cleaning Products'
+                ]
+            }
+        ],
+        brands_supported: [
+            {
+                name: 'Toyota',
+                logo: Images.ToyotaLogo,
+                description: 'Genuine Toyota parts with warranty'
+            },
+            {
+                name: 'Bull',
+                logo: Images.BullLogo,
+                description: 'Original Bull machinery parts'
+            },
+            {
+                name: 'Komatsu',
+                logo: Images.KomatsuLogo,
+                description: 'Authentic Komatsu spare parts'
+            },
+            {
+                name: 'Eicher',
+                logo: Images.EicherLogo,
+                description: 'OEM Eicher commercial parts'
+            },
+            {
+                name: 'XCMG',
+                logo: Images.XCMGLogo,
+                description: 'Genuine XCMG equipment parts'
+            },
+            {
+                name: 'Dongfeng',
+                logo: Images.DongfengLogo,
+                description: 'Original Dongfeng parts'
+            },
+            {
+                name: 'Ather',
+                logo: Images.AtherLogo,
+                description: 'Authentic Ather electric parts'
+            }
+        ],
+        services: [
+            {
+                id: 1,
+                title: 'Expert Consultation',
+                description: 'Our trained staff helps you find the right parts for your vehicle',
+                icon: 'consultation'
+            },
+            {
+                id: 2,
+                title: 'Genuine Parts',
+                description: 'All parts are 100% genuine OEM with manufacturer warranty',
+                icon: 'genuine'
+            },
+            {
+                id: 3,
+                title: 'Fast Delivery',
+                description: 'Quick delivery across Nepal with tracking support',
+                icon: 'delivery'
+            },
+            {
+                id: 4,
+                title: 'Competitive Pricing',
+                description: 'Best prices with transparent billing and no hidden charges',
+                icon: 'pricing'
+            },
+            {
+                id: 5,
+                title: 'Installation Support',
+                description: 'Professional installation services at our service centers',
+                icon: 'installation'
+            },
+            {
+                id: 6,
+                title: 'Warranty Support',
+                description: 'Comprehensive warranty coverage on all genuine parts',
+                icon: 'warranty'
+            }
+        ],
+        featured_products: [
+            {
+                id: 1,
+                name: 'Toyota Genuine Oil Filter',
+                category: 'Engine Parts',
+                brand: 'Toyota',
+                partNumber: 'TO-90915-YZZD2',
+                price: 850,
+                image: Images.ToyotaCamry,
+                inStock: true,
+                description: 'High-quality oil filter for Toyota vehicles'
+            },
+            {
+                id: 2,
+                name: 'Bull HD Hydraulic Oil',
+                category: 'Fluids & Lubricants',
+                brand: 'Bull',
+                partNumber: 'BL-HYD-68-20L',
+                price: 12500,
+                image: Images.BullLoader,
+                inStock: true,
+                description: '20L premium hydraulic oil for Bull machines'
+            },
+            {
+                id: 3,
+                name: 'Komatsu Air Filter',
+                category: 'Engine Parts',
+                brand: 'Komatsu',
+                partNumber: 'KM-600-185-4100',
+                price: 3200,
+                image: Images.KomatsuHero,
+                inStock: true,
+                description: 'Genuine air filter for Komatsu equipment'
+            },
+            {
+                id: 4,
+                name: 'Ather Battery Pack',
+                category: 'Electrical Components',
+                brand: 'Ather',
+                partNumber: 'AT-BAT-450X',
+                price: 85000,
+                image: Images.AtherLogo,
+                inStock: true,
+                description: 'Original Ather 450X battery pack'
+            }
+        ],
+        stats: {
+            partsAvailable: '10,000+',
+            brandsSupported: '7',
+            serviceLocations: '8',
+            expertTechnicians: '50+'
+        },
+        contact: {
+            title: 'Need Help Finding Parts?',
+            description: 'Our parts specialists are ready to assist you',
+            phone: '+977 061-582469',
+            email: 'parts@autoways.com.np',
+            hours: 'Sunday - Friday: 9:00 AM - 6:00 PM'
+        }
     }
 };
 
