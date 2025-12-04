@@ -518,42 +518,50 @@ Driven by purpose and shaped by excellence, Autoways remains committed to elevat
             {
                 year: '2002',
                 title: 'Foundation',
-                description: 'Autoways established with vision to transform Nepal\'s automotive industry'
+                description: 'Autoways established with vision to transform Nepal\'s automotive industry',
+                image: Images.AutowaysAbout
             },
             {
                 year: '2005',
                 title: 'First Expansion',
-                description: 'Opened branches in Pokhara and Chitwan, extending reach beyond Kathmandu'
+                description: 'Opened branches in Pokhara and Chitwan, extending reach beyond Kathmandu',
+                image: Images.HeroImageIII
             },
             {
                 year: '2010',
                 title: 'Brand Portfolio Growth',
-                description: 'Became authorized distributor for multiple international automotive brands'
+                description: 'Became authorized distributor for multiple international automotive brands',
+                image: Images.BullHero
             },
             {
                 year: '2015',
                 title: 'Service Excellence',
-                description: 'Launched state-of-the-art service centers with trained technical teams'
+                description: 'Launched state-of-the-art service centers with trained technical teams',
+                image: Images.ToyotaCamry
             },
             {
                 year: '2018',
                 title: 'National Presence',
-                description: 'Expanded to 8 locations across Nepal with comprehensive service network'
+                description: 'Expanded to 8 locations across Nepal with comprehensive service network',
+                image: Images.EicherHero
             },
             {
                 year: '2020',
                 title: 'Digital Transformation',
-                description: 'Introduced online platforms and digital customer service solutions'
+                description: 'Introduced online platforms and digital customer service solutions',
+                image: Images.KomatsuHero
             },
             {
                 year: '2022',
                 title: '20 Years Milestone',
-                description: 'Celebrated two decades of excellence and customer trust'
+                description: 'Celebrated two decades of excellence and customer trust',
+                image: Images.HeroImageII
             },
             {
                 year: '2024',
                 title: 'Electric Future',
-                description: 'Strengthened commitment to sustainable mobility with electric vehicle expansion'
+                description: 'Strengthened commitment to sustainable mobility with electric vehicle expansion',
+                image: Images.HeroImageIII
             }
         ],
         team: {
@@ -597,6 +605,163 @@ Driven by purpose and shaped by excellence, Autoways remains committed to elevat
             serviceCenters: '8',
             brands: '7',
             employees: '200+'
+        }
+    },
+
+    // CSR (Corporate Social Responsibility) Section
+    csr: {
+        hero: {
+            title: 'Corporate Social Responsibility',
+            subtitle: 'Driving positive change in communities across Nepal',
+            description: 'At Autoways, we believe in growing together with the communities we serve. Our CSR initiatives focus on education, healthcare, environmental sustainability, and community development.',
+            image: Images.AutowaysAbout
+        },
+        initiatives: [
+            {
+                id: 1,
+                title: 'Education Support',
+                category: 'Education',
+                description: 'Partnering with schools and educational institutions to provide quality education opportunities, scholarships, and learning resources for underprivileged students across Nepal.',
+                image: Images.HeroImageIII,
+                impact: {
+                    metric: '500+',
+                    label: 'Students Supported'
+                },
+                activities: [
+                    'Scholarship programs for deserving students',
+                    'Infrastructure development in rural schools',
+                    'Computer labs and learning resources',
+                    'Teacher training and development programs'
+                ]
+            },
+            {
+                id: 2,
+                title: 'Healthcare Initiatives',
+                category: 'Healthcare',
+                description: 'Supporting healthcare facilities and organizing medical camps to ensure accessible healthcare services for communities in remote and underserved areas.',
+                image: Images.HeroImageII,
+                impact: {
+                    metric: '3000+',
+                    label: 'People Reached'
+                },
+                activities: [
+                    'Free medical camps in rural areas',
+                    'Healthcare equipment donation to hospitals',
+                    'Health awareness programs',
+                    'Support for emergency medical services'
+                ]
+            },
+            {
+                id: 3,
+                title: 'Environmental Sustainability',
+                category: 'Environment',
+                description: 'Committed to reducing environmental impact through green practices, promoting electric vehicles, and supporting environmental conservation projects.',
+                image: Images.KomatsuHero,
+                impact: {
+                    metric: '10,000+',
+                    label: 'Trees Planted'
+                },
+                activities: [
+                    'Tree plantation drives',
+                    'Promotion of electric and eco-friendly vehicles',
+                    'Waste management and recycling programs',
+                    'Carbon footprint reduction initiatives'
+                ]
+            },
+            {
+                id: 4,
+                title: 'Community Development',
+                category: 'Community',
+                description: 'Empowering local communities through skill development programs, infrastructure support, and creating sustainable livelihood opportunities.',
+                image: Images.EicherHero,
+                impact: {
+                    metric: '1000+',
+                    label: 'Lives Impacted'
+                },
+                activities: [
+                    'Vocational training programs',
+                    'Support for local entrepreneurs',
+                    'Community infrastructure projects',
+                    'Disaster relief and rehabilitation support'
+                ]
+            },
+            {
+                id: 5,
+                title: 'Road Safety Awareness',
+                category: 'Safety',
+                description: 'Promoting road safety through awareness campaigns, training programs, and supporting traffic safety infrastructure development.',
+                image: Images.BullHero,
+                impact: {
+                    metric: '50+',
+                    label: 'Awareness Programs'
+                },
+                activities: [
+                    'Road safety awareness campaigns',
+                    'Driver training and certification programs',
+                    'School safety education programs',
+                    'Support for traffic safety infrastructure'
+                ]
+            },
+            {
+                id: 6,
+                title: 'Women Empowerment',
+                category: 'Empowerment',
+                description: 'Supporting women entrepreneurs and creating opportunities for women in the automotive industry through training, mentorship, and employment.',
+                image: Images.ToyotaCamry,
+                impact: {
+                    metric: '200+',
+                    label: 'Women Trained'
+                },
+                activities: [
+                    'Women entrepreneurship programs',
+                    'Technical training for women',
+                    'Employment opportunities in automotive sector',
+                    'Mentorship and leadership development'
+                ]
+            }
+        ],
+        partners: [
+            {
+                id: 1,
+                name: 'Manipal Teaching Hospital',
+                type: 'Healthcare Partner',
+                description: 'Collaborative healthcare initiatives and medical support programs',
+                logo: Images.ManipalLogo
+            },
+            {
+                id: 2,
+                name: 'Prativa Secondary School',
+                type: 'Education Partner',
+                description: 'Educational development and student scholarship programs',
+                logo: Images.PrativaLogo
+            },
+            {
+                id: 3,
+                name: 'InfoMax College',
+                type: 'Education Partner',
+                description: 'Technical education and skill development initiatives',
+                logo: Images.InfoMaxLogo
+            },
+            {
+                id: 4,
+                name: 'Evergreen Montessori School',
+                type: 'Education Partner',
+                description: 'Early childhood education support and development',
+                logo: Images.EvergreenLogo
+            }
+        ],
+        stats: {
+            yearsActive: '20+',
+            beneficiaries: '15,000+',
+            initiatives: '50+',
+            partnersCount: '25+',
+            investment: 'NPR 10M+'
+        },
+        commitment: {
+            title: 'Our Commitment to Society',
+            content: 'Autoways is committed to being a responsible corporate citizen. We believe that business success goes hand-in-hand with social responsibility. Through our CSR initiatives, we aim to create lasting positive impact on communities, contribute to sustainable development, and build a better future for Nepal. Our focus remains on education, healthcare, environmental conservation, and community empowerment – the foundations of a thriving society.',
+            quote: 'Success is not just about profit, but about the positive impact we create in the communities we serve.',
+            author: 'Autoways Leadership Team'
         }
     }
 };

@@ -1,9 +1,12 @@
 import { useContent } from '../../context/globalContext';
 import LoadingSpinner from '../../components/common/Loading';
 import WaveBackground from '../../components/common/WaveBackground';
+import { useState, useRef } from 'react';
 
 const AboutUs = () => {
   const { content, isLoading } = useContent();
+  const [activeTimelineIndex, setActiveTimelineIndex] = useState(0);
+  const timelineContainerRef = useRef(null);
 
   if (isLoading) return <LoadingSpinner />;
   if (!content || !content.about_us_detailed) {
@@ -16,6 +19,29 @@ const AboutUs = () => {
 
   const { mission, vision, values, milestones, team, stats } = content.about_us_detailed;
   const aboutUs = content.about_us;
+
+  // Handlers for timeline navigation
+  const scrollToMilestone = (index) => {
+    setActiveTimelineIndex(index);
+    if (timelineContainerRef.current) {
+      const container = timelineContainerRef.current;
+      const cardWidth = container.scrollWidth / milestones.length;
+      container.scrollTo({
+        left: cardWidth * index,
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  const handlePrevious = () => {
+    const newIndex = activeTimelineIndex > 0 ? activeTimelineIndex - 1 : milestones.length - 1;
+    scrollToMilestone(newIndex);
+  };
+
+  const handleNext = () => {
+    const newIndex = activeTimelineIndex < milestones.length - 1 ? activeTimelineIndex + 1 : 0;
+    scrollToMilestone(newIndex);
+  };
 
   return (
     <main className="min-h-screen bg-dark relative">
@@ -153,9 +179,9 @@ const AboutUs = () => {
         </div>
       </section>
 
-      {/* Timeline - Milestones */}
+      {/* Timeline - Milestones (Horizontal Swipeable) */}
       <section className="py-20 px-6 bg-primary-bull bg-opacity-50">
-        <div className="max-w-5xl mx-auto">
+        <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12 animate-fade-in-up">
             <h2 className="font-bold text-4xl text-secondary mb-4">Our Journey</h2>
             <div className="w-24 h-1 bg-accent mx-auto mb-6" />
@@ -163,34 +189,113 @@ const AboutUs = () => {
               Key milestones in our journey of excellence and growth
             </p>
           </div>
-          <div className="relative">
-            {/* Timeline Line */}
-            <div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-accent opacity-30 hidden md:block" />
 
-            {milestones.map((milestone, index) => (
-              <div
-                key={index}
-                className={`relative mb-12 animate-fade-in-up ${
-                  index % 2 === 0 ? 'md:pr-1/2 md:text-right' : 'md:pl-1/2 md:ml-auto'
-                }`}
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                <div className={`md:w-1/2 ${index % 2 === 0 ? '' : 'md:ml-12'}`}>
-                  <div className="bg-primary-bull rounded-lg p-6 shadow-lg">
-                    <div className="inline-block bg-accent text-dark px-4 py-2 rounded-full font-bold text-lg mb-3">
-                      {milestone.year}
-                    </div>
-                    <h3 className="text-2xl font-bold text-secondary mb-2">
-                      {milestone.title}
-                    </h3>
-                    <p className="text-secondary-bull opacity-80">
-                      {milestone.description}
-                    </p>
-                  </div>
-                </div>
-                {/* Timeline Dot */}
-                <div className="absolute left-1/2 top-6 transform -translate-x-1/2 w-4 h-4 bg-accent rounded-full border-4 border-dark hidden md:block" />
+          {/* Timeline Years Bar (Swipeable) */}
+          <div className="relative mb-12">
+            <div className="overflow-x-auto scrollbar-hide">
+              <div className="flex gap-4 pb-4 min-w-max justify-center mx-auto">
+                {milestones.map((milestone, index) => (
+                  <button
+                    key={index}
+                    onClick={() => scrollToMilestone(index)}
+                    className={`px-6 py-3 rounded-full font-bold text-lg transition-all duration-300 whitespace-nowrap ${
+                      activeTimelineIndex === index
+                        ? 'bg-accent text-dark scale-110 shadow-lg'
+                        : 'bg-primary-bull text-secondary-bull hover:bg-accent hover:text-dark'
+                    }`}
+                  >
+                    {milestone.year}
+                  </button>
+                ))}
               </div>
+            </div>
+          </div>
+
+          {/* Milestones Carousel */}
+          <div className="relative">
+            {/* Previous Button */}
+            <button
+              onClick={handlePrevious}
+              className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-accent text-dark p-4 rounded-full shadow-lg hover:scale-110 transition-transform duration-300"
+              aria-label="Previous milestone"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+
+            {/* Next Button */}
+            <button
+              onClick={handleNext}
+              className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-accent text-dark p-4 rounded-full shadow-lg hover:scale-110 transition-transform duration-300"
+              aria-label="Next milestone"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+
+            {/* Milestones Container */}
+            <div
+              ref={timelineContainerRef}
+              className="overflow-x-auto scrollbar-hide scroll-smooth mx-12"
+              style={{ scrollSnapType: 'x mandatory' }}
+            >
+              <div className="flex gap-6">
+                {milestones.map((milestone, index) => (
+                  <div
+                    key={index}
+                    className="flex-shrink-0 w-full md:w-[600px] scroll-snap-align-center"
+                    style={{ scrollSnapAlign: 'center' }}
+                  >
+                    <div className="relative bg-primary-bull rounded-2xl overflow-hidden shadow-2xl h-[500px] group">
+                      {/* Background Image */}
+                      <div
+                        className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
+                        style={{
+                          backgroundImage: `url(${milestone.image})`,
+                        }}
+                      >
+                        <div className="absolute inset-0 bg-gradient-to-t from-dark via-dark/80 to-transparent" />
+                      </div>
+
+                      {/* Content Card */}
+                      <div className="absolute inset-0 flex flex-col justify-end p-8">
+                        {/* Year Badge */}
+                        <div className="inline-block self-start bg-accent text-dark px-6 py-3 rounded-full font-bold text-2xl mb-4 shadow-lg">
+                          {milestone.year}
+                        </div>
+
+                        {/* Title and Description */}
+                        <div className="bg-dark/60 backdrop-blur-sm rounded-xl p-6 border border-accent/20">
+                          <h3 className="text-3xl font-bold text-secondary mb-3">
+                            {milestone.title}
+                          </h3>
+                          <p className="text-secondary-bull opacity-90 text-lg leading-relaxed">
+                            {milestone.description}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Progress Indicators */}
+          <div className="flex justify-center gap-2 mt-8">
+            {milestones.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => scrollToMilestone(index)}
+                className={`h-2 rounded-full transition-all duration-300 ${
+                  activeTimelineIndex === index
+                    ? 'w-8 bg-accent'
+                    : 'w-2 bg-secondary-bull opacity-30 hover:opacity-50'
+                }`}
+                aria-label={`Go to milestone ${index + 1}`}
+              />
             ))}
           </div>
         </div>
