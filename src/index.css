@@ -6,6 +6,9 @@
   --color-primary: #ffffff;
   --color-secondary: #232323;
   --color-accent: #f5f5f5;
+  --color-text-primary: #000000;
+  --color-text-secondary: #1c1c1d;
+  --color-text-accent: #a7ed81;
 
   /* Semantic Status Colors */
   --color-success: #16a34a;
@@ -52,9 +55,9 @@
 .bg-secondary { background-color: var(--color-secondary); }
 .bg-accent { background-color: var(--color-accent); }
 
-.text-primary { color: var(--color-primary); }
-.text-secondary { color: var(--color-secondary); }
-.text-accent { color: var(--color-accent); }
+.text-primary { color: var(--color-text-primary); }
+.text-secondary { color: var(--color-text-secondary); }
+.text-accent { color: var(--color-text-accent); }
 
 .border-primary { border-color: var(--color-primary); }
 .border-secondary { border-color: var(--color-secondary); }
