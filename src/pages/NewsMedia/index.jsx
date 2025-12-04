@@ -43,7 +43,7 @@ const NewsMedia = () => {
       {featured && (
         <section className="py-12 px-6">
           <div className="max-w-7xl mx-auto">
-            <div className="bg-primary-bull rounded-lg overflow-hidden shadow-2xl animate-fade-in-up">
+            <div className="bg-primary rounded-lg overflow-hidden shadow-2xl animate-fade-in-up">
               <div className="grid md:grid-cols-2 gap-0">
                 <div className="relative h-64 md:h-auto">
                   <img
@@ -94,7 +94,7 @@ const NewsMedia = () => {
             {articles.map((article, index) => (
               <div
                 key={article.id}
-                className="bg-primary-bull rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 animate-fade-in-up"
+                className="bg-primary rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 animate-fade-in-up"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
                 <div className="relative h-48 overflow-hidden">
