@@ -1,4 +1,6 @@
+import WaveBackground from "../../common/WaveBackground";
 import "./index.css";
+
 const ClientsSection = ({ clients = {}, className = "" }) => {
     // Convert clients object to array
     const clientArray = Object.entries(clients).map(([key, client]) => ({
@@ -10,8 +12,24 @@ const ClientsSection = ({ clients = {}, className = "" }) => {
     const duplicatedClients = [...clientArray, ...clientArray];
 
     return (
-        <section className={`py-32 px-6 bg-primary ${className}`}>
-            <div className="max-w-7xl mx-auto">
+        <section className={`relative py-32 px-6 bg-primary overflow-hidden ${className}`}>
+            {/* Wave Background - Top */}
+            <WaveBackground
+                position="top"
+                opacity={0.1}
+                waveColor="#232323"
+                animate={true}
+            />
+
+            {/* Wave Background - Bottom */}
+            <WaveBackground
+                position="bottom"
+                opacity={0.15}
+                waveColor="#b9b3b3ff"
+                animate={true}
+            />
+
+            <div className="max-w-7xl mx-auto relative z-10">
                 {/* Section Header */}
                 <div className="text-center mb-16">
                     <h2 className="text-5xl font-bold text-secondary mb-4">
