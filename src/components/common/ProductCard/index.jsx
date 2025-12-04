@@ -41,7 +41,7 @@ const ProductCard = ({ product, brandName, className = "" }) => {
         >
             {/* Image Container with 3D Effect */}
             <div
-                className={`relative h-72 overflow-hidden bg-seondary-${brandName}`}
+                className={`relative h-72 overflow-hidden bg-seondary`}
             >
                 {/* Default Image */}
                 <img
@@ -81,7 +81,7 @@ const ProductCard = ({ product, brandName, className = "" }) => {
                 )}
                 {/* Subtle Background Glow */}
                 <div
-                    className={`absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-primary-${brandName}/30 transition-opacity duration-500 ${
+                    className={`absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-primary/30 transition-opacity duration-500 ${
                         isHovered ? "opacity-100" : "opacity-0"
                     }`}
                 />
@@ -92,7 +92,7 @@ const ProductCard = ({ product, brandName, className = "" }) => {
                 {/* <div className="flex items-center justify-between mb-3">
                     {product.tag && (
                         <div
-                            className={`bg-accent-${brandName}/20 text-accent-${brandName} px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1`}
+                            className={`bg-accent/20 text-accent px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1`}
                         >
                             <Tag size={12} />
                             <span>{product.tag}</span>
@@ -100,7 +100,7 @@ const ProductCard = ({ product, brandName, className = "" }) => {
                     )}
                     {product.price && (
                         <div
-                            className={`text-primary-${brandName} text-xl font-bold`}
+                            className={`text-primary text-xl font-bold`}
                         >
                             ${product.price}
                         </div>
@@ -108,14 +108,14 @@ const ProductCard = ({ product, brandName, className = "" }) => {
                 </div> */}
                 {/* Product Name */}
                 <h3
-                    className={`font-bold text-2xl text-primary-${brandName} mb-2 group-hover:text-accent-${brandName} transition-colors duration-300`}
+                    className={`font-bold text-2xl text-primary mb-2 group-hover:text-accent transition-colors duration-300`}
                 >
                     {product.name}
                 </h3>
                 {/* Short Description */}
                 {product.shortDescription && (
                     <p
-                        className={`font-light text-primary-${brandName} text-opacity-70 text-sm mb-4 line-clamp-2`}
+                        className={`font-light text-primary text-opacity-70 text-sm mb-4 line-clamp-2`}
                     >
                         {product.shortDescription}
                     </p>
@@ -123,7 +123,7 @@ const ProductCard = ({ product, brandName, className = "" }) => {
                 {/* View Button */}
                 <Link
                     to={`/shop/${brandName}/${product.type}/${product.id}`}
-                    className={`group inline-flex items-center gap-4 bg-primary-${brandName} text-secondary-${brandName} px-6 py-3 rounded-xl font-bold border-2 border-transparent hover:border-accent-${brandName} transition-all duration-300 transform hover:bg-secondary-${brandName} hover:text-accent-${brandName} hover:scale-105`}
+                    className={`group inline-flex items-center gap-4 bg-primary text-secondary px-6 py-3 rounded-xl font-bold border-2 border-transparent hover:border-accent transition-all duration-300 transform hover:bg-secondary hover:text-accent hover:scale-105`}
                 >
                     <span>Explore</span>
 

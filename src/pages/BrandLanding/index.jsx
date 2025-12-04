@@ -45,7 +45,7 @@ const BrandLanding = () => {
                     {/* <Logo logo={brandData.logo} size={248} className="mx-auto mb-6" /> */}
                     {/* Brand Name with Enhanced Typography and Text Stroke */}
                     {/* <h1
-                        className={`font-bold text-8xl text-primary-${brand} mb-6 animate-fade-in-up`}
+                        className={`font-bold text-8xl text-primary mb-6 animate-fade-in-up`}
                         style={{
                             textShadow: `
                 -2px -2px 0 #fff,
@@ -96,7 +96,7 @@ style={{
                     {/* Section Header */}
                     <div className="text-center mb-16">
                         <h2
-                            className={`font-bold text-5xl text-primary-${brand} mb-4`}
+                            className={`font-bold text-5xl text-primary mb-4`}
                         >
                             Explore Our Collection
                         </h2>
@@ -123,7 +123,7 @@ style={{
                         brandData.productTypes.length === 0) && (
                         <div className="text-center py-20">
                             <p
-                                className={`text-primary-${brand} text-xl opacity-50`}
+                                className={`text-primary text-xl opacity-50`}
                             >
                                 No products available
                             </p>

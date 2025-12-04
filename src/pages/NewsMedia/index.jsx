@@ -1,0 +1,171 @@
+import { useContent } from '../../context/globalContext';
+import LoadingSpinner from '../../components/common/Loading';
+import WaveBackground from '../../components/common/WaveBackground';
+import { Link } from 'react-router-dom';
+
+const NewsMedia = () => {
+  const { content, isLoading } = useContent();
+
+  if (isLoading) return <LoadingSpinner />;
+  if (!content || !content.news_media) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-2xl text-secondary">Failed to load news content</div>
+      </div>
+    );
+  }
+
+  const { featured, articles } = content.news_media;
+
+  const formatDate = (dateString) => {
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return new Date(dateString).toLocaleDateString('en-US', options);
+  };
+
+  return (
+    <main className="min-h-screen bg-dark relative">
+      <WaveBackground />
+
+      {/* Hero Section */}
+      <section className="relative py-20 px-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16 animate-fade-in-up">
+            <h1 className="font-bold text-6xl text-secondary mb-4">News &amp; Media</h1>
+            <div className="w-24 h-1 bg-accent mx-auto mb-6" />
+            <p className="text-xl text-secondary-bull opacity-80 max-w-3xl mx-auto">
+              Stay updated with the latest news, announcements, and industry insights from Autoways
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Article */}
+      {featured && (
+        <section className="py-12 px-6">
+          <div className="max-w-7xl mx-auto">
+            <div className="bg-primary-bull rounded-lg overflow-hidden shadow-2xl animate-fade-in-up">
+              <div className="grid md:grid-cols-2 gap-0">
+                <div className="relative h-64 md:h-auto">
+                  <img
+                    src={featured.image}
+                    alt={featured.title}
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute top-4 left-4">
+                    <span className="bg-accent text-dark px-4 py-2 rounded-full text-sm font-bold">
+                      Featured
+                    </span>
+                  </div>
+                </div>
+                <div className="p-8 md:p-12 flex flex-col justify-center">
+                  <div className="flex items-center gap-4 mb-4">
+                    <span className="bg-dark text-accent px-3 py-1 rounded text-sm font-semibold">
+                      {featured.category}
+                    </span>
+                    <span className="text-secondary-bull opacity-70 text-sm">
+                      {formatDate(featured.date)}
+                    </span>
+                  </div>
+                  <h2 className="text-4xl font-bold text-secondary mb-4">
+                    {featured.title}
+                  </h2>
+                  <p className="text-secondary-bull opacity-80 mb-6 leading-relaxed text-lg">
+                    {featured.excerpt}
+                  </p>
+                  <p className="text-secondary-bull opacity-70 mb-6 leading-relaxed">
+                    {featured.content}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Latest Articles */}
+      <section className="py-20 px-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="font-bold text-4xl text-secondary mb-4">Latest Articles</h2>
+            <div className="w-24 h-1 bg-accent mx-auto" />
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {articles.map((article, index) => (
+              <div
+                key={article.id}
+                className="bg-primary-bull rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 animate-fade-in-up"
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
+                <div className="relative h-48 overflow-hidden">
+                  <img
+                    src={article.image}
+                    alt={article.title}
+                    className="w-full h-full object-cover transform hover:scale-110 transition-transform duration-500"
+                  />
+                  <div className="absolute top-3 left-3">
+                    <span className="bg-dark text-accent px-3 py-1 rounded-full text-xs font-semibold">
+                      {article.category}
+                    </span>
+                  </div>
+                </div>
+                <div className="p-6">
+                  <div className="flex items-center gap-2 mb-3">
+                    <svg
+                      className="w-4 h-4 text-accent"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                      />
+                    </svg>
+                    <span className="text-secondary-bull opacity-70 text-sm">
+                      {formatDate(article.date)}
+                    </span>
+                  </div>
+                  <h3 className="text-xl font-bold text-secondary mb-3 line-clamp-2">
+                    {article.title}
+                  </h3>
+                  <p className="text-secondary-bull opacity-80 text-sm leading-relaxed mb-4 line-clamp-3">
+                    {article.excerpt}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Newsletter CTA */}
+      <section className="py-20 px-6">
+        <div className="max-w-4xl mx-auto">
+          <div className="bg-gradient-to-r from-primary-bull to-accent rounded-2xl p-12 text-center shadow-2xl">
+            <h3 className="text-3xl font-bold text-secondary mb-4">
+              Stay Updated
+            </h3>
+            <p className="text-secondary-bull opacity-90 mb-8 text-lg">
+              Subscribe to our newsletter for the latest news and exclusive updates
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+              <input
+                type="email"
+                placeholder="Enter your email"
+                className="flex-1 px-6 py-3 rounded-lg bg-secondary text-dark focus:outline-none focus:ring-2 focus:ring-accent"
+              />
+              <button className="px-8 py-3 bg-dark text-secondary rounded-lg font-semibold hover:bg-opacity-90 transition-colors">
+                Subscribe
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  );
+};
+
+export default NewsMedia;
