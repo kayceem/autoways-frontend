@@ -3,8 +3,8 @@
 :root {
     --color-primary-autoways: #1a7742;
     --color-secondary-autoways: #ffffff;
-    --color-text-primary-autoways: #ffffff;
-    --color-text-primary-autoways : #48b075;
+    --color-text-primary-autoways: #f3f2f2;
+    --color-text-secondary-autoways : #48b075;
 }
 
 .bg-primary-autoways {
@@ -17,5 +17,5 @@
     color: var(--color-text-primary-autoways);
 }
 .text-secondary-autoways  {
-    color: var(--color-text-primary-autoways );
+    color: var(--color-text-secondary-autoways );
 }

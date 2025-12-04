@@ -227,7 +227,7 @@ const ContactForm = () => {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full bg-secondary text-primary py-3 px-6 rounded-lg font-medium hover:bg-neutral-800 focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2 transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full bg-accent text-primary py-3 px-6 rounded-lg font-medium hover:bg-neutral-800 focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2 transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isSubmitting ? (
               <>
