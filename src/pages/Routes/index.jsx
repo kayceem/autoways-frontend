@@ -11,6 +11,7 @@ import AboutUs from "../AboutUs";
 import CSR from "../CSR";
 import SisterCompanies from "../SisterCompanies";
 import SparesParts from "../SparesParts";
+import NotFound from "../NotFound";
 import Navbar from "../../components/common/NavBar";
 import Footer from "../../components/common/Footer";
 import ScrollToTop from "../../components/common/ScrollToTop";
@@ -33,6 +34,7 @@ const PageRoutes = () => {
                 <Route path="/shop/:brand" element={<BrandLanding />} />
                 <Route path="/shop/:brand/:type" element={<ProductType />} />
                 <Route path="/shop/:brand/:type/:id" element={<ProductDetails />} />
+                <Route path="*" element={<NotFound />} />
             </Routes>
             <Footer />
         </div>
