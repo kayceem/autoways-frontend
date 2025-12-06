@@ -18,8 +18,8 @@ const SpecificationsDisplay = ({ specifications = {}, fuelType = 'normal' }) => 
                 <div className="spec-nested">
                     {Object.entries(value).map(([subKey, subValue]) => (
                         <div key={subKey} className="spec-nested-item">
-                            <span className="spec-nested-key">{formatKey(subKey)}:</span>
-                            <span className="spec-nested-value">
+                            <span className="spec-nested-key text-primary">{formatKey(subKey)}:</span>
+                            <span className="spec-nested-value text-primary">
                                 {typeof subValue === 'object' ? JSON.stringify(subValue) : subValue}
                             </span>
                         </div>
@@ -38,12 +38,12 @@ const SpecificationsDisplay = ({ specifications = {}, fuelType = 'normal' }) => 
 
         return (
             <div className="spec-section">
-                <h3 className="spec-section-title">{title}</h3>
+                <h3 className="spec-section-title text-primary">{title}</h3>
                 <div className="spec-grid">
                     {Object.entries(data).map(([key, value]) => (
                         <div key={key} className="spec-item">
-                            <div className="spec-label">{formatKey(key)}</div>
-                            <div className="spec-value">{renderSpecValue(value)}</div>
+                            <div className="spec-label text-primary">{formatKey(key)}</div>
+                            <div className="spec-value text-primary">{renderSpecValue(value)}</div>
                         </div>
                     ))}
                 </div>

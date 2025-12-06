@@ -78,18 +78,18 @@ const ProductDetails = () => {
     };
 
     return (
-        <div className="product-details-page">
+        <div className="product-details-page bg-primary">
             {/* Breadcrumb */}
-            <section className="breadcrumb-section">
+            <section className="breadcrumb-section bg-secondary">
                 <div className="max-w-7xl mx-auto px-6 py-6">
-                    <div className="breadcrumb">
-                        <Link to="/">Home</Link>
+                    <div className="breadcrumb text-primary">
+                        <Link to="/" className="hover:text-accent">Home</Link>
                         <ChevronDown size={16} className="rotate-[-90deg]" />
-                        <Link to={`/shop/${brand}`} className="capitalize">{brand}</Link>
+                        <Link to={`/shop/${brand}`} className="capitalize hover:text-accent">{brand}</Link>
                         <ChevronDown size={16} className="rotate-[-90deg]" />
-                        <Link to={`/shop/${brand}/${type}`} className="capitalize">{type}</Link>
+                        <Link to={`/shop/${brand}/${type}`} className="capitalize hover:text-accent">{type}</Link>
                         <ChevronDown size={16} className="rotate-[-90deg]" />
-                        <span className="breadcrumb-current">{product.name}</span>
+                        <span className="breadcrumb-current text-accent">{product.name}</span>
                     </div>
                 </div>
             </section>
@@ -109,34 +109,34 @@ const ProductDetails = () => {
                         {/* Right: Product Info */}
                         <div className="product-info">
                             {product.tag && (
-                                <div className="product-tag">
+                                <div className="product-tag bg-accent text-secondary">
                                     {product.tag}
                                 </div>
                             )}
 
-                            <h1 className="product-title">{product.name}</h1>
+                            <h1 className="product-title text-primary">{product.name}</h1>
 
-                            <div className="product-fuel-type">
+                            <div className="product-fuel-type text-accent">
                                 {getFuelTypeIcon(product.fuelType)}
                                 <span>{getFuelTypeLabel(product.fuelType)}</span>
                             </div>
 
                             {product.shortDescription && (
-                                <p className="product-short-desc">
+                                <p className="product-short-desc text-primary">
                                     {product.shortDescription}
                                 </p>
                             )}
 
                             {product.fullDescription && (
-                                <p className="product-full-desc">
+                                <p className="product-full-desc text-primary">
                                     {product.fullDescription}
                                 </p>
                             )}
 
                             {product.price && (
                                 <div className="product-price">
-                                    <span className="price-label">Starting from</span>
-                                    <span className="price-value">${product.price.toLocaleString()}</span>
+                                    <span className="price-label text-secondary">Starting from</span>
+                                    <span className="price-value text-secondary">${product.price.toLocaleString()}</span>
                                 </div>
                             )}
 
@@ -144,7 +144,7 @@ const ProductDetails = () => {
                             <div className="product-actions">
                                 <button
                                     onClick={handleDownloadSpecs}
-                                    className="action-button action-button-primary"
+                                    className="action-button action-button-primary bg-accent text-secondary hover:bg-secondary hover:text-accent"
                                 >
                                     <Download size={20} />
                                     <span>Download Specifications</span>
@@ -152,7 +152,7 @@ const ProductDetails = () => {
 
                                 <button
                                     onClick={handleViewBrochure}
-                                    className="action-button action-button-secondary"
+                                    className="action-button action-button-secondary bg-secondary text-accent hover:bg-accent hover:text-secondary"
                                 >
                                     <FileText size={20} />
                                     <span>View Brochure</span>
@@ -165,14 +165,14 @@ const ProductDetails = () => {
 
             {/* Features Section */}
             {product.features && product.features.length > 0 && (
-                <section className="features-section">
+                <section className="features-section bg-secondary">
                     <div className="max-w-7xl mx-auto px-6 py-12">
-                        <h2 className="section-title">Key Features</h2>
+                        <h2 className="section-title text-primary">Key Features</h2>
                         <div className="features-grid">
                             {product.features.map((feature, index) => (
                                 <div key={index} className="feature-item">
-                                    <Check className="feature-icon" size={20} />
-                                    <span>{feature}</span>
+                                    <Check className="feature-icon text-accent" size={20} />
+                                    <span className="text-secondary">{feature}</span>
                                 </div>
                             ))}
                         </div>
@@ -182,9 +182,9 @@ const ProductDetails = () => {
 
             {/* Specifications Section */}
             {product.specifications && (
-                <section className="specifications-section">
+                <section className="specifications-section bg-primary">
                     <div className="max-w-7xl mx-auto px-6 py-12">
-                        <h2 className="section-title">Technical Specifications</h2>
+                        <h2 className="section-title text-primary">Technical Specifications</h2>
                         <SpecificationsDisplay
                             specifications={product.specifications}
                             fuelType={product.fuelType}
@@ -196,50 +196,50 @@ const ProductDetails = () => {
             {/* Contact CTA Section */}
             <section className="contact-cta-section">
                 <div className="max-w-5xl mx-auto px-6 py-16 text-center">
-                    <h2 className="cta-title">Interested in {product.name}?</h2>
-                    <p className="cta-description">
+                    <h2 className="cta-title text-primary">Interested in {product.name}?</h2>
+                    <p className="cta-description text-primary">
                         Get in touch with our sales team for pricing, availability, and expert guidance
                     </p>
 
                     <div className="contact-options">
-                        <a href={`tel:${siteContent?.info?.phone}`} className="contact-option">
-                            <Phone size={24} />
+                        <a href={`tel:${siteContent?.info?.phone}`} className="contact-option bg-primary text-secondary">
+                            <Phone size={24} className="text-accent" />
                             <div>
-                                <div className="contact-option-label">Call Us</div>
-                                <div className="contact-option-value">{siteContent?.info?.phone}</div>
+                                <div className="contact-option-label text-secondary">Call Us</div>
+                                <div className="contact-option-value text-secondary">{siteContent?.info?.phone}</div>
                             </div>
                         </a>
 
-                        <a href={`mailto:${siteContent?.info?.email}`} className="contact-option">
-                            <Mail size={24} />
+                        <a href={`mailto:${siteContent?.info?.email}`} className="contact-option bg-primary text-secondary">
+                            <Mail size={24} className="text-accent" />
                             <div>
-                                <div className="contact-option-label">Email Us</div>
-                                <div className="contact-option-value">{siteContent?.info?.email}</div>
+                                <div className="contact-option-label text-secondary">Email Us</div>
+                                <div className="contact-option-value text-secondary">{siteContent?.info?.email}</div>
                             </div>
                         </a>
 
-                        <Link to="/locations" className="contact-option">
-                            <MapPin size={24} />
+                        <Link to="/locations" className="contact-option bg-primary text-secondary">
+                            <MapPin size={24} className="text-accent" />
                             <div>
-                                <div className="contact-option-label">Visit Us</div>
-                                <div className="contact-option-value">Find nearest location</div>
+                                <div className="contact-option-label text-secondary">Visit Us</div>
+                                <div className="contact-option-value text-secondary">Find nearest location</div>
                             </div>
                         </Link>
                     </div>
 
-                    <Link to="/contact" className="contact-form-button">
+                    <Link to="/contact" className="contact-form-button bg-accent text-secondary hover:bg-secondary hover:text-accent">
                         Send Inquiry
                     </Link>
                 </div>
             </section>
 
             {/* Related Products Section */}
-            <section className="related-products-section">
+            <section className="related-products-section bg-primary">
                 <div className="max-w-7xl mx-auto px-6 py-12">
-                    <h2 className="section-title">More {type}s from {brand}</h2>
+                    <h2 className="section-title text-primary">More {type}s from {brand}</h2>
                     <Link
                         to={`/shop/${brand}/${type}`}
-                        className="view-all-link"
+                        className="view-all-link bg-accent text-secondary hover:bg-secondary hover:text-accent"
                     >
                         View All {type}s
                     </Link>
