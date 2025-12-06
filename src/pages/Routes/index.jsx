@@ -3,6 +3,7 @@ import Home from "../Home";
 import Contact from "../Contact";
 import BrandLanding from "../BrandLanding";
 import ProductType from "../ProductType";
+import ProductDetails from "../ProductDetails";
 import Locations from "../Locations";
 import NewsMedia from "../NewsMedia";
 import Testimonials from "../Testimonials";
@@ -31,6 +32,7 @@ const PageRoutes = () => {
                 <Route path="/spares-parts" element={<SparesParts />} />
                 <Route path="/shop/:brand" element={<BrandLanding />} />
                 <Route path="/shop/:brand/:type" element={<ProductType />} />
+                <Route path="/shop/:brand/:type/:id" element={<ProductDetails />} />
             </Routes>
             <Footer />
         </div>
