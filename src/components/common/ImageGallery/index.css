@@ -187,8 +187,8 @@
     position: absolute;
     top: 1.5rem;
     right: 1.5rem;
-    background: rgba(255, 255, 255, 0.1);
-    border: none;
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid rgba(255, 255, 255, 0.3);
     width: 56px;
     height: 56px;
     border-radius: 50%;
@@ -197,13 +197,18 @@
     justify-content: center;
     cursor: pointer;
     transition: all 0.3s ease;
-    color: white;
+    color: var(--color-primary);
     z-index: 10001;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
 }
 
 .fullscreen-close:hover {
     background: var(--color-accent);
-    transform: rotate(90deg) scale(1.1);
+    color: var(--color-secondary);
+    border-color: var(--color-accent);
+    transform: rotate(90deg) scale(1.15);
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4);
 }
 
 .fullscreen-content {
@@ -377,5 +382,16 @@
     .fullscreen-thumbnail {
         width: 60px;
         height: 45px;
+    }
+
+    .fullscreen-close {
+        top: 1rem;
+        right: 1rem;
+        width: 48px;
+        height: 48px;
+    }
+
+    .fullscreen-content {
+        padding: 3rem 1rem 6rem;
     }
 }

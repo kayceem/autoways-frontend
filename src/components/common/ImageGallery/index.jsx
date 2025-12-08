@@ -125,8 +125,8 @@ const ImageGallery = ({ images = [], productName = '' }) => {
                             onClick={toggleZoom}
                         />
 
-                        {/* Navigation in Fullscreen */}
-                        {images.length > 1 && (
+                        {/* Navigation in Fullscreen - Hidden when zoomed */}
+                        {images.length > 1 && !isZoomed && (
                             <>
                                 <button
                                     onClick={(e) => {
@@ -151,15 +151,15 @@ const ImageGallery = ({ images = [], productName = '' }) => {
                             </>
                         )}
 
-                        {/* Fullscreen Counter */}
-                        {images.length > 1 && (
+                        {/* Fullscreen Counter - Hidden when zoomed */}
+                        {images.length > 1 && !isZoomed && (
                             <div className="fullscreen-counter">
                                 {currentImageIndex + 1} / {images.length}
                             </div>
                         )}
 
-                        {/* Fullscreen Thumbnails */}
-                        {images.length > 1 && (
+                        {/* Fullscreen Thumbnails - Hidden when zoomed */}
+                        {images.length > 1 && !isZoomed && (
                             <div className="fullscreen-thumbnails">
                                 {images.map((image, index) => (
                                     <button
