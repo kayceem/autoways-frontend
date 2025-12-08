@@ -30,7 +30,7 @@ const SparesParts = () => {
               <h1 className="font-bold text-6xl text-secondary mb-4">{hero.title}</h1>
               <div className="w-24 h-1 bg-accent mb-6" />
               <p className="text-2xl text-accent opacity-90 mb-4">{hero.subtitle}</p>
-              <p className="text-lg text-secondary-bull opacity-80 leading-relaxed mb-6">
+              <p className="text-lg text-secondary opacity-80 leading-relaxed mb-6">
                 {hero.description}
               </p>
               <div className="flex gap-4">
@@ -65,19 +65,19 @@ const SparesParts = () => {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             <div className="text-center p-6 bg-primary rounded-lg shadow-lg animate-fade-in-up">
               <div className="text-4xl font-bold text-accent mb-2">{stats.partsAvailable}</div>
-              <div className="text-secondary-bull opacity-70">Parts Available</div>
+              <div className="text-secondary opacity-70">Parts Available</div>
             </div>
             <div className="text-center p-6 bg-primary rounded-lg shadow-lg animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
               <div className="text-4xl font-bold text-accent mb-2">{stats.brandsSupported}</div>
-              <div className="text-secondary-bull opacity-70">Brands Supported</div>
+              <div className="text-secondary opacity-70">Brands Supported</div>
             </div>
             <div className="text-center p-6 bg-primary rounded-lg shadow-lg animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
               <div className="text-4xl font-bold text-accent mb-2">{stats.serviceLocations}</div>
-              <div className="text-secondary-bull opacity-70">Service Locations</div>
+              <div className="text-secondary opacity-70">Service Locations</div>
             </div>
             <div className="text-center p-6 bg-primary rounded-lg shadow-lg animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
               <div className="text-4xl font-bold text-accent mb-2">{stats.expertTechnicians}</div>
-              <div className="text-secondary-bull opacity-70">Expert Technicians</div>
+              <div className="text-secondary opacity-70">Expert Technicians</div>
             </div>
           </div>
         </div>
@@ -89,7 +89,7 @@ const SparesParts = () => {
           <div className="text-center mb-12 animate-fade-in-up">
             <h2 className="font-bold text-4xl text-secondary mb-4">Why Choose Us</h2>
             <div className="w-24 h-1 bg-accent mx-auto mb-6" />
-            <p className="text-secondary-bull opacity-80 max-w-3xl mx-auto">
+            <p className="text-secondary opacity-80 max-w-3xl mx-auto">
               Comprehensive parts solutions with expert support and genuine quality
             </p>
           </div>
@@ -106,7 +106,7 @@ const SparesParts = () => {
                   </svg>
                 </div>
                 <h3 className="text-2xl font-bold text-secondary mb-3">{service.title}</h3>
-                <p className="text-secondary-bull opacity-80 leading-relaxed">
+                <p className="text-secondary opacity-80 leading-relaxed">
                   {service.description}
                 </p>
               </div>
@@ -121,7 +121,7 @@ const SparesParts = () => {
           <div className="text-center mb-12 animate-fade-in-up">
             <h2 className="font-bold text-4xl text-secondary mb-4">Parts Categories</h2>
             <div className="w-24 h-1 bg-accent mx-auto mb-6" />
-            <p className="text-secondary-bull opacity-80 max-w-3xl mx-auto">
+            <p className="text-secondary opacity-80 max-w-3xl mx-auto">
               Comprehensive inventory across all major automotive systems and components
             </p>
           </div>
@@ -145,7 +145,7 @@ const SparesParts = () => {
                   </div>
                 </div>
                 <div className="p-6">
-                  <p className="text-secondary-bull opacity-80 text-sm mb-4">
+                  <p className="text-secondary opacity-80 text-sm mb-4">
                     {category.description}
                   </p>
 
@@ -154,7 +154,7 @@ const SparesParts = () => {
                       <h4 className="text-sm font-bold text-accent mb-2">Available Items:</h4>
                       <ul className="space-y-1">
                         {category.subcategories.map((sub, idx) => (
-                          <li key={idx} className="flex items-start gap-2 text-secondary-bull opacity-80 text-xs">
+                          <li key={idx} className="flex items-start gap-2 text-secondary opacity-80 text-xs">
                             <span className="text-accent mt-1">•</span>
                             <span>{sub}</span>
                           </li>
@@ -179,7 +179,7 @@ const SparesParts = () => {
           <div className="text-center mb-12 animate-fade-in-up">
             <h2 className="font-bold text-4xl text-secondary mb-4">Featured Products</h2>
             <div className="w-24 h-1 bg-accent mx-auto mb-6" />
-            <p className="text-secondary-bull opacity-80 max-w-3xl mx-auto">
+            <p className="text-secondary opacity-80 max-w-3xl mx-auto">
               Popular genuine parts from our extensive inventory
             </p>
           </div>
@@ -190,7 +190,7 @@ const SparesParts = () => {
                 className="bg-primary rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 animate-fade-in-up"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
-                <div className="relative h-48 bg-gradient-to-br from-accent to-primary-bull flex items-center justify-center overflow-hidden">
+                <div className="relative h-48 bg-gradient-to-br from-accent to-primary flex items-center justify-center overflow-hidden">
                   <img
                     src={product.image}
                     alt={product.name}
@@ -205,10 +205,10 @@ const SparesParts = () => {
                 <div className="p-6">
                   <div className="text-xs text-accent font-semibold mb-2">{product.category}</div>
                   <h3 className="text-lg font-bold text-secondary mb-2">{product.name}</h3>
-                  <p className="text-xs text-secondary-bull opacity-70 mb-3">
+                  <p className="text-xs text-secondary opacity-70 mb-3">
                     Part #: {product.partNumber}
                   </p>
-                  <p className="text-secondary-bull opacity-80 text-sm mb-4">
+                  <p className="text-secondary opacity-80 text-sm mb-4">
                     {product.description}
                   </p>
                   <div className="flex items-center justify-between">
@@ -232,7 +232,7 @@ const SparesParts = () => {
           <div className="text-center mb-12 animate-fade-in-up">
             <h2 className="font-bold text-4xl text-secondary mb-4">Brands We Support</h2>
             <div className="w-24 h-1 bg-accent mx-auto mb-6" />
-            <p className="text-secondary-bull opacity-80 max-w-3xl mx-auto">
+            <p className="text-secondary opacity-80 max-w-3xl mx-auto">
               Genuine OEM parts for all our represented automotive brands
             </p>
           </div>
@@ -248,7 +248,7 @@ const SparesParts = () => {
                   alt={brand.name}
                   className="h-16 w-auto mb-3 object-contain"
                 />
-                <p className="text-secondary-bull opacity-70 text-xs text-center">
+                <p className="text-secondary opacity-70 text-xs text-center">
                   {brand.description}
                 </p>
               </div>
@@ -260,11 +260,11 @@ const SparesParts = () => {
       {/* Contact Section */}
       <section id="contact" className="py-20 px-6">
         <div className="max-w-4xl mx-auto">
-          <div className="bg-gradient-to-r from-primary-bull to-accent rounded-2xl p-12 text-center shadow-2xl">
+          <div className="bg-gradient-to-r from-primary to-accent rounded-2xl p-12 text-center shadow-2xl">
             <h3 className="text-3xl font-bold text-secondary mb-4">
               {contact.title}
             </h3>
-            <p className="text-secondary-bull opacity-90 mb-6 text-lg">
+            <p className="text-secondary opacity-90 mb-6 text-lg">
               {contact.description}
             </p>
             <div className="space-y-3 mb-8">

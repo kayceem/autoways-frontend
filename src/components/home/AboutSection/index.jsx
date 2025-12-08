@@ -53,7 +53,7 @@ const AboutSection = ({ aboutData = {}, className = "" }) => {
                             </h2>
 
                             {/* Content */}
-                            <p className="text-xl text-secondary leading-relaxed mb-10">
+                            <p className="text-xl text-justify text-secondary leading-relaxed mb-10">
                                 {content}
                             </p>
 

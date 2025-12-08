@@ -53,7 +53,7 @@ const AboutUs = () => {
           <div className="text-center mb-16 animate-fade-in-up">
             <h1 className="font-bold text-6xl text-secondary mb-4">About Autoways</h1>
             <div className="w-24 h-1 bg-accent mx-auto mb-6" />
-            <p className="text-xl text-secondary-bull opacity-80 max-w-3xl mx-auto">
+            <p className="text-xl text-secondary opacity-80 max-w-3xl mx-auto">
               Driving Nepal's automotive excellence since 2002
             </p>
           </div>
@@ -66,27 +66,27 @@ const AboutUs = () => {
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
             <div className="text-center p-6 bg-primary rounded-lg shadow-lg animate-fade-in-up">
               <div className="text-4xl font-bold text-accent mb-2">{stats.yearsOfExperience}</div>
-              <div className="text-secondary-bull opacity-70 text-sm">Years Experience</div>
+              <div className="text-secondary opacity-70 text-sm">Years Experience</div>
             </div>
             <div className="text-center p-6 bg-primary rounded-lg shadow-lg animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
               <div className="text-4xl font-bold text-accent mb-2">{stats.happyCustomers}</div>
-              <div className="text-secondary-bull opacity-70 text-sm">Happy Customers</div>
+              <div className="text-secondary opacity-70 text-sm">Happy Customers</div>
             </div>
             <div className="text-center p-6 bg-primary rounded-lg shadow-lg animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
               <div className="text-4xl font-bold text-accent mb-2">{stats.vehiclesSold}</div>
-              <div className="text-secondary-bull opacity-70 text-sm">Vehicles Sold</div>
+              <div className="text-secondary opacity-70 text-sm">Vehicles Sold</div>
             </div>
             <div className="text-center p-6 bg-primary rounded-lg shadow-lg animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
               <div className="text-4xl font-bold text-accent mb-2">{stats.serviceCenters}</div>
-              <div className="text-secondary-bull opacity-70 text-sm">Service Centers</div>
+              <div className="text-secondary opacity-70 text-sm">Service Centers</div>
             </div>
             <div className="text-center p-6 bg-primary rounded-lg shadow-lg animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
               <div className="text-4xl font-bold text-accent mb-2">{stats.brands}</div>
-              <div className="text-secondary-bull opacity-70 text-sm">Global Brands</div>
+              <div className="text-secondary opacity-70 text-sm">Global Brands</div>
             </div>
             <div className="text-center p-6 bg-primary rounded-lg shadow-lg animate-fade-in-up" style={{ animationDelay: '0.5s' }}>
               <div className="text-4xl font-bold text-accent mb-2">{stats.employees}</div>
-              <div className="text-secondary-bull opacity-70 text-sm">Team Members</div>
+              <div className="text-secondary opacity-70 text-sm">Team Members</div>
             </div>
           </div>
         </div>
@@ -106,7 +106,7 @@ const AboutUs = () => {
             <div className="animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
               <h2 className="text-4xl font-bold text-secondary mb-6">{aboutUs.title}</h2>
               <div className="w-24 h-1 bg-accent mb-6" />
-              <p className="text-secondary-bull opacity-80 leading-relaxed text-lg whitespace-pre-line">
+              <p className="text-secondary text-justify opacity-80 leading-relaxed text-lg whitespace-pre-line">
                 {aboutUs.content}
               </p>
             </div>
@@ -129,7 +129,7 @@ const AboutUs = () => {
                   <h2 className="text-4xl font-bold text-secondary">Message from Chairman</h2>
                 </div>
                 <div className="w-24 h-1 bg-accent mb-6" />
-                <p className="text-secondary-bull opacity-80 leading-relaxed text-lg whitespace-pre-line mb-6">
+                <p className="text-secondary text-justify opacity-80 leading-relaxed text-lg whitespace-pre-line mb-6">
                   {content.about_us_detailed.chairman_message.message}
                 </p>
                 <div className="flex items-center gap-4">
@@ -181,7 +181,7 @@ const AboutUs = () => {
                   <h2 className="text-4xl font-bold text-secondary">Message from Managing Director</h2>
                 </div>
                 <div className="w-24 h-1 bg-accent mb-6" />
-                <p className="text-secondary-bull opacity-80 leading-relaxed text-lg whitespace-pre-line mb-6">
+                <p className="text-secondary text-justify opacity-80 leading-relaxed text-lg whitespace-pre-line mb-6">
                   {content.about_us_detailed.md_message.message}
                 </p>
                 <div className="flex items-center gap-4">
@@ -213,7 +213,7 @@ const AboutUs = () => {
                 </div>
                 <h3 className="text-3xl font-bold text-secondary">{mission.title}</h3>
               </div>
-              <p className="text-secondary-bull opacity-80 leading-relaxed text-lg">
+              <p className="text-secondary opacity-80 leading-relaxed text-lg">
                 {mission.content}
               </p>
             </div>
@@ -227,7 +227,7 @@ const AboutUs = () => {
                 </div>
                 <h3 className="text-3xl font-bold text-secondary">{vision.title}</h3>
               </div>
-              <p className="text-secondary-bull opacity-80 leading-relaxed text-lg">
+              <p className="text-secondary opacity-80 leading-relaxed text-lg">
                 {vision.content}
               </p>
             </div>
@@ -241,7 +241,7 @@ const AboutUs = () => {
           <div className="text-center mb-12 animate-fade-in-up">
             <h2 className="font-bold text-4xl text-secondary mb-4">Our Core Values</h2>
             <div className="w-24 h-1 bg-accent mx-auto mb-6" />
-            <p className="text-secondary-bull opacity-80 max-w-2xl mx-auto">
+            <p className="text-secondary opacity-80 max-w-2xl mx-auto">
               The principles that guide our decisions and define our culture
             </p>
           </div>
@@ -256,7 +256,7 @@ const AboutUs = () => {
                   <span className="text-dark font-bold text-xl">{index + 1}</span>
                 </div>
                 <h3 className="text-2xl font-bold text-secondary mb-3">{value.title}</h3>
-                <p className="text-secondary-bull opacity-80 leading-relaxed">
+                <p className="text-secondary opacity-80 leading-relaxed">
                   {value.description}
                 </p>
               </div>
@@ -271,7 +271,7 @@ const AboutUs = () => {
           <div className="text-center mb-12 animate-fade-in-up px-6">
             <h2 className="font-bold text-4xl text-secondary mb-4">Our Journey</h2>
             <div className="w-24 h-1 bg-accent mx-auto mb-6" />
-            <p className="text-secondary-bull opacity-80 max-w-2xl mx-auto">
+            <p className="text-secondary opacity-80 max-w-2xl mx-auto">
               Key milestones in our journey of excellence and growth
             </p>
           </div>
@@ -287,7 +287,7 @@ const AboutUs = () => {
                     className={`px-6 py-3 rounded-full font-bold text-lg transition-all duration-300 whitespace-nowrap ${
                       activeTimelineIndex === index
                         ? 'bg-accent text-dark scale-110 shadow-lg'
-                        : 'bg-primary text-secondary-bull hover:bg-accent hover:text-dark'
+                        : 'bg-primary text-secondary hover:bg-accent hover:text-dark'
                     }`}
                   >
                     {milestone.year}
@@ -357,7 +357,7 @@ const AboutUs = () => {
                           <h3 className="text-2xl font-bold text-secondary mb-3">
                             {milestone.title}
                           </h3>
-                          <p className="text-secondary-bull opacity-90 text-base leading-relaxed">
+                          <p className="text-secondary opacity-90 text-base leading-relaxed">
                             {milestone.description}
                           </p>
                         </div>
@@ -396,18 +396,18 @@ const AboutUs = () => {
           <div className="text-center mb-12 animate-fade-in-up">
             <h2 className="font-bold text-4xl text-secondary mb-4">{team.title}</h2>
             <div className="w-24 h-1 bg-accent mx-auto mb-6" />
-            <p className="text-secondary-bull opacity-80 max-w-3xl mx-auto">
+            <p className="text-secondary opacity-80 max-w-3xl mx-auto">
               {team.description}
             </p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {team.members.map((member, index) => (
+            {team?.members?.map((member, index) => (
               <div
                 key={member.id}
                 className="bg-primary rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 animate-fade-in-up"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
-                <div className="h-48 bg-gradient-to-br from-accent to-primary-bull flex items-center justify-center">
+                <div className="h-48 bg-gradient-to-br from-accent to-primary flex items-center justify-center">
                   <div className="w-32 h-32 bg-dark rounded-full flex items-center justify-center">
                     <svg className="w-16 h-16 text-accent" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
@@ -417,7 +417,7 @@ const AboutUs = () => {
                 <div className="p-6">
                   <h3 className="text-xl font-bold text-secondary mb-2">{member.name}</h3>
                   <div className="text-accent font-semibold mb-3">{member.position}</div>
-                  <p className="text-secondary-bull opacity-80 text-sm leading-relaxed">
+                  <p className="text-secondary opacity-80 text-sm leading-relaxed">
                     {member.bio}
                   </p>
                 </div>
@@ -430,11 +430,11 @@ const AboutUs = () => {
       {/* CTA Section */}
       <section className="py-20 px-6">
         <div className="max-w-4xl mx-auto">
-          <div className="bg-gradient-to-r from-primary-bull to-accent rounded-2xl p-12 text-center shadow-2xl">
+          <div className="bg-gradient-to-r from-primary to-accent rounded-2xl p-12 text-center shadow-2xl">
             <h3 className="text-3xl font-bold text-secondary mb-4">
               Join Our Journey
             </h3>
-            <p className="text-secondary-bull opacity-90 mb-8 text-lg">
+            <p className="text-secondary opacity-90 mb-8 text-lg">
               Be part of Nepal's leading automotive company. Explore career opportunities and grow with us.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
