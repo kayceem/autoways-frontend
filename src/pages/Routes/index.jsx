@@ -25,12 +25,12 @@ const PageRoutes = () => {
                 <Route path="/" element={<Home />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/locations" element={<Locations />} />
-                <Route path="/news" element={<NewsMedia />} />
-                <Route path="/testimonials" element={<Testimonials />} />
-                <Route path="/about" element={<AboutUs />} />
-                <Route path="/csr" element={<CSR />} />
+                {/* <Route path="/news" element={<NewsMedia />} /> */}
+                {/* <Route path="/testimonials" element={<Testimonials />} /> */}
+                {/* <Route path="/about" element={<AboutUs />} /> */}
+                {/* <Route path="/csr" element={<CSR />} /> */}
                 <Route path="/sister-companies" element={<SisterCompanies />} />
-                <Route path="/spares-parts" element={<SparesParts />} />
+                {/* <Route path="/spares-parts" element={<SparesParts />} /> */}
                 <Route path="/shop/:brand" element={<BrandLanding />} />
                 <Route path="/shop/:brand/:type" element={<ProductType />} />
                 <Route path="/shop/:brand/:type/:id" element={<ProductDetails />} />

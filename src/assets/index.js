@@ -30,6 +30,10 @@ import HeroImageII from './images/hero-image-ii.jpg';
 import HeroImageIII from './images/hero-image-iii.jpg';
 import AutowaysA from './images/autoways-a.png';
 import BullVideo from './videos/bull-video.webm';
+import Ather450s from './images/brands/ather-450s.webp';
+import Ather450x2_9 from './images/brands/ather-450x2_9.png';
+import Ather450x3_7 from './images/brands/ather-450x3_7.png';
+import AtherHero from './images/brands/ather-hero.webp';
 
 export default{
     ToyotaLogo,
@@ -65,5 +69,9 @@ export default{
     BullHD100,
     AutowaysA,
     AutowaysTextLogo,
-    BullVideo
+    BullVideo,
+    Ather450s,
+    Ather450x2_9,
+    Ather450x3_7,
+    AtherHero
 };

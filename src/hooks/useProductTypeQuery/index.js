@@ -12,6 +12,7 @@ const useProductTypeQuery = (brandName, type) => {
     //   return response.data;
     console.log("Fetching product type data for", brandName, type);
     console.log("Using local content data");
+    console.log("Data:", data.brands[brandName]['products']);
     return data.brands[brandName]['products'][type];
     },
     retry: 1,

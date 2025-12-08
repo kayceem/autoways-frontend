@@ -143,7 +143,8 @@ Driven by purpose and shaped by excellence, Autoways remains committed to elevat
             video: Images.BullVideo,
             logo: Images.BullLogo,
             productTypes: [{
-                type: 'Backhoe Loader',
+                name: 'Backhoe Loader',
+                type: 'backhoe_loader',
                 image: Images.BullLoader
             },
             {
@@ -152,7 +153,7 @@ Driven by purpose and shaped by excellence, Autoways remains committed to elevat
             }
             ],
             products: {
-                loader:
+                backhoe_loader:
                     [
                         {
                             id: "bull-hd96",
@@ -445,348 +446,350 @@ Driven by purpose and shaped by excellence, Autoways remains committed to elevat
         toyota: {
             name: 'Toyota',
             description: 'Japanese engineering excellence with legendary reliability and fuel efficiency for every journey.',
-            images: [Images.HeroImageIII],
+            images: [Images.HeroImageII],
             logo: Images.ToyotaLogo,
             productTypes: [{
-                type: 'Sedan',
+                name: 'Sedan',
+                type: 'sedan',
                 image: Images.ToyotaSedan
             },
             {
                 type: 'SUV',
+                type: 'suv',
                 image: Images.ToyotaSUV
             }],
-            products: {
-                sedan: [
-                    {
-                        id: "camry-2024-hybrid",
-                        name: "Toyota Camry 2024 Hybrid",
-                        type: "sedan",
-                        fuelType: "hybrid",
-                        images: [Images.ToyotaCamry, Images.ToyotaCamryRight, Images.ToyotaSedan],
-                        tag: "Hybrid",
-                        price: 32000,
-                        shortDescription: "The perfect blend of luxury, performance and efficiency",
-                        fullDescription: "The 2024 Toyota Camry Hybrid combines exceptional fuel efficiency with refined luxury. Experience the future of sustainable driving without compromising on performance or comfort.",
-                        specifications: {
-                            engine: {
-                                model: "2.5L Dynamic Force 4-Cylinder + Electric Motor",
-                                power: "208 HP (Combined)",
-                                displacement: "2.5L",
-                                fuelType: "Hybrid (Petrol + Electric)",
-                                fuelEconomy: "21.2 km/L"
-                            },
-                            performance: {
-                                acceleration: "7.6 seconds (0-100 km/h)",
-                                topSpeed: "180 km/h",
-                                transmission: "E-CVT",
-                                driveType: "FWD"
-                            },
-                            battery: {
-                                type: "Lithium-ion",
-                                capacity: "4.3 Ah",
-                                voltage: "244.8V"
-                            },
-                            dimensions: {
-                                length: "4,885 mm",
-                                width: "1,840 mm",
-                                height: "1,445 mm",
-                                wheelbase: "2,825 mm",
-                                groundClearance: "140 mm"
-                            },
-                            capacities: {
-                                seating: "5",
-                                fuelTank: "50 L",
-                                trunkSpace: "428 L"
-                            },
-                            safety: {
-                                airbags: "9",
-                                abs: "Yes",
-                                stabilityControl: "Yes",
-                                blindSpotMonitor: "Yes",
-                                laneKeepAssist: "Yes",
-                                adaptiveCruiseControl: "Yes",
-                                preCollisionSystem: "Yes"
-                            }
-                        },
-                        features: [
-                            "Toyota Safety Sense 2.5+",
-                            "9-inch touchscreen infotainment",
-                            "Premium leather upholstery",
-                            "Dual-zone automatic climate control",
-                            "Wireless smartphone charging",
-                            "360-degree camera system",
-                            "LED headlights with auto high beam",
-                            "Power moonroof",
-                            "Premium JBL sound system"
-                        ],
-                        brochureUrl: "/brochures/camry-2024-hybrid.pdf",
-                        specSheetUrl: "/specs/camry-2024-hybrid-specs.pdf"
-                    },
-                    {
-                        id: "camry-2024",
-                        name: "Toyota Camry 2024",
-                        type: "sedan",
-                        fuelType: "normal",
-                        images: [Images.ToyotaCamry, Images.ToyotaCamryRight, Images.ToyotaSedan],
-                        tag: "Best Seller",
-                        price: 28000,
-                        shortDescription: "Legendary reliability meets modern luxury",
-                        fullDescription: "The 2024 Toyota Camry delivers uncompromising quality and proven reliability. With its elegant design and advanced features, it's the perfect choice for discerning drivers.",
-                        specifications: {
-                            engine: {
-                                model: "2.5L Dynamic Force 4-Cylinder",
-                                power: "203 HP (151 kW)",
-                                torque: "250 Nm",
-                                displacement: "2.5L",
-                                fuelType: "Petrol",
-                                fuelEconomy: "14.5 km/L"
-                            },
-                            performance: {
-                                acceleration: "8.4 seconds (0-100 km/h)",
-                                topSpeed: "200 km/h",
-                                transmission: "8-Speed Automatic",
-                                driveType: "FWD"
-                            },
-                            dimensions: {
-                                length: "4,885 mm",
-                                width: "1,840 mm",
-                                height: "1,445 mm",
-                                wheelbase: "2,825 mm",
-                                groundClearance: "140 mm"
-                            },
-                            capacities: {
-                                seating: "5",
-                                fuelTank: "60 L",
-                                trunkSpace: "428 L"
-                            },
-                            safety: {
-                                airbags: "8",
-                                abs: "Yes",
-                                stabilityControl: "Yes",
-                                tractionControl: "Yes",
-                                hillStartAssist: "Yes",
-                                tpms: "Yes"
-                            }
-                        },
-                        features: [
-                            "Toyota Safety Sense",
-                            "8-inch touchscreen display",
-                            "Leather-appointed seats",
-                            "Automatic climate control",
-                            "Push button start",
-                            "Rearview camera",
-                            "LED daytime running lights",
-                            "Smart key system",
-                            "Premium audio system"
-                        ],
-                        brochureUrl: "/brochures/camry-2024.pdf",
-                        specSheetUrl: "/specs/camry-2024-specs.pdf"
-                    }
-                ],
-                suv: [
-                    {
-                        id: "fortuner-2024",
-                        name: "Toyota Fortuner 2024",
-                        type: "suv",
-                        fuelType: "normal",
-                        images: [Images.ToyotaSUV, Images.HeroImageIII, Images.ToyotaHero],
-                        tag: "Adventure Ready",
-                        price: 48000,
-                        shortDescription: "Legendary off-road capability meets premium comfort",
-                        fullDescription: "The Toyota Fortuner 2024 is built for adventure. With its robust construction, advanced 4WD system, and luxurious interior, it's ready for any challenge.",
-                        specifications: {
-                            engine: {
-                                model: "2.8L Turbo Diesel",
-                                power: "201 HP (150 kW)",
-                                torque: "500 Nm",
-                                displacement: "2.8L",
-                                fuelType: "Diesel",
-                                fuelEconomy: "12.8 km/L"
-                            },
-                            performance: {
-                                acceleration: "10.2 seconds (0-100 km/h)",
-                                topSpeed: "175 km/h",
-                                transmission: "6-Speed Automatic",
-                                driveType: "4WD"
-                            },
-                            dimensions: {
-                                length: "4,795 mm",
-                                width: "1,855 mm",
-                                height: "1,835 mm",
-                                wheelbase: "2,745 mm",
-                                groundClearance: "220 mm"
-                            },
-                            capacities: {
-                                seating: "7",
-                                fuelTank: "80 L",
-                                cargoSpace: "200 L (3rd row up), 716 L (3rd row down)"
-                            },
-                            offroad: {
-                                approachAngle: "29°",
-                                departureAngle: "25°",
-                                wadingDepth: "700 mm",
-                                towingCapacity: "2,800 kg"
-                            },
-                            safety: {
-                                airbags: "7",
-                                abs: "Yes",
-                                stabilityControl: "Yes",
-                                hillStartAssist: "Yes",
-                                hillDescentControl: "Yes",
-                                tractionControl: "Yes",
-                                brakeLSD: "Yes"
-                            }
-                        },
-                        features: [
-                            "4WD with low-range transfer case",
-                            "Rear differential lock",
-                            "9-inch touchscreen infotainment",
-                            "Premium leather seats",
-                            "Tri-zone climate control",
-                            "Power tailgate",
-                            "LED headlights and fog lamps",
-                            "360-degree camera",
-                            "Wireless charging pad",
-                            "Premium sound system"
-                        ],
-                        brochureUrl: "/brochures/fortuner-2024.pdf",
-                        specSheetUrl: "/specs/fortuner-2024-specs.pdf"
-                    },
-                    {
-                        id: "rav4-2024-hybrid",
-                        name: "Toyota RAV4 2024 Hybrid",
-                        type: "suv",
-                        fuelType: "hybrid",
-                        images: [Images.ToyotaSUV, Images.ToyotaHero, Images.HeroImageIII],
-                        tag: "Eco SUV",
-                        price: 42000,
-                        shortDescription: "Efficient hybrid power with SUV versatility",
-                        fullDescription: "The RAV4 Hybrid combines Toyota's proven hybrid technology with the versatility of an SUV. Perfect for urban commutes and weekend adventures alike.",
-                        specifications: {
-                            engine: {
-                                model: "2.5L 4-Cylinder + Electric Motor",
-                                power: "219 HP (Combined)",
-                                displacement: "2.5L",
-                                fuelType: "Hybrid (Petrol + Electric)",
-                                fuelEconomy: "18.5 km/L"
-                            },
-                            performance: {
-                                acceleration: "8.1 seconds (0-100 km/h)",
-                                topSpeed: "180 km/h",
-                                transmission: "E-CVT",
-                                driveType: "AWD"
-                            },
-                            battery: {
-                                type: "Nickel-Metal Hydride",
-                                capacity: "6.5 Ah",
-                                voltage: "244.8V"
-                            },
-                            dimensions: {
-                                length: "4,600 mm",
-                                width: "1,855 mm",
-                                height: "1,685 mm",
-                                wheelbase: "2,690 mm",
-                                groundClearance: "200 mm"
-                            },
-                            capacities: {
-                                seating: "5",
-                                fuelTank: "55 L",
-                                cargoSpace: "580 L"
-                            },
-                            safety: {
-                                airbags: "8",
-                                abs: "Yes",
-                                stabilityControl: "Yes",
-                                laneKeepAssist: "Yes",
-                                adaptiveCruiseControl: "Yes",
-                                blindSpotMonitor: "Yes",
-                                rearCrossTrafficAlert: "Yes"
-                            }
-                        },
-                        features: [
-                            "AWD with dynamic torque control",
-                            "Toyota Safety Sense 2.5",
-                            "8-inch touchscreen with Apple CarPlay",
-                            "Heated front seats",
-                            "Dual-zone climate control",
-                            "Power liftgate",
-                            "LED lighting package",
-                            "Panoramic sunroof",
-                            "Digital rearview mirror"
-                        ],
-                        brochureUrl: "/brochures/rav4-2024-hybrid.pdf",
-                        specSheetUrl: "/specs/rav4-2024-hybrid-specs.pdf"
-                    },
-                    {
-                        id: "bz4x-2024",
-                        name: "Toyota bZ4X 2024",
-                        type: "suv",
-                        fuelType: "electric",
-                        images: [Images.ToyotaSUV, Images.HeroImageIII, Images.ToyotaHero],
-                        tag: "All-Electric",
-                        price: 52000,
-                        shortDescription: "Toyota's first all-electric SUV",
-                        fullDescription: "The bZ4X represents Toyota's vision for electric mobility. With impressive range, advanced technology, and the quality you expect from Toyota.",
-                        specifications: {
-                            motor: {
-                                type: "Dual Electric Motors (AWD)",
-                                power: "214 HP (160 kW)",
-                                torque: "336 Nm",
-                                driveType: "AWD"
-                            },
-                            battery: {
-                                type: "Lithium-ion",
-                                capacity: "71.4 kWh",
-                                range: "460 km (WLTP)",
-                                charging: {
-                                    dcFastCharging: "150 kW (10-80% in 30 min)",
-                                    acCharging: "11 kW (0-100% in 7 hours)"
-                                }
-                            },
-                            performance: {
-                                acceleration: "6.9 seconds (0-100 km/h)",
-                                topSpeed: "160 km/h",
-                                transmission: "Single-Speed Automatic"
-                            },
-                            dimensions: {
-                                length: "4,690 mm",
-                                width: "1,860 mm",
-                                height: "1,650 mm",
-                                wheelbase: "2,850 mm",
-                                groundClearance: "210 mm"
-                            },
-                            capacities: {
-                                seating: "5",
-                                cargoSpace: "452 L"
-                            },
-                            safety: {
-                                airbags: "10",
-                                abs: "Yes",
-                                stabilityControl: "Yes",
-                                laneKeepAssist: "Yes",
-                                adaptiveCruiseControl: "Yes",
-                                blindSpotMonitor: "Yes",
-                                preCollisionSystem: "Yes",
-                                parkingAssist: "Yes"
-                            }
-                        },
-                        features: [
-                            "E-Four AWD system",
-                            "One-pedal driving mode",
-                            "12.3-inch digital instrument cluster",
-                            "12.3-inch touchscreen infotainment",
-                            "Panoramic fixed glass roof",
-                            "Heated and ventilated seats",
-                            "Heat pump climate system",
-                            "Wireless charging and connectivity",
-                            "Advanced parking assistance",
-                            "Over-the-air updates"
-                        ],
-                        brochureUrl: "/brochures/bz4x-2024.pdf",
-                        specSheetUrl: "/specs/bz4x-2024-specs.pdf"
-                    }
-                ]
-            },
+            // products: {
+            //     sedan: [
+            //         {
+            //             id: "camry-2024-hybrid",
+            //             name: "Toyota Camry 2024 Hybrid",
+            //             type: "sedan",
+            //             fuelType: "hybrid",
+            //             images: [Images.ToyotaCamry, Images.ToyotaCamryRight, Images.ToyotaSedan],
+            //             tag: "Hybrid",
+            //             price: 32000,
+            //             shortDescription: "The perfect blend of luxury, performance and efficiency",
+            //             fullDescription: "The 2024 Toyota Camry Hybrid combines exceptional fuel efficiency with refined luxury. Experience the future of sustainable driving without compromising on performance or comfort.",
+            //             specifications: {
+            //                 engine: {
+            //                     model: "2.5L Dynamic Force 4-Cylinder + Electric Motor",
+            //                     power: "208 HP (Combined)",
+            //                     displacement: "2.5L",
+            //                     fuelType: "Hybrid (Petrol + Electric)",
+            //                     fuelEconomy: "21.2 km/L"
+            //                 },
+            //                 performance: {
+            //                     acceleration: "7.6 seconds (0-100 km/h)",
+            //                     topSpeed: "180 km/h",
+            //                     transmission: "E-CVT",
+            //                     driveType: "FWD"
+            //                 },
+            //                 battery: {
+            //                     type: "Lithium-ion",
+            //                     capacity: "4.3 Ah",
+            //                     voltage: "244.8V"
+            //                 },
+            //                 dimensions: {
+            //                     length: "4,885 mm",
+            //                     width: "1,840 mm",
+            //                     height: "1,445 mm",
+            //                     wheelbase: "2,825 mm",
+            //                     groundClearance: "140 mm"
+            //                 },
+            //                 capacities: {
+            //                     seating: "5",
+            //                     fuelTank: "50 L",
+            //                     trunkSpace: "428 L"
+            //                 },
+            //                 safety: {
+            //                     airbags: "9",
+            //                     abs: "Yes",
+            //                     stabilityControl: "Yes",
+            //                     blindSpotMonitor: "Yes",
+            //                     laneKeepAssist: "Yes",
+            //                     adaptiveCruiseControl: "Yes",
+            //                     preCollisionSystem: "Yes"
+            //                 }
+            //             },
+            //             features: [
+            //                 "Toyota Safety Sense 2.5+",
+            //                 "9-inch touchscreen infotainment",
+            //                 "Premium leather upholstery",
+            //                 "Dual-zone automatic climate control",
+            //                 "Wireless smartphone charging",
+            //                 "360-degree camera system",
+            //                 "LED headlights with auto high beam",
+            //                 "Power moonroof",
+            //                 "Premium JBL sound system"
+            //             ],
+            //             brochureUrl: "/brochures/camry-2024-hybrid.pdf",
+            //             specSheetUrl: "/specs/camry-2024-hybrid-specs.pdf"
+            //         },
+            //         {
+            //             id: "camry-2024",
+            //             name: "Toyota Camry 2024",
+            //             type: "sedan",
+            //             fuelType: "normal",
+            //             images: [Images.ToyotaCamry, Images.ToyotaCamryRight, Images.ToyotaSedan],
+            //             tag: "Best Seller",
+            //             price: 28000,
+            //             shortDescription: "Legendary reliability meets modern luxury",
+            //             fullDescription: "The 2024 Toyota Camry delivers uncompromising quality and proven reliability. With its elegant design and advanced features, it's the perfect choice for discerning drivers.",
+            //             specifications: {
+            //                 engine: {
+            //                     model: "2.5L Dynamic Force 4-Cylinder",
+            //                     power: "203 HP (151 kW)",
+            //                     torque: "250 Nm",
+            //                     displacement: "2.5L",
+            //                     fuelType: "Petrol",
+            //                     fuelEconomy: "14.5 km/L"
+            //                 },
+            //                 performance: {
+            //                     acceleration: "8.4 seconds (0-100 km/h)",
+            //                     topSpeed: "200 km/h",
+            //                     transmission: "8-Speed Automatic",
+            //                     driveType: "FWD"
+            //                 },
+            //                 dimensions: {
+            //                     length: "4,885 mm",
+            //                     width: "1,840 mm",
+            //                     height: "1,445 mm",
+            //                     wheelbase: "2,825 mm",
+            //                     groundClearance: "140 mm"
+            //                 },
+            //                 capacities: {
+            //                     seating: "5",
+            //                     fuelTank: "60 L",
+            //                     trunkSpace: "428 L"
+            //                 },
+            //                 safety: {
+            //                     airbags: "8",
+            //                     abs: "Yes",
+            //                     stabilityControl: "Yes",
+            //                     tractionControl: "Yes",
+            //                     hillStartAssist: "Yes",
+            //                     tpms: "Yes"
+            //                 }
+            //             },
+            //             features: [
+            //                 "Toyota Safety Sense",
+            //                 "8-inch touchscreen display",
+            //                 "Leather-appointed seats",
+            //                 "Automatic climate control",
+            //                 "Push button start",
+            //                 "Rearview camera",
+            //                 "LED daytime running lights",
+            //                 "Smart key system",
+            //                 "Premium audio system"
+            //             ],
+            //             brochureUrl: "/brochures/camry-2024.pdf",
+            //             specSheetUrl: "/specs/camry-2024-specs.pdf"
+            //         }
+            //     ],
+            //     suv: [
+            //         {
+            //             id: "fortuner-2024",
+            //             name: "Toyota Fortuner 2024",
+            //             type: "suv",
+            //             fuelType: "normal",
+            //             images: [Images.ToyotaSUV, Images.HeroImageIII, Images.ToyotaHero],
+            //             tag: "Adventure Ready",
+            //             price: 48000,
+            //             shortDescription: "Legendary off-road capability meets premium comfort",
+            //             fullDescription: "The Toyota Fortuner 2024 is built for adventure. With its robust construction, advanced 4WD system, and luxurious interior, it's ready for any challenge.",
+            //             specifications: {
+            //                 engine: {
+            //                     model: "2.8L Turbo Diesel",
+            //                     power: "201 HP (150 kW)",
+            //                     torque: "500 Nm",
+            //                     displacement: "2.8L",
+            //                     fuelType: "Diesel",
+            //                     fuelEconomy: "12.8 km/L"
+            //                 },
+            //                 performance: {
+            //                     acceleration: "10.2 seconds (0-100 km/h)",
+            //                     topSpeed: "175 km/h",
+            //                     transmission: "6-Speed Automatic",
+            //                     driveType: "4WD"
+            //                 },
+            //                 dimensions: {
+            //                     length: "4,795 mm",
+            //                     width: "1,855 mm",
+            //                     height: "1,835 mm",
+            //                     wheelbase: "2,745 mm",
+            //                     groundClearance: "220 mm"
+            //                 },
+            //                 capacities: {
+            //                     seating: "7",
+            //                     fuelTank: "80 L",
+            //                     cargoSpace: "200 L (3rd row up), 716 L (3rd row down)"
+            //                 },
+            //                 offroad: {
+            //                     approachAngle: "29°",
+            //                     departureAngle: "25°",
+            //                     wadingDepth: "700 mm",
+            //                     towingCapacity: "2,800 kg"
+            //                 },
+            //                 safety: {
+            //                     airbags: "7",
+            //                     abs: "Yes",
+            //                     stabilityControl: "Yes",
+            //                     hillStartAssist: "Yes",
+            //                     hillDescentControl: "Yes",
+            //                     tractionControl: "Yes",
+            //                     brakeLSD: "Yes"
+            //                 }
+            //             },
+            //             features: [
+            //                 "4WD with low-range transfer case",
+            //                 "Rear differential lock",
+            //                 "9-inch touchscreen infotainment",
+            //                 "Premium leather seats",
+            //                 "Tri-zone climate control",
+            //                 "Power tailgate",
+            //                 "LED headlights and fog lamps",
+            //                 "360-degree camera",
+            //                 "Wireless charging pad",
+            //                 "Premium sound system"
+            //             ],
+            //             brochureUrl: "/brochures/fortuner-2024.pdf",
+            //             specSheetUrl: "/specs/fortuner-2024-specs.pdf"
+            //         },
+            //         {
+            //             id: "rav4-2024-hybrid",
+            //             name: "Toyota RAV4 2024 Hybrid",
+            //             type: "suv",
+            //             fuelType: "hybrid",
+            //             images: [Images.ToyotaSUV, Images.ToyotaHero, Images.HeroImageIII],
+            //             tag: "Eco SUV",
+            //             price: 42000,
+            //             shortDescription: "Efficient hybrid power with SUV versatility",
+            //             fullDescription: "The RAV4 Hybrid combines Toyota's proven hybrid technology with the versatility of an SUV. Perfect for urban commutes and weekend adventures alike.",
+            //             specifications: {
+            //                 engine: {
+            //                     model: "2.5L 4-Cylinder + Electric Motor",
+            //                     power: "219 HP (Combined)",
+            //                     displacement: "2.5L",
+            //                     fuelType: "Hybrid (Petrol + Electric)",
+            //                     fuelEconomy: "18.5 km/L"
+            //                 },
+            //                 performance: {
+            //                     acceleration: "8.1 seconds (0-100 km/h)",
+            //                     topSpeed: "180 km/h",
+            //                     transmission: "E-CVT",
+            //                     driveType: "AWD"
+            //                 },
+            //                 battery: {
+            //                     type: "Nickel-Metal Hydride",
+            //                     capacity: "6.5 Ah",
+            //                     voltage: "244.8V"
+            //                 },
+            //                 dimensions: {
+            //                     length: "4,600 mm",
+            //                     width: "1,855 mm",
+            //                     height: "1,685 mm",
+            //                     wheelbase: "2,690 mm",
+            //                     groundClearance: "200 mm"
+            //                 },
+            //                 capacities: {
+            //                     seating: "5",
+            //                     fuelTank: "55 L",
+            //                     cargoSpace: "580 L"
+            //                 },
+            //                 safety: {
+            //                     airbags: "8",
+            //                     abs: "Yes",
+            //                     stabilityControl: "Yes",
+            //                     laneKeepAssist: "Yes",
+            //                     adaptiveCruiseControl: "Yes",
+            //                     blindSpotMonitor: "Yes",
+            //                     rearCrossTrafficAlert: "Yes"
+            //                 }
+            //             },
+            //             features: [
+            //                 "AWD with dynamic torque control",
+            //                 "Toyota Safety Sense 2.5",
+            //                 "8-inch touchscreen with Apple CarPlay",
+            //                 "Heated front seats",
+            //                 "Dual-zone climate control",
+            //                 "Power liftgate",
+            //                 "LED lighting package",
+            //                 "Panoramic sunroof",
+            //                 "Digital rearview mirror"
+            //             ],
+            //             brochureUrl: "/brochures/rav4-2024-hybrid.pdf",
+            //             specSheetUrl: "/specs/rav4-2024-hybrid-specs.pdf"
+            //         },
+            //         {
+            //             id: "bz4x-2024",
+            //             name: "Toyota bZ4X 2024",
+            //             type: "suv",
+            //             fuelType: "electric",
+            //             images: [Images.ToyotaSUV, Images.HeroImageIII, Images.ToyotaHero],
+            //             tag: "All-Electric",
+            //             price: 52000,
+            //             shortDescription: "Toyota's first all-electric SUV",
+            //             fullDescription: "The bZ4X represents Toyota's vision for electric mobility. With impressive range, advanced technology, and the quality you expect from Toyota.",
+            //             specifications: {
+            //                 motor: {
+            //                     type: "Dual Electric Motors (AWD)",
+            //                     power: "214 HP (160 kW)",
+            //                     torque: "336 Nm",
+            //                     driveType: "AWD"
+            //                 },
+            //                 battery: {
+            //                     type: "Lithium-ion",
+            //                     capacity: "71.4 kWh",
+            //                     range: "460 km (WLTP)",
+            //                     charging: {
+            //                         dcFastCharging: "150 kW (10-80% in 30 min)",
+            //                         acCharging: "11 kW (0-100% in 7 hours)"
+            //                     }
+            //                 },
+            //                 performance: {
+            //                     acceleration: "6.9 seconds (0-100 km/h)",
+            //                     topSpeed: "160 km/h",
+            //                     transmission: "Single-Speed Automatic"
+            //                 },
+            //                 dimensions: {
+            //                     length: "4,690 mm",
+            //                     width: "1,860 mm",
+            //                     height: "1,650 mm",
+            //                     wheelbase: "2,850 mm",
+            //                     groundClearance: "210 mm"
+            //                 },
+            //                 capacities: {
+            //                     seating: "5",
+            //                     cargoSpace: "452 L"
+            //                 },
+            //                 safety: {
+            //                     airbags: "10",
+            //                     abs: "Yes",
+            //                     stabilityControl: "Yes",
+            //                     laneKeepAssist: "Yes",
+            //                     adaptiveCruiseControl: "Yes",
+            //                     blindSpotMonitor: "Yes",
+            //                     preCollisionSystem: "Yes",
+            //                     parkingAssist: "Yes"
+            //                 }
+            //             },
+            //             features: [
+            //                 "E-Four AWD system",
+            //                 "One-pedal driving mode",
+            //                 "12.3-inch digital instrument cluster",
+            //                 "12.3-inch touchscreen infotainment",
+            //                 "Panoramic fixed glass roof",
+            //                 "Heated and ventilated seats",
+            //                 "Heat pump climate system",
+            //                 "Wireless charging and connectivity",
+            //                 "Advanced parking assistance",
+            //                 "Over-the-air updates"
+            //             ],
+            //             brochureUrl: "/brochures/bz4x-2024.pdf",
+            //             specSheetUrl: "/specs/bz4x-2024-specs.pdf"
+            //         }
+            //     ]
+            // },
         },
         dongfeng: {
             name: 'Dongfeng',
@@ -794,133 +797,135 @@ Driven by purpose and shaped by excellence, Autoways remains committed to elevat
             images: [Images.HeroImageII],
             logo: Images.DongfengLogo,
             productTypes: [{
-                type: 'Truck',
+                name: 'Truck',
+                type: 'truck',
                 image: Images.HeroImageII
             },
             {
                 type: 'Tipper',
+                type: 'tipper',
                 image: Images.HeroImageIII
             }],
-            products: {
-                truck: [
-                    {
-                        id: "dongfeng-df8",
-                        name: "Dongfeng DF-8 Cargo Truck",
-                        type: "truck",
-                        fuelType: "normal",
-                        images: [Images.HeroImageII, Images.EicherHero, Images.KomatsuHero],
-                        tag: "Reliable",
-                        price: 38000,
-                        shortDescription: "Heavy-duty cargo truck for commercial applications",
-                        fullDescription: "The Dongfeng DF-8 is a reliable workhorse designed for heavy cargo transportation. Built with robust components and efficient powertrain for long-haul operations.",
-                        specifications: {
-                            engine: {
-                                model: "Cummins ISB6.7",
-                                power: "210 HP (157 kW)",
-                                torque: "760 Nm",
-                                displacement: "6.7L",
-                                fuelType: "Diesel",
-                                fuelEconomy: "8.5 km/L"
-                            },
-                            performance: {
-                                maxSpeed: "110 km/h",
-                                transmission: "8-Speed Manual",
-                                driveType: "4x2"
-                            },
-                            dimensions: {
-                                length: "8,995 mm",
-                                width: "2,480 mm",
-                                height: "3,200 mm",
-                                wheelbase: "5,100 mm",
-                                groundClearance: "250 mm"
-                            },
-                            capacities: {
-                                gvw: "16,000 kg",
-                                payloadCapacity: "10,000 kg",
-                                fuelTank: "300 L",
-                                cabSeating: "3"
-                            },
-                            chassis: {
-                                frontAxle: "6,000 kg",
-                                rearAxle: "10,000 kg",
-                                tireSize: "10.00-20"
-                            }
-                        },
-                        features: [
-                            "Spacious cabin with air conditioning",
-                            "Power steering",
-                            "Air brake system",
-                            "Adjustable driver seat",
-                            "Digital instrument cluster",
-                            "ABS brakes",
-                            "Heavy-duty suspension",
-                            "Backup alarm"
-                        ],
-                        brochureUrl: "/brochures/dongfeng-df8.pdf",
-                        specSheetUrl: "/specs/dongfeng-df8-specs.pdf"
-                    }
-                ],
-                tipper: [
-                    {
-                        id: "dongfeng-tipper-t12",
-                        name: "Dongfeng T-12 Tipper",
-                        type: "tipper",
-                        fuelType: "normal",
-                        images: [Images.HeroImageIII, Images.EicherHero, Images.KomatsuHero],
-                        tag: "Heavy Duty",
-                        price: 45000,
-                        shortDescription: "Robust tipper for construction and mining",
-                        fullDescription: "The Dongfeng T-12 Tipper is engineered for demanding construction and mining operations. Features a hydraulic tipping mechanism and reinforced body for maximum durability.",
-                        specifications: {
-                            engine: {
-                                model: "Cummins L9.3",
-                                power: "340 HP (254 kW)",
-                                torque: "1,450 Nm",
-                                displacement: "9.3L",
-                                fuelType: "Diesel",
-                                fuelEconomy: "6.5 km/L"
-                            },
-                            performance: {
-                                maxSpeed: "90 km/h",
-                                transmission: "10-Speed Manual",
-                                driveType: "6x4"
-                            },
-                            dimensions: {
-                                length: "9,500 mm",
-                                width: "2,500 mm",
-                                height: "3,400 mm",
-                                wheelbase: "4,500 + 1,350 mm",
-                                groundClearance: "280 mm"
-                            },
-                            capacities: {
-                                gvw: "25,000 kg",
-                                payloadCapacity: "15,000 kg",
-                                bodyCapacity: "12 m³",
-                                fuelTank: "400 L"
-                            },
-                            tipping: {
-                                hydraulicSystem: "Single-acting cylinder",
-                                tippingAngle: "50°",
-                                tippingTime: "15 seconds",
-                                bodyMaterial: "High-strength steel"
-                            }
-                        },
-                        features: [
-                            "Hydraulic tipping system",
-                            "Reinforced steel body",
-                            "Air-conditioned cabin",
-                            "Multi-function steering wheel",
-                            "Air suspension driver seat",
-                            "ABS and EBD brakes",
-                            "Heavy-duty rear axles",
-                            "Automatic tarp system",
-                            "Rear camera"
-                        ],
-                        brochureUrl: "/brochures/dongfeng-t12.pdf",
-                        specSheetUrl: "/specs/dongfeng-t12-specs.pdf"
-                    }
-                ]
-            }
+            // products: {
+            //     truck: [
+            //         {
+            //             id: "dongfeng-df8",
+            //             name: "Dongfeng DF-8 Cargo Truck",
+            //             type: "truck",
+            //             fuelType: "normal",
+            //             images: [Images.HeroImageII, Images.EicherHero, Images.KomatsuHero],
+            //             tag: "Reliable",
+            //             price: 38000,
+            //             shortDescription: "Heavy-duty cargo truck for commercial applications",
+            //             fullDescription: "The Dongfeng DF-8 is a reliable workhorse designed for heavy cargo transportation. Built with robust components and efficient powertrain for long-haul operations.",
+            //             specifications: {
+            //                 engine: {
+            //                     model: "Cummins ISB6.7",
+            //                     power: "210 HP (157 kW)",
+            //                     torque: "760 Nm",
+            //                     displacement: "6.7L",
+            //                     fuelType: "Diesel",
+            //                     fuelEconomy: "8.5 km/L"
+            //                 },
+            //                 performance: {
+            //                     maxSpeed: "110 km/h",
+            //                     transmission: "8-Speed Manual",
+            //                     driveType: "4x2"
+            //                 },
+            //                 dimensions: {
+            //                     length: "8,995 mm",
+            //                     width: "2,480 mm",
+            //                     height: "3,200 mm",
+            //                     wheelbase: "5,100 mm",
+            //                     groundClearance: "250 mm"
+            //                 },
+            //                 capacities: {
+            //                     gvw: "16,000 kg",
+            //                     payloadCapacity: "10,000 kg",
+            //                     fuelTank: "300 L",
+            //                     cabSeating: "3"
+            //                 },
+            //                 chassis: {
+            //                     frontAxle: "6,000 kg",
+            //                     rearAxle: "10,000 kg",
+            //                     tireSize: "10.00-20"
+            //                 }
+            //             },
+            //             features: [
+            //                 "Spacious cabin with air conditioning",
+            //                 "Power steering",
+            //                 "Air brake system",
+            //                 "Adjustable driver seat",
+            //                 "Digital instrument cluster",
+            //                 "ABS brakes",
+            //                 "Heavy-duty suspension",
+            //                 "Backup alarm"
+            //             ],
+            //             brochureUrl: "/brochures/dongfeng-df8.pdf",
+            //             specSheetUrl: "/specs/dongfeng-df8-specs.pdf"
+            //         }
+            //     ],
+            //     tipper: [
+            //         {
+            //             id: "dongfeng-tipper-t12",
+            //             name: "Dongfeng T-12 Tipper",
+            //             type: "tipper",
+            //             fuelType: "normal",
+            //             images: [Images.HeroImageIII, Images.EicherHero, Images.KomatsuHero],
+            //             tag: "Heavy Duty",
+            //             price: 45000,
+            //             shortDescription: "Robust tipper for construction and mining",
+            //             fullDescription: "The Dongfeng T-12 Tipper is engineered for demanding construction and mining operations. Features a hydraulic tipping mechanism and reinforced body for maximum durability.",
+            //             specifications: {
+            //                 engine: {
+            //                     model: "Cummins L9.3",
+            //                     power: "340 HP (254 kW)",
+            //                     torque: "1,450 Nm",
+            //                     displacement: "9.3L",
+            //                     fuelType: "Diesel",
+            //                     fuelEconomy: "6.5 km/L"
+            //                 },
+            //                 performance: {
+            //                     maxSpeed: "90 km/h",
+            //                     transmission: "10-Speed Manual",
+            //                     driveType: "6x4"
+            //                 },
+            //                 dimensions: {
+            //                     length: "9,500 mm",
+            //                     width: "2,500 mm",
+            //                     height: "3,400 mm",
+            //                     wheelbase: "4,500 + 1,350 mm",
+            //                     groundClearance: "280 mm"
+            //                 },
+            //                 capacities: {
+            //                     gvw: "25,000 kg",
+            //                     payloadCapacity: "15,000 kg",
+            //                     bodyCapacity: "12 m³",
+            //                     fuelTank: "400 L"
+            //                 },
+            //                 tipping: {
+            //                     hydraulicSystem: "Single-acting cylinder",
+            //                     tippingAngle: "50°",
+            //                     tippingTime: "15 seconds",
+            //                     bodyMaterial: "High-strength steel"
+            //                 }
+            //             },
+            //             features: [
+            //                 "Hydraulic tipping system",
+            //                 "Reinforced steel body",
+            //                 "Air-conditioned cabin",
+            //                 "Multi-function steering wheel",
+            //                 "Air suspension driver seat",
+            //                 "ABS and EBD brakes",
+            //                 "Heavy-duty rear axles",
+            //                 "Automatic tarp system",
+            //                 "Rear camera"
+            //             ],
+            //             brochureUrl: "/brochures/dongfeng-t12.pdf",
+            //             specSheetUrl: "/specs/dongfeng-t12-specs.pdf"
+            //         }
+            //     ]
+            // }
         },
         komatsu: {
             name: 'Komatsu',
@@ -928,141 +933,142 @@ Driven by purpose and shaped by excellence, Autoways remains committed to elevat
             images: [Images.KomatsuHero],
             logo: Images.KomatsuLogo,
             productTypes: [{
-                type: 'Excavator',
+                name: 'Excavator',
+                type: 'excavator',
                 image: Images.KomatsuHero
             }],
-            products: {
-                excavator: [
-                    {
-                        id: "komatsu-pc200",
-                        name: "Komatsu PC200-11",
-                        type: "excavator",
-                        fuelType: "normal",
-                        images: [Images.KomatsuHero, Images.BullLoader, Images.BullHero],
-                        tag: "Industry Leader",
-                        price: 95000,
-                        shortDescription: "Advanced hydraulic excavator for maximum productivity",
-                        fullDescription: "The PC200-11 combines exceptional performance with fuel efficiency. Features advanced hydraulics, intelligent control systems, and superior operator comfort.",
-                        specifications: {
-                            engine: {
-                                model: "Komatsu SAA6D107E-3",
-                                power: "155 HP (116 kW)",
-                                displacement: "6.7L",
-                                fuelType: "Diesel",
-                                emissionStandard: "EU Stage V"
-                            },
-                            performance: {
-                                operatingWeight: "20,300 kg",
-                                bucketCapacity: "0.93 m³",
-                                maxDiggingDepth: "6,710 mm",
-                                maxDiggingReach: "10,070 mm",
-                                maxDiggingHeight: "9,760 mm",
-                                maxDumpingHeight: "6,870 mm"
-                            },
-                            dimensions: {
-                                overallLength: "9,800 mm",
-                                overallWidth: "2,800 mm",
-                                overallHeight: "3,090 mm",
-                                tailSwingRadius: "2,930 mm",
-                                groundClearance: "450 mm"
-                            },
-                            hydraulics: {
-                                systemPressure: "345 bar",
-                                pumpFlow: "2 x 234 L/min",
-                                bucketDiggingForce: "140 kN",
-                                armDiggingForce: "100 kN"
-                            },
-                            capacities: {
-                                fuelTank: "400 L",
-                                hydraulicTank: "210 L",
-                                engineOil: "30 L"
-                            },
-                            travel: {
-                                speed: "5.5 / 3.4 km/h",
-                                gradability: "70% (35°)",
-                                groundPressure: "47 kPa"
-                            }
-                        },
-                        features: [
-                            "KOMTRAX telematics system",
-                            "Eco-mode for fuel efficiency",
-                            "Large LCD monitor display",
-                            "Climate-controlled cabin",
-                            "Hydraulic quick coupler",
-                            "Auto-idle shutdown",
-                            "Rearview camera standard",
-                            "LED working lights",
-                            "Advanced hydraulic system"
-                        ],
-                        brochureUrl: "/brochures/komatsu-pc200.pdf",
-                        specSheetUrl: "/specs/komatsu-pc200-specs.pdf"
-                    },
-                    {
-                        id: "komatsu-pc130",
-                        name: "Komatsu PC130-11",
-                        type: "excavator",
-                        fuelType: "normal",
-                        images: [Images.KomatsuHero, Images.BullHero, Images.BullLoader],
-                        tag: "Compact Power",
-                        price: 68000,
-                        shortDescription: "Versatile mid-size excavator for diverse applications",
-                        fullDescription: "The PC130-11 offers excellent balance of power and efficiency in a compact package. Perfect for urban construction and utility work.",
-                        specifications: {
-                            engine: {
-                                model: "Komatsu SAA4D107E-3",
-                                power: "102 HP (76 kW)",
-                                displacement: "4.5L",
-                                fuelType: "Diesel",
-                                emissionStandard: "EU Stage V"
-                            },
-                            performance: {
-                                operatingWeight: "13,200 kg",
-                                bucketCapacity: "0.54 m³",
-                                maxDiggingDepth: "5,450 mm",
-                                maxDiggingReach: "8,330 mm",
-                                maxDiggingHeight: "8,290 mm",
-                                maxDumpingHeight: "5,890 mm"
-                            },
-                            dimensions: {
-                                overallLength: "8,170 mm",
-                                overallWidth: "2,490 mm",
-                                overallHeight: "2,800 mm",
-                                tailSwingRadius: "2,490 mm",
-                                groundClearance: "430 mm"
-                            },
-                            hydraulics: {
-                                systemPressure: "345 bar",
-                                pumpFlow: "2 x 157 L/min",
-                                bucketDiggingForce: "91 kN",
-                                armDiggingForce: "68 kN"
-                            },
-                            capacities: {
-                                fuelTank: "210 L",
-                                hydraulicTank: "130 L",
-                                engineOil: "18 L"
-                            },
-                            travel: {
-                                speed: "5.5 / 3.3 km/h",
-                                gradability: "70% (35°)",
-                                groundPressure: "43 kPa"
-                            }
-                        },
-                        features: [
-                            "KOMTRAX monitoring",
-                            "Fuel-efficient operation",
-                            "7-inch LCD display",
-                            "Air-conditioned cab",
-                            "Quick coupler compatible",
-                            "Automatic engine idle",
-                            "Backup camera",
-                            "LED work lights",
-                            "Ergonomic controls"
-                        ],
-                        brochureUrl: "/brochures/komatsu-pc130.pdf",
-                        specSheetUrl: "/specs/komatsu-pc130-specs.pdf"
-                    }
-                ]
-            }
+            // products: {
+            //     excavator: [
+            //         {
+            //             id: "komatsu-pc200",
+            //             name: "Komatsu PC200-11",
+            //             type: "excavator",
+            //             fuelType: "normal",
+            //             images: [Images.KomatsuHero, Images.BullLoader, Images.BullHero],
+            //             tag: "Industry Leader",
+            //             price: 95000,
+            //             shortDescription: "Advanced hydraulic excavator for maximum productivity",
+            //             fullDescription: "The PC200-11 combines exceptional performance with fuel efficiency. Features advanced hydraulics, intelligent control systems, and superior operator comfort.",
+            //             specifications: {
+            //                 engine: {
+            //                     model: "Komatsu SAA6D107E-3",
+            //                     power: "155 HP (116 kW)",
+            //                     displacement: "6.7L",
+            //                     fuelType: "Diesel",
+            //                     emissionStandard: "EU Stage V"
+            //                 },
+            //                 performance: {
+            //                     operatingWeight: "20,300 kg",
+            //                     bucketCapacity: "0.93 m³",
+            //                     maxDiggingDepth: "6,710 mm",
+            //                     maxDiggingReach: "10,070 mm",
+            //                     maxDiggingHeight: "9,760 mm",
+            //                     maxDumpingHeight: "6,870 mm"
+            //                 },
+            //                 dimensions: {
+            //                     overallLength: "9,800 mm",
+            //                     overallWidth: "2,800 mm",
+            //                     overallHeight: "3,090 mm",
+            //                     tailSwingRadius: "2,930 mm",
+            //                     groundClearance: "450 mm"
+            //                 },
+            //                 hydraulics: {
+            //                     systemPressure: "345 bar",
+            //                     pumpFlow: "2 x 234 L/min",
+            //                     bucketDiggingForce: "140 kN",
+            //                     armDiggingForce: "100 kN"
+            //                 },
+            //                 capacities: {
+            //                     fuelTank: "400 L",
+            //                     hydraulicTank: "210 L",
+            //                     engineOil: "30 L"
+            //                 },
+            //                 travel: {
+            //                     speed: "5.5 / 3.4 km/h",
+            //                     gradability: "70% (35°)",
+            //                     groundPressure: "47 kPa"
+            //                 }
+            //             },
+            //             features: [
+            //                 "KOMTRAX telematics system",
+            //                 "Eco-mode for fuel efficiency",
+            //                 "Large LCD monitor display",
+            //                 "Climate-controlled cabin",
+            //                 "Hydraulic quick coupler",
+            //                 "Auto-idle shutdown",
+            //                 "Rearview camera standard",
+            //                 "LED working lights",
+            //                 "Advanced hydraulic system"
+            //             ],
+            //             brochureUrl: "/brochures/komatsu-pc200.pdf",
+            //             specSheetUrl: "/specs/komatsu-pc200-specs.pdf"
+            //         },
+            //         {
+            //             id: "komatsu-pc130",
+            //             name: "Komatsu PC130-11",
+            //             type: "excavator",
+            //             fuelType: "normal",
+            //             images: [Images.KomatsuHero, Images.BullHero, Images.BullLoader],
+            //             tag: "Compact Power",
+            //             price: 68000,
+            //             shortDescription: "Versatile mid-size excavator for diverse applications",
+            //             fullDescription: "The PC130-11 offers excellent balance of power and efficiency in a compact package. Perfect for urban construction and utility work.",
+            //             specifications: {
+            //                 engine: {
+            //                     model: "Komatsu SAA4D107E-3",
+            //                     power: "102 HP (76 kW)",
+            //                     displacement: "4.5L",
+            //                     fuelType: "Diesel",
+            //                     emissionStandard: "EU Stage V"
+            //                 },
+            //                 performance: {
+            //                     operatingWeight: "13,200 kg",
+            //                     bucketCapacity: "0.54 m³",
+            //                     maxDiggingDepth: "5,450 mm",
+            //                     maxDiggingReach: "8,330 mm",
+            //                     maxDiggingHeight: "8,290 mm",
+            //                     maxDumpingHeight: "5,890 mm"
+            //                 },
+            //                 dimensions: {
+            //                     overallLength: "8,170 mm",
+            //                     overallWidth: "2,490 mm",
+            //                     overallHeight: "2,800 mm",
+            //                     tailSwingRadius: "2,490 mm",
+            //                     groundClearance: "430 mm"
+            //                 },
+            //                 hydraulics: {
+            //                     systemPressure: "345 bar",
+            //                     pumpFlow: "2 x 157 L/min",
+            //                     bucketDiggingForce: "91 kN",
+            //                     armDiggingForce: "68 kN"
+            //                 },
+            //                 capacities: {
+            //                     fuelTank: "210 L",
+            //                     hydraulicTank: "130 L",
+            //                     engineOil: "18 L"
+            //                 },
+            //                 travel: {
+            //                     speed: "5.5 / 3.3 km/h",
+            //                     gradability: "70% (35°)",
+            //                     groundPressure: "43 kPa"
+            //                 }
+            //             },
+            //             features: [
+            //                 "KOMTRAX monitoring",
+            //                 "Fuel-efficient operation",
+            //                 "7-inch LCD display",
+            //                 "Air-conditioned cab",
+            //                 "Quick coupler compatible",
+            //                 "Automatic engine idle",
+            //                 "Backup camera",
+            //                 "LED work lights",
+            //                 "Ergonomic controls"
+            //             ],
+            //             brochureUrl: "/brochures/komatsu-pc130.pdf",
+            //             specSheetUrl: "/specs/komatsu-pc130-specs.pdf"
+            //         }
+            //     ]
+            // }
         },
         eicher: {
             name: 'Eicher',
@@ -1070,136 +1076,138 @@ Driven by purpose and shaped by excellence, Autoways remains committed to elevat
             images: [Images.EicherHero],
             logo: Images.EicherLogo,
             productTypes: [{
-                type: 'Truck',
+                name: 'Truck',
+                type: 'truck',
                 image: Images.EicherHero
             },
             {
                 type: 'Bus',
+                type: 'bus',
                 image: Images.HeroImageII
             }],
-            products: {
-                truck: [
-                    {
-                        id: "eicher-pro-2049",
-                        name: "Eicher Pro 2049",
-                        type: "truck",
-                        fuelType: "normal",
-                        images: [Images.EicherHero, Images.HeroImageII, Images.KomatsuHero],
-                        tag: "Fuel Efficient",
-                        price: 28000,
-                        shortDescription: "Light commercial vehicle with best-in-class mileage",
-                        fullDescription: "The Eicher Pro 2049 is designed for urban and highway logistics. Known for exceptional fuel efficiency and low operating costs.",
-                        specifications: {
-                            engine: {
-                                model: "Eicher E494 CRS",
-                                power: "95 HP (70 kW)",
-                                torque: "250 Nm",
-                                displacement: "2.98L",
-                                fuelType: "Diesel",
-                                fuelEconomy: "12.5 km/L"
-                            },
-                            performance: {
-                                maxSpeed: "100 km/h",
-                                transmission: "5-Speed Manual",
-                                driveType: "4x2"
-                            },
-                            dimensions: {
-                                length: "6,720 mm",
-                                width: "2,100 mm",
-                                height: "2,615 mm",
-                                wheelbase: "3,800 mm",
-                                groundClearance: "210 mm"
-                            },
-                            capacities: {
-                                gvw: "4,995 kg",
-                                payloadCapacity: "2,490 kg",
-                                fuelTank: "90 L",
-                                cabSeating: "3"
-                            }
-                        },
-                        features: [
-                            "Common rail fuel injection",
-                            "Comfortable cabin",
-                            "Power steering",
-                            "Digital instrument cluster",
-                            "Front disc brakes",
-                            "Easy maintenance",
-                            "Low noise levels",
-                            "Ergonomic design"
-                        ],
-                        brochureUrl: "/brochures/eicher-pro-2049.pdf",
-                        specSheetUrl: "/specs/eicher-pro-2049-specs.pdf"
-                    }
-                ],
-                bus: [
-                    {
-                        id: "eicher-skyline-pro-electric",
-                        name: "Eicher Skyline Pro Electric",
-                        type: "bus",
-                        fuelType: "electric",
-                        images: [Images.EicherHero, Images.HeroImageII, Images.HeroImageIII],
-                        tag: "Zero Emission",
-                        price: 85000,
-                        shortDescription: "Electric bus for sustainable public transportation",
-                        fullDescription: "The Skyline Pro Electric represents the future of public transport. Zero emissions, low operating costs, and superior passenger comfort.",
-                        specifications: {
-                            motor: {
-                                type: "AC Induction Motor",
-                                power: "250 HP (186 kW)",
-                                torque: "2,500 Nm",
-                                driveType: "Rear-wheel drive"
-                            },
-                            battery: {
-                                type: "Lithium-ion NMC",
-                                capacity: "250 kWh",
-                                range: "200 km (single charge)",
-                                charging: {
-                                    dcFastCharging: "120 kW (0-80% in 90 min)",
-                                    acCharging: "40 kW (0-100% in 6 hours)"
-                                }
-                            },
-                            performance: {
-                                maxSpeed: "80 km/h",
-                                transmission: "Single-Speed Automatic",
-                                gradability: "20%"
-                            },
-                            dimensions: {
-                                length: "9,140 mm",
-                                width: "2,500 mm",
-                                height: "3,185 mm",
-                                wheelbase: "4,880 mm"
-                            },
-                            capacities: {
-                                seating: "31 + driver",
-                                standing: "19",
-                                totalPassengers: "50",
-                                gvw: "16,200 kg"
-                            },
-                            safety: {
-                                abs: "Yes",
-                                ebd: "Yes",
-                                emergencyBrakeAssist: "Yes",
-                                fireSuppressionSystem: "Yes",
-                                panicButton: "Yes"
-                            }
-                        },
-                        features: [
-                            "Zero emissions operation",
-                            "Regenerative braking",
-                            "Air conditioning",
-                            "Low floor design",
-                            "Wheelchair accessibility",
-                            "CCTV cameras",
-                            "USB charging ports",
-                            "Digital destination display",
-                            "Telematics system",
-                            "Quiet operation"
-                        ],
-                        brochureUrl: "/brochures/eicher-skyline-electric.pdf",
-                        specSheetUrl: "/specs/eicher-skyline-electric-specs.pdf"
-                    }
-                ]
-            }
+            // products: {
+            //     truck: [
+            //         {
+            //             id: "eicher-pro-2049",
+            //             name: "Eicher Pro 2049",
+            //             type: "truck",
+            //             fuelType: "normal",
+            //             images: [Images.EicherHero, Images.HeroImageII, Images.KomatsuHero],
+            //             tag: "Fuel Efficient",
+            //             price: 28000,
+            //             shortDescription: "Light commercial vehicle with best-in-class mileage",
+            //             fullDescription: "The Eicher Pro 2049 is designed for urban and highway logistics. Known for exceptional fuel efficiency and low operating costs.",
+            //             specifications: {
+            //                 engine: {
+            //                     model: "Eicher E494 CRS",
+            //                     power: "95 HP (70 kW)",
+            //                     torque: "250 Nm",
+            //                     displacement: "2.98L",
+            //                     fuelType: "Diesel",
+            //                     fuelEconomy: "12.5 km/L"
+            //                 },
+            //                 performance: {
+            //                     maxSpeed: "100 km/h",
+            //                     transmission: "5-Speed Manual",
+            //                     driveType: "4x2"
+            //                 },
+            //                 dimensions: {
+            //                     length: "6,720 mm",
+            //                     width: "2,100 mm",
+            //                     height: "2,615 mm",
+            //                     wheelbase: "3,800 mm",
+            //                     groundClearance: "210 mm"
+            //                 },
+            //                 capacities: {
+            //                     gvw: "4,995 kg",
+            //                     payloadCapacity: "2,490 kg",
+            //                     fuelTank: "90 L",
+            //                     cabSeating: "3"
+            //                 }
+            //             },
+            //             features: [
+            //                 "Common rail fuel injection",
+            //                 "Comfortable cabin",
+            //                 "Power steering",
+            //                 "Digital instrument cluster",
+            //                 "Front disc brakes",
+            //                 "Easy maintenance",
+            //                 "Low noise levels",
+            //                 "Ergonomic design"
+            //             ],
+            //             brochureUrl: "/brochures/eicher-pro-2049.pdf",
+            //             specSheetUrl: "/specs/eicher-pro-2049-specs.pdf"
+            //         }
+            //     ],
+            //     bus: [
+            //         {
+            //             id: "eicher-skyline-pro-electric",
+            //             name: "Eicher Skyline Pro Electric",
+            //             type: "bus",
+            //             fuelType: "electric",
+            //             images: [Images.EicherHero, Images.HeroImageII, Images.HeroImageIII],
+            //             tag: "Zero Emission",
+            //             price: 85000,
+            //             shortDescription: "Electric bus for sustainable public transportation",
+            //             fullDescription: "The Skyline Pro Electric represents the future of public transport. Zero emissions, low operating costs, and superior passenger comfort.",
+            //             specifications: {
+            //                 motor: {
+            //                     type: "AC Induction Motor",
+            //                     power: "250 HP (186 kW)",
+            //                     torque: "2,500 Nm",
+            //                     driveType: "Rear-wheel drive"
+            //                 },
+            //                 battery: {
+            //                     type: "Lithium-ion NMC",
+            //                     capacity: "250 kWh",
+            //                     range: "200 km (single charge)",
+            //                     charging: {
+            //                         dcFastCharging: "120 kW (0-80% in 90 min)",
+            //                         acCharging: "40 kW (0-100% in 6 hours)"
+            //                     }
+            //                 },
+            //                 performance: {
+            //                     maxSpeed: "80 km/h",
+            //                     transmission: "Single-Speed Automatic",
+            //                     gradability: "20%"
+            //                 },
+            //                 dimensions: {
+            //                     length: "9,140 mm",
+            //                     width: "2,500 mm",
+            //                     height: "3,185 mm",
+            //                     wheelbase: "4,880 mm"
+            //                 },
+            //                 capacities: {
+            //                     seating: "31 + driver",
+            //                     standing: "19",
+            //                     totalPassengers: "50",
+            //                     gvw: "16,200 kg"
+            //                 },
+            //                 safety: {
+            //                     abs: "Yes",
+            //                     ebd: "Yes",
+            //                     emergencyBrakeAssist: "Yes",
+            //                     fireSuppressionSystem: "Yes",
+            //                     panicButton: "Yes"
+            //                 }
+            //             },
+            //             features: [
+            //                 "Zero emissions operation",
+            //                 "Regenerative braking",
+            //                 "Air conditioning",
+            //                 "Low floor design",
+            //                 "Wheelchair accessibility",
+            //                 "CCTV cameras",
+            //                 "USB charging ports",
+            //                 "Digital destination display",
+            //                 "Telematics system",
+            //                 "Quiet operation"
+            //             ],
+            //             brochureUrl: "/brochures/eicher-skyline-electric.pdf",
+            //             specSheetUrl: "/specs/eicher-skyline-electric-specs.pdf"
+            //         }
+            //     ]
+            // }
         },
         xcmg: {
             name: 'XCMG',
@@ -1210,88 +1218,166 @@ Driven by purpose and shaped by excellence, Autoways remains committed to elevat
         ather: {
             name: 'Ather',
             description: 'Futuristic electric scooters with cutting-edge technology and eco-friendly performance.',
-            images: [Images.HeroImageIII],
+            images: [Images.AtherHero],
             logo: Images.AtherLogo,
             productTypes: [{
-                type: 'Scooter',
-                image: Images.HeroImageIII
+                name: 'Electric Scooter',
+                type: 'electric_scooter',
+                image: Images.Ather450s
             }],
             products: {
-                scooter: [
+                electric_scooter: [
                     {
-                        id: "ather-450x",
-                        name: "Ather 450X",
+                        id: "ather-450x2.9",
+                        name: "Ather 450X  2.9 kWh",
                         type: "scooter",
                         fuelType: "electric",
-                        images: [Images.HeroImageIII, Images.HeroImageII, Images.AutowaysAbout],
+                        images: [Images.Ather450x2_9, Images.Ather450x2_9],
                         tag: "Premium Electric",
-                        price: 1800,
-                        shortDescription: "India's smartest electric scooter with superior range",
-                        fullDescription: "The Ather 450X is a premium electric scooter that combines performance, technology, and style. With its powerful motor, long range, and smart features, it redefines urban mobility.",
-                        specifications: {
-                            motor: {
-                                type: "PMSM (Permanent Magnet Synchronous Motor)",
-                                power: "6.4 kW (Peak 8.7 kW)",
-                                torque: "26 Nm",
-                                topSpeed: "90 km/h"
-                            },
-                            battery: {
-                                type: "Lithium-ion",
-                                capacity: "3.7 kWh",
-                                range: "105 km (TrueRange) / 146 km (Eco mode)",
-                                charging: {
-                                    fastCharging: "0-80% in 50 minutes (Ather Grid)",
-                                    homeCharging: "0-100% in 6.5 hours"
-                                },
-                                warranty: "3 years / 30,000 km"
-                            },
-                            performance: {
-                                acceleration: "3.3 seconds (0-40 km/h)",
-                                rideModes: ["Eco", "Ride", "Sport", "Warp"],
-                                hillClimb: "18°",
-                                groundClearance: "155 mm"
-                            },
-                            dimensions: {
-                                length: "1,847 mm",
-                                width: "734 mm",
-                                height: "1,261 mm",
-                                wheelbase: "1,285 mm",
-                                seatHeight: "780 mm"
-                            },
-                            capacities: {
-                                loadCapacity: "150 kg",
-                                storageSpace: "22 L (Under seat)",
-                                weight: "108 kg"
-                            },
-                            features: {
-                                brakes: "Disc brakes (Front & Rear)",
-                                suspension: "Telescopic front, Monoshock rear",
-                                tires: "90/90 R12 (Front), 100/80 R12 (Rear)",
-                                wheels: "12-inch alloy wheels"
-                            },
-                            technology: {
-                                display: "7-inch TFT touchscreen",
-                                connectivity: "4G + Bluetooth + WiFi",
-                                navigation: "Google Maps integration",
-                                ota: "Over-the-air updates",
-                                smartphone: "Ather App connectivity"
-                            }
-                        },
-                        features: [
-                            "7-inch touchscreen dashboard",
-                            "Google Maps navigation",
-                            "Over-the-air updates",
-                            "Multiple ride modes",
-                            "Reverse mode",
-                            "Auto hold (Hill hold)",
-                            "Fall safe detection",
-                            "Emergency SOS",
-                            "Guide me home lights",
-                            "Theft detection & alerts",
-                            "Remote diagnostics",
-                            "LED lighting all around",
-                            "Fast charging capability"
-                        ],
+                        // price: 1800,
+                        // shortDescription: "India's smartest electric scooter with superior range",
+                        // fullDescription: "The Ather 450X  2.9 kWh is a premium electric scooter that combines performance, technology, and style. With its powerful motor, long range, and smart features, it redefines urban mobility.",
+                        // specifications: {
+                        //     motor: {
+                        //         type: "PMSM (Permanent Magnet Synchronous Motor)",
+                        //         power: "6.4 kW (Peak 8.7 kW)",
+                        //         torque: "26 Nm",
+                        //         topSpeed: "90 km/h"
+                        //     },
+                        //     battery: {
+                        //         type: "Lithium-ion",
+                        //         capacity: "3.7 kWh",
+                        //         range: "105 km (TrueRange) / 146 km (Eco mode)",
+                        //         charging: {
+                        //             fastCharging: "0-80% in 50 minutes (Ather Grid)",
+                        //             homeCharging: "0-100% in 6.5 hours"
+                        //         },
+                        //         warranty: "3 years / 30,000 km"
+                        //     },
+                        //     performance: {
+                        //         acceleration: "3.3 seconds (0-40 km/h)",
+                        //         rideModes: ["Eco", "Ride", "Sport", "Warp"],
+                        //         hillClimb: "18°",
+                        //         groundClearance: "155 mm"
+                        //     },
+                        //     dimensions: {
+                        //         length: "1,847 mm",
+                        //         width: "734 mm",
+                        //         height: "1,261 mm",
+                        //         wheelbase: "1,285 mm",
+                        //         seatHeight: "780 mm"
+                        //     },
+                        //     capacities: {
+                        //         loadCapacity: "150 kg",
+                        //         storageSpace: "22 L (Under seat)",
+                        //         weight: "108 kg"
+                        //     },
+                        //     features: {
+                        //         brakes: "Disc brakes (Front & Rear)",
+                        //         suspension: "Telescopic front, Monoshock rear",
+                        //         tires: "90/90 R12 (Front), 100/80 R12 (Rear)",
+                        //         wheels: "12-inch alloy wheels"
+                        //     },
+                        //     technology: {
+                        //         display: "7-inch TFT touchscreen",
+                        //         connectivity: "4G + Bluetooth + WiFi",
+                        //         navigation: "Google Maps integration",
+                        //         ota: "Over-the-air updates",
+                        //         smartphone: "Ather App connectivity"
+                        //     }
+                        // },
+                        // features: [
+                        //     "7-inch touchscreen dashboard",
+                        //     "Google Maps navigation",
+                        //     "Over-the-air updates",
+                        //     "Multiple ride modes",
+                        //     "Reverse mode",
+                        //     "Auto hold (Hill hold)",
+                        //     "Fall safe detection",
+                        //     "Emergency SOS",
+                        //     "Guide me home lights",
+                        //     "Theft detection & alerts",
+                        //     "Remote diagnostics",
+                        //     "LED lighting all around",
+                        //     "Fast charging capability"
+                        // ],
+                        brochureUrl: "/brochures/ather-450x.pdf",
+                        specSheetUrl: "/specs/ather-450x-specs.pdf"
+                    },
+                    {
+                        id: "ather-450x3.7",
+                        name: "Ather 450X 3.7 kWh",
+                        type: "scooter",
+                        fuelType: "electric",
+                        images: [Images.Ather450x3_7, Images.Ather450x3_7],
+                        tag: "Premium Electric",
+                        // price: 1800,
+                        // shortDescription: "India's smartest electric scooter with superior range",
+                        // fullDescription: "The Ather 450X 3.7 kWh is a premium electric scooter that combines performance, technology, and style. With its powerful motor, long range, and smart features, it redefines urban mobility.",
+                        // specifications: {
+                        //     motor: {
+                        //         type: "PMSM (Permanent Magnet Synchronous Motor)",
+                        //         power: "6.4 kW (Peak 8.7 kW)",
+                        //         torque: "26 Nm",
+                        //         topSpeed: "90 km/h"
+                        //     },
+                        //     battery: {
+                        //         type: "Lithium-ion",
+                        //         capacity: "3.7 kWh",
+                        //         range: "105 km (TrueRange) / 146 km (Eco mode)",
+                        //         charging: {
+                        //             fastCharging: "0-80% in 50 minutes (Ather Grid)",
+                        //             homeCharging: "0-100% in 6.5 hours"
+                        //         },
+                        //         warranty: "3 years / 30,000 km"
+                        //     },
+                        //     performance: {
+                        //         acceleration: "3.3 seconds (0-40 km/h)",
+                        //         rideModes: ["Eco", "Ride", "Sport", "Warp"],
+                        //         hillClimb: "18°",
+                        //         groundClearance: "155 mm"
+                        //     },
+                        //     dimensions: {
+                        //         length: "1,847 mm",
+                        //         width: "734 mm",
+                        //         height: "1,261 mm",
+                        //         wheelbase: "1,285 mm",
+                        //         seatHeight: "780 mm"
+                        //     },
+                        //     capacities: {
+                        //         loadCapacity: "150 kg",
+                        //         storageSpace: "22 L (Under seat)",
+                        //         weight: "108 kg"
+                        //     },
+                        //     features: {
+                        //         brakes: "Disc brakes (Front & Rear)",
+                        //         suspension: "Telescopic front, Monoshock rear",
+                        //         tires: "90/90 R12 (Front), 100/80 R12 (Rear)",
+                        //         wheels: "12-inch alloy wheels"
+                        //     },
+                        //     technology: {
+                        //         display: "7-inch TFT touchscreen",
+                        //         connectivity: "4G + Bluetooth + WiFi",
+                        //         navigation: "Google Maps integration",
+                        //         ota: "Over-the-air updates",
+                        //         smartphone: "Ather App connectivity"
+                        //     }
+                        // },
+                        // features: [
+                        //     "7-inch touchscreen dashboard",
+                        //     "Google Maps navigation",
+                        //     "Over-the-air updates",
+                        //     "Multiple ride modes",
+                        //     "Reverse mode",
+                        //     "Auto hold (Hill hold)",
+                        //     "Fall safe detection",
+                        //     "Emergency SOS",
+                        //     "Guide me home lights",
+                        //     "Theft detection & alerts",
+                        //     "Remote diagnostics",
+                        //     "LED lighting all around",
+                        //     "Fast charging capability"
+                        // ],
                         brochureUrl: "/brochures/ather-450x.pdf",
                         specSheetUrl: "/specs/ather-450x-specs.pdf"
                     },
@@ -1300,155 +1386,77 @@ Driven by purpose and shaped by excellence, Autoways remains committed to elevat
                         name: "Ather 450S",
                         type: "scooter",
                         fuelType: "electric",
-                        images: [Images.HeroImageIII, Images.AutowaysAbout, Images.HeroImageII],
+                        images: [Images.Ather450s, Images.Ather450s],
                         tag: "Smart Choice",
-                        price: 1400,
-                        shortDescription: "Accessible electric mobility with smart features",
-                        fullDescription: "The Ather 450S brings electric mobility to everyone. With essential smart features and reliable performance, it's the perfect entry point to the electric revolution.",
-                        specifications: {
-                            motor: {
-                                type: "PMSM (Permanent Magnet Synchronous Motor)",
-                                power: "5.4 kW (Peak 7.2 kW)",
-                                torque: "22 Nm",
-                                topSpeed: "90 km/h"
-                            },
-                            battery: {
-                                type: "Lithium-ion",
-                                capacity: "2.9 kWh",
-                                range: "90 km (TrueRange) / 115 km (Eco mode)",
-                                charging: {
-                                    fastCharging: "0-80% in 45 minutes (Ather Grid)",
-                                    homeCharging: "0-100% in 5.5 hours"
-                                },
-                                warranty: "3 years / 30,000 km"
-                            },
-                            performance: {
-                                acceleration: "3.7 seconds (0-40 km/h)",
-                                rideModes: ["Eco", "Ride", "Sport"],
-                                hillClimb: "16°",
-                                groundClearance: "155 mm"
-                            },
-                            dimensions: {
-                                length: "1,847 mm",
-                                width: "734 mm",
-                                height: "1,261 mm",
-                                wheelbase: "1,285 mm",
-                                seatHeight: "780 mm"
-                            },
-                            capacities: {
-                                loadCapacity: "150 kg",
-                                storageSpace: "22 L (Under seat)",
-                                weight: "102 kg"
-                            },
-                            features: {
-                                brakes: "Disc brakes (Front & Rear)",
-                                suspension: "Telescopic front, Monoshock rear",
-                                tires: "90/90 R12 (Front), 100/80 R12 (Rear)",
-                                wheels: "12-inch alloy wheels"
-                            },
-                            technology: {
-                                display: "7-inch TFT touchscreen",
-                                connectivity: "Bluetooth + WiFi",
-                                navigation: "Turn-by-turn navigation",
-                                ota: "Over-the-air updates",
-                                smartphone: "Ather App connectivity"
-                            }
-                        },
-                        features: [
-                            "7-inch touchscreen dashboard",
-                            "Turn-by-turn navigation",
-                            "Over-the-air updates",
-                            "Multiple ride modes",
-                            "Reverse mode",
-                            "Fall safe detection",
-                            "Theft detection & alerts",
-                            "Remote diagnostics",
-                            "LED lighting",
-                            "Fast charging support",
-                            "Smartphone connectivity",
-                            "Digital key"
-                        ],
+                        // price: 1400,
+                        // shortDescription: "Accessible electric mobility with smart features",
+                        // fullDescription: "The Ather 450S brings electric mobility to everyone. With essential smart features and reliable performance, it's the perfect entry point to the electric revolution.",
+                        // specifications: {
+                        //     motor: {
+                        //         type: "PMSM (Permanent Magnet Synchronous Motor)",
+                        //         power: "5.4 kW (Peak 7.2 kW)",
+                        //         torque: "22 Nm",
+                        //         topSpeed: "90 km/h"
+                        //     },
+                        //     battery: {
+                        //         type: "Lithium-ion",
+                        //         capacity: "2.9 kWh",
+                        //         range: "90 km (TrueRange) / 115 km (Eco mode)",
+                        //         charging: {
+                        //             fastCharging: "0-80% in 45 minutes (Ather Grid)",
+                        //             homeCharging: "0-100% in 5.5 hours"
+                        //         },
+                        //         warranty: "3 years / 30,000 km"
+                        //     },
+                        //     performance: {
+                        //         acceleration: "3.7 seconds (0-40 km/h)",
+                        //         rideModes: ["Eco", "Ride", "Sport"],
+                        //         hillClimb: "16°",
+                        //         groundClearance: "155 mm"
+                        //     },
+                        //     dimensions: {
+                        //         length: "1,847 mm",
+                        //         width: "734 mm",
+                        //         height: "1,261 mm",
+                        //         wheelbase: "1,285 mm",
+                        //         seatHeight: "780 mm"
+                        //     },
+                        //     capacities: {
+                        //         loadCapacity: "150 kg",
+                        //         storageSpace: "22 L (Under seat)",
+                        //         weight: "102 kg"
+                        //     },
+                        //     features: {
+                        //         brakes: "Disc brakes (Front & Rear)",
+                        //         suspension: "Telescopic front, Monoshock rear",
+                        //         tires: "90/90 R12 (Front), 100/80 R12 (Rear)",
+                        //         wheels: "12-inch alloy wheels"
+                        //     },
+                        //     technology: {
+                        //         display: "7-inch TFT touchscreen",
+                        //         connectivity: "Bluetooth + WiFi",
+                        //         navigation: "Turn-by-turn navigation",
+                        //         ota: "Over-the-air updates",
+                        //         smartphone: "Ather App connectivity"
+                        //     }
+                        // },
+                        // features: [
+                        //     "7-inch touchscreen dashboard",
+                        //     "Turn-by-turn navigation",
+                        //     "Over-the-air updates",
+                        //     "Multiple ride modes",
+                        //     "Reverse mode",
+                        //     "Fall safe detection",
+                        //     "Theft detection & alerts",
+                        //     "Remote diagnostics",
+                        //     "LED lighting",
+                        //     "Fast charging support",
+                        //     "Smartphone connectivity",
+                        //     "Digital key"
+                        // ],
                         brochureUrl: "/brochures/ather-450s.pdf",
                         specSheetUrl: "/specs/ather-450s-specs.pdf"
                     },
-                    {
-                        id: "ather-rizta",
-                        name: "Ather Rizta",
-                        type: "scooter",
-                        fuelType: "electric",
-                        images: [Images.HeroImageIII, Images.HeroImageII, Images.AutowaysAbout],
-                        tag: "Family Scooter",
-                        price: 1600,
-                        shortDescription: "Spacious family electric scooter with comfort focus",
-                        fullDescription: "The Ather Rizta is designed for families. With its spacious seating, larger storage, and comfortable ride quality, it's the perfect electric scooter for daily family commutes.",
-                        specifications: {
-                            motor: {
-                                type: "PMSM (Permanent Magnet Synchronous Motor)",
-                                power: "5.4 kW (Peak 7.4 kW)",
-                                torque: "22 Nm",
-                                topSpeed: "80 km/h"
-                            },
-                            battery: {
-                                type: "Lithium-ion",
-                                capacity: "3.7 kWh",
-                                range: "123 km (TrueRange) / 160 km (Eco mode)",
-                                charging: {
-                                    fastCharging: "0-80% in 55 minutes (Ather Grid)",
-                                    homeCharging: "0-100% in 6.5 hours"
-                                },
-                                warranty: "3 years / 30,000 km"
-                            },
-                            performance: {
-                                acceleration: "3.9 seconds (0-40 km/h)",
-                                rideModes: ["Eco", "Ride", "Sport"],
-                                hillClimb: "16°",
-                                groundClearance: "165 mm"
-                            },
-                            dimensions: {
-                                length: "1,880 mm",
-                                width: "760 mm",
-                                height: "1,270 mm",
-                                wheelbase: "1,320 mm",
-                                seatHeight: "765 mm"
-                            },
-                            capacities: {
-                                loadCapacity: "150 kg",
-                                storageSpace: "34 L (Under seat)",
-                                weight: "115 kg"
-                            },
-                            features: {
-                                brakes: "Disc brakes (Front & Rear)",
-                                suspension: "Telescopic front, Monoshock rear",
-                                tires: "90/100 R12 (Front), 90/100 R12 (Rear)",
-                                wheels: "12-inch alloy wheels"
-                            },
-                            technology: {
-                                display: "7-inch TFT touchscreen",
-                                connectivity: "4G + Bluetooth + WiFi",
-                                navigation: "Google Maps integration",
-                                ota: "Over-the-air updates",
-                                smartphone: "Ather App connectivity"
-                            }
-                        },
-                        features: [
-                            "Spacious seating for two adults",
-                            "34L underseat storage",
-                            "7-inch touchscreen dashboard",
-                            "Google Maps navigation",
-                            "Over-the-air updates",
-                            "Multiple ride modes",
-                            "Reverse mode",
-                            "Skid control",
-                            "Fall safe detection",
-                            "Emergency SOS",
-                            "Theft detection & alerts",
-                            "LED lighting",
-                            "Fast charging support",
-                            "Comfortable suspension"
-                        ],
-                        brochureUrl: "/brochures/ather-rizta.pdf",
-                        specSheetUrl: "/specs/ather-rizta-specs.pdf"
-                    }
                 ]
             }
         }

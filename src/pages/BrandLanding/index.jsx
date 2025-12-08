@@ -27,7 +27,7 @@ const BrandLanding = () => {
     return (
         <div className={`min-h-screen bg-primary`}>
             {/* Hero Section */}
-            <section className="relative h-screen flex items-center justify-center overflow-hidden">
+            <section className="relative h-[600px] flex items-center justify-center overflow-hidden">
                 {/* Background Image */}
                 <div className={`absolute inset-0 bg-secondary`}>
                     {brandData.images?.[0] && (
@@ -108,9 +108,9 @@ style={{
                         {brandData.productTypes?.map((productType, index) => (
                             <ProductTypeCard
                                 key={index}
-                                type={productType.type}
+                                type={productType.name}
                                 image={productType.image}
-                                link={`/shop/${brand}/${productType.type.toLowerCase()}`}
+                                link={`/shop/${brand}/${productType.type?.toLowerCase()}`}
                                 brandName={brandData.name}
                                 className="animate-fade-in-up"
                                 style={{ animationDelay: `${index * 150}ms` }}
