@@ -143,7 +143,7 @@ Driven by purpose and shaped by excellence, Autoways remains committed to elevat
             video: Images.BullVideo,
             logo: Images.BullLogo,
             productTypes: [{
-                type: 'Loader',
+                type: 'Backhoe Loader',
                 image: Images.BullLoader
             },
             {

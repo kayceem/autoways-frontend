@@ -133,12 +133,12 @@ const ProductDetails = () => {
                                 </p>
                             )}
 
-                            {product.price && (
+                            {/* {product.price && (
                                 <div className="product-price">
                                     <span className="price-label text-secondary">Starting from</span>
                                     <span className="price-value text-secondary">${product.price.toLocaleString()}</span>
                                 </div>
-                            )}
+                            )} */}
 
                             {/* Action Buttons */}
                             <div className="product-actions">
@@ -165,7 +165,7 @@ const ProductDetails = () => {
 
             {/* Features Section */}
             {product.features && product.features.length > 0 && (
-                <section className="features-section bg-secondary">
+                <section className="features-section bg-primary">
                     <div className="max-w-7xl mx-auto px-6 py-12">
                         <h2 className="section-title text-primary">Key Features</h2>
                         <div className="features-grid">
@@ -182,7 +182,7 @@ const ProductDetails = () => {
 
             {/* Specifications Section */}
             {product.specifications && (
-                <section className="specifications-section bg-primary">
+                <section className="specifications-section bg-accent">
                     <div className="max-w-7xl mx-auto px-6 py-12">
                         <h2 className="section-title text-primary">Technical Specifications</h2>
                         <SpecificationsDisplay

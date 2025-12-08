@@ -65,7 +65,7 @@ const Navbar = ({ className = "" }) => {
                             />
 
                             <Link
-                                to="/spares-and-parts"
+                                to="/spares-parts"
                                 className="text-secondary hover:text-accent transition-colors duration-200 font-medium py-2"
                             >
                                 Spares & Parts
