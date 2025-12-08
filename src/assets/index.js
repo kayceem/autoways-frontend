@@ -25,7 +25,7 @@ import BullLoader from './images/brands/bull-loader.webp';
 import BullSkid from './images/brands/bull-skid.webp';
 import BullHero from './images/brands/bull-hero.png';
 // import AutowaysAbout from './images/autoways-about.jpg';
-import AutowaysAbout from './images/autoways-bg-min.png';
+import AutowaysAbout from './images/autoways-about.webp';
 import HeroImageII from './images/hero-image-ii.jpg';
 import HeroImageIII from './images/hero-image-iii.jpg';
 import AutowaysA from './images/autoways-a.png';

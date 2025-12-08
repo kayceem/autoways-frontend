@@ -1,11 +1,12 @@
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 
-const ProductTypeCard = ({ type, image, link, brandName, className = "" }) => {
+const ProductTypeCard = ({ type, image, link, state, brandName, className = "" }) => {
     return (
         <div className="flex flex-col gap-4 group">
             <Link
                 to={link}
+                state={state}
                 className={`relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 ${className}`}
             >
                 {/* Image Container */}

@@ -37,7 +37,7 @@ const SisterCompanies = () => {
             <h1 className="font-bold text-6xl text-secondary mb-4">{hero.title}</h1>
             <div className="w-24 h-1 bg-accent mx-auto mb-6" />
             <p className="text-2xl text-accent opacity-90 mb-4">{hero.subtitle}</p>
-            <p className="text-lg text-secondary-bull opacity-80 max-w-4xl mx-auto">
+            <p className="text-lg text-secondary opacity-80 max-w-4xl mx-auto">
               {hero.description}
             </p>
           </div>
@@ -55,7 +55,7 @@ const SisterCompanies = () => {
                 className={`px-6 py-3 rounded-full font-semibold text-base transition-all duration-300 ${
                   selectedCategory === category
                     ? 'bg-accent text-dark scale-105 shadow-lg'
-                    : 'bg-primary text-secondary-bull hover:bg-accent hover:text-dark'
+                    : 'bg-primary text-secondary hover:bg-accent hover:text-dark'
                 }`}
               >
                 {category === 'all' ? 'All Companies' : category}
@@ -105,7 +105,7 @@ const SisterCompanies = () => {
                   <p className="text-accent text-lg font-semibold mb-4 italic">
                     {company.tagline}
                   </p>
-                  <p className="text-secondary-bull opacity-90 leading-relaxed mb-6">
+                  <p className="text-secondary opacity-90 leading-relaxed mb-6">
                     {company.description}
                   </p>
 
@@ -119,7 +119,7 @@ const SisterCompanies = () => {
                     </h3>
                     <ul className="grid grid-cols-1 gap-2">
                       {company.services.map((service, idx) => (
-                        <li key={idx} className="flex items-start gap-2 text-secondary-bull opacity-80">
+                        <li key={idx} className="flex items-start gap-2 text-secondary opacity-80">
                           <span className="text-accent mt-1">•</span>
                           <span>{service}</span>
                         </li>
@@ -132,7 +132,7 @@ const SisterCompanies = () => {
                     {Object.entries(company.stats).map(([key, value], idx) => (
                       <div key={idx} className="text-center">
                         <div className="text-2xl font-bold text-accent mb-1">{value}</div>
-                        <div className="text-xs text-secondary-bull opacity-70 capitalize">
+                        <div className="text-xs text-secondary opacity-70 capitalize">
                           {key.replace(/([A-Z])/g, ' $1').trim()}
                         </div>
                       </div>
@@ -145,7 +145,7 @@ const SisterCompanies = () => {
                     <div className="space-y-2">
                       <a
                         href={`mailto:${company.contact.email}`}
-                        className="flex items-center gap-2 text-secondary-bull hover:text-accent transition-colors"
+                        className="flex items-center gap-2 text-secondary hover:text-accent transition-colors"
                       >
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -154,7 +154,7 @@ const SisterCompanies = () => {
                       </a>
                       <a
                         href={`tel:${company.contact.phone}`}
-                        className="flex items-center gap-2 text-secondary-bull hover:text-accent transition-colors"
+                        className="flex items-center gap-2 text-secondary hover:text-accent transition-colors"
                       >
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
@@ -165,7 +165,7 @@ const SisterCompanies = () => {
                         href={`https://${company.contact.website}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-2 text-secondary-bull hover:text-accent transition-colors"
+                        className="flex items-center gap-2 text-secondary hover:text-accent transition-colors"
                       >
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
@@ -187,7 +187,7 @@ const SisterCompanies = () => {
           <div className="text-center mb-12 animate-fade-in-up">
             <h2 className="font-bold text-4xl text-secondary mb-4">{values.title}</h2>
             <div className="w-24 h-1 bg-accent mx-auto mb-6" />
-            <p className="text-secondary-bull opacity-80 max-w-3xl mx-auto">
+            <p className="text-secondary opacity-80 max-w-3xl mx-auto">
               {values.description}
             </p>
           </div>
@@ -202,7 +202,7 @@ const SisterCompanies = () => {
                   <span className="text-dark font-bold text-2xl">{index + 1}</span>
                 </div>
                 <h3 className="text-2xl font-bold text-secondary mb-3">{value.title}</h3>
-                <p className="text-secondary-bull opacity-80 leading-relaxed">
+                <p className="text-secondary opacity-80 leading-relaxed">
                   {value.description}
                 </p>
               </div>
@@ -214,11 +214,11 @@ const SisterCompanies = () => {
       {/* CTA Section */}
       <section className="py-20 px-6">
         <div className="max-w-4xl mx-auto">
-          <div className="bg-gradient-to-r from-primary-bull to-accent rounded-2xl p-12 text-center shadow-2xl">
+          <div className="bg-gradient-to-r from-primary to-accent rounded-2xl p-12 text-center shadow-2xl">
             <h3 className="text-3xl font-bold text-secondary mb-4">
               Partner With Excellence
             </h3>
-            <p className="text-secondary-bull opacity-90 mb-8 text-lg">
+            <p className="text-secondary opacity-90 mb-8 text-lg">
               Explore collaboration opportunities with our family of companies across diverse industries
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">

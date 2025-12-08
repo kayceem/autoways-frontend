@@ -32,7 +32,7 @@ const NewsMedia = () => {
           <div className="text-center mb-16 animate-fade-in-up">
             <h1 className="font-bold text-6xl text-secondary mb-4">News &amp; Media</h1>
             <div className="w-24 h-1 bg-accent mx-auto mb-6" />
-            <p className="text-xl text-secondary-bull opacity-80 max-w-3xl mx-auto">
+            <p className="text-xl text-secondary opacity-80 max-w-3xl mx-auto">
               Stay updated with the latest news, announcements, and industry insights from Autoways
             </p>
           </div>
@@ -62,17 +62,17 @@ const NewsMedia = () => {
                     <span className="bg-dark text-accent px-3 py-1 rounded text-sm font-semibold">
                       {featured.category}
                     </span>
-                    <span className="text-secondary-bull opacity-70 text-sm">
+                    <span className="text-secondary opacity-70 text-sm">
                       {formatDate(featured.date)}
                     </span>
                   </div>
                   <h2 className="text-4xl font-bold text-secondary mb-4">
                     {featured.title}
                   </h2>
-                  <p className="text-secondary-bull opacity-80 mb-6 leading-relaxed text-lg">
+                  <p className="text-secondary opacity-80 mb-6 leading-relaxed text-lg">
                     {featured.excerpt}
                   </p>
-                  <p className="text-secondary-bull opacity-70 mb-6 leading-relaxed">
+                  <p className="text-secondary opacity-70 mb-6 leading-relaxed">
                     {featured.content}
                   </p>
                 </div>
@@ -124,14 +124,14 @@ const NewsMedia = () => {
                         d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
                       />
                     </svg>
-                    <span className="text-secondary-bull opacity-70 text-sm">
+                    <span className="text-secondary opacity-70 text-sm">
                       {formatDate(article.date)}
                     </span>
                   </div>
                   <h3 className="text-xl font-bold text-secondary mb-3 line-clamp-2">
                     {article.title}
                   </h3>
-                  <p className="text-secondary-bull opacity-80 text-sm leading-relaxed mb-4 line-clamp-3">
+                  <p className="text-secondary opacity-80 text-sm leading-relaxed mb-4 line-clamp-3">
                     {article.excerpt}
                   </p>
                 </div>
@@ -144,11 +144,11 @@ const NewsMedia = () => {
       {/* Newsletter CTA */}
       <section className="py-20 px-6">
         <div className="max-w-4xl mx-auto">
-          <div className="bg-gradient-to-r from-primary-bull to-accent rounded-2xl p-12 text-center shadow-2xl">
+          <div className="bg-gradient-to-r from-primary to-accent rounded-2xl p-12 text-center shadow-2xl">
             <h3 className="text-3xl font-bold text-secondary mb-4">
               Stay Updated
             </h3>
-            <p className="text-secondary-bull opacity-90 mb-8 text-lg">
+            <p className="text-secondary opacity-90 mb-8 text-lg">
               Subscribe to our newsletter for the latest news and exclusive updates
             </p>
             <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">

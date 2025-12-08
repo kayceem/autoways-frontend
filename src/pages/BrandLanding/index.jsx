@@ -111,6 +111,7 @@ style={{
                                 type={productType.name}
                                 image={productType.image}
                                 link={`/shop/${brand}/${productType.type?.toLowerCase()}`}
+                                state={{ typeName: productType.name }}
                                 brandName={brandData.name}
                                 className="animate-fade-in-up"
                                 style={{ animationDelay: `${index * 150}ms` }}

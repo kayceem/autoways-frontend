@@ -61,7 +61,7 @@ Driven by purpose and shaped by excellence, Autoways remains committed to elevat
             instagram: 'https://instagram.com/autoways',
             twitter: 'https://twitter.com/autoways',
             linkedin: 'https://linkedin.com/company/autoways'
-        }
+        },
     },
     locations: {
         center: [28.216404638438576, 83.98947531110578],
@@ -86,7 +86,7 @@ Driven by purpose and shaped by excellence, Autoways remains committed to elevat
                 id: 3,
                 name: 'Chitwan',
                 position: [27.675309702690157, 84.43153021108655],
-                address:'Bharatpur-11, Chitwan',
+                address: 'Bharatpur-11, Chitwan',
                 info: 'Chitwan Branch',
                 phone: '+977 056-590924/056-590935'
             },
@@ -94,7 +94,7 @@ Driven by purpose and shaped by excellence, Autoways remains committed to elevat
                 id: 4,
                 name: 'Birgunj',
                 position: [27.0104, 84.8788],
-                address:'Gandakchowk, Bahuwari-15',
+                address: 'Gandakchowk, Bahuwari-15',
                 info: 'Birgunj Branch',
                 phone: '+977 9855073521'
             },
@@ -102,7 +102,7 @@ Driven by purpose and shaped by excellence, Autoways remains committed to elevat
                 id: 5,
                 name: 'Butwal',
                 position: [27.672804398931735, 83.4643811642423],
-                address:'Kalikanagar-10, Butwal',
+                address: 'Kalikanagar-10, Butwal',
                 info: 'Butwal Branch',
                 phone: '+977 071-419017'
             },
@@ -111,14 +111,14 @@ Driven by purpose and shaped by excellence, Autoways remains committed to elevat
                 name: 'Dhangadi',
                 position: [28.68546267882992, 80.6201175002807],
                 info: 'Dhangadi Branch',
-                address:'Mohan Pura-13, Dhangadi',
+                address: 'Mohan Pura-13, Dhangadi',
                 phone: '+977 9858480133'
             },
             {
                 id: 7,
                 name: 'Dang',
                 position: [28.004397863091956, 82.47660288245483],
-                address:'Ratanpur-14, Dang',
+                address: 'Ratanpur-14, Dang',
                 info: 'Dang Dealership',
                 phone: '+977 9857030854'
             },
@@ -126,7 +126,7 @@ Driven by purpose and shaped by excellence, Autoways remains committed to elevat
                 id: 8,
                 name: 'Surkhet',
                 position: [28.592557669142433, 81.61688115740088],
-                address:'Birendranagar-06, Surkhet',
+                address: 'Birendranagar-06, Surkhet',
                 info: 'Surkhet Dealership',
                 phone: '+977 9858030851'
             },
@@ -1781,39 +1781,51 @@ Driven by purpose and shaped by excellence, Autoways remains committed to elevat
                 image: Images.HeroImageIII
             }
         ],
+        chairman_message: {
+            name: "Narayan Prasad Poudel",
+            title: "Chairman",
+            message: "Our journey has always been guided by ambition, innovation, and a commitment to excellence. From the very beginning, our mission has been to redefine Nepal’s automotive landscape, setting new standards, embracing bold ideas, and creating lasting value for our customers, employees, and society.\n Over the years, our progress has been shaped by consistent investment in advanced technology, innovative solutions, and strategic development. Year after year, we have surpassed our own benchmarks, a reflection of the dedication, discipline, and collective strength of the Autoways family. Even in times of challenge, we have remained steadfast in optimizing operations, enhancing efficiency, and upholding disciplined governance, all while keeping a long-term vision of sustainable growth at the forefront.\n Our customers remain at the heart of everything we do. By delivering solutions tailored to their needs, we aim not only to build trust and loyalty but also to elevate the standards of mobility across Nepal. At the same time, we recognize our responsibility to society, striving to grow in harmony with the communities we serve, while maintaining our role as a dependable, progressive, and respected corporate citizen.\n Looking ahead, we continue to embrace new challenges with confidence, guided by a forward-thinking mindset and a passion for innovation. Autoways is more than a company, it is a movement, driven by ambition, purpose, and a relentless desire to shape the future of mobility in Nepal.\n Thank you for being part of our journey. Together, we will continue to redefine what is possible.           ",
+            image: Images.AutowaysAbout
+        },
+        md_message: {
+            name: " CEO & Director",
+            title: " CEO & Director",
+            message: "We have a dream to be the very best at what we do. But ambition alone isn’t enough. We never forget where we started, and the values that brought us here remain our guiding light. Our customers are at the heart of everything, and giving them excellence isn’t just a goal, it’s our promise. At the same time, we believe that a company is only as strong as its people, which is why we are committed to creating a workplace where talent thrives, ideas flourish, and everyone feels they belong.\n This is more than business. This is our passion, our drive, and our journey and we invite you to be part of it.",
+            image: Images.AutowaysAbout
+        },
         team: {
             title: 'Leadership Team',
             description: 'Our experienced leadership team brings decades of automotive industry expertise, guiding Autoways towards continued excellence and innovation.',
-            members: [
-                {
-                    id: 1,
-                    name: 'Ram Prasad Sharma',
-                    position: 'Chief Executive Officer',
-                    bio: 'With over 25 years in automotive industry, Ram leads Autoways strategic vision and growth.',
-                    image: null
-                },
-                {
-                    id: 2,
-                    name: 'Sita Devi Poudel',
-                    position: 'Chief Operations Officer',
-                    bio: 'Expert in operational excellence, Sita ensures seamless service delivery across all locations.',
-                    image: null
-                },
-                {
-                    id: 3,
-                    name: 'Prakash Kumar Shrestha',
-                    position: 'Head of Sales',
-                    bio: 'Leading sales strategy and customer relationships with proven track record of success.',
-                    image: null
-                },
-                {
-                    id: 4,
-                    name: 'Mina Tamang',
-                    position: 'Head of Service Operations',
-                    bio: 'Ensuring world-class after-sales service and customer satisfaction across Nepal.',
-                    image: null
-                }
-            ]
+        //     members: [
+        //         {
+        //             id: 1,
+        //             name: 'Ram Prasad Sharma',
+        //             position: 'Chief Executive Officer',
+        //             bio: 'With over 25 years in automotive industry, Ram leads Autoways strategic vision and growth.',
+        //             image: null
+        //         },
+        //         {
+        //             id: 2,
+        //             name: 'Sita Devi Poudel',
+        //             position: 'Chief Operations Officer',
+        //             bio: 'Expert in operational excellence, Sita ensures seamless service delivery across all locations.',
+        //             image: null
+        //         },
+        //         {
+        //             id: 3,
+        //             name: 'Prakash Kumar Shrestha',
+        //             position: 'Head of Sales',
+        //             bio: 'Leading sales strategy and customer relationships with proven track record of success.',
+        //             image: null
+        //         },
+        //         {
+        //             id: 4,
+        //             name: 'Mina Tamang',
+        //             position: 'Head of Service Operations',
+        //             bio: 'Ensuring world-class after-sales service and customer satisfaction across Nepal.',
+        //             image: null
+        //         }
+        //     ]
         },
         stats: {
             yearsOfExperience: '20+',

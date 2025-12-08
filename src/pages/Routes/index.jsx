@@ -27,7 +27,7 @@ const PageRoutes = () => {
                 <Route path="/locations" element={<Locations />} />
                 {/* <Route path="/news" element={<NewsMedia />} /> */}
                 {/* <Route path="/testimonials" element={<Testimonials />} /> */}
-                {/* <Route path="/about" element={<AboutUs />} /> */}
+                <Route path="/about" element={<AboutUs />} />
                 {/* <Route path="/csr" element={<CSR />} /> */}
                 <Route path="/sister-companies" element={<SisterCompanies />} />
                 {/* <Route path="/spares-parts" element={<SparesParts />} /> */}
