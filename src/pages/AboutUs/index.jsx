@@ -114,6 +114,92 @@ const AboutUs = () => {
         </div>
       </section>
 
+      {/* Message from Chairman */}
+      {content.about_us_detailed?.chairman_message && (
+        <section className="py-20 px-6 bg-primary bg-opacity-50">
+          <div className="max-w-7xl mx-auto">
+            <div className="grid md:grid-cols-2 gap-12 items-center">
+              <div className="animate-fade-in-up">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="w-16 h-16 bg-accent rounded-full flex items-center justify-center">
+                    <svg className="w-8 h-8 text-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                  </div>
+                  <h2 className="text-4xl font-bold text-secondary">Message from Chairman</h2>
+                </div>
+                <div className="w-24 h-1 bg-accent mb-6" />
+                <p className="text-secondary-bull opacity-80 leading-relaxed text-lg whitespace-pre-line mb-6">
+                  {content.about_us_detailed.chairman_message.message}
+                </p>
+                <div className="flex items-center gap-4">
+                  <div className="text-right">
+                    <p className="text-secondary font-bold text-xl">
+                      {content.about_us_detailed.chairman_message.name}
+                    </p>
+                    <p className="text-accent font-semibold">
+                      {content.about_us_detailed.chairman_message.title || 'Chairman'}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              {content.about_us_detailed.chairman_message.image && (
+                <div className="animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+                  <img
+                    src={content.about_us_detailed.chairman_message.image}
+                    alt="Chairman"
+                    className="rounded-lg shadow-2xl w-full"
+                  />
+                </div>
+              )}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Message from MD */}
+      {content.about_us_detailed?.md_message && (
+        <section className="py-20 px-6">
+          <div className="max-w-7xl mx-auto">
+            <div className="grid md:grid-cols-2 gap-12 items-center">
+              {content.about_us_detailed.md_message.image && (
+                <div className="animate-fade-in-up order-2 md:order-1">
+                  <img
+                    src={content.about_us_detailed.md_message.image}
+                    alt="Managing Director"
+                    className="rounded-lg shadow-2xl w-full"
+                  />
+                </div>
+              )}
+              <div className="animate-fade-in-up order-1 md:order-2" style={{ animationDelay: '0.2s' }}>
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="w-16 h-16 bg-accent rounded-full flex items-center justify-center">
+                    <svg className="w-8 h-8 text-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                  </div>
+                  <h2 className="text-4xl font-bold text-secondary">Message from Managing Director</h2>
+                </div>
+                <div className="w-24 h-1 bg-accent mb-6" />
+                <p className="text-secondary-bull opacity-80 leading-relaxed text-lg whitespace-pre-line mb-6">
+                  {content.about_us_detailed.md_message.message}
+                </p>
+                <div className="flex items-center gap-4">
+                  <div className="text-left">
+                    <p className="text-secondary font-bold text-xl">
+                      {content.about_us_detailed.md_message.name}
+                    </p>
+                    <p className="text-accent font-semibold">
+                      {content.about_us_detailed.md_message.title || 'Managing Director'}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Mission & Vision */}
       <section className="py-20 px-6 bg-primary bg-opacity-50">
         <div className="max-w-7xl mx-auto">

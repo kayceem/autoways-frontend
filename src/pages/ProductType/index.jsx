@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useLocation } from "react-router-dom";
 import { useState } from "react";
 import ProductCard from "../../components/common/ProductCard";
 import {
@@ -13,6 +13,8 @@ import LoadingSpinner from "../../components/common/Loading";
 import "./index.css";
 const ProductTypePage = () => {
     const { brand, type } = useParams();
+    const location = useLocation();
+    const typeName = location.state?.typeName || type;
     const { data, isLoading, error } = useProductTypeQuery(brand, type);
     const [viewMode, setViewMode] = useState("grid");
     const [sortBy, setSortBy] = useState("name");
@@ -56,7 +58,7 @@ const ProductTypePage = () => {
                         <span
                             className={`capitalize text-accent font-bold`}
                         >
-                            {type}
+                            {typeName}
                         </span>
                     </div>
 
@@ -66,12 +68,12 @@ const ProductTypePage = () => {
                             <h1
                                 className={`font-bold text-7xl text-secondary mb-4 capitalize`}
                             >
-                                {type}
+                                {typeName}
                             </h1>
                             <p
                                 className={`font-light text-2xl text-secondary/80 max-w-2xl`}
                             >
-                                Discover our premium collection of {type}{" "}
+                                Discover our premium collection of {typeName}{" "}
                                 vehicles, engineered for excellence
                             </p>
                         </div>
@@ -204,7 +206,7 @@ const ProductTypePage = () => {
                             <p
                                 className={`font-light text-secondary/60 text-lg`}
                             >
-                                We're currently updating our {type} collection.
+                                We're currently updating our {typeName} collection.
                                 Check back soon!
                             </p>
                         </div>

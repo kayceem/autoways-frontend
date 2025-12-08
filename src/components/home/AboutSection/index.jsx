@@ -69,8 +69,8 @@ const AboutSection = ({ aboutData = {}, className = "" }) => {
                     </div>
 
                     {/* Right Side - Diagonal Cut Image */}
-                    <div className="w-[850px]">
-                        <div className="relative h-[650px]">
+                    <div className="w-[1100px]">
+                        <div className="relative h-[750px]">
                             {/* Diagonal Cut Container */}
                             <div
                                 className="absolute inset-0 overflow-hidden rounded-3xl"
@@ -82,10 +82,10 @@ const AboutSection = ({ aboutData = {}, className = "" }) => {
                                 <img
                                     src={image}
                                     alt={title}
-                                    className="w-full h-full object-fill scale-100 hover:scale-120 transition-transform duration-700"
+                                    className="w-full h-full object-cover scale-100 hover:scale-110 transition-transform duration-700"
                                 />
                                 {/* Modern Gradient Overlay */}
-                                <div className="absolute inset-0 bg-gradient-to-br from-accent/20 via-transparent to-transparent mix-blend-overlay" />
+                                <div className="absolute inset-0 bg-gradient-to-br from-accent/10 via-transparent to-transparent mix-blend-overlay" />
                             </div>
 
                             {/* Decorative Accent Element */}
