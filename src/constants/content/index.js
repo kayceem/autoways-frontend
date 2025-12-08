@@ -1685,12 +1685,12 @@ Driven by purpose and shaped by excellence, Autoways remains committed to elevat
     about_us_detailed: {
         mission: {
             title: 'Our Mission',
-            content: 'To inspire customer loyalty through excellence in every service we provide, delivering world-class automotive solutions that enhance mobility, productivity, and quality of life across Nepal.',
+            content: 'Our mission is to build a sustainable, trusted brand while creating superior long-term value for our stakeholders.',
             icon: 'mission'
         },
         vision: {
             title: 'Our Vision',
-            content: 'To be Nepal\'s most trusted and innovative automotive partner, recognized for exceptional quality, sustainable practices, and meaningful contributions to national development.',
+            content: ' Inspiring customer loyalty through excellence in every service we provide.',
             icon: 'vision'
         },
         values: [
