@@ -26,8 +26,8 @@ const ProductTypePage = () => {
     if (error) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-primary">
-                <div className="text-error font-light text-2xl">
-                    Failed to load products
+                <div className="text-primary font-bold text-2xl">
+                    No products found
                 </div>
             </div>
         );

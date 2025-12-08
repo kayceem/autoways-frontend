@@ -29,10 +29,6 @@
 }
 
 /* Product Hero Section */
-.product-hero-section {
-    background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-primary) 100%);
-}
-
 .product-hero-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;

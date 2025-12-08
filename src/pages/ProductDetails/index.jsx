@@ -80,7 +80,7 @@ const ProductDetails = () => {
     return (
         <div className="product-details-page bg-primary">
             {/* Breadcrumb */}
-            <section className="breadcrumb-section bg-secondary">
+            <section className="breadcrumb-section bg-primary">
                 <div className="max-w-7xl mx-auto px-6 py-6">
                     <div className="breadcrumb text-primary">
                         <Link to="/" className="hover:text-accent">Home</Link>
@@ -89,13 +89,13 @@ const ProductDetails = () => {
                         <ChevronDown size={16} className="rotate-[-90deg]" />
                         <Link to={`/shop/${brand}/${type}`} className="capitalize hover:text-accent">{type}</Link>
                         <ChevronDown size={16} className="rotate-[-90deg]" />
-                        <span className="breadcrumb-current text-accent">{product.name}</span>
+                        <span className="breadcrumb-current text-secondary">{product.name}</span>
                     </div>
                 </div>
             </section>
 
             {/* Hero Section */}
-            <section className="product-hero-section">
+            <section className="bg-primary">
                 <div className="max-w-7xl mx-auto px-6 py-12">
                     <div className="product-hero-grid">
                         {/* Left: Image Gallery */}
@@ -108,15 +108,15 @@ const ProductDetails = () => {
 
                         {/* Right: Product Info */}
                         <div className="product-info">
-                            {product.tag && (
+                            {/* {product.tag && (
                                 <div className="product-tag bg-accent text-secondary">
                                     {product.tag}
                                 </div>
-                            )}
+                            )} */}
 
                             <h1 className="product-title text-primary">{product.name}</h1>
 
-                            <div className="product-fuel-type text-accent">
+                            <div className="product-fuel-type text-primary">
                                 {getFuelTypeIcon(product.fuelType)}
                                 <span>{getFuelTypeLabel(product.fuelType)}</span>
                             </div>
@@ -152,7 +152,7 @@ const ProductDetails = () => {
 
                                 <button
                                     onClick={handleViewBrochure}
-                                    className="action-button action-button-secondary bg-secondary text-accent hover:bg-accent hover:text-secondary"
+                                    className="action-button action-button-secondary bg-acccent text-primary hover:bg-accent hover:text-secondary"
                                 >
                                     <FileText size={20} />
                                     <span>View Brochure</span>

@@ -148,7 +148,8 @@ Driven by purpose and shaped by excellence, Autoways remains committed to elevat
                 image: Images.BullLoader
             },
             {
-                type: 'Skid',
+                name: 'Skid',
+                type: 'skid',
                 image: Images.BullSkid
             }
             ],
@@ -454,342 +455,342 @@ Driven by purpose and shaped by excellence, Autoways remains committed to elevat
                 image: Images.ToyotaSedan
             },
             {
-                type: 'SUV',
+                name: 'SUV',
                 type: 'suv',
                 image: Images.ToyotaSUV
             }],
-            // products: {
-            //     sedan: [
-            //         {
-            //             id: "camry-2024-hybrid",
-            //             name: "Toyota Camry 2024 Hybrid",
-            //             type: "sedan",
-            //             fuelType: "hybrid",
-            //             images: [Images.ToyotaCamry, Images.ToyotaCamryRight, Images.ToyotaSedan],
-            //             tag: "Hybrid",
-            //             price: 32000,
-            //             shortDescription: "The perfect blend of luxury, performance and efficiency",
-            //             fullDescription: "The 2024 Toyota Camry Hybrid combines exceptional fuel efficiency with refined luxury. Experience the future of sustainable driving without compromising on performance or comfort.",
-            //             specifications: {
-            //                 engine: {
-            //                     model: "2.5L Dynamic Force 4-Cylinder + Electric Motor",
-            //                     power: "208 HP (Combined)",
-            //                     displacement: "2.5L",
-            //                     fuelType: "Hybrid (Petrol + Electric)",
-            //                     fuelEconomy: "21.2 km/L"
-            //                 },
-            //                 performance: {
-            //                     acceleration: "7.6 seconds (0-100 km/h)",
-            //                     topSpeed: "180 km/h",
-            //                     transmission: "E-CVT",
-            //                     driveType: "FWD"
-            //                 },
-            //                 battery: {
-            //                     type: "Lithium-ion",
-            //                     capacity: "4.3 Ah",
-            //                     voltage: "244.8V"
-            //                 },
-            //                 dimensions: {
-            //                     length: "4,885 mm",
-            //                     width: "1,840 mm",
-            //                     height: "1,445 mm",
-            //                     wheelbase: "2,825 mm",
-            //                     groundClearance: "140 mm"
-            //                 },
-            //                 capacities: {
-            //                     seating: "5",
-            //                     fuelTank: "50 L",
-            //                     trunkSpace: "428 L"
-            //                 },
-            //                 safety: {
-            //                     airbags: "9",
-            //                     abs: "Yes",
-            //                     stabilityControl: "Yes",
-            //                     blindSpotMonitor: "Yes",
-            //                     laneKeepAssist: "Yes",
-            //                     adaptiveCruiseControl: "Yes",
-            //                     preCollisionSystem: "Yes"
-            //                 }
-            //             },
-            //             features: [
-            //                 "Toyota Safety Sense 2.5+",
-            //                 "9-inch touchscreen infotainment",
-            //                 "Premium leather upholstery",
-            //                 "Dual-zone automatic climate control",
-            //                 "Wireless smartphone charging",
-            //                 "360-degree camera system",
-            //                 "LED headlights with auto high beam",
-            //                 "Power moonroof",
-            //                 "Premium JBL sound system"
-            //             ],
-            //             brochureUrl: "/brochures/camry-2024-hybrid.pdf",
-            //             specSheetUrl: "/specs/camry-2024-hybrid-specs.pdf"
-            //         },
-            //         {
-            //             id: "camry-2024",
-            //             name: "Toyota Camry 2024",
-            //             type: "sedan",
-            //             fuelType: "normal",
-            //             images: [Images.ToyotaCamry, Images.ToyotaCamryRight, Images.ToyotaSedan],
-            //             tag: "Best Seller",
-            //             price: 28000,
-            //             shortDescription: "Legendary reliability meets modern luxury",
-            //             fullDescription: "The 2024 Toyota Camry delivers uncompromising quality and proven reliability. With its elegant design and advanced features, it's the perfect choice for discerning drivers.",
-            //             specifications: {
-            //                 engine: {
-            //                     model: "2.5L Dynamic Force 4-Cylinder",
-            //                     power: "203 HP (151 kW)",
-            //                     torque: "250 Nm",
-            //                     displacement: "2.5L",
-            //                     fuelType: "Petrol",
-            //                     fuelEconomy: "14.5 km/L"
-            //                 },
-            //                 performance: {
-            //                     acceleration: "8.4 seconds (0-100 km/h)",
-            //                     topSpeed: "200 km/h",
-            //                     transmission: "8-Speed Automatic",
-            //                     driveType: "FWD"
-            //                 },
-            //                 dimensions: {
-            //                     length: "4,885 mm",
-            //                     width: "1,840 mm",
-            //                     height: "1,445 mm",
-            //                     wheelbase: "2,825 mm",
-            //                     groundClearance: "140 mm"
-            //                 },
-            //                 capacities: {
-            //                     seating: "5",
-            //                     fuelTank: "60 L",
-            //                     trunkSpace: "428 L"
-            //                 },
-            //                 safety: {
-            //                     airbags: "8",
-            //                     abs: "Yes",
-            //                     stabilityControl: "Yes",
-            //                     tractionControl: "Yes",
-            //                     hillStartAssist: "Yes",
-            //                     tpms: "Yes"
-            //                 }
-            //             },
-            //             features: [
-            //                 "Toyota Safety Sense",
-            //                 "8-inch touchscreen display",
-            //                 "Leather-appointed seats",
-            //                 "Automatic climate control",
-            //                 "Push button start",
-            //                 "Rearview camera",
-            //                 "LED daytime running lights",
-            //                 "Smart key system",
-            //                 "Premium audio system"
-            //             ],
-            //             brochureUrl: "/brochures/camry-2024.pdf",
-            //             specSheetUrl: "/specs/camry-2024-specs.pdf"
-            //         }
-            //     ],
-            //     suv: [
-            //         {
-            //             id: "fortuner-2024",
-            //             name: "Toyota Fortuner 2024",
-            //             type: "suv",
-            //             fuelType: "normal",
-            //             images: [Images.ToyotaSUV, Images.HeroImageIII, Images.ToyotaHero],
-            //             tag: "Adventure Ready",
-            //             price: 48000,
-            //             shortDescription: "Legendary off-road capability meets premium comfort",
-            //             fullDescription: "The Toyota Fortuner 2024 is built for adventure. With its robust construction, advanced 4WD system, and luxurious interior, it's ready for any challenge.",
-            //             specifications: {
-            //                 engine: {
-            //                     model: "2.8L Turbo Diesel",
-            //                     power: "201 HP (150 kW)",
-            //                     torque: "500 Nm",
-            //                     displacement: "2.8L",
-            //                     fuelType: "Diesel",
-            //                     fuelEconomy: "12.8 km/L"
-            //                 },
-            //                 performance: {
-            //                     acceleration: "10.2 seconds (0-100 km/h)",
-            //                     topSpeed: "175 km/h",
-            //                     transmission: "6-Speed Automatic",
-            //                     driveType: "4WD"
-            //                 },
-            //                 dimensions: {
-            //                     length: "4,795 mm",
-            //                     width: "1,855 mm",
-            //                     height: "1,835 mm",
-            //                     wheelbase: "2,745 mm",
-            //                     groundClearance: "220 mm"
-            //                 },
-            //                 capacities: {
-            //                     seating: "7",
-            //                     fuelTank: "80 L",
-            //                     cargoSpace: "200 L (3rd row up), 716 L (3rd row down)"
-            //                 },
-            //                 offroad: {
-            //                     approachAngle: "29°",
-            //                     departureAngle: "25°",
-            //                     wadingDepth: "700 mm",
-            //                     towingCapacity: "2,800 kg"
-            //                 },
-            //                 safety: {
-            //                     airbags: "7",
-            //                     abs: "Yes",
-            //                     stabilityControl: "Yes",
-            //                     hillStartAssist: "Yes",
-            //                     hillDescentControl: "Yes",
-            //                     tractionControl: "Yes",
-            //                     brakeLSD: "Yes"
-            //                 }
-            //             },
-            //             features: [
-            //                 "4WD with low-range transfer case",
-            //                 "Rear differential lock",
-            //                 "9-inch touchscreen infotainment",
-            //                 "Premium leather seats",
-            //                 "Tri-zone climate control",
-            //                 "Power tailgate",
-            //                 "LED headlights and fog lamps",
-            //                 "360-degree camera",
-            //                 "Wireless charging pad",
-            //                 "Premium sound system"
-            //             ],
-            //             brochureUrl: "/brochures/fortuner-2024.pdf",
-            //             specSheetUrl: "/specs/fortuner-2024-specs.pdf"
-            //         },
-            //         {
-            //             id: "rav4-2024-hybrid",
-            //             name: "Toyota RAV4 2024 Hybrid",
-            //             type: "suv",
-            //             fuelType: "hybrid",
-            //             images: [Images.ToyotaSUV, Images.ToyotaHero, Images.HeroImageIII],
-            //             tag: "Eco SUV",
-            //             price: 42000,
-            //             shortDescription: "Efficient hybrid power with SUV versatility",
-            //             fullDescription: "The RAV4 Hybrid combines Toyota's proven hybrid technology with the versatility of an SUV. Perfect for urban commutes and weekend adventures alike.",
-            //             specifications: {
-            //                 engine: {
-            //                     model: "2.5L 4-Cylinder + Electric Motor",
-            //                     power: "219 HP (Combined)",
-            //                     displacement: "2.5L",
-            //                     fuelType: "Hybrid (Petrol + Electric)",
-            //                     fuelEconomy: "18.5 km/L"
-            //                 },
-            //                 performance: {
-            //                     acceleration: "8.1 seconds (0-100 km/h)",
-            //                     topSpeed: "180 km/h",
-            //                     transmission: "E-CVT",
-            //                     driveType: "AWD"
-            //                 },
-            //                 battery: {
-            //                     type: "Nickel-Metal Hydride",
-            //                     capacity: "6.5 Ah",
-            //                     voltage: "244.8V"
-            //                 },
-            //                 dimensions: {
-            //                     length: "4,600 mm",
-            //                     width: "1,855 mm",
-            //                     height: "1,685 mm",
-            //                     wheelbase: "2,690 mm",
-            //                     groundClearance: "200 mm"
-            //                 },
-            //                 capacities: {
-            //                     seating: "5",
-            //                     fuelTank: "55 L",
-            //                     cargoSpace: "580 L"
-            //                 },
-            //                 safety: {
-            //                     airbags: "8",
-            //                     abs: "Yes",
-            //                     stabilityControl: "Yes",
-            //                     laneKeepAssist: "Yes",
-            //                     adaptiveCruiseControl: "Yes",
-            //                     blindSpotMonitor: "Yes",
-            //                     rearCrossTrafficAlert: "Yes"
-            //                 }
-            //             },
-            //             features: [
-            //                 "AWD with dynamic torque control",
-            //                 "Toyota Safety Sense 2.5",
-            //                 "8-inch touchscreen with Apple CarPlay",
-            //                 "Heated front seats",
-            //                 "Dual-zone climate control",
-            //                 "Power liftgate",
-            //                 "LED lighting package",
-            //                 "Panoramic sunroof",
-            //                 "Digital rearview mirror"
-            //             ],
-            //             brochureUrl: "/brochures/rav4-2024-hybrid.pdf",
-            //             specSheetUrl: "/specs/rav4-2024-hybrid-specs.pdf"
-            //         },
-            //         {
-            //             id: "bz4x-2024",
-            //             name: "Toyota bZ4X 2024",
-            //             type: "suv",
-            //             fuelType: "electric",
-            //             images: [Images.ToyotaSUV, Images.HeroImageIII, Images.ToyotaHero],
-            //             tag: "All-Electric",
-            //             price: 52000,
-            //             shortDescription: "Toyota's first all-electric SUV",
-            //             fullDescription: "The bZ4X represents Toyota's vision for electric mobility. With impressive range, advanced technology, and the quality you expect from Toyota.",
-            //             specifications: {
-            //                 motor: {
-            //                     type: "Dual Electric Motors (AWD)",
-            //                     power: "214 HP (160 kW)",
-            //                     torque: "336 Nm",
-            //                     driveType: "AWD"
-            //                 },
-            //                 battery: {
-            //                     type: "Lithium-ion",
-            //                     capacity: "71.4 kWh",
-            //                     range: "460 km (WLTP)",
-            //                     charging: {
-            //                         dcFastCharging: "150 kW (10-80% in 30 min)",
-            //                         acCharging: "11 kW (0-100% in 7 hours)"
-            //                     }
-            //                 },
-            //                 performance: {
-            //                     acceleration: "6.9 seconds (0-100 km/h)",
-            //                     topSpeed: "160 km/h",
-            //                     transmission: "Single-Speed Automatic"
-            //                 },
-            //                 dimensions: {
-            //                     length: "4,690 mm",
-            //                     width: "1,860 mm",
-            //                     height: "1,650 mm",
-            //                     wheelbase: "2,850 mm",
-            //                     groundClearance: "210 mm"
-            //                 },
-            //                 capacities: {
-            //                     seating: "5",
-            //                     cargoSpace: "452 L"
-            //                 },
-            //                 safety: {
-            //                     airbags: "10",
-            //                     abs: "Yes",
-            //                     stabilityControl: "Yes",
-            //                     laneKeepAssist: "Yes",
-            //                     adaptiveCruiseControl: "Yes",
-            //                     blindSpotMonitor: "Yes",
-            //                     preCollisionSystem: "Yes",
-            //                     parkingAssist: "Yes"
-            //                 }
-            //             },
-            //             features: [
-            //                 "E-Four AWD system",
-            //                 "One-pedal driving mode",
-            //                 "12.3-inch digital instrument cluster",
-            //                 "12.3-inch touchscreen infotainment",
-            //                 "Panoramic fixed glass roof",
-            //                 "Heated and ventilated seats",
-            //                 "Heat pump climate system",
-            //                 "Wireless charging and connectivity",
-            //                 "Advanced parking assistance",
-            //                 "Over-the-air updates"
-            //             ],
-            //             brochureUrl: "/brochures/bz4x-2024.pdf",
-            //             specSheetUrl: "/specs/bz4x-2024-specs.pdf"
-            //         }
-            //     ]
-            // },
+            products: {
+                sedan: [
+                    {
+                        id: "camry-2024-hybrid",
+                        name: "Toyota Camry 2024 Hybrid",
+                        type: "sedan",
+                        fuelType: "hybrid",
+                        images: [Images.ToyotaCamry, Images.ToyotaCamryRight, Images.ToyotaSedan],
+                        tag: "Hybrid",
+                        price: 32000,
+                        shortDescription: "The perfect blend of luxury, performance and efficiency",
+                        fullDescription: "The 2024 Toyota Camry Hybrid combines exceptional fuel efficiency with refined luxury. Experience the future of sustainable driving without compromising on performance or comfort.",
+                        specifications: {
+                            engine: {
+                                model: "2.5L Dynamic Force 4-Cylinder + Electric Motor",
+                                power: "208 HP (Combined)",
+                                displacement: "2.5L",
+                                fuelType: "Hybrid (Petrol + Electric)",
+                                fuelEconomy: "21.2 km/L"
+                            },
+                            performance: {
+                                acceleration: "7.6 seconds (0-100 km/h)",
+                                topSpeed: "180 km/h",
+                                transmission: "E-CVT",
+                                driveType: "FWD"
+                            },
+                            battery: {
+                                type: "Lithium-ion",
+                                capacity: "4.3 Ah",
+                                voltage: "244.8V"
+                            },
+                            dimensions: {
+                                length: "4,885 mm",
+                                width: "1,840 mm",
+                                height: "1,445 mm",
+                                wheelbase: "2,825 mm",
+                                groundClearance: "140 mm"
+                            },
+                            capacities: {
+                                seating: "5",
+                                fuelTank: "50 L",
+                                trunkSpace: "428 L"
+                            },
+                            safety: {
+                                airbags: "9",
+                                abs: "Yes",
+                                stabilityControl: "Yes",
+                                blindSpotMonitor: "Yes",
+                                laneKeepAssist: "Yes",
+                                adaptiveCruiseControl: "Yes",
+                                preCollisionSystem: "Yes"
+                            }
+                        },
+                        features: [
+                            "Toyota Safety Sense 2.5+",
+                            "9-inch touchscreen infotainment",
+                            "Premium leather upholstery",
+                            "Dual-zone automatic climate control",
+                            "Wireless smartphone charging",
+                            "360-degree camera system",
+                            "LED headlights with auto high beam",
+                            "Power moonroof",
+                            "Premium JBL sound system"
+                        ],
+                        brochureUrl: "/brochures/camry-2024-hybrid.pdf",
+                        specSheetUrl: "/specs/camry-2024-hybrid-specs.pdf"
+                    },
+                    {
+                        id: "camry-2024",
+                        name: "Toyota Camry 2024",
+                        type: "sedan",
+                        fuelType: "normal",
+                        images: [Images.ToyotaCamry, Images.ToyotaCamryRight, Images.ToyotaSedan],
+                        tag: "Best Seller",
+                        price: 28000,
+                        shortDescription: "Legendary reliability meets modern luxury",
+                        fullDescription: "The 2024 Toyota Camry delivers uncompromising quality and proven reliability. With its elegant design and advanced features, it's the perfect choice for discerning drivers.",
+                        specifications: {
+                            engine: {
+                                model: "2.5L Dynamic Force 4-Cylinder",
+                                power: "203 HP (151 kW)",
+                                torque: "250 Nm",
+                                displacement: "2.5L",
+                                fuelType: "Petrol",
+                                fuelEconomy: "14.5 km/L"
+                            },
+                            performance: {
+                                acceleration: "8.4 seconds (0-100 km/h)",
+                                topSpeed: "200 km/h",
+                                transmission: "8-Speed Automatic",
+                                driveType: "FWD"
+                            },
+                            dimensions: {
+                                length: "4,885 mm",
+                                width: "1,840 mm",
+                                height: "1,445 mm",
+                                wheelbase: "2,825 mm",
+                                groundClearance: "140 mm"
+                            },
+                            capacities: {
+                                seating: "5",
+                                fuelTank: "60 L",
+                                trunkSpace: "428 L"
+                            },
+                            safety: {
+                                airbags: "8",
+                                abs: "Yes",
+                                stabilityControl: "Yes",
+                                tractionControl: "Yes",
+                                hillStartAssist: "Yes",
+                                tpms: "Yes"
+                            }
+                        },
+                        features: [
+                            "Toyota Safety Sense",
+                            "8-inch touchscreen display",
+                            "Leather-appointed seats",
+                            "Automatic climate control",
+                            "Push button start",
+                            "Rearview camera",
+                            "LED daytime running lights",
+                            "Smart key system",
+                            "Premium audio system"
+                        ],
+                        brochureUrl: "/brochures/camry-2024.pdf",
+                        specSheetUrl: "/specs/camry-2024-specs.pdf"
+                    }
+                ],
+                suv: [
+                    {
+                        id: "fortuner-2024",
+                        name: "Toyota Fortuner 2024",
+                        type: "suv",
+                        fuelType: "normal",
+                        images: [Images.ToyotaSUV, Images.HeroImageIII, Images.ToyotaHero],
+                        tag: "Adventure Ready",
+                        price: 48000,
+                        shortDescription: "Legendary off-road capability meets premium comfort",
+                        fullDescription: "The Toyota Fortuner 2024 is built for adventure. With its robust construction, advanced 4WD system, and luxurious interior, it's ready for any challenge.",
+                        specifications: {
+                            engine: {
+                                model: "2.8L Turbo Diesel",
+                                power: "201 HP (150 kW)",
+                                torque: "500 Nm",
+                                displacement: "2.8L",
+                                fuelType: "Diesel",
+                                fuelEconomy: "12.8 km/L"
+                            },
+                            performance: {
+                                acceleration: "10.2 seconds (0-100 km/h)",
+                                topSpeed: "175 km/h",
+                                transmission: "6-Speed Automatic",
+                                driveType: "4WD"
+                            },
+                            dimensions: {
+                                length: "4,795 mm",
+                                width: "1,855 mm",
+                                height: "1,835 mm",
+                                wheelbase: "2,745 mm",
+                                groundClearance: "220 mm"
+                            },
+                            capacities: {
+                                seating: "7",
+                                fuelTank: "80 L",
+                                cargoSpace: "200 L (3rd row up), 716 L (3rd row down)"
+                            },
+                            offroad: {
+                                approachAngle: "29°",
+                                departureAngle: "25°",
+                                wadingDepth: "700 mm",
+                                towingCapacity: "2,800 kg"
+                            },
+                            safety: {
+                                airbags: "7",
+                                abs: "Yes",
+                                stabilityControl: "Yes",
+                                hillStartAssist: "Yes",
+                                hillDescentControl: "Yes",
+                                tractionControl: "Yes",
+                                brakeLSD: "Yes"
+                            }
+                        },
+                        features: [
+                            "4WD with low-range transfer case",
+                            "Rear differential lock",
+                            "9-inch touchscreen infotainment",
+                            "Premium leather seats",
+                            "Tri-zone climate control",
+                            "Power tailgate",
+                            "LED headlights and fog lamps",
+                            "360-degree camera",
+                            "Wireless charging pad",
+                            "Premium sound system"
+                        ],
+                        brochureUrl: "/brochures/fortuner-2024.pdf",
+                        specSheetUrl: "/specs/fortuner-2024-specs.pdf"
+                    },
+                    {
+                        id: "rav4-2024-hybrid",
+                        name: "Toyota RAV4 2024 Hybrid",
+                        type: "suv",
+                        fuelType: "hybrid",
+                        images: [Images.ToyotaSUV, Images.ToyotaHero, Images.HeroImageIII],
+                        tag: "Eco SUV",
+                        price: 42000,
+                        shortDescription: "Efficient hybrid power with SUV versatility",
+                        fullDescription: "The RAV4 Hybrid combines Toyota's proven hybrid technology with the versatility of an SUV. Perfect for urban commutes and weekend adventures alike.",
+                        specifications: {
+                            engine: {
+                                model: "2.5L 4-Cylinder + Electric Motor",
+                                power: "219 HP (Combined)",
+                                displacement: "2.5L",
+                                fuelType: "Hybrid (Petrol + Electric)",
+                                fuelEconomy: "18.5 km/L"
+                            },
+                            performance: {
+                                acceleration: "8.1 seconds (0-100 km/h)",
+                                topSpeed: "180 km/h",
+                                transmission: "E-CVT",
+                                driveType: "AWD"
+                            },
+                            battery: {
+                                type: "Nickel-Metal Hydride",
+                                capacity: "6.5 Ah",
+                                voltage: "244.8V"
+                            },
+                            dimensions: {
+                                length: "4,600 mm",
+                                width: "1,855 mm",
+                                height: "1,685 mm",
+                                wheelbase: "2,690 mm",
+                                groundClearance: "200 mm"
+                            },
+                            capacities: {
+                                seating: "5",
+                                fuelTank: "55 L",
+                                cargoSpace: "580 L"
+                            },
+                            safety: {
+                                airbags: "8",
+                                abs: "Yes",
+                                stabilityControl: "Yes",
+                                laneKeepAssist: "Yes",
+                                adaptiveCruiseControl: "Yes",
+                                blindSpotMonitor: "Yes",
+                                rearCrossTrafficAlert: "Yes"
+                            }
+                        },
+                        features: [
+                            "AWD with dynamic torque control",
+                            "Toyota Safety Sense 2.5",
+                            "8-inch touchscreen with Apple CarPlay",
+                            "Heated front seats",
+                            "Dual-zone climate control",
+                            "Power liftgate",
+                            "LED lighting package",
+                            "Panoramic sunroof",
+                            "Digital rearview mirror"
+                        ],
+                        brochureUrl: "/brochures/rav4-2024-hybrid.pdf",
+                        specSheetUrl: "/specs/rav4-2024-hybrid-specs.pdf"
+                    },
+                    {
+                        id: "bz4x-2024",
+                        name: "Toyota bZ4X 2024",
+                        type: "suv",
+                        fuelType: "electric",
+                        images: [Images.ToyotaSUV, Images.HeroImageIII, Images.ToyotaHero],
+                        tag: "All-Electric",
+                        price: 52000,
+                        shortDescription: "Toyota's first all-electric SUV",
+                        fullDescription: "The bZ4X represents Toyota's vision for electric mobility. With impressive range, advanced technology, and the quality you expect from Toyota.",
+                        specifications: {
+                            motor: {
+                                type: "Dual Electric Motors (AWD)",
+                                power: "214 HP (160 kW)",
+                                torque: "336 Nm",
+                                driveType: "AWD"
+                            },
+                            battery: {
+                                type: "Lithium-ion",
+                                capacity: "71.4 kWh",
+                                range: "460 km (WLTP)",
+                                charging: {
+                                    dcFastCharging: "150 kW (10-80% in 30 min)",
+                                    acCharging: "11 kW (0-100% in 7 hours)"
+                                }
+                            },
+                            performance: {
+                                acceleration: "6.9 seconds (0-100 km/h)",
+                                topSpeed: "160 km/h",
+                                transmission: "Single-Speed Automatic"
+                            },
+                            dimensions: {
+                                length: "4,690 mm",
+                                width: "1,860 mm",
+                                height: "1,650 mm",
+                                wheelbase: "2,850 mm",
+                                groundClearance: "210 mm"
+                            },
+                            capacities: {
+                                seating: "5",
+                                cargoSpace: "452 L"
+                            },
+                            safety: {
+                                airbags: "10",
+                                abs: "Yes",
+                                stabilityControl: "Yes",
+                                laneKeepAssist: "Yes",
+                                adaptiveCruiseControl: "Yes",
+                                blindSpotMonitor: "Yes",
+                                preCollisionSystem: "Yes",
+                                parkingAssist: "Yes"
+                            }
+                        },
+                        features: [
+                            "E-Four AWD system",
+                            "One-pedal driving mode",
+                            "12.3-inch digital instrument cluster",
+                            "12.3-inch touchscreen infotainment",
+                            "Panoramic fixed glass roof",
+                            "Heated and ventilated seats",
+                            "Heat pump climate system",
+                            "Wireless charging and connectivity",
+                            "Advanced parking assistance",
+                            "Over-the-air updates"
+                        ],
+                        brochureUrl: "/brochures/bz4x-2024.pdf",
+                        specSheetUrl: "/specs/bz4x-2024-specs.pdf"
+                    }
+                ]
+            },
         },
         dongfeng: {
             name: 'Dongfeng',
