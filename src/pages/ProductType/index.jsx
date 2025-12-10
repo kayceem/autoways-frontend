@@ -20,7 +20,7 @@ const ProductTypePage = () => {
     const [sortBy, setSortBy] = useState("name");
 
     if (isLoading) {
-        return <LoadingSpinner />;
+        return <LoadingSpinner name={brand} />;
     }
 
     if (error) {

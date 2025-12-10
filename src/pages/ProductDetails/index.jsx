@@ -24,7 +24,7 @@ const ProductDetails = () => {
     const { data: siteContent } = useContentQuery();
 
     if (isLoading) {
-        return <LoadingSpinner />;
+        return <LoadingSpinner name={brand} />;
     }
 
     if (error || !product) {

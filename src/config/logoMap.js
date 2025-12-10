@@ -1,7 +1,7 @@
 import Logos from '../assets';
 
 const logoMap = {
-    default: Logos.ToyotaLogo,
+    default: Logos.AutowaysA,
     toyota: Logos.ToyotaLogo,
     eicher: Logos.EicherLogo,
     bull: Logos.BullLogo,
