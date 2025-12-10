@@ -1786,7 +1786,7 @@ Driven by purpose and shaped by excellence, Autoways remains committed to elevat
             name: "Narayan Prasad Poudel",
             title: "Chairman",
             message: "Our journey has always been guided by ambition, innovation, and a commitment to excellence. From the very beginning, our mission has been to redefine Nepal’s automotive landscape, setting new standards, embracing bold ideas, and creating lasting value for our customers, employees, and society.\n Over the years, our progress has been shaped by consistent investment in advanced technology, innovative solutions, and strategic development. Year after year, we have surpassed our own benchmarks, a reflection of the dedication, discipline, and collective strength of the Autoways family. Even in times of challenge, we have remained steadfast in optimizing operations, enhancing efficiency, and upholding disciplined governance, all while keeping a long-term vision of sustainable growth at the forefront.\n Our customers remain at the heart of everything we do. By delivering solutions tailored to their needs, we aim not only to build trust and loyalty but also to elevate the standards of mobility across Nepal. At the same time, we recognize our responsibility to society, striving to grow in harmony with the communities we serve, while maintaining our role as a dependable, progressive, and respected corporate citizen.\n Looking ahead, we continue to embrace new challenges with confidence, guided by a forward-thinking mindset and a passion for innovation. Autoways is more than a company, it is a movement, driven by ambition, purpose, and a relentless desire to shape the future of mobility in Nepal.\n Thank you for being part of our journey. Together, we will continue to redefine what is possible.           ",
-            image: Images.AutowaysAbout
+            image: Images.AutowaysChairman
         },
         md_message: {
             name: " CEO & Director",
@@ -2009,7 +2009,7 @@ Driven by purpose and shaped by excellence, Autoways remains committed to elevat
                 tagline: 'Your Gateway to Unforgettable Adventures',
                 description: 'Premier travel and tourism company offering curated travel experiences across Nepal and beyond. From trekking expeditions to luxury tours, Swift Holidays creates memorable journeys tailored to your dreams.',
                 logo: Images.SwiftHolidaysLogo,
-                image: Images.HeroImageIII,
+                image: Images.SwiftHolidaysHero,
                 category: 'Travel & Tourism',
                 services: [
                     'Adventure Trekking & Expeditions',
@@ -2036,7 +2036,7 @@ Driven by purpose and shaped by excellence, Autoways remains committed to elevat
                 tagline: 'Caring for Health, Caring for Life',
                 description: 'Leading multi-specialty teaching hospital delivering world-class healthcare with state-of-the-art facilities, experienced medical professionals, and compassionate patient care.',
                 logo: Images.ManipalLogo,
-                image: Images.HeroImageII,
+                image: Images.ManipalHero,
                 category: 'Healthcare',
                 services: [
                     'Emergency & Trauma Care',
@@ -2063,7 +2063,7 @@ Driven by purpose and shaped by excellence, Autoways remains committed to elevat
                 tagline: 'Nurturing Tomorrow\'s Leaders',
                 description: 'Excellence in education with modern teaching methodologies, comprehensive curriculum, and holistic development approach preparing students for global challenges.',
                 logo: Images.PrativaLogo,
-                image: Images.AutowaysAbout,
+                image: Images.PrativaHero,
                 category: 'Education',
                 services: [
                     'Quality Secondary Education',
@@ -2090,7 +2090,7 @@ Driven by purpose and shaped by excellence, Autoways remains committed to elevat
                 tagline: 'Empowering Through Technology Education',
                 description: 'Leading technical education institution specializing in IT, management, and professional courses with industry-aligned curriculum and experienced faculty.',
                 logo: Images.InfoMaxLogo,
-                image: Images.ToyotaCamry,
+                image: Images.InfomaxHero,
                 category: 'Higher Education',
                 services: [
                     'BIT, BCA, BIM Programs',
@@ -2113,11 +2113,11 @@ Driven by purpose and shaped by excellence, Autoways remains committed to elevat
             },
             {
                 id: 5,
-                name: 'Evergreen Montessori School',
+                name: 'EEvergreen Academy',
                 tagline: 'Growing Minds, Nurturing Hearts',
                 description: 'Premier Montessori education fostering creativity, independence, and love for learning in a nurturing environment for young minds to flourish.',
                 logo: Images.EvergreenLogo,
-                image: Images.HeroImageI,
+                image: Images.EvergreenHero,
                 category: 'Early Education',
                 services: [
                     'Montessori Methodology',
