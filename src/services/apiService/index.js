@@ -1,5 +1,6 @@
 import axios from 'axios';
 import config from '../../config';
+import { transformAssetUrls } from '../../utils/assetUrl';
 
 const axiosInstance = axios.create({
   baseURL: config.baseUrl,
@@ -34,6 +35,10 @@ axiosInstance.interceptors.request.use(
 
 axiosInstance.interceptors.response.use(
   (response) => {
+    // Automatically transform asset URLs in response data
+    if (response.data) {
+      response.data = transformAssetUrls(response.data);
+    }
     return response;
   },
   (error) => {
