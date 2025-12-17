@@ -330,6 +330,9 @@ router.delete("/spare-parts-contact/:id", deleteSparePartsContact);
 
 // Mount router
 app.use("/api", router);
+app.use("/assets", express.static(path.join(__dirname, "assets")));
+
+// ---------- ERROR HANDLING ----------
 
 // Global error handler
 app.use((err, req, res, next) => {
