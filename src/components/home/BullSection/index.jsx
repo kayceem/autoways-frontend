@@ -5,7 +5,7 @@ import { useContent } from "../../../context/globalContext";
 import LoadingSpinner from "../../common/Loading";
 import WaveBackground from "../../common/WaveBackground";
 import "./index.css";
-import { assetUrl } from '../../../utils/assetUrl';
+import { assetUrl } from '../../../utils';
 
 const BullSection = ({ className = "" }) => {
     const { content, isLoading } = useContent();

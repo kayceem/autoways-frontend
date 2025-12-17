@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import WaveBackground from "../../common/WaveBackground";
-import { assetUrl } from '../../../utils/assetUrl';
+import { assetUrl } from '../../../utils';
 
 const AboutSection = ({ aboutData = {}, className = "" }) => {
     const {

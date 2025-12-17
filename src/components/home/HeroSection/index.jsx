@@ -5,7 +5,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import './index.css';
-import { assetUrl } from '../../../utils/assetUrl';
+import { assetUrl } from '../../../utils';
 
 
 const HeroSection = ({ heroImages = [], className = '' }) => {

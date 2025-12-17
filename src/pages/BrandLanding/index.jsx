@@ -1,14 +1,12 @@
-import { useBeforeUnload, useParams } from "react-router-dom";
-import { Mouse } from "lucide-react";
+import { useParams } from "react-router-dom";
 import LoadingSpinner from "../../components/common/Loading";
 import ProductTypeCard from "../../components/common/ProductTypeCard";
 import useBrandQuery from "../../hooks/useBrandQuery";
-import { useState } from "react";
-import Logo from "../../components/common/Logo";
+import { getBrandData } from "../../utils";
 
 const BrandLanding = () => {
     const { brand } = useParams();
-    const { data: brandData, isLoading, error } = useBrandQuery(brand);
+    const { data: brandData, isLoading, error } = getBrandData(brand);
 
     if (isLoading) {
         return <LoadingSpinner name={brand} />;

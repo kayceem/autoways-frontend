@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Eye, Tag, ArrowRight } from "lucide-react";
-import { assetUrl } from '../../../utils/assetUrl';
+import { assetUrl } from '../../../utils';
 
 const ProductCard = ({ product, brandName, className = "" }) => {
     const [isHovered, setIsHovered] = useState(false);

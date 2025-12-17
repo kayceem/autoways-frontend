@@ -2,7 +2,7 @@ import { useContent } from '../../context/globalContext';
 import LoadingSpinner from '../../components/common/Loading';
 import WaveBackground from '../../components/common/WaveBackground';
 import { useState, useRef } from 'react';
-import { assetUrl } from '../../utils/assetUrl';
+import { assetUrl } from '../../utils';
 
 const AboutUs = () => {
   const { content, isLoading } = useContent();

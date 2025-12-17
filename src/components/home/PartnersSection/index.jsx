@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { assetUrl } from '../../../utils/assetUrl';
+import { assetUrl } from '../../../utils';
 
 const PartnersSection = ({ partners = {}, className = '' }) => {
   // Convert partners object to array

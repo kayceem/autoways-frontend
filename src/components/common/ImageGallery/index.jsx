@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { ChevronLeft, ChevronRight, X, ZoomIn } from 'lucide-react';
 import './index.css';
-import { assetUrl } from '../../../utils/assetUrl';
+import { assetUrl } from '../../../utils';
 
 const ImageGallery = ({ images = [], productName = '' }) => {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);

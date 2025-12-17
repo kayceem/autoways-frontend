@@ -1,6 +1,6 @@
 import "./index.css";
 import WaveBackground from "../../common/WaveBackground";
-import { assetUrl } from '../../../utils/assetUrl';
+import { assetUrl } from '../../../utils';
 
 const ClientsSection = ({ clients = {}, className = "" }) => {
     // Convert clients object to array
