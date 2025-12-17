@@ -2,52 +2,53 @@ import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { Package, Layers, Image, TrendingUp } from 'lucide-react';
 import { ContentContext } from '../../context/globalContext';
+import LoadingSpinner from '../../components/common/Loading';
 
 const AdminDashboard = () => {
   const { content, isLoading } = useContext(ContentContext);
-
-  const stats = [
-    {
-      label: 'Total Products',
-      value: content?.brands?.reduce((total, brand) => {
-        return total + (brand.products?.length || 0);
-      }, 0) || 0,
-      icon: Package,
-      color: 'bg-blue-500',
-      link: '/admin/products'
-    },
-    {
-      label: 'Product Types',
-      value: content?.brands?.reduce((total, brand) => {
-        return total + (brand.productTypes?.length || 0);
-      }, 0) || 0,
-      icon: Layers,
-      color: 'bg-green-500',
-      link: '/admin/product-types'
-    },
-    {
-      label: 'Hero Images',
-      value: content?.heroImages?.length || 0,
-      icon: Image,
-      color: 'bg-purple-500',
-      link: '/admin/hero-images'
-    },
-    {
-      label: 'Brands',
-      value: content?.brands?.length || 0,
-      icon: TrendingUp,
-      color: 'bg-orange-500',
-      link: '#'
-    },
-  ];
-
   if (isLoading) {
-    return (
-      <div className="flex items-center justify-center h-64">
-        <div className="text-gray-600">Loading dashboard...</div>
-      </div>
-    );
-  }
+    return <LoadingSpinner />;
+    }
+
+const brandsArray = content?.brands ? Object.values(content.brands) : [];
+const heroImagesArray = content?.heroImages ? Object.values(content.heroImages) : [];
+
+const stats = [
+  {
+    label: 'Total Products',
+    value: brandsArray.reduce((total, brand) => {
+      const productsArray = brand.products ? Object.values(brand.products) : [];
+      return total + productsArray.length;
+    }, 0),
+    icon: Package,
+    color: 'bg-blue-500',
+    link: '/admin/products'
+  },
+  {
+    label: 'Product Types',
+    value: brandsArray.reduce((total, brand) => {
+      const productTypesArray = brand.productTypes ? Object.values(brand.productTypes) : [];
+      return total + productTypesArray.length;
+    }, 0),
+    icon: Layers,
+    color: 'bg-green-500',
+    link: '/admin/product-types'
+  },
+  {
+    label: 'Hero Images',
+    value: heroImagesArray.length,
+    icon: Image,
+    color: 'bg-purple-500',
+    link: '/admin/hero-images'
+  },
+  {
+    label: 'Brands',
+    value: brandsArray.length,
+    icon: TrendingUp,
+    color: 'bg-orange-500',
+    link: '#'
+  },
+];
 
   return (
     <div>
