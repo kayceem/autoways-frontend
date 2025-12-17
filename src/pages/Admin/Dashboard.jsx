@@ -1,0 +1,122 @@
+import { useContext } from 'react';
+import { Link } from 'react-router-dom';
+import { Package, Layers, Image, TrendingUp } from 'lucide-react';
+import { ContentContext } from '../../context/globalContext';
+
+const AdminDashboard = () => {
+  const { content, isLoading } = useContext(ContentContext);
+
+  const stats = [
+    {
+      label: 'Total Products',
+      value: content?.brands?.reduce((total, brand) => {
+        return total + (brand.products?.length || 0);
+      }, 0) || 0,
+      icon: Package,
+      color: 'bg-blue-500',
+      link: '/admin/products'
+    },
+    {
+      label: 'Product Types',
+      value: content?.brands?.reduce((total, brand) => {
+        return total + (brand.productTypes?.length || 0);
+      }, 0) || 0,
+      icon: Layers,
+      color: 'bg-green-500',
+      link: '/admin/product-types'
+    },
+    {
+      label: 'Hero Images',
+      value: content?.heroImages?.length || 0,
+      icon: Image,
+      color: 'bg-purple-500',
+      link: '/admin/hero-images'
+    },
+    {
+      label: 'Brands',
+      value: content?.brands?.length || 0,
+      icon: TrendingUp,
+      color: 'bg-orange-500',
+      link: '#'
+    },
+  ];
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="text-gray-600">Loading dashboard...</div>
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
+        <p className="text-gray-600 mt-2">Overview of your website content</p>
+      </div>
+
+      {/* Stats Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        {stats.map((stat, index) => {
+          const Icon = stat.icon;
+          return (
+            <Link
+              key={index}
+              to={stat.link}
+              className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow"
+            >
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-gray-600 mb-1">{stat.label}</p>
+                  <p className="text-3xl font-bold text-gray-900">{stat.value}</p>
+                </div>
+                <div className={`${stat.color} p-3 rounded-lg`}>
+                  <Icon className="w-6 h-6 text-white" />
+                </div>
+              </div>
+            </Link>
+          );
+        })}
+      </div>
+
+      {/* Quick Actions */}
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <h2 className="text-xl font-bold text-gray-900 mb-4">Quick Actions</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <Link
+            to="/admin/products"
+            className="p-4 border-2 border-blue-200 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition-all"
+          >
+            <h3 className="font-semibold text-gray-900 mb-1">Manage Products</h3>
+            <p className="text-sm text-gray-600">Add, edit, or delete products</p>
+          </Link>
+          <Link
+            to="/admin/product-types"
+            className="p-4 border-2 border-green-200 rounded-lg hover:border-green-500 hover:bg-green-50 transition-all"
+          >
+            <h3 className="font-semibold text-gray-900 mb-1">Manage Product Types</h3>
+            <p className="text-sm text-gray-600">Add, edit, or delete product categories</p>
+          </Link>
+          <Link
+            to="/admin/hero-images"
+            className="p-4 border-2 border-purple-200 rounded-lg hover:border-purple-500 hover:bg-purple-50 transition-all"
+          >
+            <h3 className="font-semibold text-gray-900 mb-1">Update Hero Images</h3>
+            <p className="text-sm text-gray-600">Edit homepage carousel images</p>
+          </Link>
+        </div>
+      </div>
+
+      {/* Recent Activity Info */}
+      <div className="mt-8 bg-blue-50 border border-blue-200 rounded-xl p-6">
+        <h2 className="text-lg font-semibold text-blue-900 mb-2">Welcome to Admin Panel</h2>
+        <p className="text-blue-700">
+          Use the sidebar navigation to manage different sections of your website. Products and Product Types support full CRUD operations, while Hero Images, About Us, and Contact Info can only be updated.
+        </p>
+      </div>
+    </div>
+  );
+};
+
+export default AdminDashboard;
