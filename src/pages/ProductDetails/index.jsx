@@ -133,7 +133,7 @@ const ProductDetails = () => {
                             <div className="product-actions">
                                 <button
                                     onClick={handleDownloadSpecs}
-                                    className="action-button action-button-primary bg-accent text-secondary hover:bg-secondary hover:text-accent"
+                                    className="action-button bg-accent text-secondary hover:bg-secondary hover:text-accent"
                                 >
                                     <Download size={20} />
                                     <span>Download Specifications</span>

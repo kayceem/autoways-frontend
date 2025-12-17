@@ -132,9 +132,6 @@
     border: 2px solid transparent;
 }
 
-.action-button-primary {
-}
-
 .action-button-primary:hover {
     border-color: var(--color-accent);
     transform: translateY(-2px);

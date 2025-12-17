@@ -102,119 +102,18 @@ const LocationSchema = new Schema({
     }
 }, { timestamps: true });
 
-// ==================== Product Specification Schemas ====================
-const EngineSpecSchema = new Schema({
-    model: String,
-    power: String,
-    torque: String,
-    displacement: String,
-    fuelType: String,
-    fuelEconomy: String,
-    emissionStandard: String
-}, { _id: false });
-
-const PerformanceSpecSchema = new Schema({
-    acceleration: String,
-    topSpeed: String,
-    transmission: String,
-    driveType: String,
-    operatingWeight: String,
-    bucketCapacity: String,
-    maxSpeed: String,
-    breakoutForce: String,
-    dumpingHeight: String,
-    dumpingReach: String,
-    ratedOperatingCapacity: String,
-    tippingLoad: String,
-    travelSpeed: String,
-    hydraulicFlow: String,
-    operatingPressure: String
-}, { _id: false });
-
-const DimensionsSpecSchema = new Schema({
-    length: String,
-    width: String,
-    height: String,
-    wheelbase: String,
-    groundClearance: String
-}, { _id: false });
-
-const BatterySpecSchema = new Schema({
-    type: String,
-    capacity: String,
-    voltage: String,
-    range: String,
-    charging: {
-        dcFastCharging: String,
-        acCharging: String
-    }
-}, { _id: false });
-
-const HydraulicsSpecSchema = new Schema({
-    systemPressure: String,
-    pumpFlow: String,
-    cycleTime: String
-}, { _id: false });
-
-const LiftArmSpecSchema = new Schema({
-    maxLiftHeight: String,
-    reachAtMaxHeight: String,
-    dumpAngle: String,
-    rollbackAngle: String
-}, { _id: false });
-
-const CapacitiesSpecSchema = new Schema({
-    seating: String,
-    fuelTank: String,
-    trunkSpace: String,
-    cargoSpace: String,
-    hydraulicOil: String,
-    engineOil: String,
-    hydraulicTank: String
-}, { _id: false });
-
-const SafetySpecSchema = new Schema({
-    airbags: String,
-    abs: String,
-    stabilityControl: String,
-    blindSpotMonitor: String,
-    laneKeepAssist: String,
-    adaptiveCruiseControl: String,
-    preCollisionSystem: String,
-    tractionControl: String,
-    hillStartAssist: String,
-    hillDescentControl: String,
-    brakeLSD: String,
-    tpms: String,
-    rearCrossTrafficAlert: String,
-    parkingAssist: String
-}, { _id: false });
-
-const OffroadSpecSchema = new Schema({
-    approachAngle: String,
-    departureAngle: String,
-    wadingDepth: String,
-    towingCapacity: String
-}, { _id: false });
-
-const MotorSpecSchema = new Schema({
-    type: String,
-    power: String,
-    torque: String,
-    driveType: String
-}, { _id: false });
-
+// ==================== Product Specifications Schema ====================
 const ProductSpecificationsSchema = new Schema({
-    engine: EngineSpecSchema,
-    motor: MotorSpecSchema,
-    performance: PerformanceSpecSchema,
-    dimensions: DimensionsSpecSchema,
-    battery: BatterySpecSchema,
-    hydraulics: HydraulicsSpecSchema,
-    liftArm: LiftArmSpecSchema,
-    capacities: CapacitiesSpecSchema,
-    safety: SafetySpecSchema,
-    offroad: OffroadSpecSchema
+    engine: Schema.Types.Mixed,
+    motor: Schema.Types.Mixed,
+    performance: Schema.Types.Mixed,
+    dimensions: Schema.Types.Mixed,
+    battery: Schema.Types.Mixed,
+    hydraulics: Schema.Types.Mixed,
+    liftArm: Schema.Types.Mixed,
+    capacities: Schema.Types.Mixed,
+    safety: Schema.Types.Mixed,
+    offroad: Schema.Types.Mixed
 }, { _id: false });
 
 // ==================== Product Schema ====================
