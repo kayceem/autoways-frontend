@@ -97,3 +97,25 @@
 .animate-wave-fast {
   animation: wave-fast 10s ease-in-out infinite;
 }
+
+/* Fade In Animation for Image Gallery Modal */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease;
+}
+
+/* Hide navbar when image viewer is open */
+body.image-viewer-open nav,
+body.image-viewer-open header,
+body.image-viewer-open .sticky {
+  visibility: hidden !important;
+  pointer-events: none !important;
+}

@@ -1,6 +1,5 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, X, ZoomIn, ZoomOut, Maximize2 } from 'lucide-react';
-import './index.css';
 import { assetUrl } from '../../../utils';
 
 const ImageGallery = ({ images = [], productName = '' }) => {
@@ -11,6 +10,24 @@ const ImageGallery = ({ images = [], productName = '' }) => {
     const [isDragging, setIsDragging] = useState(false);
     const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
     const imageRef = useRef(null);
+
+    // Prevent body scroll and hide navbar when fullscreen is open
+    useEffect(() => {
+        if (isFullscreen) {
+            // Prevent body scroll
+            document.body.style.overflow = 'hidden';
+            document.documentElement.style.overflow = 'hidden';
+
+            // Hide navbar by adding a class
+            document.body.classList.add('image-viewer-open');
+
+            return () => {
+                document.body.style.overflow = '';
+                document.documentElement.style.overflow = '';
+                document.body.classList.remove('image-viewer-open');
+            };
+        }
+    }, [isFullscreen]);
 
     const ZOOM_LEVELS = [1, 1.5, 2, 2.5, 3];
     const MAX_ZOOM = Math.max(...ZOOM_LEVELS);
@@ -102,14 +119,14 @@ const ImageGallery = ({ images = [], productName = '' }) => {
     };
 
     return (
-        <div className="image-gallery">
+        <div className="w-full">
             {/* Main Image Display */}
-            <div className="main-image-container">
-                <div className="main-image-wrapper">
+            <div className="w-full mb-4">
+                <div className="relative w-full h-[300px] md:h-[500px] rounded-2xl overflow-hidden">
                     <img
                         src={assetUrl(images[currentImageIndex])}
                         alt={`${productName} - Image ${currentImageIndex + 1}`}
-                        className="main-image"
+                        className="w-full h-full object-contain cursor-zoom-in transition-transform duration-300 hover:scale-105"
                         onClick={openFullscreen}
                     />
 
@@ -118,14 +135,14 @@ const ImageGallery = ({ images = [], productName = '' }) => {
                         <>
                             <button
                                 onClick={goToPrevious}
-                                className="nav-button nav-button-left"
+                                className="absolute top-1/2 left-2 md:left-4 -translate-y-1/2 bg-white/90 hover:bg-accent border-0 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center cursor-pointer transition-all duration-300 text-primary hover:text-secondary hover:scale-110 z-10 shadow-lg"
                                 aria-label="Previous image"
                             >
                                 <ChevronLeft size={24} />
                             </button>
                             <button
                                 onClick={goToNext}
-                                className="nav-button nav-button-right"
+                                className="absolute top-1/2 right-2 md:right-4 -translate-y-1/2 bg-white/90 hover:bg-accent border-0 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center cursor-pointer transition-all duration-300 text-primary hover:text-secondary hover:scale-110 z-10 shadow-lg"
                                 aria-label="Next image"
                             >
                                 <ChevronRight size={24} />
@@ -136,7 +153,7 @@ const ImageGallery = ({ images = [], productName = '' }) => {
                     {/* Zoom Button */}
                     <button
                         onClick={openFullscreen}
-                        className="zoom-button"
+                        className="absolute bottom-4 right-4 bg-white/90 hover:bg-accent border-0 w-10 h-10 rounded-full flex items-center justify-center cursor-pointer transition-all duration-300 text-primary hover:text-secondary hover:scale-110 z-10 shadow-lg"
                         aria-label="View fullscreen"
                     >
                         <ZoomIn size={20} />
@@ -144,7 +161,7 @@ const ImageGallery = ({ images = [], productName = '' }) => {
 
                     {/* Image Counter */}
                     {images.length > 1 && (
-                        <div className="image-counter">
+                        <div className="absolute bottom-4 left-4 bg-black/70 text-white px-4 py-2 rounded-full text-sm font-semibold z-10">
                             {currentImageIndex + 1} / {images.length}
                         </div>
                     )}
@@ -153,20 +170,23 @@ const ImageGallery = ({ images = [], productName = '' }) => {
 
             {/* Thumbnail Strip */}
             {images.length > 1 && (
-                <div className="thumbnail-strip">
+                <div className="flex gap-2 md:gap-3 overflow-x-auto py-2 [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-track]:bg-secondary [&::-webkit-scrollbar-track]:rounded-sm [&::-webkit-scrollbar-thumb]:bg-accent [&::-webkit-scrollbar-thumb]:rounded-sm">
                     {images.map((image, index) => (
                         <button
                             key={index}
                             onClick={() => {
                                 setCurrentImageIndex(index);
-                                setIsZoomed(false);
+                                resetZoomAndPan();
                             }}
-                            className={`thumbnail ${index === currentImageIndex ? 'thumbnail-active' : ''}`}
+                            className={`flex-shrink-0 w-20 h-[60px] md:w-[100px] md:h-20 rounded-lg overflow-hidden border-2 cursor-pointer transition-all duration-300 bg-secondary p-0 hover:border-accent hover:-translate-y-0.5 hover:shadow-md ${
+                                index === currentImageIndex ? 'border-accent shadow-[0_0_0_3px_rgb(var(--accent-rgb)/0.2)]' : 'border-transparent'
+                            }`}
                             aria-label={`View image ${index + 1}`}
                         >
                             <img
                                 src={assetUrl(image)}
                                 alt={`${productName} thumbnail ${index + 1}`}
+                                className="w-full h-full object-cover"
                             />
                         </button>
                     ))}
@@ -175,17 +195,17 @@ const ImageGallery = ({ images = [], productName = '' }) => {
 
             {/* Fullscreen Modal */}
             {isFullscreen && (
-                <div className="fullscreen-modal" onClick={closeFullscreen}>
+                <div className="fixed inset-0 bg-black/97 z-[100000] flex items-center justify-center animate-fadeIn" onClick={closeFullscreen}>
                     <button
                         onClick={closeFullscreen}
-                        className="fullscreen-close"
+                        className="absolute top-6 right-6 bg-white/90 hover:bg-accent border-0 w-14 h-14 rounded-full flex items-center justify-center cursor-pointer transition-all duration-300 text-black hover:text-secondary z-[100001] shadow-xl hover:rotate-90 hover:scale-110"
                         aria-label="Close fullscreen"
                     >
                         <X size={32} />
                     </button>
 
                     <div
-                        className="fullscreen-content"
+                        className="w-full h-full flex items-center justify-center relative pt-16 pb-32 px-8"
                         onClick={(e) => e.stopPropagation()}
                         onMouseMove={handleMouseMove}
                         onMouseUp={handleMouseUp}
@@ -195,10 +215,11 @@ const ImageGallery = ({ images = [], productName = '' }) => {
                             ref={imageRef}
                             src={assetUrl(images[currentImageIndex])}
                             alt={`${productName} - Image ${currentImageIndex + 1}`}
-                            className={`fullscreen-image ${zoomLevel > 1 ? 'fullscreen-image-panning' : ''}`}
+                            className={`max-w-[90%] max-h-[80vh] object-contain cursor-zoom-in transition-transform duration-300 ${
+                                zoomLevel > 1 ? (isDragging ? 'cursor-grabbing' : 'cursor-grab') : ''
+                            }`}
                             style={{
                                 transform: `scale(${zoomLevel}) translate(${panPosition.x / zoomLevel}px, ${panPosition.y / zoomLevel}px)`,
-                                cursor: zoomLevel > 1 ? (isDragging ? 'grabbing' : 'grab') : 'default'
                             }}
                             onMouseDown={handleMouseDown}
                             onWheel={handleWheel}
@@ -213,34 +234,34 @@ const ImageGallery = ({ images = [], productName = '' }) => {
                                         e.stopPropagation();
                                         goToPrevious();
                                     }}
-                                    className="fullscreen-nav fullscreen-nav-left"
+                                    className="absolute top-1/2 left-4 md:left-8 -translate-y-1/2 bg-white/85 hover:bg-accent border-0 w-12 h-12 md:w-16 md:h-16 rounded-full flex items-center justify-center cursor-pointer transition-all duration-300 text-black hover:text-secondary z-[100001] shadow-xl hover:scale-110"
                                     aria-label="Previous image"
                                 >
-                                    <ChevronLeft size={40} />
+                                    <ChevronLeft className="w-8 h-8 md:w-10 md:h-10" />
                                 </button>
                                 <button
                                     onClick={(e) => {
                                         e.stopPropagation();
                                         goToNext();
                                     }}
-                                    className="fullscreen-nav fullscreen-nav-right"
+                                    className="absolute top-1/2 right-4 md:right-8 -translate-y-1/2 bg-white/85 hover:bg-accent border-0 w-12 h-12 md:w-16 md:h-16 rounded-full flex items-center justify-center cursor-pointer transition-all duration-300 text-black hover:text-secondary z-[100001] shadow-xl hover:scale-110"
                                     aria-label="Next image"
                                 >
-                                    <ChevronRight size={40} />
+                                    <ChevronRight className="w-8 h-8 md:w-10 md:h-10" />
                                 </button>
                             </>
                         )}
 
                         {/* Fullscreen Counter */}
                         {images.length > 1 && (
-                            <div className="fullscreen-counter">
+                            <div className="absolute top-8 left-1/2 -translate-x-1/2 bg-white/85 text-black px-6 py-3 rounded-full text-base font-semibold z-[100001] backdrop-blur-md shadow-xl">
                                 {currentImageIndex + 1} / {images.length}
                             </div>
                         )}
 
                         {/* Fullscreen Thumbnails */}
                         {images.length > 1 && (
-                            <div className="fullscreen-thumbnails">
+                            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-2 md:gap-4 px-3 md:px-4 py-3 md:py-4 bg-white/15 rounded-2xl backdrop-blur-md max-w-[90%] overflow-x-auto z-[100001] shadow-xl [&::-webkit-scrollbar]:h-1 [&::-webkit-scrollbar-track]:bg-white/10 [&::-webkit-scrollbar-track]:rounded-sm [&::-webkit-scrollbar-thumb]:bg-accent [&::-webkit-scrollbar-thumb]:rounded-sm">
                                 {images.map((image, index) => (
                                     <button
                                         key={index}
@@ -249,29 +270,31 @@ const ImageGallery = ({ images = [], productName = '' }) => {
                                             setCurrentImageIndex(index);
                                             resetZoomAndPan();
                                         }}
-                                        className={`fullscreen-thumbnail ${index === currentImageIndex ? 'fullscreen-thumbnail-active' : ''}`}
+                                        className={`flex-shrink-0 w-[60px] h-[45px] md:w-20 md:h-[60px] rounded-lg overflow-hidden border-2 cursor-pointer transition-all duration-300 bg-white/10 p-0 hover:border-accent hover:-translate-y-1 ${
+                                            index === currentImageIndex ? 'border-accent shadow-[0_0_0_3px_rgb(var(--accent-rgb)/0.3)]' : 'border-transparent'
+                                        }`}
                                     >
-                                        <img src={assetUrl(image)} alt={`Thumbnail ${index + 1}`} />
+                                        <img src={assetUrl(image)} alt={`Thumbnail ${index + 1}`} className="w-full h-full object-cover" />
                                     </button>
                                 ))}
                             </div>
                         )}
 
                         {/* Zoom Controls */}
-                        <div className="zoom-controls">
+                        <div className="absolute bottom-8 right-4 md:right-8 flex flex-col gap-2 z-[100001]">
                             <button
                                 onClick={(e) => {
                                     e.stopPropagation();
                                     zoomIn();
                                 }}
-                                className="zoom-control-button"
+                                className="bg-white/85 hover:bg-accent border-0 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center cursor-pointer transition-all duration-300 text-black hover:text-secondary shadow-xl hover:scale-110 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white/85 disabled:hover:text-black disabled:hover:scale-100"
                                 aria-label="Zoom in"
                                 disabled={zoomLevel >= MAX_ZOOM}
                             >
-                                <ZoomIn size={20} />
+                                <ZoomIn size={18} className="md:w-5 md:h-5" />
                             </button>
 
-                            <div className="zoom-level-indicator">
+                            <div className="bg-white/85 text-black px-2 py-1.5 md:px-3 md:py-2 rounded-3xl text-xs md:text-sm font-semibold text-center shadow-xl min-w-[40px] md:min-w-[48px]">
                                 {Math.round(zoomLevel * 100)}%
                             </div>
 
@@ -280,11 +303,11 @@ const ImageGallery = ({ images = [], productName = '' }) => {
                                     e.stopPropagation();
                                     zoomOut();
                                 }}
-                                className="zoom-control-button"
+                                className="bg-white/85 hover:bg-accent border-0 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center cursor-pointer transition-all duration-300 text-black hover:text-secondary shadow-xl hover:scale-110 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white/85 disabled:hover:text-black disabled:hover:scale-100"
                                 aria-label="Zoom out"
                                 disabled={zoomLevel <= MIN_ZOOM}
                             >
-                                <ZoomOut size={20} />
+                                <ZoomOut size={18} className="md:w-5 md:h-5" />
                             </button>
 
                             {zoomLevel > 1 && (
@@ -293,10 +316,10 @@ const ImageGallery = ({ images = [], productName = '' }) => {
                                         e.stopPropagation();
                                         resetZoom();
                                     }}
-                                    className="zoom-control-button"
+                                    className="bg-white/85 hover:bg-accent border-0 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center cursor-pointer transition-all duration-300 text-black hover:text-secondary shadow-xl hover:scale-110"
                                     aria-label="Reset zoom"
                                 >
-                                    <Maximize2 size={20} />
+                                    <Maximize2 size={18} className="md:w-5 md:h-5" />
                                 </button>
                             )}
                         </div>

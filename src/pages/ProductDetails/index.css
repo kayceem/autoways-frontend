@@ -85,9 +85,10 @@
 .product-full-desc {
     font-size: 1rem;
     font-weight: 400;
-    opacity: 0.8;
+    opacity: 1;
     margin-bottom: 2rem;
     line-height: 1.8;
+    z-index: 1;
 }
 
 .product-price {
