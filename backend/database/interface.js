@@ -24,7 +24,7 @@ import {
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const DATA_FILE_PATH = path.join(__dirname, 'data.json');
+const DATA_FILE_PATH = path.join(__dirname, 'assets/data.json');
 
 // ==================== UTILITY FUNCTIONS ====================
 const asyncHandler = (fn) => (req, res, next) => {
