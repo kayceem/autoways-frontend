@@ -338,7 +338,7 @@ const AboutUs = () => {
                     <div className="relative bg-primary rounded-2xl overflow-hidden shadow-2xl h-[450px] group">
                       {/* Background Image */}
                       <img
-                        src={milestone.image}
+                        src={assetUrl(milestone.image)}
                         alt={`${milestone.title} - ${milestone.year}`}
                         className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                       />

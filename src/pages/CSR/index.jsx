@@ -97,7 +97,7 @@ const CSR = () => {
                 <div className={index % 2 !== 0 ? 'md:order-2' : ''}>
                   <div className="relative rounded-2xl overflow-hidden shadow-2xl h-[400px] group">
                     <img
-                      src={initiative.image}
+                      src={assetUrl(initiative.image)}
                       alt={`${initiative.title}`}
                       className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                     />
@@ -191,7 +191,7 @@ const CSR = () => {
               >
                 <div className="h-32 flex items-center justify-center mb-4 bg-secondary rounded-lg p-4">
                   <img
-                    src={partner.logo}
+                    src={assetUrl(partner.logo)}
                     alt={partner.name}
                     className="max-h-full max-w-full object-contain"
                   />
