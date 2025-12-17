@@ -7,57 +7,93 @@ import { connectDB } from "./database/client.js";
 import {
   getAllData,
   refreshCache,
+  getHeroImages,
+  getHeroImageById,
   createHeroImage,
   updateHeroImage,
   deleteHeroImage,
+  getAboutUs,
+  getAboutUsById,
   createAboutUs,
   updateAboutUs,
   deleteAboutUs,
+  getContactInfo,
+  getContactInfoById,
   createContactInfo,
   updateContactInfo,
   deleteContactInfo,
+  getLocations,
+  getLocationById,
   createLocation,
   updateLocation,
   deleteLocation,
+  getProducts,
+  getProductById,
   createProduct,
   updateProduct,
   deleteProduct,
+  getBrands,
+  getBrandById,
   createBrand,
   updateBrand,
   deleteBrand,
+  getPartners,
+  getPartnerById,
   createPartner,
   updatePartner,
   deletePartner,
+  getClients,
+  getClientById,
   createClient,
   updateClient,
   deleteClient,
+  getNewsArticles,
+  getNewsArticleById,
   createNewsArticle,
   updateNewsArticle,
   deleteNewsArticle,
+  getTestimonials,
+  getTestimonialById,
   createTestimonial,
   updateTestimonial,
   deleteTestimonial,
+  getAboutUsDetailed,
+  getAboutUsDetailedById,
   createAboutUsDetailed,
   updateAboutUsDetailed,
   deleteAboutUsDetailed,
+  getCSRInitiatives,
+  getCSRInitiativeById,
   createCSRInitiative,
   updateCSRInitiative,
   deleteCSRInitiative,
+  getCSRHero,
+  getCSRHeroById,
   createCSRHero,
   updateCSRHero,
   deleteCSRHero,
+  getSisterCompanies,
+  getSisterCompanyById,
   createSisterCompany,
   updateSisterCompany,
   deleteSisterCompany,
+  getSpareParts,
+  getSparePartById,
   createSparePart,
   updateSparePart,
   deleteSparePart,
+  getSparePartsServices,
+  getSparePartsServiceById,
   createSparePartsService,
   updateSparePartsService,
   deleteSparePartsService,
+  getSparePartsStats,
+  getSparePartsStatsById,
   createSparePartsStats,
   updateSparePartsStats,
   deleteSparePartsStats,
+  getSparePartsContact,
+  getSparePartsContactById,
   createSparePartsContact,
   updateSparePartsContact,
   deleteSparePartsContact
@@ -167,91 +203,127 @@ router.get("/data", getAllData);
 router.post("/data/refresh", refreshCache);
 
 // Hero Images routes
+router.get("/hero-images", getHeroImages);
+router.get("/hero-images/:id", getHeroImageById);
 router.post("/hero-images", createHeroImage);
 router.patch("/hero-images/:id", updateHeroImage);
 router.delete("/hero-images/:id", deleteHeroImage);
 
 // About Us routes
+router.get("/about-us", getAboutUs);
+router.get("/about-us/:id", getAboutUsById);
 router.post("/about-us", createAboutUs);
 router.patch("/about-us/:id", updateAboutUs);
 router.delete("/about-us/:id", deleteAboutUs);
 
 // Contact Info routes
+router.get("/contact-info", getContactInfo);
+router.get("/contact-info/:id", getContactInfoById);
 router.post("/contact-info", createContactInfo);
 router.patch("/contact-info/:id", updateContactInfo);
 router.delete("/contact-info/:id", deleteContactInfo);
 
 // Location routes
+router.get("/locations", getLocations);
+router.get("/locations/:id", getLocationById);
 router.post("/locations", createLocation);
 router.patch("/locations/:id", updateLocation);
 router.delete("/locations/:id", deleteLocation);
 
 // Product routes
+router.get("/products", getProducts);
+router.get("/products/:id", getProductById);
 router.post("/products", createProduct);
 router.patch("/products/:id", updateProduct);
 router.delete("/products/:id", deleteProduct);
 
 // Brand routes
+router.get("/brands", getBrands);
+router.get("/brands/:id", getBrandById);
 router.post("/brands", createBrand);
 router.patch("/brands/:id", updateBrand);
 router.delete("/brands/:id", deleteBrand);
 
 // Partner routes
+router.get("/partners", getPartners);
+router.get("/partners/:id", getPartnerById);
 router.post("/partners", createPartner);
 router.patch("/partners/:id", updatePartner);
 router.delete("/partners/:id", deletePartner);
 
 // Client routes
+router.get("/clients", getClients);
+router.get("/clients/:id", getClientById);
 router.post("/clients", createClient);
 router.patch("/clients/:id", updateClient);
 router.delete("/clients/:id", deleteClient);
 
 // News Article routes
+router.get("/news-articles", getNewsArticles);
+router.get("/news-articles/:id", getNewsArticleById);
 router.post("/news-articles", createNewsArticle);
 router.patch("/news-articles/:id", updateNewsArticle);
 router.delete("/news-articles/:id", deleteNewsArticle);
 
 // Testimonial routes
+router.get("/testimonials", getTestimonials);
+router.get("/testimonials/:id", getTestimonialById);
 router.post("/testimonials", createTestimonial);
 router.patch("/testimonials/:id", updateTestimonial);
 router.delete("/testimonials/:id", deleteTestimonial);
 
 // About Us Detailed routes
+router.get("/about-us-detailed", getAboutUsDetailed);
+router.get("/about-us-detailed/:id", getAboutUsDetailedById);
 router.post("/about-us-detailed", createAboutUsDetailed);
 router.patch("/about-us-detailed/:id", updateAboutUsDetailed);
 router.delete("/about-us-detailed/:id", deleteAboutUsDetailed);
 
 // CSR Initiative routes
+router.get("/csr-initiatives", getCSRInitiatives);
+router.get("/csr-initiatives/:id", getCSRInitiativeById);
 router.post("/csr-initiatives", createCSRInitiative);
 router.patch("/csr-initiatives/:id", updateCSRInitiative);
 router.delete("/csr-initiatives/:id", deleteCSRInitiative);
 
 // CSR Hero routes
+router.get("/csr-hero", getCSRHero);
+router.get("/csr-hero/:id", getCSRHeroById);
 router.post("/csr-hero", createCSRHero);
 router.patch("/csr-hero/:id", updateCSRHero);
 router.delete("/csr-hero/:id", deleteCSRHero);
 
 // Sister Company routes
+router.get("/sister-companies", getSisterCompanies);
+router.get("/sister-companies/:id", getSisterCompanyById);
 router.post("/sister-companies", createSisterCompany);
 router.patch("/sister-companies/:id", updateSisterCompany);
 router.delete("/sister-companies/:id", deleteSisterCompany);
 
 // Spare Part routes
+router.get("/spare-parts", getSpareParts);
+router.get("/spare-parts/:id", getSparePartById);
 router.post("/spare-parts", createSparePart);
 router.patch("/spare-parts/:id", updateSparePart);
 router.delete("/spare-parts/:id", deleteSparePart);
 
 // Spare Parts Service routes
+router.get("/spare-parts-services", getSparePartsServices);
+router.get("/spare-parts-services/:id", getSparePartsServiceById);
 router.post("/spare-parts-services", createSparePartsService);
 router.patch("/spare-parts-services/:id", updateSparePartsService);
 router.delete("/spare-parts-services/:id", deleteSparePartsService);
 
 // Spare Parts Stats routes
+router.get("/spare-parts-stats", getSparePartsStats);
+router.get("/spare-parts-stats/:id", getSparePartsStatsById);
 router.post("/spare-parts-stats", createSparePartsStats);
 router.patch("/spare-parts-stats/:id", updateSparePartsStats);
 router.delete("/spare-parts-stats/:id", deleteSparePartsStats);
 
 // Spare Parts Contact routes
+router.get("/spare-parts-contact", getSparePartsContact);
+router.get("/spare-parts-contact/:id", getSparePartsContactById);
 router.post("/spare-parts-contact", createSparePartsContact);
 router.patch("/spare-parts-contact/:id", updateSparePartsContact);
 router.delete("/spare-parts-contact/:id", deleteSparePartsContact);

@@ -151,6 +151,588 @@ export const refreshCache = asyncHandler(async (req, res) => {
     });
 });
 
+// ==================== HERO IMAGE GET ROUTES ====================
+export const getHeroImages = asyncHandler(async (req, res) => {
+    const { limit, skip, sort } = req.query;
+    const query = HeroImage.find();
+
+    if (skip) query.skip(parseInt(skip));
+    if (limit) query.limit(parseInt(limit));
+    if (sort) query.sort(sort);
+
+    const heroImages = await query;
+    const total = await HeroImage.countDocuments();
+
+    res.json({
+        success: true,
+        data: heroImages,
+        total,
+        count: heroImages.length
+    });
+});
+
+export const getHeroImageById = asyncHandler(async (req, res) => {
+    const heroImage = await HeroImage.findById(req.params.id);
+    if (!heroImage) {
+        return res.status(404).json({ success: false, error: 'Hero image not found' });
+    }
+    res.json({
+        success: true,
+        data: heroImage
+    });
+});
+
+// ==================== ABOUT US GET ROUTES ====================
+export const getAboutUs = asyncHandler(async (req, res) => {
+    const { limit, skip, sort } = req.query;
+    const query = AboutUs.find();
+
+    if (skip) query.skip(parseInt(skip));
+    if (limit) query.limit(parseInt(limit));
+    if (sort) query.sort(sort);
+
+    const aboutUs = await query;
+    const total = await AboutUs.countDocuments();
+
+    res.json({
+        success: true,
+        data: aboutUs,
+        total,
+        count: aboutUs.length
+    });
+});
+
+export const getAboutUsById = asyncHandler(async (req, res) => {
+    const aboutUs = await AboutUs.findById(req.params.id);
+    if (!aboutUs) {
+        return res.status(404).json({ success: false, error: 'About us not found' });
+    }
+    res.json({
+        success: true,
+        data: aboutUs
+    });
+});
+
+// ==================== CONTACT INFO GET ROUTES ====================
+export const getContactInfo = asyncHandler(async (req, res) => {
+    const { limit, skip, sort } = req.query;
+    const query = ContactInfo.find();
+
+    if (skip) query.skip(parseInt(skip));
+    if (limit) query.limit(parseInt(limit));
+    if (sort) query.sort(sort);
+
+    const contactInfo = await query;
+    const total = await ContactInfo.countDocuments();
+
+    res.json({
+        success: true,
+        data: contactInfo,
+        total,
+        count: contactInfo.length
+    });
+});
+
+export const getContactInfoById = asyncHandler(async (req, res) => {
+    const contactInfo = await ContactInfo.findById(req.params.id);
+    if (!contactInfo) {
+        return res.status(404).json({ success: false, error: 'Contact info not found' });
+    }
+    res.json({
+        success: true,
+        data: contactInfo
+    });
+});
+
+// ==================== LOCATION GET ROUTES ====================
+export const getLocations = asyncHandler(async (req, res) => {
+    const { limit, skip, sort } = req.query;
+    const query = Location.find();
+
+    if (skip) query.skip(parseInt(skip));
+    if (limit) query.limit(parseInt(limit));
+    if (sort) query.sort(sort);
+
+    const locations = await query;
+    const total = await Location.countDocuments();
+
+    res.json({
+        success: true,
+        data: locations,
+        total,
+        count: locations.length
+    });
+});
+
+export const getLocationById = asyncHandler(async (req, res) => {
+    const location = await Location.findById(req.params.id);
+    if (!location) {
+        return res.status(404).json({ success: false, error: 'Location not found' });
+    }
+    res.json({
+        success: true,
+        data: location
+    });
+});
+
+// ==================== PRODUCT GET ROUTES ====================
+export const getProducts = asyncHandler(async (req, res) => {
+    const { limit, skip, sort, brand, category, type } = req.query;
+    const filter = {};
+
+    if (brand) filter.brand = brand;
+    if (category) filter.category = category;
+    if (type) filter.type = type;
+
+    const query = Product.find(filter);
+
+    if (skip) query.skip(parseInt(skip));
+    if (limit) query.limit(parseInt(limit));
+    if (sort) query.sort(sort);
+
+    const products = await query;
+    const total = await Product.countDocuments(filter);
+
+    res.json({
+        success: true,
+        data: products,
+        total,
+        count: products.length
+    });
+});
+
+export const getProductById = asyncHandler(async (req, res) => {
+    const product = await Product.findById(req.params.id);
+    if (!product) {
+        return res.status(404).json({ success: false, error: 'Product not found' });
+    }
+    res.json({
+        success: true,
+        data: product
+    });
+});
+
+// ==================== BRAND GET ROUTES ====================
+export const getBrands = asyncHandler(async (req, res) => {
+    const { limit, skip, sort } = req.query;
+    const query = Brand.find();
+
+    if (skip) query.skip(parseInt(skip));
+    if (limit) query.limit(parseInt(limit));
+    if (sort) query.sort(sort);
+
+    const brands = await query;
+    const total = await Brand.countDocuments();
+
+    res.json({
+        success: true,
+        data: brands,
+        total,
+        count: brands.length
+    });
+});
+
+export const getBrandById = asyncHandler(async (req, res) => {
+    const brand = await Brand.findById(req.params.id);
+    if (!brand) {
+        return res.status(404).json({ success: false, error: 'Brand not found' });
+    }
+    res.json({
+        success: true,
+        data: brand
+    });
+});
+
+// ==================== PARTNER GET ROUTES ====================
+export const getPartners = asyncHandler(async (req, res) => {
+    const { limit, skip, sort, category } = req.query;
+    const filter = {};
+
+    if (category) filter.category = category;
+
+    const query = Partner.find(filter);
+
+    if (skip) query.skip(parseInt(skip));
+    if (limit) query.limit(parseInt(limit));
+    if (sort) query.sort(sort);
+
+    const partners = await query;
+    const total = await Partner.countDocuments(filter);
+
+    res.json({
+        success: true,
+        data: partners,
+        total,
+        count: partners.length
+    });
+});
+
+export const getPartnerById = asyncHandler(async (req, res) => {
+    const partner = await Partner.findById(req.params.id);
+    if (!partner) {
+        return res.status(404).json({ success: false, error: 'Partner not found' });
+    }
+    res.json({
+        success: true,
+        data: partner
+    });
+});
+
+// ==================== CLIENT GET ROUTES ====================
+export const getClients = asyncHandler(async (req, res) => {
+    const { limit, skip, sort } = req.query;
+    const query = Client.find();
+
+    if (skip) query.skip(parseInt(skip));
+    if (limit) query.limit(parseInt(limit));
+    if (sort) query.sort(sort);
+
+    const clients = await query;
+    const total = await Client.countDocuments();
+
+    res.json({
+        success: true,
+        data: clients,
+        total,
+        count: clients.length
+    });
+});
+
+export const getClientById = asyncHandler(async (req, res) => {
+    const client = await Client.findById(req.params.id);
+    if (!client) {
+        return res.status(404).json({ success: false, error: 'Client not found' });
+    }
+    res.json({
+        success: true,
+        data: client
+    });
+});
+
+// ==================== NEWS ARTICLE GET ROUTES ====================
+export const getNewsArticles = asyncHandler(async (req, res) => {
+    const { limit, skip, sort, featured, category } = req.query;
+    const filter = {};
+
+    if (featured !== undefined) filter.featured = featured === 'true';
+    if (category) filter.category = category;
+
+    const query = NewsArticle.find(filter);
+
+    if (skip) query.skip(parseInt(skip));
+    if (limit) query.limit(parseInt(limit));
+    if (sort) query.sort(sort);
+
+    const newsArticles = await query;
+    const total = await NewsArticle.countDocuments(filter);
+
+    res.json({
+        success: true,
+        data: newsArticles,
+        total,
+        count: newsArticles.length
+    });
+});
+
+export const getNewsArticleById = asyncHandler(async (req, res) => {
+    const newsArticle = await NewsArticle.findById(req.params.id);
+    if (!newsArticle) {
+        return res.status(404).json({ success: false, error: 'News article not found' });
+    }
+    res.json({
+        success: true,
+        data: newsArticle
+    });
+});
+
+// ==================== TESTIMONIAL GET ROUTES ====================
+export const getTestimonials = asyncHandler(async (req, res) => {
+    const { limit, skip, sort, minRating } = req.query;
+    const filter = {};
+
+    if (minRating) filter.rating = { $gte: parseInt(minRating) };
+
+    const query = Testimonial.find(filter);
+
+    if (skip) query.skip(parseInt(skip));
+    if (limit) query.limit(parseInt(limit));
+    if (sort) query.sort(sort);
+
+    const testimonials = await query;
+    const total = await Testimonial.countDocuments(filter);
+
+    res.json({
+        success: true,
+        data: testimonials,
+        total,
+        count: testimonials.length
+    });
+});
+
+export const getTestimonialById = asyncHandler(async (req, res) => {
+    const testimonial = await Testimonial.findById(req.params.id);
+    if (!testimonial) {
+        return res.status(404).json({ success: false, error: 'Testimonial not found' });
+    }
+    res.json({
+        success: true,
+        data: testimonial
+    });
+});
+
+// ==================== ABOUT US DETAILED GET ROUTES ====================
+export const getAboutUsDetailed = asyncHandler(async (req, res) => {
+    const { limit, skip, sort } = req.query;
+    const query = AboutUsDetailed.find();
+
+    if (skip) query.skip(parseInt(skip));
+    if (limit) query.limit(parseInt(limit));
+    if (sort) query.sort(sort);
+
+    const aboutUsDetailed = await query;
+    const total = await AboutUsDetailed.countDocuments();
+
+    res.json({
+        success: true,
+        data: aboutUsDetailed,
+        total,
+        count: aboutUsDetailed.length
+    });
+});
+
+export const getAboutUsDetailedById = asyncHandler(async (req, res) => {
+    const aboutUsDetailed = await AboutUsDetailed.findById(req.params.id);
+    if (!aboutUsDetailed) {
+        return res.status(404).json({ success: false, error: 'About us detailed not found' });
+    }
+    res.json({
+        success: true,
+        data: aboutUsDetailed
+    });
+});
+
+// ==================== CSR INITIATIVE GET ROUTES ====================
+export const getCSRInitiatives = asyncHandler(async (req, res) => {
+    const { limit, skip, sort } = req.query;
+    const query = CSRInitiative.find();
+
+    if (skip) query.skip(parseInt(skip));
+    if (limit) query.limit(parseInt(limit));
+    if (sort) query.sort(sort);
+
+    const csrInitiatives = await query;
+    const total = await CSRInitiative.countDocuments();
+
+    res.json({
+        success: true,
+        data: csrInitiatives,
+        total,
+        count: csrInitiatives.length
+    });
+});
+
+export const getCSRInitiativeById = asyncHandler(async (req, res) => {
+    const csrInitiative = await CSRInitiative.findById(req.params.id);
+    if (!csrInitiative) {
+        return res.status(404).json({ success: false, error: 'CSR initiative not found' });
+    }
+    res.json({
+        success: true,
+        data: csrInitiative
+    });
+});
+
+// ==================== CSR HERO GET ROUTES ====================
+export const getCSRHero = asyncHandler(async (req, res) => {
+    const { limit, skip, sort } = req.query;
+    const query = CSRHero.find();
+
+    if (skip) query.skip(parseInt(skip));
+    if (limit) query.limit(parseInt(limit));
+    if (sort) query.sort(sort);
+
+    const csrHero = await query;
+    const total = await CSRHero.countDocuments();
+
+    res.json({
+        success: true,
+        data: csrHero,
+        total,
+        count: csrHero.length
+    });
+});
+
+export const getCSRHeroById = asyncHandler(async (req, res) => {
+    const csrHero = await CSRHero.findById(req.params.id);
+    if (!csrHero) {
+        return res.status(404).json({ success: false, error: 'CSR hero not found' });
+    }
+    res.json({
+        success: true,
+        data: csrHero
+    });
+});
+
+// ==================== SISTER COMPANY GET ROUTES ====================
+export const getSisterCompanies = asyncHandler(async (req, res) => {
+    const { limit, skip, sort } = req.query;
+    const query = SisterCompany.find();
+
+    if (skip) query.skip(parseInt(skip));
+    if (limit) query.limit(parseInt(limit));
+    if (sort) query.sort(sort);
+
+    const sisterCompanies = await query;
+    const total = await SisterCompany.countDocuments();
+
+    res.json({
+        success: true,
+        data: sisterCompanies,
+        total,
+        count: sisterCompanies.length
+    });
+});
+
+export const getSisterCompanyById = asyncHandler(async (req, res) => {
+    const sisterCompany = await SisterCompany.findById(req.params.id);
+    if (!sisterCompany) {
+        return res.status(404).json({ success: false, error: 'Sister company not found' });
+    }
+    res.json({
+        success: true,
+        data: sisterCompany
+    });
+});
+
+// ==================== SPARE PART GET ROUTES ====================
+export const getSpareParts = asyncHandler(async (req, res) => {
+    const { limit, skip, sort, category, inStock } = req.query;
+    const filter = {};
+
+    if (category) filter.category = category;
+    if (inStock !== undefined) filter.inStock = inStock === 'true';
+
+    const query = SparePart.find(filter);
+
+    if (skip) query.skip(parseInt(skip));
+    if (limit) query.limit(parseInt(limit));
+    if (sort) query.sort(sort);
+
+    const spareParts = await query;
+    const total = await SparePart.countDocuments(filter);
+
+    res.json({
+        success: true,
+        data: spareParts,
+        total,
+        count: spareParts.length
+    });
+});
+
+export const getSparePartById = asyncHandler(async (req, res) => {
+    const sparePart = await SparePart.findById(req.params.id);
+    if (!sparePart) {
+        return res.status(404).json({ success: false, error: 'Spare part not found' });
+    }
+    res.json({
+        success: true,
+        data: sparePart
+    });
+});
+
+// ==================== SPARE PARTS SERVICE GET ROUTES ====================
+export const getSparePartsServices = asyncHandler(async (req, res) => {
+    const { limit, skip, sort } = req.query;
+    const query = SparePartsService.find();
+
+    if (skip) query.skip(parseInt(skip));
+    if (limit) query.limit(parseInt(limit));
+    if (sort) query.sort(sort);
+
+    const sparePartsServices = await query;
+    const total = await SparePartsService.countDocuments();
+
+    res.json({
+        success: true,
+        data: sparePartsServices,
+        total,
+        count: sparePartsServices.length
+    });
+});
+
+export const getSparePartsServiceById = asyncHandler(async (req, res) => {
+    const sparePartsService = await SparePartsService.findById(req.params.id);
+    if (!sparePartsService) {
+        return res.status(404).json({ success: false, error: 'Spare parts service not found' });
+    }
+    res.json({
+        success: true,
+        data: sparePartsService
+    });
+});
+
+// ==================== SPARE PARTS STATS GET ROUTES ====================
+export const getSparePartsStats = asyncHandler(async (req, res) => {
+    const { limit, skip, sort } = req.query;
+    const query = SparePartsStats.find();
+
+    if (skip) query.skip(parseInt(skip));
+    if (limit) query.limit(parseInt(limit));
+    if (sort) query.sort(sort);
+
+    const sparePartsStats = await query;
+    const total = await SparePartsStats.countDocuments();
+
+    res.json({
+        success: true,
+        data: sparePartsStats,
+        total,
+        count: sparePartsStats.length
+    });
+});
+
+export const getSparePartsStatsById = asyncHandler(async (req, res) => {
+    const sparePartsStats = await SparePartsStats.findById(req.params.id);
+    if (!sparePartsStats) {
+        return res.status(404).json({ success: false, error: 'Spare parts stats not found' });
+    }
+    res.json({
+        success: true,
+        data: sparePartsStats
+    });
+});
+
+// ==================== SPARE PARTS CONTACT GET ROUTES ====================
+export const getSparePartsContact = asyncHandler(async (req, res) => {
+    const { limit, skip, sort } = req.query;
+    const query = SparePartsContact.find();
+
+    if (skip) query.skip(parseInt(skip));
+    if (limit) query.limit(parseInt(limit));
+    if (sort) query.sort(sort);
+
+    const sparePartsContact = await query;
+    const total = await SparePartsContact.countDocuments();
+
+    res.json({
+        success: true,
+        data: sparePartsContact,
+        total,
+        count: sparePartsContact.length
+    });
+});
+
+export const getSparePartsContactById = asyncHandler(async (req, res) => {
+    const sparePartsContact = await SparePartsContact.findById(req.params.id);
+    if (!sparePartsContact) {
+        return res.status(404).json({ success: false, error: 'Spare parts contact not found' });
+    }
+    res.json({
+        success: true,
+        data: sparePartsContact
+    });
+});
+
 // ==================== HERO IMAGE ROUTES ====================
 export const createHeroImage = asyncHandler(async (req, res) => {
     const heroImage = await HeroImage.create(req.body);
