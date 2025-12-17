@@ -16,28 +16,65 @@ import Navbar from "../../components/common/NavBar";
 import Footer from "../../components/common/Footer";
 import ScrollToTop from "../../components/common/ScrollToTop";
 
+// Admin imports
+import AdminLogin from "../Admin/Login";
+import AdminLayout from "../../components/admin/AdminLayout";
+import AdminDashboard from "../Admin/Dashboard";
+import ProductsAdmin from "../Admin/Products";
+import ProductTypesAdmin from "../Admin/ProductTypes";
+import HeroImagesAdmin from "../Admin/HeroImages";
+import AboutUsAdmin from "../Admin/AboutUs";
+import ContactInfoAdmin from "../Admin/ContactInfo";
+import ProtectedRoute from "../../components/common/ProtectedRoute";
+
 const PageRoutes = () => {
     return (
-        <div>
-            <Navbar />
-            <ScrollToTop />
-            <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/locations" element={<Locations />} />
-                {/* <Route path="/news" element={<NewsMedia />} /> */}
-                {/* <Route path="/testimonials" element={<Testimonials />} /> */}
-                <Route path="/about" element={<AboutUs />} />
-                {/* <Route path="/csr" element={<CSR />} /> */}
-                <Route path="/sister-companies" element={<SisterCompanies />} />
-                {/* <Route path="/spares-parts" element={<SparesParts />} /> */}
-                <Route path="/shop/:brand" element={<BrandLanding />} />
-                <Route path="/shop/:brand/:typeSlug" element={<ProductType />} />
-                <Route path="/shop/:brand/:typeSlug/:id" element={<ProductDetails />} />
-                <Route path="*" element={<NotFound />} />
-            </Routes>
-            <Footer />
-        </div>
+        <Routes>
+            {/* Admin Routes */}
+            <Route path="/admin/login" element={<AdminLogin />} />
+            <Route
+                path="/admin/*"
+                element={
+                    <ProtectedRoute>
+                        <AdminLayout />
+                    </ProtectedRoute>
+                }
+            >
+                <Route path="dashboard" element={<AdminDashboard />} />
+                <Route path="products" element={<ProductsAdmin />} />
+                <Route path="product-types" element={<ProductTypesAdmin />} />
+                <Route path="hero-images" element={<HeroImagesAdmin />} />
+                <Route path="about-us" element={<AboutUsAdmin />} />
+                <Route path="contact-info" element={<ContactInfoAdmin />} />
+            </Route>
+
+            {/* Public Routes */}
+            <Route
+                path="*"
+                element={
+                    <div>
+                        <Navbar />
+                        <ScrollToTop />
+                        <Routes>
+                            <Route path="/" element={<Home />} />
+                            <Route path="/contact" element={<Contact />} />
+                            <Route path="/locations" element={<Locations />} />
+                            {/* <Route path="/news" element={<NewsMedia />} /> */}
+                            {/* <Route path="/testimonials" element={<Testimonials />} /> */}
+                            <Route path="/about" element={<AboutUs />} />
+                            {/* <Route path="/csr" element={<CSR />} /> */}
+                            <Route path="/sister-companies" element={<SisterCompanies />} />
+                            {/* <Route path="/spares-parts" element={<SparesParts />} /> */}
+                            <Route path="/shop/:brand" element={<BrandLanding />} />
+                            <Route path="/shop/:brand/:typeSlug" element={<ProductType />} />
+                            <Route path="/shop/:brand/:typeSlug/:id" element={<ProductDetails />} />
+                            <Route path="*" element={<NotFound />} />
+                        </Routes>
+                        <Footer />
+                    </div>
+                }
+            />
+        </Routes>
     );
 };
 

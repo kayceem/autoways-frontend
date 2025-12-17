@@ -1,0 +1,117 @@
+import { useState } from 'react';
+import { Link, useLocation, useNavigate, Outlet } from 'react-router-dom';
+import {
+  LayoutDashboard,
+  Package,
+  Layers,
+  Image,
+  Info,
+  Phone,
+  LogOut,
+  Menu,
+  X
+} from 'lucide-react';
+import toast from 'react-hot-toast';
+
+const AdminLayout = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+
+  const menuItems = [
+    { path: '/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+    { path: '/admin/products', label: 'Products', icon: Package },
+    { path: '/admin/product-types', label: 'Product Types', icon: Layers },
+    { path: '/admin/hero-images', label: 'Hero Images', icon: Image },
+    { path: '/admin/about-us', label: 'About Us', icon: Info },
+    { path: '/admin/contact-info', label: 'Contact Info', icon: Phone },
+  ];
+
+  const handleLogout = () => {
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('isAdmin');
+    toast.success('Logged out successfully');
+    navigate('/admin/login');
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-100 flex">
+      {/* Sidebar */}
+      <aside
+        className={`${
+          isSidebarOpen ? 'w-64' : 'w-0'
+        } bg-gray-900 text-white transition-all duration-300 overflow-hidden fixed h-full z-20`}
+      >
+        <div className="p-6">
+          <div className="flex items-center justify-between mb-8">
+            <h1 className="text-2xl font-bold">Admin Panel</h1>
+            <button
+              onClick={() => setIsSidebarOpen(false)}
+              className="lg:hidden text-gray-400 hover:text-white"
+            >
+              <X className="w-6 h-6" />
+            </button>
+          </div>
+
+          <nav className="space-y-2">
+            {menuItems.map((item) => {
+              const Icon = item.icon;
+              const isActive = location.pathname === item.path;
+              return (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-all ${
+                    isActive
+                      ? 'bg-blue-600 text-white'
+                      : 'text-gray-300 hover:bg-gray-800'
+                  }`}
+                >
+                  <Icon className="w-5 h-5" />
+                  <span>{item.label}</span>
+                </Link>
+              );
+            })}
+          </nav>
+
+          <button
+            onClick={handleLogout}
+            className="flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-300 hover:bg-red-600 hover:text-white transition-all mt-8 w-full"
+          >
+            <LogOut className="w-5 h-5" />
+            <span>Logout</span>
+          </button>
+        </div>
+      </aside>
+
+      {/* Main Content */}
+      <div
+        className={`flex-1 transition-all duration-300 ${
+          isSidebarOpen ? 'ml-64' : 'ml-0'
+        }`}
+      >
+        {/* Top Bar */}
+        <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-10">
+          <div className="flex items-center justify-between px-6 py-4">
+            <button
+              onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+              className="text-gray-600 hover:text-gray-900"
+            >
+              <Menu className="w-6 h-6" />
+            </button>
+            <div className="text-sm text-gray-600">
+              Welcome, <span className="font-semibold">Admin</span>
+            </div>
+          </div>
+        </header>
+
+        {/* Page Content */}
+        <main className="p-6">
+          <Outlet />
+        </main>
+      </div>
+    </div>
+  );
+};
+
+export default AdminLayout;

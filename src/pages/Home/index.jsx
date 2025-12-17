@@ -32,8 +32,8 @@ const Home = () => {
   return (
     <main className="min-h-screen">
       {/* Hero Section - Full-screen carousel */}
-      {content.hero_images && content.hero_images.length > 0 && (
-        <HeroSection heroImages={content.hero_images} />
+      {content.heroImages && content.heroImages.length > 0 && (
+        <HeroSection heroImages={content.heroImages} />
       )}
 
       {/* Bull Section - Power and reliability showcase */}
