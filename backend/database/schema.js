@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 // ==================== Hero Images Schema ====================
@@ -697,7 +697,7 @@ const SparePartsService = mongoose.model('SparePartsService', SparePartsServiceS
 const SparePartsStats = mongoose.model('SparePartsStats', SparePartsStatsSchema);
 const SparePartsContact = mongoose.model('SparePartsContact', SparePartsContactSchema);
 
-module.exports = {
+export {
     HeroImage,
     AboutUs,
     ContactInfo,
