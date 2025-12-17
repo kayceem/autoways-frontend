@@ -75,7 +75,6 @@ const ContactForm = () => {
       await new Promise(resolve => setTimeout(resolve, 1500));
 
       // Simulate successful submission
-      console.log('Form submitted:', formData);
       toast.success('Thank you for your inquiry! We will get back to you soon.');
 
       setFormData({
@@ -88,7 +87,6 @@ const ContactForm = () => {
       setErrors({});
     } catch (error) {
       toast.error('Something went wrong. Please try again later.');
-      console.error('Form submission error:', error);
     } finally {
       setIsSubmitting(false);
     }

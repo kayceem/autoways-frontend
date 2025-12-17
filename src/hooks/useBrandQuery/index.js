@@ -7,7 +7,7 @@ const useBrandQuery = (brandName) => {
   return useQuery({
     queryKey: ['brand', brandName],
     queryFn: async () => {
-      const response = await axiosInstance.get(API_END_POINT.content.getAll); 
+      const response = await axiosInstance.get(`${API_END_POINT.content.brand}${brandId}`); 
       return response.data;
     },
     retry: 1,

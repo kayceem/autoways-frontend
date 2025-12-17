@@ -32,8 +32,8 @@ const PageRoutes = () => {
                 <Route path="/sister-companies" element={<SisterCompanies />} />
                 {/* <Route path="/spares-parts" element={<SparesParts />} /> */}
                 <Route path="/shop/:brand" element={<BrandLanding />} />
-                <Route path="/shop/:brand/:type" element={<ProductType />} />
-                <Route path="/shop/:brand/:type/:id" element={<ProductDetails />} />
+                <Route path="/shop/:brand/:typeSlug" element={<ProductType />} />
+                <Route path="/shop/:brand/:typeSlug/:id" element={<ProductDetails />} />
                 <Route path="*" element={<NotFound />} />
             </Routes>
             <Footer />

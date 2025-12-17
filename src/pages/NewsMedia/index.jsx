@@ -1,7 +1,7 @@
 import { useContent } from '../../context/globalContext';
 import LoadingSpinner from '../../components/common/Loading';
 import WaveBackground from '../../components/common/WaveBackground';
-import { assetUrl } from '../../utils/assetUrl';
+import { assetUrl } from '../../utils';
 
 const NewsMedia = () => {
   const { content, isLoading } = useContent();

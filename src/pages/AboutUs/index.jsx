@@ -2,7 +2,7 @@ import { useContent } from '../../context/globalContext';
 import LoadingSpinner from '../../components/common/Loading';
 import WaveBackground from '../../components/common/WaveBackground';
 import { useState, useRef } from 'react';
-import { assetUrl } from '../../utils/assetUrl';
+import { assetUrl } from '../../utils';
 
 const AboutUs = () => {
   const { content, isLoading } = useContent();
@@ -337,14 +337,12 @@ const AboutUs = () => {
                   >
                     <div className="relative bg-primary rounded-2xl overflow-hidden shadow-2xl h-[450px] group">
                       {/* Background Image */}
-                      <div
-                        className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
-                        style={{
-                          backgroundImage: `url(${milestone.image})`,
-                        }}
-                      >
-                        <div className="absolute inset-0 bg-gradient-to-r from-dark via-dark/70 to-transparent" />
-                      </div>
+                      <img
+                        src={assetUrl(milestone.image)}
+                        alt={`${milestone.title} - ${milestone.year}`}
+                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-r from-dark via-dark/70 to-transparent" />
 
                       {/* Content Layout */}
                       <div className="absolute inset-0 flex flex-col p-6">

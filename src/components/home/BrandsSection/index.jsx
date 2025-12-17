@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { ChevronRight } from "lucide-react";
 import "./index.css";
-import { assetUrl } from '../../../utils/assetUrl';
+import { assetUrl } from '../../../utils';
 
 const BrandsSection = ({ brands = {}, className = "" }) => {
     // Convert brands object to array

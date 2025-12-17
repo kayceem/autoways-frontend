@@ -17,34 +17,25 @@ import SpecificationsDisplay from '../../components/common/SpecificationsDisplay
 import LoadingSpinner from '../../components/common/Loading';
 import useContentQuery from '../../hooks/useContentQuery';
 import './index.css';
+import { getProductData } from '../../utils';
 
 const ProductDetails = () => {
-    const { brand, type, id } = useParams();
-    const { data: product, isLoading, error } = useProductDetailsQuery(brand, type, id);
-    const { data: siteContent } = useContentQuery();
-
+    const { brand, typeSlug, id } = useParams();
+    const { data: siteContent, isLoading, error } = useContentQuery();
     if (isLoading) {
         return <LoadingSpinner name={brand} />;
     }
-
-    if (error || !product) {
-        return (
-            <div className="min-h-screen flex items-center justify-center bg-primary">
-                <div className="text-center">
-                    <h2 className="text-error font-light text-3xl mb-4">
-                        Product Not Found
-                    </h2>
-                    <Link
-                        to={`/shop/${brand}/${type}`}
-                        className="text-accent hover:underline font-bold"
-                    >
-                        Back to {type} listing
-                    </Link>
-                </div>
-            </div>
-        );
+    
+    if (error) {
+        return <div className="error-message">Error loading product details: {error.message}</div>;
     }
-
+    const product = getProductData(
+        siteContent?.brands,
+        brand,
+        typeSlug,
+        id
+    );
+    console.log("ProductDetails data:", product);
     const getFuelTypeIcon = (fuelType) => {
         switch(fuelType) {
             case 'electric':
@@ -87,9 +78,9 @@ const ProductDetails = () => {
                         <ChevronDown size={16} className="rotate-[-90deg]" />
                         <Link to={`/shop/${brand}`} className="capitalize hover:text-accent">{brand}</Link>
                         <ChevronDown size={16} className="rotate-[-90deg]" />
-                        <Link to={`/shop/${brand}/${type}`} className="capitalize hover:text-accent">{type}</Link>
+                        <Link to={`/shop/${brand}/${typeSlug}`} className="capitalize hover:text-accent">{typeSlug}</Link>
                         <ChevronDown size={16} className="rotate-[-90deg]" />
-                        <span className="breadcrumb-current text-secondary">{product.name}</span>
+                        <span className="breadcrumb-current text-secondary">{product?.name}</span>
                     </div>
                 </div>
             </section>
@@ -101,8 +92,8 @@ const ProductDetails = () => {
                         {/* Left: Image Gallery */}
                         <div className="product-images">
                             <ImageGallery
-                                images={product.images}
-                                productName={product.name}
+                                images={product?.images}
+                                productName={product?.name}
                             />
                         </div>
 
@@ -114,22 +105,22 @@ const ProductDetails = () => {
                                 </div>
                             )} */}
 
-                            <h1 className="product-title text-primary">{product.name}</h1>
+                            <h1 className="product-title text-primary">{product?.name}</h1>
 
                             <div className="product-fuel-type text-primary">
-                                {getFuelTypeIcon(product.fuelType)}
-                                <span>{getFuelTypeLabel(product.fuelType)}</span>
+                                {getFuelTypeIcon(product?.fuelType)}
+                                <span>{getFuelTypeLabel(product?.fuelType)}</span>
                             </div>
 
-                            {product.shortDescription && (
+                            {product?.shortDescription && (
                                 <p className="product-short-desc text-primary">
-                                    {product.shortDescription}
+                                    {product?.shortDescription}
                                 </p>
                             )}
 
-                            {product.fullDescription && (
+                            {product?.fullDescription && (
                                 <p className="product-full-desc text-primary">
-                                    {product.fullDescription}
+                                    {product?.fullDescription}
                                 </p>
                             )}
 
@@ -164,12 +155,12 @@ const ProductDetails = () => {
             </section>
 
             {/* Features Section */}
-            {product.features && product.features.length > 0 && (
+            {product?.features && product?.features.length > 0 && (
                 <section className="features-section bg-primary">
                     <div className="max-w-7xl mx-auto px-6 py-12">
                         <h2 className="section-title text-primary">Key Features</h2>
                         <div className="features-grid">
-                            {product.features.map((feature, index) => (
+                            {product?.features.map((feature, index) => (
                                 <div key={index} className="feature-item">
                                     <Check className="feature-icon text-accent" size={20} />
                                     <span className="text-secondary">{feature}</span>
@@ -181,13 +172,13 @@ const ProductDetails = () => {
             )}
 
             {/* Specifications Section */}
-            {product.specifications && (
+            {product?.specifications && (
                 <section className="specifications-section bg-accent">
                     <div className="max-w-7xl mx-auto px-6 py-12">
                         <h2 className="section-title text-primary">Technical Specifications</h2>
                         <SpecificationsDisplay
-                            specifications={product.specifications}
-                            fuelType={product.fuelType}
+                            specifications={product?.specifications}
+                            fuelType={product?.fuelType}
                         />
                     </div>
                 </section>
@@ -196,7 +187,7 @@ const ProductDetails = () => {
             {/* Contact CTA Section */}
             <section className="contact-cta-section">
                 <div className="max-w-5xl mx-auto px-6 py-16 text-center">
-                    <h2 className="cta-title text-primary">Interested in {product.name}?</h2>
+                    <h2 className="cta-title text-primary">Interested in {product?.name}?</h2>
                     <p className="cta-description text-primary">
                         Get in touch with our sales team for pricing, availability, and expert guidance
                     </p>
@@ -236,12 +227,12 @@ const ProductDetails = () => {
             {/* Related Products Section */}
             <section className="related-products-section bg-primary">
                 <div className="max-w-7xl mx-auto px-6 py-12">
-                    <h2 className="section-title text-primary">More {type}s from {brand}</h2>
+                    <h2 className="section-title text-primary capitalize">More products from {brand}</h2>
                     <Link
-                        to={`/shop/${brand}/${type}`}
+                        to={`/shop/${brand}/${typeSlug}`}
                         className="view-all-link bg-accent text-secondary hover:bg-secondary hover:text-accent"
                     >
-                        View All {type}s
+                        View All products
                     </Link>
                 </div>
             </section>

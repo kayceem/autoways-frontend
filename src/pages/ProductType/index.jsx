@@ -1,4 +1,4 @@
-import { Link, useParams, useLocation } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useState } from "react";
 import ProductCard from "../../components/common/ProductCard";
 import {
@@ -10,29 +10,36 @@ import {
 } from "lucide-react";
 import useProductTypeQuery from "../../hooks/useProductTypeQuery";
 import LoadingSpinner from "../../components/common/Loading";
+import { useContent } from "../../context/globalContext";
 import "./index.css";
+import { getBrandTypeData } from "../../utils";
+
 const ProductTypePage = () => {
-    const { brand, type } = useParams();
-    const location = useLocation();
-    const typeName = location.state?.typeName || type;
-    const { data, isLoading, error } = useProductTypeQuery(brand, type);
+    const { brand, typeSlug } = useParams();
+    const typeName = typeSlug.replace(/-/g, ' ').toUpperCase();
+    const type = typeSlug.replace(/-/g, '_');
+    const {content, isLoading, error} = useContent();
     const [viewMode, setViewMode] = useState("grid");
     const [sortBy, setSortBy] = useState("name");
 
     if (isLoading) {
         return <LoadingSpinner name={brand} />;
     }
-
     if (error) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-primary">
-                <div className="text-primary font-bold text-2xl">
-                    No products found
+                <div className="text-error text-2xl">
+                    Failed to load brand data
                 </div>
             </div>
         );
     }
-    console.log("Product Type Data:", data);
+    const data = getBrandTypeData(
+        content?.brands,
+        brand,
+        type
+    );
+    console.log("ProductTypePage data:", data);
 
     return (
         <div className={`min-h-screen bg-primary`}>
@@ -180,6 +187,7 @@ const ProductTypePage = () => {
                                     key={product.id}
                                     product={product}
                                     brandName={brand}
+                                    typeSlug={typeSlug}
                                     className="animate-fade-in-up"
                                     style={{
                                         animationDelay: `${index * 100}ms`,

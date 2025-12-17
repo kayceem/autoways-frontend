@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Logo from '../Logo';
 import logoMap from '../../../config/logoMap';
-import { assetUrl } from '../../../utils/assetUrl';
+import { assetUrl } from '../../../utils';
 
 const Dropdown = ({ 
   label,
