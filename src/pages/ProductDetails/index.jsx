@@ -59,13 +59,11 @@ const ProductDetails = () => {
     };
 
     const handleDownloadSpecs = () => {
-        // In a real application, this would trigger a PDF download
-        alert('Downloading specifications PDF...');
+        window.open(product?.specSheetUrl, '_blank');
     };
 
     const handleViewBrochure = () => {
-        // In a real application, this would open the brochure PDF
-        alert('Opening brochure...');
+        window.open(product?.brochureUrl, '_blank');
     };
 
     return (
