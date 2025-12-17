@@ -2,7 +2,66 @@ import express from "express";
 import cors from "cors";
 import helmet from "helmet";
 import path from "path";
+import mongoose from "mongoose";
 import { connectDB } from "./database/client.js";
+import {
+  getAllData,
+  refreshCache,
+  createHeroImage,
+  updateHeroImage,
+  deleteHeroImage,
+  createAboutUs,
+  updateAboutUs,
+  deleteAboutUs,
+  createContactInfo,
+  updateContactInfo,
+  deleteContactInfo,
+  createLocation,
+  updateLocation,
+  deleteLocation,
+  createProduct,
+  updateProduct,
+  deleteProduct,
+  createBrand,
+  updateBrand,
+  deleteBrand,
+  createPartner,
+  updatePartner,
+  deletePartner,
+  createClient,
+  updateClient,
+  deleteClient,
+  createNewsArticle,
+  updateNewsArticle,
+  deleteNewsArticle,
+  createTestimonial,
+  updateTestimonial,
+  deleteTestimonial,
+  createAboutUsDetailed,
+  updateAboutUsDetailed,
+  deleteAboutUsDetailed,
+  createCSRInitiative,
+  updateCSRInitiative,
+  deleteCSRInitiative,
+  createCSRHero,
+  updateCSRHero,
+  deleteCSRHero,
+  createSisterCompany,
+  updateSisterCompany,
+  deleteSisterCompany,
+  createSparePart,
+  updateSparePart,
+  deleteSparePart,
+  createSparePartsService,
+  updateSparePartsService,
+  deleteSparePartsService,
+  createSparePartsStats,
+  updateSparePartsStats,
+  deleteSparePartsStats,
+  createSparePartsContact,
+  updateSparePartsContact,
+  deleteSparePartsContact
+} from "./database/interface.js";
 
 let dbConnected = false;
 
@@ -103,6 +162,99 @@ router.get("/health", (req, res) => {
   });
 });
 
+// Get all data (cached or from DB)
+router.get("/data", getAllData);
+router.post("/data/refresh", refreshCache);
+
+// Hero Images routes
+router.post("/hero-images", createHeroImage);
+router.patch("/hero-images/:id", updateHeroImage);
+router.delete("/hero-images/:id", deleteHeroImage);
+
+// About Us routes
+router.post("/about-us", createAboutUs);
+router.patch("/about-us/:id", updateAboutUs);
+router.delete("/about-us/:id", deleteAboutUs);
+
+// Contact Info routes
+router.post("/contact-info", createContactInfo);
+router.patch("/contact-info/:id", updateContactInfo);
+router.delete("/contact-info/:id", deleteContactInfo);
+
+// Location routes
+router.post("/locations", createLocation);
+router.patch("/locations/:id", updateLocation);
+router.delete("/locations/:id", deleteLocation);
+
+// Product routes
+router.post("/products", createProduct);
+router.patch("/products/:id", updateProduct);
+router.delete("/products/:id", deleteProduct);
+
+// Brand routes
+router.post("/brands", createBrand);
+router.patch("/brands/:id", updateBrand);
+router.delete("/brands/:id", deleteBrand);
+
+// Partner routes
+router.post("/partners", createPartner);
+router.patch("/partners/:id", updatePartner);
+router.delete("/partners/:id", deletePartner);
+
+// Client routes
+router.post("/clients", createClient);
+router.patch("/clients/:id", updateClient);
+router.delete("/clients/:id", deleteClient);
+
+// News Article routes
+router.post("/news-articles", createNewsArticle);
+router.patch("/news-articles/:id", updateNewsArticle);
+router.delete("/news-articles/:id", deleteNewsArticle);
+
+// Testimonial routes
+router.post("/testimonials", createTestimonial);
+router.patch("/testimonials/:id", updateTestimonial);
+router.delete("/testimonials/:id", deleteTestimonial);
+
+// About Us Detailed routes
+router.post("/about-us-detailed", createAboutUsDetailed);
+router.patch("/about-us-detailed/:id", updateAboutUsDetailed);
+router.delete("/about-us-detailed/:id", deleteAboutUsDetailed);
+
+// CSR Initiative routes
+router.post("/csr-initiatives", createCSRInitiative);
+router.patch("/csr-initiatives/:id", updateCSRInitiative);
+router.delete("/csr-initiatives/:id", deleteCSRInitiative);
+
+// CSR Hero routes
+router.post("/csr-hero", createCSRHero);
+router.patch("/csr-hero/:id", updateCSRHero);
+router.delete("/csr-hero/:id", deleteCSRHero);
+
+// Sister Company routes
+router.post("/sister-companies", createSisterCompany);
+router.patch("/sister-companies/:id", updateSisterCompany);
+router.delete("/sister-companies/:id", deleteSisterCompany);
+
+// Spare Part routes
+router.post("/spare-parts", createSparePart);
+router.patch("/spare-parts/:id", updateSparePart);
+router.delete("/spare-parts/:id", deleteSparePart);
+
+// Spare Parts Service routes
+router.post("/spare-parts-services", createSparePartsService);
+router.patch("/spare-parts-services/:id", updateSparePartsService);
+router.delete("/spare-parts-services/:id", deleteSparePartsService);
+
+// Spare Parts Stats routes
+router.post("/spare-parts-stats", createSparePartsStats);
+router.patch("/spare-parts-stats/:id", updateSparePartsStats);
+router.delete("/spare-parts-stats/:id", deleteSparePartsStats);
+
+// Spare Parts Contact routes
+router.post("/spare-parts-contact", createSparePartsContact);
+router.patch("/spare-parts-contact/:id", updateSparePartsContact);
+router.delete("/spare-parts-contact/:id", deleteSparePartsContact);
 
 // Mount router
 app.use("/api", router);
