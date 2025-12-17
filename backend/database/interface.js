@@ -124,7 +124,7 @@ export const getAllData = asyncHandler(async (req, res) => {
         const data = await readDataFile();
         return res.json({
             success: true,
-            source: 'cache',
+            cached: true,
             data
         });
     }
@@ -134,7 +134,7 @@ export const getAllData = asyncHandler(async (req, res) => {
 
     res.json({
         success: true,
-        source: 'database',
+        cached: false,
         data
     });
 });
