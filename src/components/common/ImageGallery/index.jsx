@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { ChevronLeft, ChevronRight, X, ZoomIn } from 'lucide-react';
 import './index.css';
+import { assetUrl } from '../../../utils/assetUrl';
 
 const ImageGallery = ({ images = [], productName = '' }) => {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -40,7 +41,7 @@ const ImageGallery = ({ images = [], productName = '' }) => {
             <div className="main-image-container">
                 <div className="main-image-wrapper">
                     <img
-                        src={images[currentImageIndex]}
+                        src={assetUrl(images[currentImageIndex])}
                         alt={`${productName} - Image ${currentImageIndex + 1}`}
                         className="main-image"
                         onClick={openFullscreen}
@@ -98,7 +99,7 @@ const ImageGallery = ({ images = [], productName = '' }) => {
                             aria-label={`View image ${index + 1}`}
                         >
                             <img
-                                src={image}
+                                src={assetUrl(image)}
                                 alt={`${productName} thumbnail ${index + 1}`}
                             />
                         </button>
@@ -119,7 +120,7 @@ const ImageGallery = ({ images = [], productName = '' }) => {
 
                     <div className="fullscreen-content" onClick={(e) => e.stopPropagation()}>
                         <img
-                            src={images[currentImageIndex]}
+                            src={assetUrl(images[currentImageIndex])}
                             alt={`${productName} - Image ${currentImageIndex + 1}`}
                             className={`fullscreen-image ${isZoomed ? 'fullscreen-image-zoomed' : ''}`}
                             onClick={toggleZoom}
@@ -171,7 +172,7 @@ const ImageGallery = ({ images = [], productName = '' }) => {
                                         }}
                                         className={`fullscreen-thumbnail ${index === currentImageIndex ? 'fullscreen-thumbnail-active' : ''}`}
                                     >
-                                        <img src={image} alt={`Thumbnail ${index + 1}`} />
+                                        <img src={assetUrl(image)} alt={`Thumbnail ${index + 1}`} />
                                     </button>
                                 ))}
                             </div>

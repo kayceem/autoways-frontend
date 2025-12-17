@@ -5,6 +5,7 @@ import { useContent } from "../../../context/globalContext";
 import LoadingSpinner from "../../common/Loading";
 import WaveBackground from "../../common/WaveBackground";
 import "./index.css";
+import { assetUrl } from '../../../utils/assetUrl';
 
 const BullSection = ({ className = "" }) => {
     const { content, isLoading } = useContent();
@@ -76,7 +77,7 @@ const BullSection = ({ className = "" }) => {
                                 <video
                                     ref={videoRef}
                                     src={
-                                        bull?.video || "/videos/bull-promo.mp4"
+                                        assetUrl(bull?.video) || "/assets/videos/bull-promo.mp4"
                                     }
                                     autoPlay
                                     muted

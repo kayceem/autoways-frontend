@@ -295,6 +295,10 @@ const BrandSchema = new Schema({
         type: String,
         required: true
     },
+    heroImage : {
+        type: String,
+        required: true
+    },
     images: [String],
     video: String,
     logo: {

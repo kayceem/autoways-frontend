@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Eye, Tag, ArrowRight } from "lucide-react";
+import { assetUrl } from '../../../utils/assetUrl';
 
 const ProductCard = ({ product, brandName, className = "" }) => {
     const [isHovered, setIsHovered] = useState(false);
@@ -45,7 +46,7 @@ const ProductCard = ({ product, brandName, className = "" }) => {
             >
                 {/* Default Image */}
                 <img
-                    src={product.images?.[0] || product.defaultImage}
+                    src={assetUrl(product.images?.[0] || product.defaultImage)}
                     alt={product.name}
                     className={`w-full h-full object-contain transition-all duration-700 ${
                         isHovered
@@ -62,7 +63,7 @@ const ProductCard = ({ product, brandName, className = "" }) => {
                 {/* Hover Image */}
                 {product.images?.[1] && (
                     <img
-                        src={product.images[1]}
+                        src={assetUrl(product.images[1])}
                         alt={`${product.name} alternate view`}
                         className={`absolute inset-0 w-full h-full object-contain transition-all duration-700 ${
                             isHovered

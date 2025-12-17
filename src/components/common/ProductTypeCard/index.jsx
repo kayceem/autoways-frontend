@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
+import { assetUrl } from '../../../utils/assetUrl';
 
 const ProductTypeCard = ({ type, image, link, state, brandName, className = "" }) => {
     return (
@@ -12,7 +13,7 @@ const ProductTypeCard = ({ type, image, link, state, brandName, className = "" }
                 {/* Image Container */}
                 <div className="relative h-80 overflow-hidden">
                     <img
-                        src={image}
+                        src={assetUrl(image)}
                         alt={`${brandName} ${type}`}
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     />

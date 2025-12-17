@@ -1,5 +1,6 @@
-import WaveBackground from "../../common/WaveBackground";
 import "./index.css";
+import WaveBackground from "../../common/WaveBackground";
+import { assetUrl } from '../../../utils/assetUrl';
 
 const ClientsSection = ({ clients = {}, className = "" }) => {
     // Convert clients object to array
@@ -56,9 +57,8 @@ const ClientsSection = ({ clients = {}, className = "" }) => {
                             >
                                 <img
                                     src={
-                                        client.logo ||
-                                        client.image ||
-                                        client.images?.[0]
+                                        assetUrl(client.logo) ||
+                                        assetUrl(client.image)
                                     }
                                     alt={client.name || `Client ${client.id}`}
                                     className="max-w-full max-h-full object-contain grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300"

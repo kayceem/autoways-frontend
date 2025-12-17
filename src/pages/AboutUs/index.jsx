@@ -2,6 +2,7 @@ import { useContent } from '../../context/globalContext';
 import LoadingSpinner from '../../components/common/Loading';
 import WaveBackground from '../../components/common/WaveBackground';
 import { useState, useRef } from 'react';
+import { assetUrl } from '../../utils/assetUrl';
 
 const AboutUs = () => {
   const { content, isLoading } = useContent();
@@ -98,7 +99,7 @@ const AboutUs = () => {
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="animate-fade-in-up">
               <img
-                src={aboutUs.image}
+                src={assetUrl(aboutUs.image)}
                 alt="Autoways"
                 className="rounded-lg shadow-2xl w-full"
               />
@@ -146,7 +147,7 @@ const AboutUs = () => {
               {content.about_us_detailed.chairman_message.image && (
                 <div className="animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
                   <img
-                    src={content.about_us_detailed.chairman_message.image}
+                    src={assetUrl(content.about_us_detailed.chairman_message.image)}
                     alt="Chairman"
                     className="rounded-lg shadow-2xl w-full"
                   />
@@ -165,7 +166,7 @@ const AboutUs = () => {
               {content.about_us_detailed.md_message.image && (
                 <div className="animate-fade-in-up order-2 md:order-1">
                   <img
-                    src={content.about_us_detailed.md_message.image}
+                    src={assetUrl(content.about_us_detailed.md_message.image)}
                     alt="Managing Director"
                     className="rounded-lg shadow-2xl w-full"
                   />

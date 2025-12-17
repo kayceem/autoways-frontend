@@ -4,6 +4,7 @@ import helmet from "helmet";
 import path from "path";
 import mongoose from "mongoose";
 import { connectDB } from "./database/client.js";
+import { fileURLToPath } from "url";
 import {
   getAllData,
   refreshCache,
@@ -100,6 +101,8 @@ import {
 } from "./database/interface.js";
 
 let dbConnected = false;
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 try {
   await connectDB();
@@ -114,7 +117,12 @@ const app = express();
 
 // ---------- MIDDLEWARE ----------
 // Security headers - configure helmet to allow Vite assets
-app.use(helmet({ contentSecurityPolicy: false }));
+app.use(
+  helmet({
+    crossOriginResourcePolicy: { policy: "cross-origin" },
+    contentSecurityPolicy: true
+  })
+);
 
 // CORS configuration
 app.use(

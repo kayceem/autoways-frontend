@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ChevronRight } from "lucide-react";
+import { assetUrl } from '../../../utils/assetUrl';
 
 const PartnersSection = ({ partners = {}, className = '' }) => {
   // Convert partners object to array
@@ -53,7 +53,7 @@ const PartnersSection = ({ partners = {}, className = '' }) => {
                                         {/* Logo with fixed size container */}
                                         <div className="w-full h-full flex items-center justify-center relative z-10">
                                             <img
-                                                src={partner.logo || partner.image}
+                                                src={assetUrl(partner.logo) || assetUrl(partner.image)}
                                                 alt={partner.name}
                                                 className="max-w-full max-h-full object-contain group-hover:scale-110 transition-all duration-500"
                                             />

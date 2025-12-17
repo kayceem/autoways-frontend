@@ -1,6 +1,6 @@
-import React from 'react';
-import logoMap from '../../../config/logoMap';
 import './index.css';
+import logoMap from '../../../config/logoMap';
+import { assetUrl } from '../../../utils/assetUrl';
 
 const LoadingSpinner = ({ name = 'default', size = 128, className = '' }) => {
 

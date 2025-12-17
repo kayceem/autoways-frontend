@@ -1,7 +1,7 @@
 import { useContent } from '../../context/globalContext';
 import LoadingSpinner from '../../components/common/Loading';
 import WaveBackground from '../../components/common/WaveBackground';
-import { Link } from 'react-router-dom';
+import { assetUrl } from '../../utils/assetUrl';
 
 const NewsMedia = () => {
   const { content, isLoading } = useContent();
@@ -47,7 +47,7 @@ const NewsMedia = () => {
               <div className="grid md:grid-cols-2 gap-0">
                 <div className="relative h-64 md:h-auto">
                   <img
-                    src={featured.image}
+                    src={assetUrl(featured.image)}
                     alt={featured.title}
                     className="w-full h-full object-cover"
                   />
@@ -99,7 +99,7 @@ const NewsMedia = () => {
               >
                 <div className="relative h-48 overflow-hidden">
                   <img
-                    src={article.image}
+                    src={assetUrl(article.image)}
                     alt={article.title}
                     className="w-full h-full object-cover transform hover:scale-110 transition-transform duration-500"
                   />

@@ -32,7 +32,7 @@ const BrandLanding = () => {
                 <div className={`absolute inset-0 bg-secondary`}>
                     {brandData.images?.[0] && (
                         <img
-                            src={brandData.images[0]}
+                            src={assetUrl(brandData.heroImage)}
                             alt={brandData.name}
                             className="w-full h-full object-cover opacity-90"
                         />

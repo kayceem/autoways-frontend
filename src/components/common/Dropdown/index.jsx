@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Logo from '../Logo';
 import logoMap from '../../../config/logoMap';
+import { assetUrl } from '../../../utils/assetUrl';
 
 const Dropdown = ({ 
   label,
@@ -89,7 +90,7 @@ const Dropdown = ({
             <div className="flex items-center justify-center h-full">
               {items[hoveredIndex]?.image ? (
                 <img 
-                  src={items[hoveredIndex].image} 
+                  src={assetUrl(items[hoveredIndex].image)} 
                   alt={items[hoveredIndex].name}
                   className="max-h-128 object-cover transition-opacity duration-300"
                 />

@@ -78,7 +78,7 @@ const SisterCompanies = () => {
                 {/* Company Header with Image */}
                 <div className="relative h-64 overflow-hidden">
                   <img
-                    src={company.image}
+                    src={assetUrl(company.image)}
                     alt={company.name}
                     className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
                   />
@@ -86,7 +86,7 @@ const SisterCompanies = () => {
                   <div className="absolute bottom-6 left-6 right-6">
                     <div className="flex items-center gap-4 mb-3">
                       <img
-                        src={company.logo}
+                        src={assetUrl(company.logo)}
                         alt={`${company.name} logo`}
                         className="h-16 w-auto bg-white p-2 rounded-lg shadow-lg"
                       />

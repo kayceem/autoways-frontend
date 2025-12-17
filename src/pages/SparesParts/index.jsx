@@ -50,7 +50,7 @@ const SparesParts = () => {
             </div>
             <div className="animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
               <img
-                src={hero.image}
+                src={assetUrl(hero.image)}
                 alt="Spares and Parts"
                 className="rounded-lg shadow-2xl w-full"
               />
@@ -135,7 +135,7 @@ const SparesParts = () => {
               >
                 <div className="relative h-48 overflow-hidden">
                   <img
-                    src={category.image}
+                    src={assetUrl(category.image)}
                     alt={category.name}
                     className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
                   />
@@ -192,7 +192,7 @@ const SparesParts = () => {
               >
                 <div className="relative h-48 bg-gradient-to-br from-accent to-primary flex items-center justify-center overflow-hidden">
                   <img
-                    src={product.image}
+                    src={assetUrl(product.image)}
                     alt={product.name}
                     className="w-full h-full object-cover opacity-50"
                   />
@@ -244,7 +244,7 @@ const SparesParts = () => {
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
                 <img
-                  src={brand.logo}
+                  src={assetUrl(brand.logo)}
                   alt={brand.name}
                   className="h-16 w-auto mb-3 object-contain"
                 />

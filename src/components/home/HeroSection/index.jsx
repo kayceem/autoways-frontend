@@ -5,6 +5,8 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import './index.css';
+import { assetUrl } from '../../../utils/assetUrl';
+
 
 const HeroSection = ({ heroImages = [], className = '' }) => {
   const [loadedImages, setLoadedImages] = useState({});
@@ -45,7 +47,7 @@ const HeroSection = ({ heroImages = [], className = '' }) => {
 
               {/* Hero Image */}
               <img
-                src={image.url || image}
+                src={assetUrl(image.url)}
                 alt={image.alt || `Hero slide ${index + 1}`}
                 className={`w-full h-full object-cover transition-opacity duration-500 ${
                   loadedImages[index] ? 'opacity-100' : 'opacity-0'

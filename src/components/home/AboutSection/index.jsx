@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import WaveBackground from "../../common/WaveBackground";
+import { assetUrl } from '../../../utils/assetUrl';
 
 const AboutSection = ({ aboutData = {}, className = "" }) => {
     const {
@@ -80,7 +81,7 @@ const AboutSection = ({ aboutData = {}, className = "" }) => {
                                 }}
                             >
                                 <img
-                                    src={image}
+                                    src={assetUrl(image)}
                                     alt={title}
                                     className="w-full h-full object-cover scale-100 hover:scale-110 transition-transform duration-700"
                                 />

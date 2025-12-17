@@ -1,6 +1,7 @@
 import { useContent } from '../../context/globalContext';
 import LoadingSpinner from '../../components/common/Loading';
 import WaveBackground from '../../components/common/WaveBackground';
+import { assetUrl } from '../../utils/assetUrl';
 
 const CSR = () => {
   const { content, isLoading } = useContent();
@@ -36,7 +37,7 @@ const CSR = () => {
             </div>
             <div className="animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
               <img
-                src={hero.image}
+                src={assetUrl(hero.image)}
                 alt="CSR Hero"
                 className="rounded-lg shadow-2xl w-full"
               />

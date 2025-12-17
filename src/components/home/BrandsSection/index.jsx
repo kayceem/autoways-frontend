@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { ChevronRight } from "lucide-react";
 import "./index.css";
+import { assetUrl } from '../../../utils/assetUrl';
 
 const BrandsSection = ({ brands = {}, className = "" }) => {
     // Convert brands object to array
@@ -57,7 +58,7 @@ const BrandsSection = ({ brands = {}, className = "" }) => {
                                         {/* Logo with fixed size container */}
                                         <div className="w-full h-full flex items-center justify-center relative z-10">
                                             <img
-                                                src={brand.logo || brand.image}
+                                                src={assetUrl(brand.logo) || assetUrl(brand.image)}
                                                 alt={brand.name}
                                                 className="max-w-full max-h-full object-contain group-hover:scale-110 transition-all duration-500"
                                             />
