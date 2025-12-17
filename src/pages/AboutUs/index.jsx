@@ -337,14 +337,12 @@ const AboutUs = () => {
                   >
                     <div className="relative bg-primary rounded-2xl overflow-hidden shadow-2xl h-[450px] group">
                       {/* Background Image */}
-                      <div
-                        className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
-                        style={{
-                          backgroundImage: `url(${milestone.image})`,
-                        }}
-                      >
-                        <div className="absolute inset-0 bg-gradient-to-r from-dark via-dark/70 to-transparent" />
-                      </div>
+                      <img
+                        src={milestone.image}
+                        alt={`${milestone.title} - ${milestone.year}`}
+                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-r from-dark via-dark/70 to-transparent" />
 
                       {/* Content Layout */}
                       <div className="absolute inset-0 flex flex-col p-6">

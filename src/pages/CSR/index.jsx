@@ -96,14 +96,12 @@ const CSR = () => {
               >
                 <div className={index % 2 !== 0 ? 'md:order-2' : ''}>
                   <div className="relative rounded-2xl overflow-hidden shadow-2xl h-[400px] group">
-                    <div
-                      className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
-                      style={{
-                        backgroundImage: `url(${initiative.image})`,
-                      }}
-                    >
-                      <div className="absolute inset-0 bg-gradient-to-t from-dark via-dark/60 to-transparent" />
-                    </div>
+                    <img
+                      src={initiative.image}
+                      alt={`${initiative.title}`}
+                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-dark via-dark/60 to-transparent" />
 
                     {/* Impact Badge */}
                     <div className="absolute top-6 right-6 bg-accent text-dark px-6 py-4 rounded-xl shadow-lg">
