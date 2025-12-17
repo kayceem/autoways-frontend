@@ -1,25 +1,38 @@
-import { useState } from 'react';
-import { ChevronLeft, ChevronRight, X, ZoomIn } from 'lucide-react';
+import { useState, useRef } from 'react';
+import { ChevronLeft, ChevronRight, X, ZoomIn, ZoomOut, Maximize2 } from 'lucide-react';
 import './index.css';
 import { assetUrl } from '../../../utils';
 
 const ImageGallery = ({ images = [], productName = '' }) => {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [isFullscreen, setIsFullscreen] = useState(false);
-    const [isZoomed, setIsZoomed] = useState(false);
+    const [zoomLevel, setZoomLevel] = useState(1);
+    const [panPosition, setPanPosition] = useState({ x: 0, y: 0 });
+    const [isDragging, setIsDragging] = useState(false);
+    const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+    const imageRef = useRef(null);
+
+    const ZOOM_LEVELS = [1, 1.5, 2, 2.5, 3];
+    const MAX_ZOOM = Math.max(...ZOOM_LEVELS);
+    const MIN_ZOOM = Math.min(...ZOOM_LEVELS);
 
     if (!images || images.length === 0) {
         return null;
     }
 
+    const resetZoomAndPan = () => {
+        setZoomLevel(1);
+        setPanPosition({ x: 0, y: 0 });
+    };
+
     const goToNext = () => {
         setCurrentImageIndex((prev) => (prev + 1) % images.length);
-        setIsZoomed(false);
+        resetZoomAndPan();
     };
 
     const goToPrevious = () => {
         setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length);
-        setIsZoomed(false);
+        resetZoomAndPan();
     };
 
     const openFullscreen = () => {
@@ -28,11 +41,64 @@ const ImageGallery = ({ images = [], productName = '' }) => {
 
     const closeFullscreen = () => {
         setIsFullscreen(false);
-        setIsZoomed(false);
+        resetZoomAndPan();
     };
 
-    const toggleZoom = () => {
-        setIsZoomed(!isZoomed);
+    const zoomIn = () => {
+        setZoomLevel((prev) => {
+            const currentIndex = ZOOM_LEVELS.findIndex(level => level >= prev);
+            const nextIndex = Math.min(currentIndex + 1, ZOOM_LEVELS.length - 1);
+            return ZOOM_LEVELS[nextIndex];
+        });
+    };
+
+    const zoomOut = () => {
+        setZoomLevel((prev) => {
+            const currentIndex = ZOOM_LEVELS.findIndex(level => level >= prev);
+            const prevIndex = Math.max(currentIndex - 1, 0);
+            const newZoom = ZOOM_LEVELS[prevIndex];
+            if (newZoom === 1) {
+                setPanPosition({ x: 0, y: 0 });
+            }
+            return newZoom;
+        });
+    };
+
+    const resetZoom = () => {
+        setZoomLevel(1);
+        setPanPosition({ x: 0, y: 0 });
+    };
+
+    const handleMouseDown = (e) => {
+        if (zoomLevel > 1) {
+            setIsDragging(true);
+            setDragStart({
+                x: e.clientX - panPosition.x,
+                y: e.clientY - panPosition.y
+            });
+        }
+    };
+
+    const handleMouseMove = (e) => {
+        if (isDragging && zoomLevel > 1) {
+            setPanPosition({
+                x: e.clientX - dragStart.x,
+                y: e.clientY - dragStart.y
+            });
+        }
+    };
+
+    const handleMouseUp = () => {
+        setIsDragging(false);
+    };
+
+    const handleWheel = (e) => {
+        e.preventDefault();
+        if (e.deltaY < 0) {
+            zoomIn();
+        } else {
+            zoomOut();
+        }
     };
 
     return (
@@ -118,12 +184,25 @@ const ImageGallery = ({ images = [], productName = '' }) => {
                         <X size={32} />
                     </button>
 
-                    <div className="fullscreen-content" onClick={(e) => e.stopPropagation()}>
+                    <div
+                        className="fullscreen-content"
+                        onClick={(e) => e.stopPropagation()}
+                        onMouseMove={handleMouseMove}
+                        onMouseUp={handleMouseUp}
+                        onMouseLeave={handleMouseUp}
+                    >
                         <img
+                            ref={imageRef}
                             src={assetUrl(images[currentImageIndex])}
                             alt={`${productName} - Image ${currentImageIndex + 1}`}
-                            className={`fullscreen-image ${isZoomed ? 'fullscreen-image-zoomed' : ''}`}
-                            onClick={toggleZoom}
+                            className={`fullscreen-image ${zoomLevel > 1 ? 'fullscreen-image-panning' : ''}`}
+                            style={{
+                                transform: `scale(${zoomLevel}) translate(${panPosition.x / zoomLevel}px, ${panPosition.y / zoomLevel}px)`,
+                                cursor: zoomLevel > 1 ? (isDragging ? 'grabbing' : 'grab') : 'default'
+                            }}
+                            onMouseDown={handleMouseDown}
+                            onWheel={handleWheel}
+                            draggable={false}
                         />
 
                         {/* Navigation in Fullscreen */}
@@ -168,7 +247,7 @@ const ImageGallery = ({ images = [], productName = '' }) => {
                                         onClick={(e) => {
                                             e.stopPropagation();
                                             setCurrentImageIndex(index);
-                                            setIsZoomed(false);
+                                            resetZoomAndPan();
                                         }}
                                         className={`fullscreen-thumbnail ${index === currentImageIndex ? 'fullscreen-thumbnail-active' : ''}`}
                                     >
@@ -177,6 +256,50 @@ const ImageGallery = ({ images = [], productName = '' }) => {
                                 ))}
                             </div>
                         )}
+
+                        {/* Zoom Controls */}
+                        <div className="zoom-controls">
+                            <button
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    zoomIn();
+                                }}
+                                className="zoom-control-button"
+                                aria-label="Zoom in"
+                                disabled={zoomLevel >= MAX_ZOOM}
+                            >
+                                <ZoomIn size={20} />
+                            </button>
+
+                            <div className="zoom-level-indicator">
+                                {Math.round(zoomLevel * 100)}%
+                            </div>
+
+                            <button
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    zoomOut();
+                                }}
+                                className="zoom-control-button"
+                                aria-label="Zoom out"
+                                disabled={zoomLevel <= MIN_ZOOM}
+                            >
+                                <ZoomOut size={20} />
+                            </button>
+
+                            {zoomLevel > 1 && (
+                                <button
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        resetZoom();
+                                    }}
+                                    className="zoom-control-button"
+                                    aria-label="Reset zoom"
+                                >
+                                    <Maximize2 size={20} />
+                                </button>
+                            )}
+                        </div>
                     </div>
                 </div>
             )}
