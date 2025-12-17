@@ -3,15 +3,17 @@ import LoadingSpinner from "../../components/common/Loading";
 import ProductTypeCard from "../../components/common/ProductTypeCard";
 import useBrandQuery from "../../hooks/useBrandQuery";
 import { getBrandData } from "../../utils";
+import { useContent } from "../../context/globalContext";
+import { assetUrl } from "../../utils";
 
 const BrandLanding = () => {
     const { brand } = useParams();
-    const { data: brandData, isLoading, error } = getBrandData(brand);
-
+    const {content, isLoading, error} = useContent();
+    
     if (isLoading) {
         return <LoadingSpinner name={brand} />;
     }
-    console.log("Brand Data:", brandData);
+    
     if (error) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-primary">
@@ -21,6 +23,7 @@ const BrandLanding = () => {
             </div>
         );
     }
+    const brandData = getBrandData(content?.brands, brand);
 
     return (
         <div className={`min-h-screen bg-primary`}>
@@ -108,8 +111,8 @@ style={{
                                 key={index}
                                 type={productType.name}
                                 image={productType.image}
-                                link={`/shop/${brand}/${productType.type?.toLowerCase()}`}
-                                state={{ typeName: productType.name }}
+                                link={`/shop/${brand}/${productType.slug?.toLowerCase()}`}
+                                state={{ type: productType.type, typeName: productType.name }}
                                 brandName={brandData.name}
                                 className="animate-fade-in-up"
                                 style={{ animationDelay: `${index * 150}ms` }}

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Eye, Tag, ArrowRight } from "lucide-react";
 import { assetUrl } from '../../../utils';
 
-const ProductCard = ({ product, brandName, className = "" }) => {
+const ProductCard = ({ product, typeSlug, brandName, className = "" }) => {
     const [isHovered, setIsHovered] = useState(false);
     const [mousePosition, setMousePosition] = useState({ x: 0.5, y: 0.5 });
 
@@ -28,6 +28,10 @@ const ProductCard = ({ product, brandName, className = "" }) => {
     const rotateY = (mousePosition.x - 0.5) * 15;
 
     return (
+    <Link
+            to={`/shop/${brandName}/${typeSlug}/${product.id}`}
+            state = {{product : product}}
+        >
         <div
             className={`group relative bg-transparent rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 ${className}`}
             onMouseMove={handleMouseMove}
@@ -122,8 +126,7 @@ const ProductCard = ({ product, brandName, className = "" }) => {
                     </p>
                 )}
                 {/* View Button */}
-                <Link
-                    to={`/shop/${brandName}/${product.type}/${product.id}`}
+                <div
                     className={`group inline-flex items-center gap-4 bg-primary text-secondary px-6 py-3 rounded-xl font-bold border-2 border-transparent hover:border-accent transition-all duration-300 transform hover:bg-secondary hover:text-accent hover:scale-105`}
                 >
                     <span>Explore</span>
@@ -132,10 +135,11 @@ const ProductCard = ({ product, brandName, className = "" }) => {
                     <ArrowRight
                         size={18}
                         className="opacity-0 -translate-x-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0"
-                    />
-                </Link>
+                        />
+                </div>
             </div>
         </div>
+    </Link>
     );
 };
 
