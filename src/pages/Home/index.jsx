@@ -10,7 +10,7 @@ import ClientsSection from '../../components/home/ClientsSection';
 
 const Home = () => {
   const { content, isLoading } = useContent();
-    console.log('Home content:', content.contactInfo);
+    console.log('Home content:', content);
   // Show loading spinner while content is being fetched
   if (isLoading) {
     return (
@@ -45,12 +45,12 @@ const Home = () => {
       )}
 
       {/* About Section - Welcome to Autoways */}
-      {content.about_us && (
+      {content.aboutUs.length !== 0 && (
         <AboutSection 
           aboutData={{
-            title: content.about_us.title || 'Welcome to Autoways',
-            content: content.about_us.content || '',
-            image: content.about_us.image || ''
+            title: content.aboutUs?.[0]?.title || 'Welcome to Autoways',
+            content: content.aboutUs?.[0]?.content || '',
+            image: content.aboutUs?.[0]?.image || ''
           }} 
         />
       )}

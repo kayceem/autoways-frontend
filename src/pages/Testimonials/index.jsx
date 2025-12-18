@@ -178,9 +178,9 @@ const Testimonials = () => {
             <p className="text-secondary opacity-90 mb-8 text-lg">
               We'd love to hear about your journey with Autoways. Your feedback helps us serve you better.
             </p>
-            <button className="px-8 py-4 bg-dark text-secondary rounded-lg font-semibold hover:bg-opacity-90 transition-all transform hover:scale-105 shadow-lg">
+            {/* <button className="px-8 py-4 bg-dark text-secondary rounded-lg font-semibold hover:bg-opacity-90 transition-all transform hover:scale-105 shadow-lg">
               Write a Review
-            </button>
+            </button> */}
           </div>
         </div>
       </section>
