@@ -25,6 +25,7 @@ import ProductTypesAdmin from "../Admin/ProductTypes";
 import HeroImagesAdmin from "../Admin/HeroImages";
 import AboutUsAdmin from "../Admin/AboutUs";
 import ContactInfoAdmin from "../Admin/ContactInfo";
+import LocationsAdmin from "../Admin/Locations";
 import ProtectedRoute from "../../components/common/ProtectedRoute";
 
 const PageRoutes = () => {
@@ -46,6 +47,7 @@ const PageRoutes = () => {
                 <Route path="hero-images" element={<HeroImagesAdmin />} />
                 <Route path="about-us" element={<AboutUsAdmin />} />
                 <Route path="contact-info" element={<ContactInfoAdmin />} />
+                <Route path="locations" element={<LocationsAdmin />} />
             </Route>
 
             {/* Public Routes */}
