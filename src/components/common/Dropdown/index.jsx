@@ -56,28 +56,28 @@ const Dropdown = ({
       </button>
 
       {/* Dropdown Menu - Full Width */}
-      <div 
+      <div
         className={`fixed left-0 right-0 bg-accent shadow-2xl transition-all duration-300 ease-in-out z-50 ${
-          isOpen 
-            ? 'opacity-92 translate-y-0 pointer-events-auto' 
+          isOpen
+            ? 'opacity-92 translate-y-0 pointer-events-auto'
             : 'opacity-0 -translate-y-4 pointer-events-none'
         }`}
-        style={{ 
+        style={{
           top: dropdownRef.current?.getBoundingClientRect().bottom || 0,
           maxHeight: '60vh',
           overflow: 'auto'
         }}
       >
-        <div className="max-w-4xl mx-auto px-6 py-8">
-          <div className="grid grid-cols-2 gap-8">
-            
+        <div className="max-w-4xl mx-auto px-4 lg:px-6 py-4 lg:py-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-8">
+
             {/* Left - Items List */}
-            <div className="space-y-2">
+            <div className="space-y-1 lg:space-y-2">
               {items.map((item, index) => (
                 <Link
                   key={index}
                   to={item.link}
-                  className="block px-4 py-3 text-secondary hover:bg-accent hover:text-secondary hover:underline transition-all duration-200 rounded-lg text-lg font-medium"
+                  className="block px-3 lg:px-4 py-2 lg:py-3 text-secondary hover:bg-accent hover:text-secondary hover:underline transition-all duration-200 rounded-lg text-base lg:text-lg font-medium"
                   onClick={() => setIsOpen(false)}
                   onMouseEnter={() => setHoveredIndex(index)}
                 >
@@ -86,11 +86,11 @@ const Dropdown = ({
               ))}
             </div>
 
-            {/* Right - Image */}
-            <div className="flex items-center justify-center h-full">
+            {/* Right - Image (Hidden on mobile) */}
+            <div className="hidden lg:flex items-center justify-center h-full">
               {items[hoveredIndex]?.image ? (
-                <img 
-                  src={assetUrl(items[hoveredIndex].image)} 
+                <img
+                  src={assetUrl(items[hoveredIndex].image)}
                   alt={items[hoveredIndex].name}
                   className="max-h-128 object-cover transition-opacity duration-300"
                 />
