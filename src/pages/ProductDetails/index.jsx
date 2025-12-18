@@ -202,7 +202,7 @@ const ProductDetails = () => {
                             <Phone size={24} className="text-accent" />
                             <div>
                                 <div className="contact-option-label text-secondary">Call Us</div>
-                                <div className="contact-option-value text-secondary">{siteContent?.info?.phone}</div>
+                                <div className="contact-option-value text-secondary">{siteContent?.contactInfo?.[0].phone}</div>
                             </div>
                         </a>
 
@@ -210,7 +210,7 @@ const ProductDetails = () => {
                             <Mail size={24} className="text-accent" />
                             <div>
                                 <div className="contact-option-label text-secondary">Email Us</div>
-                                <div className="contact-option-value text-secondary">{siteContent?.info?.email}</div>
+                                <div className="contact-option-value text-secondary">{siteContent?.contactInfo?.[0].email}</div>
                             </div>
                         </a>
 
