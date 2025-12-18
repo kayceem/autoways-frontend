@@ -17,6 +17,7 @@ import SpecificationsDisplay from '../../components/common/SpecificationsDisplay
 import LoadingSpinner from '../../components/common/Loading';
 import useContentQuery from '../../hooks/useContentQuery';
 import './index.css';
+import { assetUrl } from '../../utils';
 
 const ProductDetails = () => {
     const { brand, typeSlug, id } = useParams();
@@ -52,19 +53,24 @@ const ProductDetails = () => {
         switch(fuelType) {
             case 'electric':
                 return 'Electric';
-            case 'hybrid':
-                return 'Hybrid';
+            case 'hybrid-petrol':
+                return 'Hybrid Petrol';
+            case 'hybrid-diesel':
+                return 'Hybrid Diesel';
+            case 'diesel':
+                return 'Diesel';
             default:
-                return 'Diesel/Petrol';
+                return 'Petrol';
         }
     };
 
     const handleDownloadSpecs = () => {
-        window.open(product?.specSheetUrl, '_blank');
+        window.open(assetUrl(product?.specSheetUrl), '_blank');
     };
 
+    
     const handleViewBrochure = () => {
-        window.open(product?.brochureUrl, '_blank');
+        window.open(assetUrl(product?.brochureUrl), '_blank');
     };
 
     return (

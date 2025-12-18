@@ -4,9 +4,10 @@ import { useContent } from '../../context/globalContext';
 import LoadingSpinner from '../../components/common/Loading';
 
 const Locations = () => {
-      const { content, isLoading } = useContent();
+    const { content, isLoading } = useContent();
     if (isLoading) return <LoadingSpinner size={64} />;
-    const locations = content?.locations?.points || [];
+    const locations = content?.locations ? content.locations : [];
+    console.log('Locations content:', locations);
     return (
         <div className="locations-page">
             <div className="locations-container">
@@ -27,11 +28,11 @@ const Locations = () => {
                 <div className="locations-info">
                     <div className="info-grid">
                         {locations.map((location) => (
-                            <div key={location.id} className="info-card">
+                            <div key={location.locationId} className="info-card">
                                 <h3 className="info-title">{location.name}</h3>
                                 <p className="info-address">{location.address}</p>
                                 <p className="info-description">{location.info}</p>
-                                <p className="info-email">{content.info.email}</p>
+                                <p className="info-email">{content.contactInfo?.[0].email}</p>
                                 <p className="info-contact">{location.phone}</p>
                             </div>
                         ))}

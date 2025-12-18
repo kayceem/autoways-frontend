@@ -5,7 +5,9 @@ import { useContent } from "../../../context/globalContext";
 
 const Footer = ({ className = "" }) => {
     const { content, isLoading } = useContent();
-    const { info = {}, brands = {} } = content;
+    const { contactInfo = [], brands = {} } = content;
+    if (isLoading) return null;
+    const info = contactInfo.length > 0 ? contactInfo[0] : {};
     const { email = "", phone = "", address = "", corporate_address = "",socialLinks = {} } = info;
 
     // Convert brands object to array (limit to 6 for footer)

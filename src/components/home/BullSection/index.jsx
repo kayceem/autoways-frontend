@@ -15,8 +15,7 @@ const BullSection = ({ className = "" }) => {
 
     if (isLoading) return <LoadingSpinner size={64} />;
 
-    const bull = content?.brands?.bull;
-    const brandName = bull?.name || "Bull";
+    const bull = content?.brands?.find((brand) => brand.slug === "bull");
 
     const togglePlayPause = () => {
         setPaudePlaying(true);

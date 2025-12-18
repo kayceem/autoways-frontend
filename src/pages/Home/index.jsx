@@ -10,7 +10,7 @@ import ClientsSection from '../../components/home/ClientsSection';
 
 const Home = () => {
   const { content, isLoading } = useContent();
-
+    console.log('Home content:', content.contactInfo);
   // Show loading spinner while content is being fetched
   if (isLoading) {
     return (
@@ -66,11 +66,11 @@ const Home = () => {
       )}
 
       {/* CTA Section - Get in touch */}
-      {content.info && (
+      {content.contactInfo && (
         <CTASection 
           contactInfo={{
-            email: content.info.email || '',
-            phone: content.info.phone || ''
+            email: content.contactInfo?.[0].email || '',
+            phone: content.contactInfo?.[0].phone || ''
           }} 
         />
       )}

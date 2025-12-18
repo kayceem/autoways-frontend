@@ -62,7 +62,7 @@ const SpecificationsDisplay = ({ specifications = {}, fuelType = 'normal' }) => 
             )}
 
             {/* Battery Section (for electric and hybrid) */}
-            {(fuelType === 'electric' || fuelType === 'hybrid') && specifications.battery && (
+            {(fuelType === 'electric' || fuelType.startsWith('hybrid')) && specifications.battery && (
                 renderSpecSection('Battery', specifications.battery)
             )}
 

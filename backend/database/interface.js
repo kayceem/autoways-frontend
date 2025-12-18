@@ -22,6 +22,8 @@ import {
     SparePartsContact
 } from './schema.js';
 
+import { processProductFiles, deleteProductFiles } from './utils.js';
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const DATA_FILE_PATH = path.join(__dirname, '..', 'assets', 'data.json');
@@ -94,6 +96,10 @@ const fetchAllDataFromDB = async () => {
         SparePartsContact.find()
     ]);
 
+    const csr = {
+        initiatives : csrInitiatives,
+        hero : csrHero,
+    }
     return {
         heroImages,
         aboutUs,
@@ -105,9 +111,7 @@ const fetchAllDataFromDB = async () => {
         clients,
         newsArticles,
         testimonials,
-        aboutUsDetailed,
-        csrInitiatives,
-        csrHero,
+        csr,
         sisterCompanies,
         spareParts,
         sparePartsServices,
@@ -888,41 +892,95 @@ export const deleteLocation = asyncHandler(async (req, res) => {
 
 // ==================== PRODUCT ROUTES ====================
 export const createProduct = asyncHandler(async (req, res) => {
-    const product = await Product.create(req.body);
-    await refreshCacheInBackground();
-    res.status(201).json({
-        success: true,
-        data: product
-    });
+  // Process and save files
+  const processedData = await processProductFiles(req.body);
+  
+  // Create product with file paths
+  const product = await Product.create(processedData);
+  
+  await refreshCacheInBackground();
+  
+  res.status(201).json({
+    success: true,
+    data: product
+  });
 });
 
 export const updateProduct = asyncHandler(async (req, res) => {
-    const product = await Product.findByIdAndUpdate(
-        req.params.id,
-        req.body,
-        { new: true, runValidators: true }
-    );
-    if (!product) {
-        return res.status(404).json({ success: false, error: 'Product not found' });
-    }
-    await refreshCacheInBackground();
-    res.json({
-        success: true,
-        data: product
-    });
+  let product = await Product.findById(req.params.id);
+  
+  if (!product) {
+    res.status(404);
+    throw new Error('Product not found');
+  }
+  
+  // Store old file paths for cleanup
+  const oldImages = product.images || [];
+  const oldBrochure = product.brochureUrl;
+  const oldSpecSheet = product.specSheetUrl;
+  
+  // Process new files
+  const processedData = await processProductFiles(req.body);
+  
+  // Update product
+  product = await Product.findByIdAndUpdate(
+    req.params.id,
+    processedData,
+    { new: true, runValidators: true }
+  );
+  
+  // Clean up old files that are no longer used
+  const newImages = processedData.images || [];
+  const removedImages = oldImages.filter(img => !newImages.includes(img));
+  
+  if (removedImages.length > 0) {
+    await Promise.all(removedImages.map(img => deleteImage(img)));
+  }
+  
+  if (oldBrochure && oldBrochure !== processedData.brochureUrl) {
+    await deletePDF(oldBrochure);
+  }
+  
+  if (oldSpecSheet && oldSpecSheet !== processedData.specSheetUrl) {
+    await deletePDF(oldSpecSheet);
+  }
+  
+  await refreshCacheInBackground();
+  
+  res.status(200).json({
+    success: true,
+    data: product
+  });
 });
 
 export const deleteProduct = asyncHandler(async (req, res) => {
-    const product = await Product.findByIdAndDelete(req.params.id);
-    if (!product) {
-        return res.status(404).json({ success: false, error: 'Product not found' });
-    }
-    await refreshCacheInBackground();
-    res.json({
-        success: true,
-        message: 'Product deleted successfully'
-    });
+  const product = await Product.findById(req.params.id);
+  
+  if (!product) {
+    res.status(404);
+    throw new Error('Product not found');
+  }
+  
+  // Delete all associated files
+  await deleteProductFiles(
+    product.brand,
+    product.name,
+    product.images,
+    product.brochureUrl,
+    product.specSheetUrl
+  );
+  
+  // Delete product from database
+  await product.deleteOne();
+  
+  await refreshCacheInBackground();
+  
+  res.status(200).json({
+    success: true,
+    data: {}
+  });
 });
+
 
 // ==================== BRAND ROUTES ====================
 export const createBrand = asyncHandler(async (req, res) => {

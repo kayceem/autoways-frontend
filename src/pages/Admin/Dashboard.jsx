@@ -10,20 +10,10 @@ const AdminDashboard = () => {
     return <LoadingSpinner />;
     }
 
-const brandsArray = content?.brands ? Object.values(content.brands) : [];
-const heroImagesArray = content?.heroImages ? Object.values(content.heroImages) : [];
+const brandsArray = content?.brands ? content.brands : [];
+const heroImagesArray = content?.heroImages ? content.heroImages : [];
 
 const stats = [
-  {
-    label: 'Total Products',
-    value: brandsArray.reduce((total, brand) => {
-      const productsArray = brand.products ? Object.values(brand.products) : [];
-      return total + productsArray.length;
-    }, 0),
-    icon: Package,
-    color: 'bg-blue-500',
-    link: '/admin/products'
-  },
   {
     label: 'Product Types',
     value: brandsArray.reduce((total, brand) => {

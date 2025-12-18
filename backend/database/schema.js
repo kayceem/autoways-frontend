@@ -25,21 +25,6 @@ const HeroImageSchema = new Schema({
     }
 }, { timestamps: true });
 
-// ==================== About Us Schema ====================
-const AboutUsSchema = new Schema({
-    title: {
-        type: String,
-        required: true
-    },
-    content: {
-        type: String,
-        required: true
-    },
-    image: {
-        type: String,
-        required: true
-    }
-}, { timestamps: true });
 
 // ==================== Contact Info Schema ====================
 const ContactInfoSchema = new Schema({
@@ -128,7 +113,7 @@ const ProductSchema = new Schema({
     },
     fuelType: {
         type: String,
-        enum: ['normal', 'hybrid', 'electric'],
+        enum: ['petrol', 'diesel', 'hybrid-petrol', 'hybrid-diesel', 'electric'],
         required: true
     },
     images: {
@@ -402,7 +387,8 @@ const AboutUsDetailedSchema = new Schema({
         issuedBy: String,
         image: String,
         description: String
-    }]
+    }],
+    stats: Schema.Types.Mixed
 }, { timestamps: true });
 
 // ==================== CSR Schema ====================
@@ -451,6 +437,13 @@ const CSRHeroSchema = new Schema({
     image: {
         type: String,
         required: true
+    },
+    stats: {
+        investment: String,
+        beneficiaries: String,
+        initiatives: String,
+        partnersCount: String,
+        yearsActive: String,
     }
 }, { timestamps: true });
 
@@ -578,6 +571,66 @@ const SparePartsContactSchema = new Schema({
         required: true
     },
     hours: String
+}, { timestamps: true });
+
+// ==================== About Us Schema ====================
+const AboutUsSchema = new Schema({
+    title: {
+        type: String,
+        required: true
+    },
+    content: {
+        type: String,
+        required: true
+    },
+    image: {
+        type: String,
+        required: true
+    },
+    mission: MissionVisionSchema,
+    vision: MissionVisionSchema,
+    values: [ValueSchema],
+    milestones: [MilestoneSchema],
+    chairman_message: {
+        title: String,
+        name: String,
+        position: String,
+        image: String,
+        message: String
+    },
+    md_message: {
+        title: String,
+        name: String,
+        position: String,
+        image: String,
+        message: String
+    },
+    team: [{
+        id: Number,
+        name: String,
+        position: String,
+        department: String,
+        image: String,
+        bio: String,
+        email: String,
+        phone: String
+    }],
+    certifications: [{
+        id: Number,
+        name: String,
+        issuedBy: String,
+        year: String,
+        image: String,
+        description: String
+    }],
+    awards: [{
+        id: Number,
+        title: String,
+        year: String,
+        issuedBy: String,
+        image: String,
+        description: String
+    }]
 }, { timestamps: true });
 
 // ==================== Export Models ====================

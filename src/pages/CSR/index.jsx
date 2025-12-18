@@ -2,11 +2,13 @@ import { useContent } from '../../context/globalContext';
 import LoadingSpinner from '../../components/common/Loading';
 import WaveBackground from '../../components/common/WaveBackground';
 import { assetUrl } from '../../utils';
+import { Link} from 'react-router-dom';
 
 const CSR = () => {
   const { content, isLoading } = useContent();
 
   if (isLoading) return <LoadingSpinner />;
+  console.log(content)
   if (!content || !content.csr) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -15,7 +17,8 @@ const CSR = () => {
     );
   }
 
-  const { hero, initiatives, partners, stats, commitment } = content.csr;
+  const { hero: heroData, initiatives} = content.csr;
+  const hero = heroData?.length !== 0 ?  heroData[0] : [];
 
   return (
     <main className="min-h-screen bg-dark relative">
@@ -51,23 +54,23 @@ const CSR = () => {
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
             <div className="text-center p-6 bg-primary rounded-lg shadow-lg animate-fade-in-up">
-              <div className="text-4xl font-bold text-accent mb-2">{stats.yearsActive}</div>
+              <div className="text-4xl font-bold text-accent mb-2">{hero.stats.yearsActive}</div>
               <div className="text-secondary opacity-70 text-sm">Years Active</div>
             </div>
             <div className="text-center p-6 bg-primary rounded-lg shadow-lg animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
-              <div className="text-4xl font-bold text-accent mb-2">{stats.beneficiaries}</div>
+              <div className="text-4xl font-bold text-accent mb-2">{hero.stats.beneficiaries}</div>
               <div className="text-secondary opacity-70 text-sm">Beneficiaries</div>
             </div>
             <div className="text-center p-6 bg-primary rounded-lg shadow-lg animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-              <div className="text-4xl font-bold text-accent mb-2">{stats.initiatives}</div>
+              <div className="text-4xl font-bold text-accent mb-2">{hero.stats.initiatives}</div>
               <div className="text-secondary opacity-70 text-sm">Initiatives</div>
             </div>
             <div className="text-center p-6 bg-primary rounded-lg shadow-lg animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
-              <div className="text-4xl font-bold text-accent mb-2">{stats.partnersCount}</div>
+              <div className="text-4xl font-bold text-accent mb-2">{hero.stats.partnersCount}</div>
               <div className="text-secondary opacity-70 text-sm">Partners</div>
             </div>
             <div className="text-center p-6 bg-primary rounded-lg shadow-lg animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
-              <div className="text-4xl font-bold text-accent mb-2">{stats.investment}</div>
+              <div className="text-4xl font-bold text-accent mb-2">{hero.stats.investment}</div>
               <div className="text-secondary opacity-70 text-sm">CSR Investment</div>
             </div>
           </div>
@@ -88,7 +91,7 @@ const CSR = () => {
           <div className="grid gap-8">
             {initiatives.map((initiative, index) => (
               <div
-                key={initiative.id}
+                key={initiative.initiativeId}
                 className={`grid md:grid-cols-2 gap-8 items-center animate-fade-in-up ${
                   index % 2 !== 0 ? 'md:flex-row-reverse' : ''
                 }`}
@@ -147,7 +150,7 @@ const CSR = () => {
       </section>
 
       {/* Commitment Section */}
-      <section className="py-20 px-6 bg-primary bg-opacity-50">
+      {/* <section className="py-20 px-6 bg-primary bg-opacity-50">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-12 animate-fade-in-up">
             <h2 className="font-bold text-4xl text-secondary mb-4">{commitment.title}</h2>
@@ -169,10 +172,10 @@ const CSR = () => {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Partners Section */}
-      <section className="py-20 px-6">
+      {/* <section className="py-20 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12 animate-fade-in-up">
             <h2 className="font-bold text-4xl text-secondary mb-4">Our CSR Partners</h2>
@@ -205,7 +208,7 @@ const CSR = () => {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* CTA Section */}
       <section className="py-20 px-6">
@@ -218,9 +221,12 @@ const CSR = () => {
               Join us in making a positive difference. Together we can create lasting impact in communities across Nepal.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="px-8 py-4 bg-dark text-secondary rounded-lg font-semibold hover:bg-opacity-90 transition-all transform hover:scale-105 shadow-lg">
+            <Link
+                to={"/contact"}
+                className={"px-8 py-4 bg-dark text-secondary rounded-lg font-semibold hover:bg-opacity-90 transition-all transform hover:scale-105 shadow-lg"}
+            >
                 Become a Partner
-              </button>
+            </Link>
               <button className="px-8 py-4 bg-accent text-dark rounded-lg font-semibold hover:bg-opacity-90 transition-all transform hover:scale-105 shadow-lg">
                 Learn More
               </button>

@@ -10,7 +10,7 @@ const AboutUs = () => {
   const timelineContainerRef = useRef(null);
 
   if (isLoading) return <LoadingSpinner />;
-  if (!content || !content.about_us_detailed) {
+  if (!content || content.aboutUs?.length === 0) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-2xl text-secondary">Failed to load about us content</div>
@@ -18,8 +18,9 @@ const AboutUs = () => {
     );
   }
 
-  const { mission, vision, values, milestones, team, stats } = content.about_us_detailed;
-  const aboutUs = content.about_us;
+  const { mission, vision, values, milestones, team, stats, chairman_message, md_message, certifications, awards } = content.aboutUs[0] || [];
+  const aboutUs = content.aboutUs[0];
+  console.log(stats)
 
   // Handlers for timeline navigation
   const scrollToMilestone = (index) => {
@@ -116,7 +117,7 @@ const AboutUs = () => {
       </section>
 
       {/* Message from Chairman */}
-      {content.about_us_detailed?.chairman_message && (
+      {chairman_message && (
         <section className="py-20 px-6 bg-primary bg-opacity-50">
           <div className="max-w-7xl mx-auto">
             <div className="grid md:grid-cols-2 gap-12 items-center">
@@ -131,23 +132,23 @@ const AboutUs = () => {
                 </div>
                 <div className="w-24 h-1 bg-accent mb-6" />
                 <p className="text-secondary text-justify opacity-80 leading-relaxed text-lg whitespace-pre-line mb-6">
-                  {content.about_us_detailed.chairman_message.message}
+                  {chairman_message.message}
                 </p>
                 <div className="flex items-center gap-4">
                   <div className="text-right">
                     <p className="text-secondary font-bold text-xl">
-                      {content.about_us_detailed.chairman_message.name}
+                      {chairman_message.name}
                     </p>
                     <p className="text-accent font-semibold">
-                      {content.about_us_detailed.chairman_message.title || 'Chairman'}
+                      {chairman_message.title || 'Chairman'}
                     </p>
                   </div>
                 </div>
               </div>
-              {content.about_us_detailed.chairman_message.image && (
+              {chairman_message.image && (
                 <div className="animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
                   <img
-                    src={assetUrl(content.about_us_detailed.chairman_message.image)}
+                    src={assetUrl(chairman_message.image)}
                     alt="Chairman"
                     className="rounded-lg shadow-2xl w-full"
                   />
@@ -159,14 +160,14 @@ const AboutUs = () => {
       )}
 
       {/* Message from MD */}
-      {content.about_us_detailed?.md_message && (
+      {md_message && (
         <section className="py-20 px-6">
           <div className="max-w-7xl mx-auto">
             <div className="grid md:grid-cols-2 gap-12 items-center">
-              {content.about_us_detailed.md_message.image && (
+              {md_message.image && (
                 <div className="animate-fade-in-up order-2 md:order-1">
                   <img
-                    src={assetUrl(content.about_us_detailed.md_message.image)}
+                    src={assetUrl(md_message.image)}
                     alt="Managing Director"
                     className="rounded-lg shadow-2xl w-full"
                   />
@@ -183,15 +184,15 @@ const AboutUs = () => {
                 </div>
                 <div className="w-24 h-1 bg-accent mb-6" />
                 <p className="text-secondary text-justify opacity-80 leading-relaxed text-lg whitespace-pre-line mb-6">
-                  {content.about_us_detailed.md_message.message}
+                  {md_message.message}
                 </p>
                 <div className="flex items-center gap-4">
                   <div className="text-left">
                     <p className="text-secondary font-bold text-xl">
-                      {content.about_us_detailed.md_message.name}
+                      {md_message.name}
                     </p>
                     <p className="text-accent font-semibold">
-                      {content.about_us_detailed.md_message.title || 'Managing Director'}
+                      {md_message.title || 'Managing Director'}
                     </p>
                   </div>
                 </div>
@@ -389,7 +390,8 @@ const AboutUs = () => {
         </div>
       </section>
 
-      {/* Leadership Team */}
+    {/* Leadership Team */}
+    {team && team?.members && (
       <section className="py-20 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12 animate-fade-in-up">
@@ -401,11 +403,11 @@ const AboutUs = () => {
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {team?.members?.map((member, index) => (
-              <div
+                <div
                 key={member.id}
                 className="bg-primary rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 animate-fade-in-up"
                 style={{ animationDelay: `${index * 0.1}s` }}
-              >
+                >
                 <div className="h-48 bg-gradient-to-br from-accent to-primary flex items-center justify-center">
                   <div className="w-32 h-32 bg-dark rounded-full flex items-center justify-center">
                     <svg className="w-16 h-16 text-accent" fill="currentColor" viewBox="0 0 20 20">
@@ -425,7 +427,7 @@ const AboutUs = () => {
           </div>
         </div>
       </section>
-
+    )}
       {/* CTA Section */}
       <section className="py-20 px-6">
         <div className="max-w-4xl mx-auto">

@@ -7,7 +7,8 @@ const NewsMedia = () => {
   const { content, isLoading } = useContent();
 
   if (isLoading) return <LoadingSpinner />;
-  if (!content || !content.news_media) {
+  console.log(content)
+  if (!content || !content.newsArticles) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-2xl text-secondary">Failed to load news content</div>
@@ -15,8 +16,9 @@ const NewsMedia = () => {
     );
   }
 
-  const { featured, articles } = content.news_media;
-
+  const articles = content.newsArticles.filter((article => article.isFeatured === false)); 
+  const featuredArticles = content.newsArticles.filter((article => article.isFeatured === true));
+  const featured = featuredArticles.length > 0 ? featuredArticles[0] : null;
   const formatDate = (dateString) => {
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
     return new Date(dateString).toLocaleDateString('en-US', options);

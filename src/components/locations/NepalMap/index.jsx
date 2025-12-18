@@ -21,7 +21,7 @@ const NepalMap = () => {
     if (isLoading) return <LoadingSpinner size={64} />;
     
     const locations = content?.locations || [];
-    const center = locations?.center;
+    const center = locations?.[0].position;
     return (
         <div className="nepal-map-container">
             <MapContainer
@@ -34,9 +34,9 @@ const NepalMap = () => {
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
-                {locations?.points.map((location) => (
+                {locations?.map((location) => (
                     <Marker
-                        key={location.id}
+                        key={location._id}
                         position={location.position}
                         icon={customIcon}
                     >

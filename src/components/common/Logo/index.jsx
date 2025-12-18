@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import "./index.css";
+import { assetUrl } from '../../../utils';
 
 const Logo = ({
     to = "/",
@@ -18,7 +19,7 @@ const Logo = ({
             {autowaysLogo ? (
                 <>
                     <img
-                        src={autowaysLogo}
+                        src={assetUrl(autowaysLogo)}
                         alt={altText || "Logo"}
                         className={`h-auto w-auto object-contain ${className}`}
                         style={{ width: size }}
@@ -27,7 +28,7 @@ const Logo = ({
             ) : (
                 <>
                     <img
-                        src={logo}
+                        src={assetUrl(logo)}
                         alt={altText || "Logo"}
                         className={`h-auto w-auto object-contain ${className}`}
                         style={{ width: size, height: size }}

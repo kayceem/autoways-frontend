@@ -102,19 +102,6 @@ const ProductTypePage = () => {
             >
                 <div className="max-w-7xl mx-auto px-6 py-4">
                     <div className="flex items-center justify-end">
-                        {/* Left - Filters */}
-                        {/* <div className="flex items-center gap-4">
-              <button className={`flex items-center gap-2 px-4 py-2 bg-primary/10 hover:bg-accent hover:text-primary text-primary rounded-lg transition-all duration-300 font-bold`}>
-                <SlidersHorizontal size={18} />
-                <span>Filters</span>
-              </button>
-              
-              <button className={`flex items-center gap-2 px-4 py-2 bg-primary/10 hover:bg-accent hover:text-primary text-primary rounded-lg transition-all duration-300 font-bold`}>
-                <Filter size={18} />
-                <span>Price Range</span>
-              </button>
-            </div> */}
-
                         {/* Right - View Mode & Sort */}
                         <div className="flex items-center gap-4">
                             {/* Sort Dropdown */}
@@ -124,12 +111,6 @@ const ProductTypePage = () => {
                                 className={`px-4 py-2 bg-primary/10 text-primary rounded-lg font-bold cursor-pointer hover:bg-accent hover:text-primary transition-all duration-300 outline-none`}
                             >
                                 <option value="name">Name</option>
-                                <option value="price-low">
-                                    Price: Low to High
-                                </option>
-                                <option value="price-high">
-                                    Price: High to Low
-                                </option>
                                 <option value="newest">Newest</option>
                             </select>
 
