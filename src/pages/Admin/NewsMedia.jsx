@@ -1,43 +1,46 @@
 import { useState, useContext, useEffect } from 'react';
-import { Save, X, Plus, Trash2, Edit2, Upload, Image as ImageIcon } from 'lucide-react';
+import { Save, X, Plus, Trash2, Edit2, Upload, Newspaper } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { ContentContext } from '../../context/globalContext';
-import { useCreateHeroImage, useUpdateHeroImage, useDeleteHeroImage } from '../../hooks/useHeroImagesMutation';
+import { useCreateNewsArticle, useUpdateNewsArticle, useDeleteNewsArticle } from '../../hooks/useNewsMediaMutation';
 import { assetUrl } from '../../utils';
 
-const HeroImagesAdmin = () => {
+const NewsMediaAdmin = () => {
   const { content, isLoading, refetch } = useContext(ContentContext);
-  const createHeroImage = useCreateHeroImage();
-  const updateHeroImage = useUpdateHeroImage();
-  const deleteHeroImage = useDeleteHeroImage();
+  const createNewsArticle = useCreateNewsArticle();
+  const updateNewsArticle = useUpdateNewsArticle();
+  const deleteNewsArticle = useDeleteNewsArticle();
 
-  const [heroImages, setHeroImages] = useState([]);
+  const [articles, setArticles] = useState([]);
   const [editingId, setEditingId] = useState(null);
   const [isCreating, setIsCreating] = useState(false);
   const [imagePreview, setImagePreview] = useState(null);
   const [imageFile, setImageFile] = useState(null);
   const [formData, setFormData] = useState({
+    articleId: '',
     title: '',
-    subtitle: '',
-    ctaText: '',
-    ctaLink: ''
+    category: '',
+    date: '',
+    excerpt: '',
+    content: '',
+    isFeatured: false
   });
 
-  const MAX_HERO_IMAGES = 10;
-  const MIN_HERO_IMAGES = 1;
-
   useEffect(() => {
-    if (content?.heroImages) {
-      setHeroImages(content.heroImages);
+    if (content?.newsArticles) {
+      setArticles(content.newsArticles);
     }
   }, [content]);
 
   const resetForm = () => {
     setFormData({
+      articleId: '',
       title: '',
-      subtitle: '',
-      ctaText: '',
-      ctaLink: ''
+      category: '',
+      date: '',
+      excerpt: '',
+      content: '',
+      isFeatured: false
     });
     setImageFile(null);
     setImagePreview(null);
@@ -46,37 +49,28 @@ const HeroImagesAdmin = () => {
   };
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    const { name, value, type, checked } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value
+    }));
   };
 
-  const handleImageChange = async (e) => {
+  const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      // Validate file type
       if (!file.type.startsWith('image/')) {
         toast.error('Please select a valid image file');
         return;
       }
 
-      // Validate file size (max 5MB)
       if (file.size > 5 * 1024 * 1024) {
         toast.error('Image size must be less than 5MB');
         return;
       }
-        const convertToBase64 = (file) => {
-            return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = () => resolve(reader.result);
-            reader.onerror = (error) => reject(error);
-            });
-        };
-      const base64 = await convertToBase64(file);
 
-      setImageFile(base64);
+      setImageFile(file);
 
-      // Create preview
       const reader = new FileReader();
       reader.onloadend = () => {
         setImagePreview(reader.result);
@@ -86,40 +80,46 @@ const HeroImagesAdmin = () => {
   };
 
   const handleCreate = () => {
-    if (heroImages.length >= MAX_HERO_IMAGES) {
-      toast.error(`Maximum ${MAX_HERO_IMAGES} hero images allowed`);
-      return;
-    }
-
     setIsCreating(true);
     setEditingId(null);
+    const maxId = articles.length > 0
+      ? Math.max(...articles.map(art => art.articleId))
+      : 0;
+    const today = new Date().toISOString().split('T')[0];
     setFormData({
+      articleId: maxId + 1,
       title: '',
-      subtitle: '',
-      ctaText: '',
-      ctaLink: ''
+      category: '',
+      date: today,
+      excerpt: '',
+      content: '',
+      isFeatured: false
     });
     setImageFile(null);
     setImagePreview(null);
   };
 
-  const handleEdit = (image) => {
+  const handleEdit = (article) => {
     setIsCreating(false);
-    setEditingId(image._id);
+    setEditingId(article._id);
+    const dateString = article.date ? new Date(article.date).toISOString().split('T')[0] : '';
     setFormData({
-      title: image.title || '',
-      subtitle: image.subtitle || '',
-      ctaText: image.ctaText || '',
-      ctaLink: image.ctaLink || ''
+      articleId: article.articleId,
+      title: article.title || '',
+      category: article.category || '',
+      date: dateString,
+      excerpt: article.excerpt || '',
+      content: article.content || '',
+      isFeatured: article.isFeatured || false
     });
-    setImagePreview(assetUrl(image.image));
+    setImagePreview(assetUrl(article.image));
     setImageFile(null);
   };
 
   const handleSave = async () => {
     // Validate required fields
-    if (!formData.title) {
-      toast.error('Title is required');
+    if (!formData.title || !formData.category || !formData.date || !formData.excerpt || !formData.content) {
+      toast.error('All fields except Featured status are required');
       return;
     }
 
@@ -129,27 +129,24 @@ const HeroImagesAdmin = () => {
     }
 
     try {
-      if (isCreating) {
-        // Create new hero image
-        const sectionData = {
-            title: formData.title,
-            subtitle: formData.subtitle,
-            ctaText: formData.ctaText,
-            ctaLink: formData.ctaLink,
-            image : imageFile
-        };
+      const submitData = new FormData();
 
-        await createHeroImage.mutateAsync(sectionData);
+      if (imageFile) {
+        submitData.append('image', imageFile);
+      }
+
+      submitData.append('articleId', formData.articleId);
+      submitData.append('title', formData.title);
+      submitData.append('category', formData.category);
+      submitData.append('date', formData.date);
+      submitData.append('excerpt', formData.excerpt);
+      submitData.append('content', formData.content);
+      submitData.append('isFeatured', formData.isFeatured);
+
+      if (isCreating) {
+        await createNewsArticle.mutateAsync(submitData);
       } else {
-        // Update existing hero image
-        const submitData = {
-            title: formData.title,
-            subtitle: formData.subtitle,
-            ctaText: formData.ctaText,
-            ctaLink: formData.ctaLink,
-            image: imageFile
-        };
-        await updateHeroImage.mutateAsync({
+        await updateNewsArticle.mutateAsync({
           id: editingId,
           data: submitData
         });
@@ -163,14 +160,9 @@ const HeroImagesAdmin = () => {
   };
 
   const handleDelete = async (id) => {
-    if (heroImages.length <= MIN_HERO_IMAGES) {
-      toast.error(`At least ${MIN_HERO_IMAGES} hero image must remain`);
-      return;
-    }
-
-    if (window.confirm('Are you sure you want to delete this hero image? This action cannot be undone.')) {
+    if (window.confirm('Are you sure you want to delete this news article? This action cannot be undone.')) {
       try {
-        await deleteHeroImage.mutateAsync(id);
+        await deleteNewsArticle.mutateAsync(id);
         await refetch();
         if (editingId === id) {
           resetForm();
@@ -185,6 +177,12 @@ const HeroImagesAdmin = () => {
     resetForm();
   };
 
+  const formatDate = (dateString) => {
+    if (!dateString) return '-';
+    const options = { year: 'numeric', month: 'short', day: 'numeric' };
+    return new Date(dateString).toLocaleDateString('en-US', options);
+  };
+
   if (isLoading) {
     return <div className="flex items-center justify-center h-64">Loading...</div>;
   }
@@ -196,24 +194,18 @@ const HeroImagesAdmin = () => {
       <div className="mb-6">
         <div className="flex justify-between items-center">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Hero Images</h1>
-            <p className="text-gray-600 mt-1">Manage homepage carousel images</p>
+            <h1 className="text-3xl font-bold text-gray-900">News & Media</h1>
+            <p className="text-gray-600 mt-1">Manage news articles and media content</p>
           </div>
-          {!isFormActive && heroImages.length < MAX_HERO_IMAGES && (
+          {!isFormActive && (
             <button
               onClick={handleCreate}
               className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2"
             >
               <Plus className="w-5 h-5" />
-              <span>Add Hero Image</span>
+              <span>Add News Article</span>
             </button>
           )}
-        </div>
-        <div className="mt-4 bg-blue-50 border border-blue-200 rounded-lg p-4">
-          <p className="text-sm text-blue-800">
-            <strong>Note:</strong> You can have a minimum of {MIN_HERO_IMAGES} and maximum of {MAX_HERO_IMAGES} hero images.
-            Currently: {heroImages.length}/{MAX_HERO_IMAGES}
-          </p>
         </div>
       </div>
 
@@ -222,7 +214,7 @@ const HeroImagesAdmin = () => {
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-xl font-semibold text-gray-900">
-              {isCreating ? 'Create New Hero Image' : 'Edit Hero Image'}
+              {isCreating ? 'Create New News Article' : 'Edit News Article'}
             </h2>
             <button
               onClick={handleCancel}
@@ -233,13 +225,26 @@ const HeroImagesAdmin = () => {
           </div>
 
           <div className="space-y-6">
+            {/* Article ID (read-only) */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Article ID
+              </label>
+              <input
+                type="number"
+                value={formData.articleId}
+                disabled
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-100 cursor-not-allowed"
+              />
+              <p className="text-xs text-gray-500 mt-1">Auto-generated</p>
+            </div>
+
             {/* Image Upload */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Hero Image <span className="text-red-500">*</span>
+                Article Image <span className="text-red-500">*</span>
               </label>
 
-              {/* Image Preview */}
               {imagePreview && (
                 <div className="mb-4">
                   <div className="w-full h-64 bg-gray-100 rounded-lg overflow-hidden">
@@ -252,7 +257,6 @@ const HeroImagesAdmin = () => {
                 </div>
               )}
 
-              {/* Upload Button */}
               <div className="flex items-center space-x-4">
                 <label className="flex items-center space-x-2 px-4 py-2 bg-gray-100 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-200 transition-colors">
                   <Upload className="w-4 h-4 text-gray-700" />
@@ -273,7 +277,7 @@ const HeroImagesAdmin = () => {
                 )}
               </div>
               <p className="text-xs text-gray-500 mt-2">
-                Recommended size: 1920x800px. Max file size: 5MB. Formats: JPG, PNG, WebP
+                Max file size: 5MB. Formats: JPG, PNG, WebP
               </p>
             </div>
 
@@ -288,54 +292,91 @@ const HeroImagesAdmin = () => {
                 value={formData.title}
                 onChange={handleInputChange}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Main heading for the hero slide"
+                placeholder="Article title"
                 required
               />
             </div>
 
-            {/* Subtitle */}
+            {/* Category and Date */}
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Category <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  name="category"
+                  value={formData.category}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="e.g., Press Release, Industry News"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Date <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="date"
+                  name="date"
+                  value={formData.date}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  required
+                />
+              </div>
+            </div>
+
+            {/* Excerpt */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Subtitle
+                Excerpt <span className="text-red-500">*</span>
               </label>
-              <input
-                type="text"
-                name="subtitle"
-                value={formData.subtitle}
+              <textarea
+                name="excerpt"
+                value={formData.excerpt}
                 onChange={handleInputChange}
+                rows="3"
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Supporting text below the title"
+                placeholder="Brief summary of the article"
+                required
               />
             </div>
 
-            {/* CTA Text */}
+            {/* Content */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                CTA Text
+                Content <span className="text-red-500">*</span>
               </label>
-              <input
-                type="text"
-                name="ctaText"
-                value={formData.ctaText}
+              <textarea
+                name="content"
+                value={formData.content}
                 onChange={handleInputChange}
+                rows="8"
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="e.g., Learn More, Shop Now"
+                placeholder="Full article content"
+                required
               />
             </div>
 
-            {/* CTA Link */}
+            {/* Featured Checkbox */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                CTA Link
+              <label className="flex items-center space-x-2">
+                <input
+                  type="checkbox"
+                  name="isFeatured"
+                  checked={formData.isFeatured}
+                  onChange={handleInputChange}
+                  className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                />
+                <span className="text-sm font-medium text-gray-700">
+                  Mark as Featured Article
+                </span>
               </label>
-              <input
-                type="text"
-                name="ctaLink"
-                value={formData.ctaLink}
-                onChange={handleInputChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="/contact or https://example.com"
-              />
+              <p className="text-xs text-gray-500 mt-1">
+                Featured articles will be highlighted on the news page
+              </p>
             </div>
 
             {/* Action Buttons */}
@@ -351,30 +392,30 @@ const HeroImagesAdmin = () => {
               <button
                 type="button"
                 onClick={handleSave}
-                disabled={createHeroImage.isPending || updateHeroImage.isPending}
+                disabled={createNewsArticle.isPending || updateNewsArticle.isPending}
                 className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <Save className="w-4 h-4" />
-                <span>{isCreating ? 'Create Hero Image' : 'Update Hero Image'}</span>
+                <span>{isCreating ? 'Create Article' : 'Update Article'}</span>
               </button>
             </div>
           </div>
         </div>
       )}
 
-      {/* Hero Images Table */}
-      {heroImages.length === 0 ? (
+      {/* News Articles Table */}
+      {articles.length === 0 ? (
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-12 text-center">
-          <ImageIcon className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-          <p className="text-gray-500 mb-2">No hero images found</p>
-          <p className="text-sm text-gray-400 mb-4">Get started by adding your first hero image</p>
+          <Newspaper className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+          <p className="text-gray-500 mb-2">No news articles found</p>
+          <p className="text-sm text-gray-400 mb-4">Get started by adding your first news article</p>
           {!isFormActive && (
             <button
               onClick={handleCreate}
               className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors inline-flex items-center space-x-2"
             >
               <Plus className="w-4 h-4" />
-              <span>Add Hero Image</span>
+              <span>Add News Article</span>
             </button>
           )}
         </div>
@@ -385,16 +426,19 @@ const HeroImagesAdmin = () => {
               <thead className="bg-gray-50 border-b border-gray-200">
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Preview
+                    Image
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Title
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Subtitle
+                    Category
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    CTA
+                    Date
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Status
                   </th>
                   <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Actions
@@ -402,65 +446,63 @@ const HeroImagesAdmin = () => {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {heroImages.map((image, index) => (
+                {articles.map((article) => (
                   <tr
-                    key={image._id}
+                    key={article._id}
                     className={`hover:bg-gray-50 transition-colors ${
-                      editingId === image._id ? 'bg-blue-50' : ''
+                      editingId === article._id ? 'bg-blue-50' : ''
                     }`}
                   >
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex items-center">
-                        <div className="h-20 w-32 bg-gray-100 rounded overflow-hidden">
-                          <img
-                            src={assetUrl(image.image)}
-                            alt={image.title}
-                            className="h-full w-full object-cover"
-                          />
-                        </div>
+                      <div className="h-20 w-32 bg-gray-100 rounded overflow-hidden">
+                        <img
+                          src={assetUrl(article.image)}
+                          alt={article.title}
+                          className="h-full w-full object-cover"
+                        />
                       </div>
                     </td>
                     <td className="px-6 py-4">
-                      <div className="text-sm font-medium text-gray-900">{image.title}</div>
-                    </td>
-                    <td className="px-6 py-4">
+                      <div className="text-sm font-medium text-gray-900">{article.title}</div>
                       <div className="text-sm text-gray-600 max-w-xs truncate">
-                        {image.subtitle || '-'}
+                        {article.excerpt}
                       </div>
                     </td>
                     <td className="px-6 py-4">
-                      <div className="text-sm">
-                        {image.ctaText ? (
-                          <div>
-                            <span className="inline-block px-2 py-1 bg-green-100 text-green-800 rounded text-xs">
-                              {image.ctaText}
-                            </span>
-                            {image.ctaLink && (
-                              <div className="text-xs text-gray-500 mt-1 truncate max-w-xs">
-                                {image.ctaLink}
-                              </div>
-                            )}
-                          </div>
-                        ) : (
-                          <span className="text-gray-400">-</span>
-                        )}
+                      <span className="inline-block px-2 py-1 bg-purple-100 text-purple-800 rounded text-xs">
+                        {article.category}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="text-sm text-gray-600">
+                        {formatDate(article.date)}
                       </div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      {article.isFeatured ? (
+                        <span className="inline-block px-2 py-1 bg-yellow-100 text-yellow-800 rounded text-xs font-medium">
+                          Featured
+                        </span>
+                      ) : (
+                        <span className="inline-block px-2 py-1 bg-gray-100 text-gray-600 rounded text-xs">
+                          Regular
+                        </span>
+                      )}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                       {!isFormActive && (
                         <div className="flex justify-end space-x-2">
                           <button
-                            onClick={() => handleEdit(image)}
+                            onClick={() => handleEdit(article)}
                             className="inline-flex items-center px-3 py-1 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
                           >
                             <Edit2 className="w-4 h-4 mr-1" />
                             Edit
                           </button>
                           <button
-                            onClick={() => handleDelete(image._id)}
-                            disabled={deleteHeroImage.isPending || heroImages.length <= MIN_HERO_IMAGES}
+                            onClick={() => handleDelete(article._id)}
+                            disabled={deleteNewsArticle.isPending}
                             className="inline-flex items-center px-3 py-1 border border-red-300 rounded-lg text-red-600 hover:bg-red-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                            title={heroImages.length <= MIN_HERO_IMAGES ? `At least ${MIN_HERO_IMAGES} hero image required` : 'Delete hero image'}
                           >
                             <Trash2 className="w-4 h-4 mr-1" />
                             Delete
@@ -479,4 +521,4 @@ const HeroImagesAdmin = () => {
   );
 };
 
-export default HeroImagesAdmin;
+export default NewsMediaAdmin;

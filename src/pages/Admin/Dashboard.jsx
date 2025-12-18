@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { Package, Layers, Image, TrendingUp } from 'lucide-react';
+import { Package, Layers, Image, TrendingUp, Award, Newspaper } from 'lucide-react';
 import { ContentContext } from '../../context/globalContext';
 import LoadingSpinner from '../../components/common/Loading';
 
@@ -12,6 +12,8 @@ const AdminDashboard = () => {
 
 const brandsArray = content?.brands ? content.brands : [];
 const heroImagesArray = content?.heroImages ? content.heroImages : [];
+const csrInitiatives = content?.csr?.initiatives ? content.csr.initiatives : [];
+const newsArticles = content?.newsArticles ? content.newsArticles : [];
 
 const stats = [
   {
@@ -32,18 +34,18 @@ const stats = [
     link: '/admin/hero-images'
   },
   {
-    label: 'Brands',
-    value: brandsArray.length,
-    icon: TrendingUp,
-    color: 'bg-orange-500',
-    link: '#'
+    label: 'CSR Initiatives',
+    value: csrInitiatives.length,
+    icon: Award,
+    color: 'bg-yellow-500',
+    link: '/admin/csr-initiatives'
   },
   {
-    label: 'Locations',
-    value: content?.locations ? content.locations.length : 0,
-    icon: Package,
-    color: 'bg-blue-500',
-    link: '/admin/locations'
+    label: 'News Articles',
+    value: newsArticles.length,
+    icon: Newspaper,
+    color: 'bg-indigo-500',
+    link: '/admin/news-media'
   }
 ];
 
@@ -90,6 +92,20 @@ const stats = [
             <p className="text-sm text-gray-600">Add, edit, or delete products</p>
           </Link>
           <Link
+            to="/admin/csr-initiatives"
+            className="p-4 border-2 border-yellow-200 rounded-lg hover:border-yellow-500 hover:bg-yellow-50 transition-all"
+          >
+            <h3 className="font-semibold text-gray-900 mb-1">Manage CSR Initiatives</h3>
+            <p className="text-sm text-gray-600">Add and manage CSR programs</p>
+          </Link>
+          <Link
+            to="/admin/news-media"
+            className="p-4 border-2 border-indigo-200 rounded-lg hover:border-indigo-500 hover:bg-indigo-50 transition-all"
+          >
+            <h3 className="font-semibold text-gray-900 mb-1">Manage News & Media</h3>
+            <p className="text-sm text-gray-600">Publish and update news articles</p>
+          </Link>
+          <Link
             to="/admin/product-types"
             className="p-4 border-2 border-green-200 rounded-lg hover:border-green-500 hover:bg-green-50 transition-all"
           >
@@ -102,6 +118,13 @@ const stats = [
           >
             <h3 className="font-semibold text-gray-900 mb-1">Update Hero Images</h3>
             <p className="text-sm text-gray-600">Edit homepage carousel images</p>
+          </Link>
+          <Link
+            to="/admin/locations"
+            className="p-4 border-2 border-orange-200 rounded-lg hover:border-orange-500 hover:bg-orange-50 transition-all"
+          >
+            <h3 className="font-semibold text-gray-900 mb-1">Manage Locations</h3>
+            <p className="text-sm text-gray-600">Update business locations</p>
           </Link>
         </div>
       </div>

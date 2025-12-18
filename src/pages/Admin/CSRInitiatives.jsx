@@ -1,43 +1,46 @@
 import { useState, useContext, useEffect } from 'react';
-import { Save, X, Plus, Trash2, Edit2, Upload, Image as ImageIcon } from 'lucide-react';
+import { Save, X, Plus, Trash2, Edit2, Upload, Award } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { ContentContext } from '../../context/globalContext';
-import { useCreateHeroImage, useUpdateHeroImage, useDeleteHeroImage } from '../../hooks/useHeroImagesMutation';
+import { useCreateCSRInitiative, useUpdateCSRInitiative, useDeleteCSRInitiative } from '../../hooks/useCSRMutation';
 import { assetUrl } from '../../utils';
 
-const HeroImagesAdmin = () => {
+const CSRInitiativesAdmin = () => {
   const { content, isLoading, refetch } = useContext(ContentContext);
-  const createHeroImage = useCreateHeroImage();
-  const updateHeroImage = useUpdateHeroImage();
-  const deleteHeroImage = useDeleteHeroImage();
+  const createCSRInitiative = useCreateCSRInitiative();
+  const updateCSRInitiative = useUpdateCSRInitiative();
+  const deleteCSRInitiative = useDeleteCSRInitiative();
 
-  const [heroImages, setHeroImages] = useState([]);
+  const [initiatives, setInitiatives] = useState([]);
   const [editingId, setEditingId] = useState(null);
   const [isCreating, setIsCreating] = useState(false);
   const [imagePreview, setImagePreview] = useState(null);
   const [imageFile, setImageFile] = useState(null);
   const [formData, setFormData] = useState({
+    initiativeId: '',
     title: '',
-    subtitle: '',
-    ctaText: '',
-    ctaLink: ''
+    category: '',
+    description: '',
+    impactMetric: '',
+    impactLabel: '',
+    activities: ['']
   });
 
-  const MAX_HERO_IMAGES = 10;
-  const MIN_HERO_IMAGES = 1;
-
   useEffect(() => {
-    if (content?.heroImages) {
-      setHeroImages(content.heroImages);
+    if (content?.csr?.initiatives) {
+      setInitiatives(content.csr.initiatives);
     }
   }, [content]);
 
   const resetForm = () => {
     setFormData({
+      initiativeId: '',
       title: '',
-      subtitle: '',
-      ctaText: '',
-      ctaLink: ''
+      category: '',
+      description: '',
+      impactMetric: '',
+      impactLabel: '',
+      activities: ['']
     });
     setImageFile(null);
     setImagePreview(null);
@@ -50,33 +53,45 @@ const HeroImagesAdmin = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleImageChange = async (e) => {
+  const handleActivityChange = (index, value) => {
+    setFormData(prev => {
+      const newActivities = [...prev.activities];
+      newActivities[index] = value;
+      return { ...prev, activities: newActivities };
+    });
+  };
+
+  const addActivity = () => {
+    setFormData(prev => ({
+      ...prev,
+      activities: [...prev.activities, '']
+    }));
+  };
+
+  const removeActivity = (index) => {
+    if (formData.activities.length > 1) {
+      setFormData(prev => ({
+        ...prev,
+        activities: prev.activities.filter((_, i) => i !== index)
+      }));
+    }
+  };
+
+  const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      // Validate file type
       if (!file.type.startsWith('image/')) {
         toast.error('Please select a valid image file');
         return;
       }
 
-      // Validate file size (max 5MB)
       if (file.size > 5 * 1024 * 1024) {
         toast.error('Image size must be less than 5MB');
         return;
       }
-        const convertToBase64 = (file) => {
-            return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = () => resolve(reader.result);
-            reader.onerror = (error) => reject(error);
-            });
-        };
-      const base64 = await convertToBase64(file);
 
-      setImageFile(base64);
+      setImageFile(file);
 
-      // Create preview
       const reader = new FileReader();
       reader.onloadend = () => {
         setImagePreview(reader.result);
@@ -86,40 +101,44 @@ const HeroImagesAdmin = () => {
   };
 
   const handleCreate = () => {
-    if (heroImages.length >= MAX_HERO_IMAGES) {
-      toast.error(`Maximum ${MAX_HERO_IMAGES} hero images allowed`);
-      return;
-    }
-
     setIsCreating(true);
     setEditingId(null);
+    const maxId = initiatives.length > 0
+      ? Math.max(...initiatives.map(init => init.initiativeId))
+      : 0;
     setFormData({
+      initiativeId: maxId + 1,
       title: '',
-      subtitle: '',
-      ctaText: '',
-      ctaLink: ''
+      category: '',
+      description: '',
+      impactMetric: '',
+      impactLabel: '',
+      activities: ['']
     });
     setImageFile(null);
     setImagePreview(null);
   };
 
-  const handleEdit = (image) => {
+  const handleEdit = (initiative) => {
     setIsCreating(false);
-    setEditingId(image._id);
+    setEditingId(initiative._id);
     setFormData({
-      title: image.title || '',
-      subtitle: image.subtitle || '',
-      ctaText: image.ctaText || '',
-      ctaLink: image.ctaLink || ''
+      initiativeId: initiative.initiativeId,
+      title: initiative.title || '',
+      category: initiative.category || '',
+      description: initiative.description || '',
+      impactMetric: initiative.impact?.metric || '',
+      impactLabel: initiative.impact?.label || '',
+      activities: initiative.activities?.length > 0 ? initiative.activities : ['']
     });
-    setImagePreview(assetUrl(image.image));
+    setImagePreview(assetUrl(initiative.image));
     setImageFile(null);
   };
 
   const handleSave = async () => {
     // Validate required fields
-    if (!formData.title) {
-      toast.error('Title is required');
+    if (!formData.title || !formData.category || !formData.description) {
+      toast.error('Title, category, and description are required');
       return;
     }
 
@@ -128,28 +147,38 @@ const HeroImagesAdmin = () => {
       return;
     }
 
-    try {
-      if (isCreating) {
-        // Create new hero image
-        const sectionData = {
-            title: formData.title,
-            subtitle: formData.subtitle,
-            ctaText: formData.ctaText,
-            ctaLink: formData.ctaLink,
-            image : imageFile
-        };
+    // Filter out empty activities
+    const filteredActivities = formData.activities.filter(act => act.trim() !== '');
+    if (filteredActivities.length === 0) {
+      toast.error('At least one activity is required');
+      return;
+    }
 
-        await createHeroImage.mutateAsync(sectionData);
+    try {
+      const submitData = new FormData();
+
+      if (imageFile) {
+        submitData.append('image', imageFile);
+      }
+
+      submitData.append('initiativeId', formData.initiativeId);
+      submitData.append('title', formData.title);
+      submitData.append('category', formData.category);
+      submitData.append('description', formData.description);
+
+      if (formData.impactMetric || formData.impactLabel) {
+        submitData.append('impact', JSON.stringify({
+          metric: formData.impactMetric,
+          label: formData.impactLabel
+        }));
+      }
+
+      submitData.append('activities', JSON.stringify(filteredActivities));
+
+      if (isCreating) {
+        await createCSRInitiative.mutateAsync(submitData);
       } else {
-        // Update existing hero image
-        const submitData = {
-            title: formData.title,
-            subtitle: formData.subtitle,
-            ctaText: formData.ctaText,
-            ctaLink: formData.ctaLink,
-            image: imageFile
-        };
-        await updateHeroImage.mutateAsync({
+        await updateCSRInitiative.mutateAsync({
           id: editingId,
           data: submitData
         });
@@ -163,14 +192,9 @@ const HeroImagesAdmin = () => {
   };
 
   const handleDelete = async (id) => {
-    if (heroImages.length <= MIN_HERO_IMAGES) {
-      toast.error(`At least ${MIN_HERO_IMAGES} hero image must remain`);
-      return;
-    }
-
-    if (window.confirm('Are you sure you want to delete this hero image? This action cannot be undone.')) {
+    if (window.confirm('Are you sure you want to delete this CSR initiative? This action cannot be undone.')) {
       try {
-        await deleteHeroImage.mutateAsync(id);
+        await deleteCSRInitiative.mutateAsync(id);
         await refetch();
         if (editingId === id) {
           resetForm();
@@ -196,24 +220,18 @@ const HeroImagesAdmin = () => {
       <div className="mb-6">
         <div className="flex justify-between items-center">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Hero Images</h1>
-            <p className="text-gray-600 mt-1">Manage homepage carousel images</p>
+            <h1 className="text-3xl font-bold text-gray-900">CSR Initiatives</h1>
+            <p className="text-gray-600 mt-1">Manage Corporate Social Responsibility initiatives</p>
           </div>
-          {!isFormActive && heroImages.length < MAX_HERO_IMAGES && (
+          {!isFormActive && (
             <button
               onClick={handleCreate}
               className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2"
             >
               <Plus className="w-5 h-5" />
-              <span>Add Hero Image</span>
+              <span>Add CSR Initiative</span>
             </button>
           )}
-        </div>
-        <div className="mt-4 bg-blue-50 border border-blue-200 rounded-lg p-4">
-          <p className="text-sm text-blue-800">
-            <strong>Note:</strong> You can have a minimum of {MIN_HERO_IMAGES} and maximum of {MAX_HERO_IMAGES} hero images.
-            Currently: {heroImages.length}/{MAX_HERO_IMAGES}
-          </p>
         </div>
       </div>
 
@@ -222,7 +240,7 @@ const HeroImagesAdmin = () => {
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-xl font-semibold text-gray-900">
-              {isCreating ? 'Create New Hero Image' : 'Edit Hero Image'}
+              {isCreating ? 'Create New CSR Initiative' : 'Edit CSR Initiative'}
             </h2>
             <button
               onClick={handleCancel}
@@ -233,13 +251,26 @@ const HeroImagesAdmin = () => {
           </div>
 
           <div className="space-y-6">
+            {/* Initiative ID (read-only) */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Initiative ID
+              </label>
+              <input
+                type="number"
+                value={formData.initiativeId}
+                disabled
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-100 cursor-not-allowed"
+              />
+              <p className="text-xs text-gray-500 mt-1">Auto-generated</p>
+            </div>
+
             {/* Image Upload */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Hero Image <span className="text-red-500">*</span>
+                Initiative Image <span className="text-red-500">*</span>
               </label>
 
-              {/* Image Preview */}
               {imagePreview && (
                 <div className="mb-4">
                   <div className="w-full h-64 bg-gray-100 rounded-lg overflow-hidden">
@@ -252,7 +283,6 @@ const HeroImagesAdmin = () => {
                 </div>
               )}
 
-              {/* Upload Button */}
               <div className="flex items-center space-x-4">
                 <label className="flex items-center space-x-2 px-4 py-2 bg-gray-100 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-200 transition-colors">
                   <Upload className="w-4 h-4 text-gray-700" />
@@ -273,7 +303,7 @@ const HeroImagesAdmin = () => {
                 )}
               </div>
               <p className="text-xs text-gray-500 mt-2">
-                Recommended size: 1920x800px. Max file size: 5MB. Formats: JPG, PNG, WebP
+                Max file size: 5MB. Formats: JPG, PNG, WebP
               </p>
             </div>
 
@@ -288,54 +318,108 @@ const HeroImagesAdmin = () => {
                 value={formData.title}
                 onChange={handleInputChange}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Main heading for the hero slide"
+                placeholder="Initiative title"
                 required
               />
             </div>
 
-            {/* Subtitle */}
+            {/* Category */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Subtitle
+                Category <span className="text-red-500">*</span>
               </label>
               <input
                 type="text"
-                name="subtitle"
-                value={formData.subtitle}
+                name="category"
+                value={formData.category}
                 onChange={handleInputChange}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Supporting text below the title"
+                placeholder="e.g., Education, Environment, Healthcare"
+                required
               />
             </div>
 
-            {/* CTA Text */}
+            {/* Description */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                CTA Text
+                Description <span className="text-red-500">*</span>
               </label>
-              <input
-                type="text"
-                name="ctaText"
-                value={formData.ctaText}
+              <textarea
+                name="description"
+                value={formData.description}
                 onChange={handleInputChange}
+                rows="4"
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="e.g., Learn More, Shop Now"
+                placeholder="Detailed description of the initiative"
+                required
               />
             </div>
 
-            {/* CTA Link */}
+            {/* Impact */}
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Impact Metric
+                </label>
+                <input
+                  type="text"
+                  name="impactMetric"
+                  value={formData.impactMetric}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="e.g., 1000+"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Impact Label
+                </label>
+                <input
+                  type="text"
+                  name="impactLabel"
+                  value={formData.impactLabel}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="e.g., Students Benefited"
+                />
+              </div>
+            </div>
+
+            {/* Activities */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                CTA Link
+                Key Activities <span className="text-red-500">*</span>
               </label>
-              <input
-                type="text"
-                name="ctaLink"
-                value={formData.ctaLink}
-                onChange={handleInputChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="/contact or https://example.com"
-              />
+              <div className="space-y-2">
+                {formData.activities.map((activity, index) => (
+                  <div key={index} className="flex items-center space-x-2">
+                    <input
+                      type="text"
+                      value={activity}
+                      onChange={(e) => handleActivityChange(index, e.target.value)}
+                      className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      placeholder={`Activity ${index + 1}`}
+                    />
+                    {formData.activities.length > 1 && (
+                      <button
+                        type="button"
+                        onClick={() => removeActivity(index)}
+                        className="px-3 py-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    )}
+                  </div>
+                ))}
+                <button
+                  type="button"
+                  onClick={addActivity}
+                  className="px-4 py-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors flex items-center space-x-2"
+                >
+                  <Plus className="w-4 h-4" />
+                  <span>Add Activity</span>
+                </button>
+              </div>
             </div>
 
             {/* Action Buttons */}
@@ -351,30 +435,30 @@ const HeroImagesAdmin = () => {
               <button
                 type="button"
                 onClick={handleSave}
-                disabled={createHeroImage.isPending || updateHeroImage.isPending}
+                disabled={createCSRInitiative.isPending || updateCSRInitiative.isPending}
                 className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <Save className="w-4 h-4" />
-                <span>{isCreating ? 'Create Hero Image' : 'Update Hero Image'}</span>
+                <span>{isCreating ? 'Create Initiative' : 'Update Initiative'}</span>
               </button>
             </div>
           </div>
         </div>
       )}
 
-      {/* Hero Images Table */}
-      {heroImages.length === 0 ? (
+      {/* CSR Initiatives Table */}
+      {initiatives.length === 0 ? (
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-12 text-center">
-          <ImageIcon className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-          <p className="text-gray-500 mb-2">No hero images found</p>
-          <p className="text-sm text-gray-400 mb-4">Get started by adding your first hero image</p>
+          <Award className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+          <p className="text-gray-500 mb-2">No CSR initiatives found</p>
+          <p className="text-sm text-gray-400 mb-4">Get started by adding your first CSR initiative</p>
           {!isFormActive && (
             <button
               onClick={handleCreate}
               className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors inline-flex items-center space-x-2"
             >
               <Plus className="w-4 h-4" />
-              <span>Add Hero Image</span>
+              <span>Add CSR Initiative</span>
             </button>
           )}
         </div>
@@ -385,16 +469,19 @@ const HeroImagesAdmin = () => {
               <thead className="bg-gray-50 border-b border-gray-200">
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Preview
+                    Image
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Title
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Subtitle
+                    Category
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    CTA
+                    Impact
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Activities
                   </th>
                   <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Actions
@@ -402,65 +489,62 @@ const HeroImagesAdmin = () => {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {heroImages.map((image, index) => (
+                {initiatives.map((initiative) => (
                   <tr
-                    key={image._id}
+                    key={initiative._id}
                     className={`hover:bg-gray-50 transition-colors ${
-                      editingId === image._id ? 'bg-blue-50' : ''
+                      editingId === initiative._id ? 'bg-blue-50' : ''
                     }`}
                   >
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex items-center">
-                        <div className="h-20 w-32 bg-gray-100 rounded overflow-hidden">
-                          <img
-                            src={assetUrl(image.image)}
-                            alt={image.title}
-                            className="h-full w-full object-cover"
-                          />
-                        </div>
+                      <div className="h-20 w-32 bg-gray-100 rounded overflow-hidden">
+                        <img
+                          src={assetUrl(initiative.image)}
+                          alt={initiative.title}
+                          className="h-full w-full object-cover"
+                        />
                       </div>
                     </td>
                     <td className="px-6 py-4">
-                      <div className="text-sm font-medium text-gray-900">{image.title}</div>
-                    </td>
-                    <td className="px-6 py-4">
+                      <div className="text-sm font-medium text-gray-900">{initiative.title}</div>
                       <div className="text-sm text-gray-600 max-w-xs truncate">
-                        {image.subtitle || '-'}
+                        {initiative.description}
                       </div>
                     </td>
                     <td className="px-6 py-4">
-                      <div className="text-sm">
-                        {image.ctaText ? (
-                          <div>
-                            <span className="inline-block px-2 py-1 bg-green-100 text-green-800 rounded text-xs">
-                              {image.ctaText}
-                            </span>
-                            {image.ctaLink && (
-                              <div className="text-xs text-gray-500 mt-1 truncate max-w-xs">
-                                {image.ctaLink}
-                              </div>
-                            )}
-                          </div>
-                        ) : (
-                          <span className="text-gray-400">-</span>
-                        )}
+                      <span className="inline-block px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs">
+                        {initiative.category}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4">
+                      {initiative.impact?.metric ? (
+                        <div className="text-sm">
+                          <div className="font-medium text-gray-900">{initiative.impact.metric}</div>
+                          <div className="text-gray-600">{initiative.impact.label}</div>
+                        </div>
+                      ) : (
+                        <span className="text-gray-400">-</span>
+                      )}
+                    </td>
+                    <td className="px-6 py-4">
+                      <div className="text-sm text-gray-600">
+                        {initiative.activities?.length || 0} activities
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                       {!isFormActive && (
                         <div className="flex justify-end space-x-2">
                           <button
-                            onClick={() => handleEdit(image)}
+                            onClick={() => handleEdit(initiative)}
                             className="inline-flex items-center px-3 py-1 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
                           >
                             <Edit2 className="w-4 h-4 mr-1" />
                             Edit
                           </button>
                           <button
-                            onClick={() => handleDelete(image._id)}
-                            disabled={deleteHeroImage.isPending || heroImages.length <= MIN_HERO_IMAGES}
+                            onClick={() => handleDelete(initiative._id)}
+                            disabled={deleteCSRInitiative.isPending}
                             className="inline-flex items-center px-3 py-1 border border-red-300 rounded-lg text-red-600 hover:bg-red-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                            title={heroImages.length <= MIN_HERO_IMAGES ? `At least ${MIN_HERO_IMAGES} hero image required` : 'Delete hero image'}
                           >
                             <Trash2 className="w-4 h-4 mr-1" />
                             Delete
@@ -479,4 +563,4 @@ const HeroImagesAdmin = () => {
   );
 };
 
-export default HeroImagesAdmin;
+export default CSRInitiativesAdmin;
