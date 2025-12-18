@@ -961,6 +961,155 @@ export const deleteBrand = asyncHandler(async (req, res) => {
     });
 });
 
+// ==================== PRODUCT TYPE ROUTES (within Brand) ====================
+export const getProductTypes = asyncHandler(async (req, res) => {
+    const { brandId } = req.query;
+
+    let brands;
+    if (brandId) {
+        const brand = await Brand.findById(brandId);
+        if (!brand) {
+            return res.status(404).json({ success: false, error: 'Brand not found' });
+        }
+        brands = [brand];
+    } else {
+        brands = await Brand.find();
+    }
+
+    const productTypes = brands.flatMap(brand =>
+        (brand.productTypes || []).map(type => ({
+            ...type.toObject(),
+            brandId: brand._id,
+            brandName: brand.name,
+            brandKey: brand.brandKey
+        }))
+    );
+
+    res.json({
+        success: true,
+        data: productTypes,
+        total: productTypes.length,
+        count: productTypes.length
+    });
+});
+
+export const createProductType = asyncHandler(async (req, res) => {
+    const { brandId, name, type, image } = req.body;
+
+    if (!brandId || !name || !type || !image) {
+        return res.status(400).json({
+            success: false,
+            error: 'brandId, name, type, and image are required'
+        });
+    }
+
+    const brand = await Brand.findById(brandId);
+    if (!brand) {
+        return res.status(404).json({ success: false, error: 'Brand not found' });
+    }
+
+    const existingType = brand.productTypes.find(pt => pt.type === type || pt.name === name);
+    if (existingType) {
+        return res.status(400).json({
+            success: false,
+            error: 'Product type with this name or type already exists in this brand'
+        });
+    }
+
+    brand.productTypes.push({ name, type, image });
+    await brand.save();
+    await refreshCacheInBackground();
+
+    const createdType = brand.productTypes[brand.productTypes.length - 1];
+    res.status(201).json({
+        success: true,
+        data: {
+            ...createdType.toObject(),
+            brandId: brand._id,
+            brandName: brand.name,
+            brandKey: brand.brandKey
+        }
+    });
+});
+
+export const updateProductType = asyncHandler(async (req, res) => {
+    const { brandId, oldType, name, type, image } = req.body;
+
+    if (!brandId || !oldType) {
+        return res.status(400).json({
+            success: false,
+            error: 'brandId and oldType are required'
+        });
+    }
+
+    const brand = await Brand.findById(brandId);
+    if (!brand) {
+        return res.status(404).json({ success: false, error: 'Brand not found' });
+    }
+
+    const typeIndex = brand.productTypes.findIndex(pt => pt.type === oldType);
+    if (typeIndex === -1) {
+        return res.status(404).json({ success: false, error: 'Product type not found' });
+    }
+
+    if (type && type !== oldType) {
+        const duplicateType = brand.productTypes.find((pt, idx) => idx !== typeIndex && pt.type === type);
+        if (duplicateType) {
+            return res.status(400).json({
+                success: false,
+                error: 'Product type with this type already exists in this brand'
+            });
+        }
+    }
+
+    if (name) brand.productTypes[typeIndex].name = name;
+    if (type) brand.productTypes[typeIndex].type = type;
+    if (image) brand.productTypes[typeIndex].image = image;
+
+    await brand.save();
+    await refreshCacheInBackground();
+
+    res.json({
+        success: true,
+        data: {
+            ...brand.productTypes[typeIndex].toObject(),
+            brandId: brand._id,
+            brandName: brand.name,
+            brandKey: brand.brandKey
+        }
+    });
+});
+
+export const deleteProductType = asyncHandler(async (req, res) => {
+    const { brandId, type } = req.body;
+
+    if (!brandId || !type) {
+        return res.status(400).json({
+            success: false,
+            error: 'brandId and type are required'
+        });
+    }
+
+    const brand = await Brand.findById(brandId);
+    if (!brand) {
+        return res.status(404).json({ success: false, error: 'Brand not found' });
+    }
+
+    const typeIndex = brand.productTypes.findIndex(pt => pt.type === type);
+    if (typeIndex === -1) {
+        return res.status(404).json({ success: false, error: 'Product type not found' });
+    }
+
+    brand.productTypes.splice(typeIndex, 1);
+    await brand.save();
+    await refreshCacheInBackground();
+
+    res.json({
+        success: true,
+        message: 'Product type deleted successfully'
+    });
+});
+
 // ==================== PARTNER ROUTES ====================
 export const createPartner = asyncHandler(async (req, res) => {
     const partner = await Partner.create(req.body);

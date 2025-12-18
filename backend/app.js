@@ -38,6 +38,10 @@ import {
   createBrand,
   updateBrand,
   deleteBrand,
+  getProductTypes,
+  createProductType,
+  updateProductType,
+  deleteProductType,
   getPartners,
   getPartnerById,
   createPartner,
@@ -251,6 +255,12 @@ router.get("/brands/:id", getBrandById);
 router.post("/brands", createBrand);
 router.patch("/brands/:id", updateBrand);
 router.delete("/brands/:id", deleteBrand);
+
+// Product Type routes (within brands)
+router.get("/product-types", getProductTypes);
+router.post("/product-types", createProductType);
+router.patch("/product-types", updateProductType);
+router.delete("/product-types", deleteProductType);
 
 // Partner routes
 router.get("/partners", getPartners);
