@@ -1,13 +1,13 @@
 import config from "../config";
 
 export const getBrandData = (brands, brandName) => {
-    const brand = brands[brandName];
+    const brand = brands.find(b => b.name.toLowerCase() === brandName.toLowerCase());
     return brand ? brand : null;
 }
 
 export const getBrandTypeData = (brands, brand, type) => {
     const brandData = getBrandData(brands, brand);  
-    const typeProducts = brandData.products[type];
+    const typeProducts = brandData
     return typeProducts ? typeProducts : null;
 }
 

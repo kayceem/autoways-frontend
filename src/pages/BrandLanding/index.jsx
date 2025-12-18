@@ -24,6 +24,7 @@ const BrandLanding = () => {
         );
     }
     const brandData = getBrandData(content?.brands, brand);
+    console.log('BrandLanding brand:', brandData);
 
     return (
         <div className={`min-h-screen bg-primary`}>
@@ -31,7 +32,7 @@ const BrandLanding = () => {
             <section className="relative h-[600px] flex items-center justify-center overflow-hidden">
                 {/* Background Image */}
                 <div className={`absolute inset-0 bg-secondary`}>
-                    {brandData.images?.[0] && (
+                    {brandData?.images?.[0] && (
                         <img
                             src={assetUrl(brandData.heroImage)}
                             alt={brandData.name}
@@ -111,8 +112,7 @@ style={{
                                 key={index}
                                 type={productType.name}
                                 image={productType.image}
-                                link={`/shop/${brand}/${productType.slug?.toLowerCase()}`}
-                                state={{ type: productType.type, typeName: productType.name }}
+                                link={`/shop/${brand}/${productType.type?.toLowerCase()}`}
                                 brandName={brandData.name}
                                 className="animate-fade-in-up"
                                 style={{ animationDelay: `${index * 150}ms` }}

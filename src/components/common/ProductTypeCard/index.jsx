@@ -7,7 +7,6 @@ const ProductTypeCard = ({ type, image, link, state, brandName, className = "" }
         <div className="flex flex-col gap-4 group">
             <Link
                 to={link}
-                state={state}
                 className={`relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 ${className}`}
             >
                 {/* Image Container */}
