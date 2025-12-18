@@ -38,6 +38,13 @@ const stats = [
     color: 'bg-orange-500',
     link: '#'
   },
+  {
+    label: 'Locations',
+    value: content?.locations ? content.locations.length : 0,
+    icon: Package,
+    color: 'bg-blue-500',
+    link: '/admin/locations'
+  }
 ];
 
   return (
