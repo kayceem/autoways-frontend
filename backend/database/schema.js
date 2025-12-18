@@ -118,11 +118,6 @@ const ProductSpecificationsSchema = new Schema({
 
 // ==================== Product Schema ====================
 const ProductSchema = new Schema({
-    productId: {
-        type: String,
-        required: true,
-        unique: true
-    },
     name: {
         type: String,
         required: true
@@ -141,10 +136,7 @@ const ProductSchema = new Schema({
         required: true
     },
     tag: String,
-    price: {
-        type: Number,
-        required: true
-    },
+    price: Number,
     shortDescription: {
         type: String,
         required: true

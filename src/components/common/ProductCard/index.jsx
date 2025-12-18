@@ -29,8 +29,7 @@ const ProductCard = ({ product, typeSlug, brandName, className = "" }) => {
 
     return (
     <Link
-            to={`/shop/${brandName}/${typeSlug}/${product.id}`}
-            state = {{product : product}}
+            to={`/shop/${brandName}/${typeSlug}/${product._id}`}
         >
         <div
             className={`group relative bg-transparent rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 ${className}`}

@@ -8,18 +8,17 @@ import {
     SlidersHorizontal,
     ChevronDown,
 } from "lucide-react";
-import useProductTypeQuery from "../../hooks/useProductTypeQuery";
+import useProductsQuery from "../../hooks/useProductsQuery";
 import LoadingSpinner from "../../components/common/Loading";
 import { useContent } from "../../context/globalContext";
 import "./index.css";
-import { getBrandTypeData } from "../../utils";
 
 const ProductTypePage = () => {
     const { brand, typeSlug } = useParams();
-    const typeName = typeSlug.replace(/-/g, ' ').toUpperCase();
-    const {content, isLoading, error} = useContent();
+    const typeName = typeSlug.replace(/_/g, ' ');
     const [viewMode, setViewMode] = useState("grid");
     const [sortBy, setSortBy] = useState("name");
+    const { data = [], isLoading, error } = useProductsQuery({ brand: brand, type: typeSlug});
 
     if (isLoading) {
         return <LoadingSpinner name={brand} />;
@@ -33,12 +32,6 @@ const ProductTypePage = () => {
             </div>
         );
     }
-    const data = getBrandTypeData(
-        content?.brands,
-        brand,
-        typeSlug
-    );
-    console.log("ProductTypePage data:", data);
 
     return (
         <div className={`min-h-screen bg-primary`}>
@@ -72,12 +65,12 @@ const ProductTypePage = () => {
                     <div className="flex items-end justify-between">
                         <div>
                             <h1
-                                className={`font-bold text-7xl text-secondary mb-4 capitalize`}
+                                className={`font-bold text-7xl text-secondary mb-4 capitalize capitalize`}
                             >
                                 {typeName}
                             </h1>
                             <p
-                                className={`font-light text-2xl text-secondary/80 max-w-2xl`}
+                                className={`font-light text-2xl text-secondary/80 max-w-2xl capitalize`}
                             >
                                 Discover our premium collection of {typeName}{" "}
                                 vehicles, engineered for excellence
@@ -183,7 +176,7 @@ const ProductTypePage = () => {
                         >
                             {data.map((product, index) => (
                                 <ProductCard
-                                    key={product.id}
+                                    key={product._id}
                                     product={product}
                                     brandName={brand}
                                     typeSlug={typeSlug}
@@ -211,7 +204,7 @@ const ProductTypePage = () => {
                                 No Vehicles Available
                             </h3>
                             <p
-                                className={`font-light text-secondary/60 text-lg`}
+                                className={`font-light text-secondary/60 text-lg capitalize`}
                             >
                                 We're currently updating our {typeName} collection.
                                 Check back soon!

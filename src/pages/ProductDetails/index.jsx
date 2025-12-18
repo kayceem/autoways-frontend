@@ -1,4 +1,4 @@
-import { Link, useParams } from 'react-router-dom';
+import { Link, Navigate, useParams } from 'react-router-dom';
 import {
     ChevronDown,
     Download,
@@ -11,31 +11,32 @@ import {
     Battery,
     Zap
 } from 'lucide-react';
-import useProductDetailsQuery from '../../hooks/useProductDetailsQuery';
+import useProductsQuery from '../../hooks/useProductsQuery';
 import ImageGallery from '../../components/common/ImageGallery';
 import SpecificationsDisplay from '../../components/common/SpecificationsDisplay';
 import LoadingSpinner from '../../components/common/Loading';
 import useContentQuery from '../../hooks/useContentQuery';
 import './index.css';
-import { getProductData } from '../../utils';
 
 const ProductDetails = () => {
     const { brand, typeSlug, id } = useParams();
+    const typeName = typeSlug.replace(/_/g, ' ');
     const { data: siteContent, isLoading, error } = useContentQuery();
-    if (isLoading) {
+    const { data: productData, isLoading: productLoading, error: productError } = useProductsQuery({id: id});
+
+    if (isLoading || productLoading) {
         return <LoadingSpinner name={brand} />;
     }
     
-    if (error) {
-        return <div className="error-message">Error loading product details: {error.message}</div>;
+    if (error || productError) {
+        return <div className="error-message">Error loading product details: {error?.message || productError?.message}</div>;
     }
-    const product = getProductData(
-        siteContent?.brands,
-        brand,
-        typeSlug,
-        id
-    );
-    console.log("ProductDetails data:", product);
+
+    if (productData.length === 0) {
+        return <Navigate to="/not-found" replace />;
+    }
+    const product = productData[0];
+
     const getFuelTypeIcon = (fuelType) => {
         switch(fuelType) {
             case 'electric':
@@ -76,7 +77,7 @@ const ProductDetails = () => {
                         <ChevronDown size={16} className="rotate-[-90deg]" />
                         <Link to={`/shop/${brand}`} className="capitalize hover:text-accent">{brand}</Link>
                         <ChevronDown size={16} className="rotate-[-90deg]" />
-                        <Link to={`/shop/${brand}/${typeSlug}`} className="capitalize hover:text-accent">{typeSlug}</Link>
+                        <Link to={`/shop/${brand}/${typeSlug}`} className="capitalize hover:text-accent">{typeName}</Link>
                         <ChevronDown size={16} className="rotate-[-90deg]" />
                         <span className="breadcrumb-current text-secondary">{product?.name}</span>
                     </div>

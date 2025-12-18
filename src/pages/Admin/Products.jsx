@@ -1,93 +1,84 @@
-import { useState, useContext, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Plus, Edit, Trash2, Search, X } from 'lucide-react';
-import toast from 'react-hot-toast';
-import { ContentContext } from '../../context/globalContext';
-import apiService from '../../services/apiService';
-import { assetUrl } from '../../utils';
-
+import useProductsQuery from '../../hooks/useProductsQuery';
+import { useCreateProduct, useUpdateProduct, useDeleteProduct } from '../../hooks/useProductsMutation';
+import useBrandsQuery from '../../hooks/useBrandsQuery';
+import useProductTypesQuery from '../../hooks/useProductTypesQuery';
+ 
 const ProductsAdmin = () => {
-  const { content, isLoading, refetch } = useContext(ContentContext);
-  const [products, setProducts] = useState([]);
-  const [filteredProducts, setFilteredProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedBrand, setSelectedBrand] = useState('all');
+  const [selectedBrand, setSelectedBrand] = useState('');
+  const [filteredProducts, setFilteredProducts] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
+ 
+  const { data: products = [], isLoading } = useProductsQuery({ brand: selectedBrand });
+  const { data: brands = [] } = useBrandsQuery();
+  const {data: productTypes = []} = useProductTypesQuery();
+  const createProduct = useCreateProduct();
+  const updateProduct = useUpdateProduct();
+  const deleteProduct = useDeleteProduct();
+ 
   const [formData, setFormData] = useState({
-    productId: '',
     name: '',
     type: '',
     brand: '',
     fuelType: 'normal',
-    images: [],
-    description: '',
-    specifications: {},
-    features: [],
+    images: [''],
+    tag: '',
+    shortDescription: '',
+    fullDescription: '',
+    features: [''],
     brochureUrl: '',
     specSheetUrl: ''
   });
-
-  useEffect(() => {
-    if (content?.brands) {
-      const allProducts = content.brands.flatMap(brand =>
-        (brand.products || []).map(product => ({
-          ...product,
-          brandName: brand.name,
-          brandKey: brand.brandKey
-        }))
-      );
-      setProducts(allProducts);
-      setFilteredProducts(allProducts);
-    }
-  }, [content]);
-
+ 
+  const [errors, setErrors] = useState({});
+ 
   useEffect(() => {
     let filtered = products;
-
+ 
     if (searchTerm) {
       filtered = filtered.filter(product =>
-        product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        product.productId?.toLowerCase().includes(searchTerm.toLowerCase())
+        product.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        product.type?.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
-
-    if (selectedBrand !== 'all') {
-      filtered = filtered.filter(product => product.brandKey === selectedBrand);
-    }
-
+ 
     setFilteredProducts(filtered);
-  }, [searchTerm, selectedBrand, products]);
-
+  }, [searchTerm, products]);
+ 
   const resetForm = () => {
     setFormData({
-      productId: '',
       name: '',
       type: '',
       brand: '',
       fuelType: 'normal',
-      images: [],
-      description: '',
-      specifications: {},
-      features: [],
+      images: [''],
+      tag: '',
+      shortDescription: '',
+      fullDescription: '',
+      features: [''],
       brochureUrl: '',
       specSheetUrl: ''
     });
     setEditingProduct(null);
+    setErrors({});
   };
-
+ 
   const handleOpenModal = (product = null) => {
     if (product) {
       setEditingProduct(product);
       setFormData({
-        productId: product.productId || '',
         name: product.name || '',
         type: product.type || '',
-        brand: product.brandKey || '',
+        brand: product.brand || '',
         fuelType: product.fuelType || 'normal',
-        images: product.images || [],
-        description: product.description || '',
-        specifications: product.specifications || {},
-        features: product.features || [],
+        images: product.images?.length > 0 ? product.images : [''],
+        tag: product.tag || '',
+        shortDescription: product.shortDescription || '',
+        fullDescription: product.fullDescription || '',
+        features: product.features?.length > 0 ? product.features : [''],
         brochureUrl: product.brochureUrl || '',
         specSheetUrl: product.specSheetUrl || ''
       });
@@ -96,17 +87,20 @@ const ProductsAdmin = () => {
     }
     setShowModal(true);
   };
-
+ 
   const handleCloseModal = () => {
     setShowModal(false);
     resetForm();
   };
-
+ 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
+    if (errors[name]) {
+      setErrors(prev => ({ ...prev, [name]: '' }));
+    }
   };
-
+ 
   const handleArrayChange = (field, index, value) => {
     setFormData(prev => {
       const newArray = [...prev[field]];
@@ -114,58 +108,99 @@ const ProductsAdmin = () => {
       return { ...prev, [field]: newArray };
     });
   };
-
+ 
   const handleAddArrayItem = (field) => {
     setFormData(prev => ({
       ...prev,
       [field]: [...prev[field], '']
     }));
   };
-
+ 
   const handleRemoveArrayItem = (field, index) => {
     setFormData(prev => ({
       ...prev,
       [field]: prev[field].filter((_, i) => i !== index)
     }));
   };
-
+ 
+  const validateForm = () => {
+    const newErrors = {};
+ 
+ 
+    if (!formData.name.trim()) {
+      newErrors.name = 'Product name is required';
+    }
+ 
+    if (!formData.type.trim()) {
+      newErrors.type = 'Product type is required';
+    }
+ 
+    if (!formData.brand.trim()) {
+      newErrors.brand = 'Brand is required';
+    }
+ 
+    if (!formData.shortDescription.trim()) {
+      newErrors.shortDescription = 'Short description is required';
+    }
+ 
+    if (!formData.fullDescription.trim()) {
+      newErrors.fullDescription = 'Full description is required';
+    }
+ 
+    const validImages = formData.images.filter(img => img.trim());
+    if (validImages.length === 0) {
+      newErrors.images = 'At least one image is required';
+    }
+ 
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+ 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+ 
+    if (!validateForm()) {
+      return;
+    }
+ 
+    const submitData = {
+      ...formData,
+      images: formData.images.filter(img => img.trim()),
+      features: formData.features.filter(feat => feat.trim())
+    };
+ 
     try {
       if (editingProduct) {
-        await apiService.patch(`/products/${editingProduct._id}`, formData);
-        toast.success('Product updated successfully!');
+        await updateProduct.mutateAsync({ id: editingProduct._id, data: submitData });
       } else {
-        await apiService.post('/products', formData);
-        toast.success('Product created successfully!');
+        await createProduct.mutateAsync(submitData);
       }
-
-      await refetch();
       handleCloseModal();
     } catch (error) {
-      toast.error(error.message || 'Operation failed');
+      console.error('Submission error:', error);
     }
   };
-
-  const handleDelete = async (productId) => {
+ 
+  const handleDelete = async (id) => {
     if (!window.confirm('Are you sure you want to delete this product?')) {
       return;
     }
-
+ 
     try {
-      await apiService.delete(`/products/${productId}`);
-      toast.success('Product deleted successfully!');
-      await refetch();
+      await deleteProduct.mutateAsync(id);
     } catch (error) {
-      toast.error(error.message || 'Failed to delete product');
+      console.error('Delete error:', error);
     }
   };
-
+ 
   if (isLoading) {
-    return <div className="flex items-center justify-center h-64">Loading...</div>;
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="text-lg text-gray-600">Loading products...</div>
+      </div>
+    );
   }
-
+ 
   return (
     <div>
       <div className="flex justify-between items-center mb-6">
@@ -181,7 +216,7 @@ const ProductsAdmin = () => {
           <span>Add Product</span>
         </button>
       </div>
-
+ 
       {/* Filters */}
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 mb-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -200,16 +235,16 @@ const ProductsAdmin = () => {
             onChange={(e) => setSelectedBrand(e.target.value)}
             className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           >
-            <option value="all">All Brands</option>
-            {content?.brands?.map(brand => (
-              <option key={brand.brandKey} value={brand.brandKey}>
+            <option value="">All Brands</option>
+            {brands.map(brand => (
+              <option key={brand._id} value={brand.brandKey}>
                 {brand.name}
               </option>
             ))}
           </select>
         </div>
       </div>
-
+ 
       {/* Products Table */}
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
         <table className="min-w-full divide-y divide-gray-200">
@@ -239,25 +274,33 @@ const ProductsAdmin = () => {
                   <div className="flex items-center">
                     {product.images?.[0] && (
                       <img
-                        src={assetUrl(product.images[0])}
+                        src={product.images[0]}
                         alt={product.name}
                         className="w-12 h-12 rounded-lg object-cover mr-3"
+                        onError={(e) => {
+                          e.target.src = 'https://via.placeholder.com/48';
+                        }}
                       />
                     )}
                     <div>
                       <div className="text-sm font-medium text-gray-900">{product.name}</div>
-                      <div className="text-sm text-gray-500">{product.productId}</div>
                     </div>
                   </div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <span className="text-sm text-gray-900">{product.brandName}</span>
+                  <span className="text-sm text-gray-900">
+                    {brands.find(b => b.brandKey === product.brand)?.name || product.brand}
+                  </span>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <span className="text-sm text-gray-900">{product.type}</span>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <span className="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
+                  <span className={`px-2 py-1 text-xs font-semibold rounded-full ${
+                    product.fuelType === 'electric' ? 'bg-green-100 text-green-800' :
+                    product.fuelType === 'hybrid' ? 'bg-blue-100 text-blue-800' :
+                    'bg-gray-100 text-gray-800'
+                  }`}>
                     {product.fuelType}
                   </span>
                 </td>
@@ -285,7 +328,7 @@ const ProductsAdmin = () => {
           </div>
         )}
       </div>
-
+ 
       {/* Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
@@ -298,137 +341,154 @@ const ProductsAdmin = () => {
                 <X className="w-6 h-6" />
               </button>
             </div>
-
+ 
             <form onSubmit={handleSubmit} className="p-6 space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Product ID
-                  </label>
-                  <input
-                    type="text"
-                    name="productId"
-                    value={formData.productId}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    required
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Product Name
-                  </label>
-                  <input
-                    type="text"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    required
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Brand
-                  </label>
-                  <select
-                    name="brand"
-                    value={formData.brand}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    required
-                  >
-                    <option value="">Select Brand</option>
-                    {content?.brands?.map(brand => (
-                      <option key={brand.brandKey} value={brand.brandKey}>
-                        {brand.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Type
-                  </label>
-                  <input
-                    type="text"
-                    name="type"
-                    value={formData.type}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    required
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Fuel Type
-                  </label>
-                  <select
-                    name="fuelType"
-                    value={formData.fuelType}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  >
-                    <option value="normal">Normal</option>
-                    <option value="hybrid">Hybrid</option>
-                    <option value="electric">Electric</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Brochure URL
-                  </label>
-                  <input
-                    type="text"
-                    name="brochureUrl"
-                    value={formData.brochureUrl}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Spec Sheet URL
-                  </label>
-                  <input
-                    type="text"
-                    name="specSheetUrl"
-                    value={formData.specSheetUrl}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  />
-                </div>
-              </div>
-
+              {/* Basic Information */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Description
-                </label>
-                <textarea
-                  name="description"
-                  value={formData.description}
-                  onChange={handleInputChange}
-                  rows="3"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                />
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">Basic Information</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Product Name <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleInputChange}
+                      className={`w-full px-4 py-2 border ${errors.name ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                    />
+                    {errors.name && (
+                      <p className="text-red-500 text-sm mt-1">{errors.name}</p>
+                    )}
+                  </div>
+ 
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Brand <span className="text-red-500">*</span>
+                    </label>
+                    <select
+                      name="brand"
+                      value={formData.brand}
+                      onChange={handleInputChange}
+                      className={`w-full px-4 py-2 border ${errors.brand ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                    >
+                      <option value="">Select Brand</option>
+                      {brands.map(brand => (
+                        <option key={brand._id} value={brand.brandKey}>
+                          {brand.name}
+                        </option>
+                      ))}
+                    </select>
+                    {errors.brand && (
+                      <p className="text-red-500 text-sm mt-1">{errors.brand}</p>
+                    )}
+                  </div>
+ 
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Type <span className="text-red-500">*</span>
+                    </label>
+                    <select
+                      name="type"
+                      value={formData.type}
+                      onChange={handleInputChange}
+                      className={`w-full px-4 py-2 border ${errors.type ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                    >
+                      <option value="">Select Type</option>
+                      {productTypes.map(type => (
+                        <option key={type.type} value={type.type}>
+                          {type.name}
+                        </option>
+                      ))}
+                    </select>
+                    {errors.type && (
+                      <p className="text-red-500 text-sm mt-1">{errors.type}</p>
+                    )}
+                  </div>
+ 
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Fuel Type <span className="text-red-500">*</span>
+                    </label>
+                    <select
+                      name="fuelType"
+                      value={formData.fuelType}
+                      onChange={handleInputChange}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    >
+                      <option value="normal">Normal</option>
+                      <option value="hybrid">Hybrid</option>
+                      <option value="electric">Electric</option>
+                    </select>
+                  </div>
+ 
+                  <div className="md:col-span-2">
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Tag (Optional)
+                    </label>
+                    <input
+                      type="text"
+                      name="tag"
+                      value={formData.tag}
+                      onChange={handleInputChange}
+                      placeholder="e.g., New, Popular, Best Seller"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    />
+                  </div>
+                </div>
               </div>
-
-              {/* Images Array */}
+ 
+              {/* Descriptions */}
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">Descriptions</h3>
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Short Description <span className="text-red-500">*</span>
+                    </label>
+                    <textarea
+                      name="shortDescription"
+                      value={formData.shortDescription}
+                      onChange={handleInputChange}
+                      rows="2"
+                      className={`w-full px-4 py-2 border ${errors.shortDescription ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                      placeholder="Brief description for listings and previews"
+                    />
+                    {errors.shortDescription && (
+                      <p className="text-red-500 text-sm mt-1">{errors.shortDescription}</p>
+                    )}
+                  </div>
+ 
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Full Description <span className="text-red-500">*</span>
+                    </label>
+                    <textarea
+                      name="fullDescription"
+                      value={formData.fullDescription}
+                      onChange={handleInputChange}
+                      rows="4"
+                      className={`w-full px-4 py-2 border ${errors.fullDescription ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                      placeholder="Detailed description for product page"
+                    />
+                    {errors.fullDescription && (
+                      <p className="text-red-500 text-sm mt-1">{errors.fullDescription}</p>
+                    )}
+                  </div>
+                </div>
+              </div>
+ 
+              {/* Images */}
               <div>
                 <div className="flex justify-between items-center mb-2">
                   <label className="block text-sm font-medium text-gray-700">
-                    Images (URLs)
+                    Images (URLs) <span className="text-red-500">*</span>
                   </label>
                   <button
                     type="button"
                     onClick={() => handleAddArrayItem('images')}
-                    className="text-blue-600 hover:text-blue-700 text-sm"
+                    className="text-blue-600 hover:text-blue-700 text-sm font-medium"
                   >
                     + Add Image
                   </button>
@@ -442,27 +502,32 @@ const ProductsAdmin = () => {
                       placeholder="Image URL"
                       className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     />
-                    <button
-                      type="button"
-                      onClick={() => handleRemoveArrayItem('images', index)}
-                      className="text-red-600 hover:text-red-700"
-                    >
-                      <X className="w-5 h-5" />
-                    </button>
+                    {formData.images.length > 1 && (
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveArrayItem('images', index)}
+                        className="text-red-600 hover:text-red-700"
+                      >
+                        <X className="w-5 h-5" />
+                      </button>
+                    )}
                   </div>
                 ))}
+                {errors.images && (
+                  <p className="text-red-500 text-sm mt-1">{errors.images}</p>
+                )}
               </div>
-
-              {/* Features Array */}
+ 
+              {/* Features */}
               <div>
                 <div className="flex justify-between items-center mb-2">
                   <label className="block text-sm font-medium text-gray-700">
-                    Features
+                    Features (Optional)
                   </label>
                   <button
                     type="button"
                     onClick={() => handleAddArrayItem('features')}
-                    className="text-blue-600 hover:text-blue-700 text-sm"
+                    className="text-blue-600 hover:text-blue-700 text-sm font-medium"
                   >
                     + Add Feature
                   </button>
@@ -476,17 +541,54 @@ const ProductsAdmin = () => {
                       placeholder="Feature description"
                       className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     />
-                    <button
-                      type="button"
-                      onClick={() => handleRemoveArrayItem('features', index)}
-                      className="text-red-600 hover:text-red-700"
-                    >
-                      <X className="w-5 h-5" />
-                    </button>
+                    {formData.features.length > 1 && (
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveArrayItem('features', index)}
+                        className="text-red-600 hover:text-red-700"
+                      >
+                        <X className="w-5 h-5" />
+                      </button>
+                    )}
                   </div>
                 ))}
               </div>
-
+ 
+              {/* Additional Resources */}
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">Additional Resources</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Brochure URL (Optional)
+                    </label>
+                    <input
+                      type="text"
+                      name="brochureUrl"
+                      value={formData.brochureUrl}
+                      onChange={handleInputChange}
+                      placeholder="https://..."
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    />
+                  </div>
+ 
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Spec Sheet URL (Optional)
+                    </label>
+                    <input
+                      type="text"
+                      name="specSheetUrl"
+                      value={formData.specSheetUrl}
+                      onChange={handleInputChange}
+                      placeholder="https://..."
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    />
+                  </div>
+                </div>
+              </div>
+ 
+              {/* Form Actions */}
               <div className="flex justify-end space-x-4 pt-4 border-t border-gray-200">
                 <button
                   type="button"
@@ -497,9 +599,14 @@ const ProductsAdmin = () => {
                 </button>
                 <button
                   type="submit"
-                  className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                  disabled={createProduct.isLoading || updateProduct.isLoading}
+                  className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {editingProduct ? 'Update Product' : 'Create Product'}
+                  {createProduct.isLoading || updateProduct.isLoading
+                    ? 'Saving...'
+                    : editingProduct
+                    ? 'Update Product'
+                    : 'Create Product'}
                 </button>
               </div>
             </form>
@@ -509,5 +616,5 @@ const ProductsAdmin = () => {
     </div>
   );
 };
-
+ 
 export default ProductsAdmin;

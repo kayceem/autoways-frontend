@@ -277,9 +277,10 @@ export const getLocationById = asyncHandler(async (req, res) => {
 
 // ==================== PRODUCT GET ROUTES ====================
 export const getProducts = asyncHandler(async (req, res) => {
-    const { limit, skip, sort, brand, category, type } = req.query;
+    const { limit, skip, sort, brand, category, type, id } = req.query;
     const filter = {};
 
+    if (id) filter._id = id;
     if (brand) filter.brand = brand;
     if (category) filter.category = category;
     if (type) filter.type = type;
