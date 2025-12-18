@@ -12,7 +12,6 @@ import {
     Client,
     NewsArticle,
     Testimonial,
-    AboutUsDetailed,
     CSRInitiative,
     CSRHero,
     SisterCompany,
@@ -67,7 +66,6 @@ const fetchAllDataFromDB = async () => {
         clients,
         newsArticles,
         testimonials,
-        aboutUsDetailed,
         csrInitiatives,
         csrHero,
         sisterCompanies,
@@ -86,7 +84,6 @@ const fetchAllDataFromDB = async () => {
         Client.find(),
         NewsArticle.find(),
         Testimonial.find(),
-        AboutUsDetailed.find(),
         CSRInitiative.find(),
         CSRHero.find(),
         SisterCompany.find(),
@@ -482,37 +479,6 @@ export const getTestimonialById = asyncHandler(async (req, res) => {
     res.json({
         success: true,
         data: testimonial
-    });
-});
-
-// ==================== ABOUT US DETAILED GET ROUTES ====================
-export const getAboutUsDetailed = asyncHandler(async (req, res) => {
-    const { limit, skip, sort } = req.query;
-    const query = AboutUsDetailed.find();
-
-    if (skip) query.skip(parseInt(skip));
-    if (limit) query.limit(parseInt(limit));
-    if (sort) query.sort(sort);
-
-    const aboutUsDetailed = await query;
-    const total = await AboutUsDetailed.countDocuments();
-
-    res.json({
-        success: true,
-        data: aboutUsDetailed,
-        total,
-        count: aboutUsDetailed.length
-    });
-});
-
-export const getAboutUsDetailedById = asyncHandler(async (req, res) => {
-    const aboutUsDetailed = await AboutUsDetailed.findById(req.params.id);
-    if (!aboutUsDetailed) {
-        return res.status(404).json({ success: false, error: 'About us detailed not found' });
-    }
-    res.json({
-        success: true,
-        data: aboutUsDetailed
     });
 });
 
@@ -1318,44 +1284,6 @@ export const deleteTestimonial = asyncHandler(async (req, res) => {
     res.json({
         success: true,
         message: 'Testimonial deleted successfully'
-    });
-});
-
-// ==================== ABOUT US DETAILED ROUTES ====================
-export const createAboutUsDetailed = asyncHandler(async (req, res) => {
-    const aboutUsDetailed = await AboutUsDetailed.create(req.body);
-    await refreshCacheInBackground();
-    res.status(201).json({
-        success: true,
-        data: aboutUsDetailed
-    });
-});
-
-export const updateAboutUsDetailed = asyncHandler(async (req, res) => {
-    const aboutUsDetailed = await AboutUsDetailed.findByIdAndUpdate(
-        req.params.id,
-        req.body,
-        { new: true, runValidators: true }
-    );
-    if (!aboutUsDetailed) {
-        return res.status(404).json({ success: false, error: 'About us detailed not found' });
-    }
-    await refreshCacheInBackground();
-    res.json({
-        success: true,
-        data: aboutUsDetailed
-    });
-});
-
-export const deleteAboutUsDetailed = asyncHandler(async (req, res) => {
-    const aboutUsDetailed = await AboutUsDetailed.findByIdAndDelete(req.params.id);
-    if (!aboutUsDetailed) {
-        return res.status(404).json({ success: false, error: 'About us detailed not found' });
-    }
-    await refreshCacheInBackground();
-    res.json({
-        success: true,
-        message: 'About us detailed deleted successfully'
     });
 });
 

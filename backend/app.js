@@ -62,11 +62,6 @@ import {
   createTestimonial,
   updateTestimonial,
   deleteTestimonial,
-  getAboutUsDetailed,
-  getAboutUsDetailedById,
-  createAboutUsDetailed,
-  updateAboutUsDetailed,
-  deleteAboutUsDetailed,
   getCSRInitiatives,
   getCSRInitiativeById,
   createCSRInitiative,
@@ -290,12 +285,6 @@ router.post("/testimonials", createTestimonial);
 router.patch("/testimonials/:id", updateTestimonial);
 router.delete("/testimonials/:id", deleteTestimonial);
 
-// About Us Detailed routes
-router.get("/about-us-detailed", getAboutUsDetailed);
-router.get("/about-us-detailed/:id", getAboutUsDetailedById);
-router.post("/about-us-detailed", createAboutUsDetailed);
-router.patch("/about-us-detailed/:id", updateAboutUsDetailed);
-router.delete("/about-us-detailed/:id", deleteAboutUsDetailed);
 
 // CSR Initiative routes
 router.get("/csr-initiatives", getCSRInitiatives);

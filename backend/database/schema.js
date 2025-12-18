@@ -308,7 +308,7 @@ const TestimonialSchema = new Schema({
     }
 }, { timestamps: true });
 
-// ==================== About Us Detailed Schema ====================
+// ==================== About Us Section Schemas ====================
 const MissionVisionSchema = new Schema({
     title: {
         type: String,
@@ -349,47 +349,6 @@ const MilestoneSchema = new Schema({
     },
     image: String
 }, { _id: false });
-
-const AboutUsDetailedSchema = new Schema({
-    mission: MissionVisionSchema,
-    vision: MissionVisionSchema,
-    values: [ValueSchema],
-    milestones: [MilestoneSchema],
-    chairman_message: {
-        title: String,
-        name: String,
-        position: String,
-        image: String,
-        message: String
-    },
-    team: [{
-        id: Number,
-        name: String,
-        position: String,
-        department: String,
-        image: String,
-        bio: String,
-        email: String,
-        phone: String
-    }],
-    certifications: [{
-        id: Number,
-        name: String,
-        issuedBy: String,
-        year: String,
-        image: String,
-        description: String
-    }],
-    awards: [{
-        id: Number,
-        title: String,
-        year: String,
-        issuedBy: String,
-        image: String,
-        description: String
-    }],
-    stats: Schema.Types.Mixed
-}, { timestamps: true });
 
 // ==================== CSR Schema ====================
 const CSRInitiativeSchema = new Schema({
@@ -644,7 +603,6 @@ const Partner = mongoose.model('Partner', PartnerSchema);
 const Client = mongoose.model('Client', ClientSchema);
 const NewsArticle = mongoose.model('NewsArticle', NewsArticleSchema);
 const Testimonial = mongoose.model('Testimonial', TestimonialSchema);
-const AboutUsDetailed = mongoose.model('AboutUsDetailed', AboutUsDetailedSchema);
 const CSRInitiative = mongoose.model('CSRInitiative', CSRInitiativeSchema);
 const CSRHero = mongoose.model('CSRHero', CSRHeroSchema);
 const SisterCompany = mongoose.model('SisterCompany', SisterCompanySchema);
@@ -664,7 +622,6 @@ export {
     Client,
     NewsArticle,
     Testimonial,
-    AboutUsDetailed,
     CSRInitiative,
     CSRHero,
     SisterCompany,
