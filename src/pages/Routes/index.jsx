@@ -26,6 +26,8 @@ import HeroImagesAdmin from "../Admin/HeroImages";
 import AboutUsAdmin from "../Admin/AboutUs";
 import ContactInfoAdmin from "../Admin/ContactInfo";
 import LocationsAdmin from "../Admin/Locations";
+import CSRInitiativesAdmin from "../Admin/CSRInitiatives";
+import NewsMediaAdmin from "../Admin/NewsMedia";
 import ProtectedRoute from "../../components/common/ProtectedRoute";
 
 const PageRoutes = () => {
@@ -48,6 +50,8 @@ const PageRoutes = () => {
                 <Route path="about-us" element={<AboutUsAdmin />} />
                 <Route path="contact-info" element={<ContactInfoAdmin />} />
                 <Route path="locations" element={<LocationsAdmin />} />
+                <Route path="csr-initiatives" element={<CSRInitiativesAdmin />} />
+                <Route path="news-media" element={<NewsMediaAdmin />} />
             </Route>
 
             {/* Public Routes */}

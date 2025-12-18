@@ -9,7 +9,10 @@ import {
   Phone,
   LogOut,
   Menu,
-  X
+  X,
+  MapPin,
+  Award,
+  Newspaper
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 
@@ -25,6 +28,9 @@ const AdminLayout = () => {
     { path: '/admin/hero-images', label: 'Hero Images', icon: Image },
     { path: '/admin/about-us', label: 'About Us', icon: Info },
     { path: '/admin/contact-info', label: 'Contact Info', icon: Phone },
+    { path: '/admin/locations', label: 'Locations', icon: MapPin },
+    { path: '/admin/csr-initiatives', label: 'CSR Initiatives', icon: Award },
+    { path: '/admin/news-media', label: 'News & Media', icon: Newspaper },
   ];
 
   const handleLogout = () => {
