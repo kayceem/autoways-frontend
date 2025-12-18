@@ -17,7 +17,6 @@ import { getBrandTypeData } from "../../utils";
 const ProductTypePage = () => {
     const { brand, typeSlug } = useParams();
     const typeName = typeSlug.replace(/-/g, ' ').toUpperCase();
-    const type = typeSlug.replace(/-/g, '_');
     const {content, isLoading, error} = useContent();
     const [viewMode, setViewMode] = useState("grid");
     const [sortBy, setSortBy] = useState("name");
@@ -37,7 +36,7 @@ const ProductTypePage = () => {
     const data = getBrandTypeData(
         content?.brands,
         brand,
-        type
+        typeSlug
     );
     console.log("ProductTypePage data:", data);
 
