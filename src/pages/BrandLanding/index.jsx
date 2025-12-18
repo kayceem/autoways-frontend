@@ -29,7 +29,7 @@ const BrandLanding = () => {
     return (
         <div className={`min-h-screen bg-primary`}>
             {/* Hero Section */}
-            <section className="relative h-[600px] flex items-center justify-center overflow-hidden">
+            <section className="relative h-[300px] lg:h-[600px] flex items-center justify-center overflow-hidden">
                 {/* Background Image */}
                 <div className={`absolute inset-0 bg-secondary`}>
                     {brandData?.images?.[0] && (
@@ -43,7 +43,7 @@ const BrandLanding = () => {
                 </div>
 
                 {/* Hero Content */}
-                <div className="relative z-10 text-center px-6 max-w-5xl h-90">
+                <div className="relative z-10 text-center px-4 lg:px-6 max-w-5xl h-90">
                     {/* <Logo logo={brandData.logo} size={248} className="mx-auto mb-6" /> */}
                     {/* Brand Name with Enhanced Typography and Text Stroke */}
                     {/* <h1
@@ -93,20 +93,20 @@ style={{
             </section>
 
             {/* Product Types Section */}
-            <section className="py-20 px-6">
+            <section className="py-10 lg:py-20 px-4 lg:px-6">
                 <div className="max-w-7xl mx-auto">
                     {/* Section Header */}
-                    <div className="text-center mb-16">
+                    <div className="text-center mb-8 lg:mb-16">
                         <h2
-                            className={`font-bold text-5xl text-primary mb-4`}
+                            className={`font-bold text-2xl lg:text-5xl text-primary mb-3 lg:mb-4`}
                         >
                             Explore Our Collection
                         </h2>
-                        <div className="w-24 h-1 bg-secondary mx-auto" />
+                        <div className="w-16 lg:w-24 h-1 bg-secondary mx-auto" />
                     </div>
 
                     {/* Product Type Cards Grid */}
-                    <div className="grid grid-cols-3 gap-8">
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-8">
                         {brandData.productTypes?.map((productType, index) => (
                             <ProductTypeCard
                                 key={index}

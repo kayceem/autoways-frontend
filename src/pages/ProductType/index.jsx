@@ -39,10 +39,10 @@ const ProductTypePage = () => {
             <section
                 className={`relative bg-gradient-to-br from-primary via-primary to-accent/10 border-b border-secondary/20`}
             >
-                <div className="max-w-7xl mx-auto px-6 py-20">
+                <div className="max-w-7xl mx-auto px-4 lg:px-6 py-10 lg:py-20">
                     {/* Breadcrumb */}
                     <div
-                        className={`flex items-center gap-2 text-secondary/60 text-sm mb-6 font-light`}
+                        className={`flex items-center gap-2 text-secondary/60 text-xs lg:text-sm mb-4 lg:mb-6 font-light`}
                     >
                         <span>Shop</span>
                         <ChevronDown size={16} className="rotate-[-90deg]" />
@@ -65,12 +65,12 @@ const ProductTypePage = () => {
                     <div className="flex items-end justify-between">
                         <div>
                             <h1
-                                className={`font-bold text-7xl text-secondary mb-4 capitalize capitalize`}
+                                className={`font-bold text-3xl lg:text-7xl text-secondary mb-3 lg:mb-4 capitalize capitalize`}
                             >
                                 {typeName}
                             </h1>
                             <p
-                                className={`font-light text-2xl text-secondary/80 max-w-2xl capitalize`}
+                                className={`font-light text-sm lg:text-2xl text-secondary/80 max-w-2xl capitalize`}
                             >
                                 Discover our premium collection of {typeName}{" "}
                                 vehicles, engineered for excellence
@@ -100,7 +100,7 @@ const ProductTypePage = () => {
             <section
                 className={`sticky top-0 z-40 bg-secondary/95 backdrop-blur-lg border-b border-primary/10 shadow-lg`}
             >
-                <div className="max-w-7xl mx-auto px-6 py-4">
+                <div className="max-w-7xl mx-auto px-4 lg:px-6 py-3 lg:py-4">
                     <div className="flex items-center justify-end">
                         {/* Right - View Mode & Sort */}
                         <div className="flex items-center gap-4">
@@ -145,14 +145,14 @@ const ProductTypePage = () => {
             </section>
 
             {/* Products Grid Section */}
-            <section className="py-16 px-6">
+            <section className="py-8 lg:py-16 px-4 lg:px-6">
                 <div className="max-w-7xl mx-auto">
                     {data.length > 0 ? (
                         <div
                             className={`grid ${
                                 viewMode === "grid"
-                                    ? "grid-cols-3 gap-8"
-                                    : "grid-cols-1 gap-6"
+                                    ? "grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-8"
+                                    : "grid-cols-1 gap-4 lg:gap-6"
                             } transition-all duration-500`}
                         >
                             {data.map((product, index) => (
@@ -197,21 +197,21 @@ const ProductTypePage = () => {
 
             {/* Bottom CTA Section */}
             <section
-                className={`bg-gradient-to-t from-accent/5 to-transparent py-20 px-6`}
+                className={`bg-gradient-to-t from-accent/5 to-transparent py-10 lg:py-20 px-4 lg:px-6`}
             >
                 <div className="max-w-4xl mx-auto text-center">
                     <h2
-                        className={`font-bold text-4xl text-secondary mb-4`}
+                        className={`font-bold text-2xl lg:text-4xl text-secondary mb-3 lg:mb-4`}
                     >
                         Can't Find What You're Looking For?
                     </h2>
                     <p
-                        className={`font-light text-secondary/80 text-lg mb-8`}
+                        className={`font-light text-secondary/80 text-sm lg:text-lg mb-6 lg:mb-8`}
                     >
                         Our team is ready to help you find your perfect vehicle
                     </p>
                     <button
-                        className={`bg-accent text-secondary px-8 py-4 rounded-lg font-bold text-lg hover:bg-primary hover:text-accent border-2 border-accent transition-all duration-300 transform hover:scale-105`}
+                        className={`bg-accent text-secondary px-6 py-3 lg:px-8 lg:py-4 rounded-lg font-bold text-sm lg:text-lg hover:bg-primary hover:text-accent border-2 border-accent transition-all duration-300 transform hover:scale-105`}
                     >
                         Contact Our Experts
                     </button>
