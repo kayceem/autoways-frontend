@@ -60,11 +60,11 @@ const HeroSection = ({ heroImages = [], className = '' }) => {
               <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/60" />
               
               {/* Overlay Content */}
-              <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-6">
-                <h1 className="text-6xl font-bold text-white mb-6 max-w-4xl leading-tight">
+              <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4 lg:px-6">
+                <h1 className="text-3xl lg:text-6xl font-bold text-white mb-4 lg:mb-6 max-w-4xl leading-tight">
                   {image.title || 'Welcome to Autoways'}
                 </h1>
-                <p className="text-2xl text-white/90 mb-10 max-w-2xl">
+                <p className="text-base lg:text-2xl text-white/90 mb-6 lg:mb-10 max-w-2xl">
                   {image.subtitle || 'Discover Your Perfect Vehicle'}
                 </p>
               </div>
