@@ -10,7 +10,7 @@ import Testimonials from "../Testimonials";
 import AboutUs from "../AboutUs";
 import CSR from "../CSR";
 import SisterCompanies from "../SisterCompanies";
-import SparesParts from "../SparesParts";
+// import SparesParts from "../SparesParts";
 import NotFound from "../NotFound";
 import Navbar from "../../components/common/NavBar";
 import Footer from "../../components/common/Footer";
@@ -64,7 +64,7 @@ const PageRoutes = () => {
                             <Route path="/about" element={<AboutUs />} />
                             <Route path="/csr" element={<CSR />} />
                             <Route path="/sister-companies" element={<SisterCompanies />} />
-                            <Route path="/spares-parts" element={<SparesParts />} />
+                            {/* <Route path="/spares-parts" element={<SparesParts />} /> */}
                             <Route path="/shop/:brand" element={<BrandLanding />} />
                             <Route path="/shop/:brand/:typeSlug" element={<ProductType />} />
                             <Route path="/shop/:brand/:typeSlug/:id" element={<ProductDetails />} />
