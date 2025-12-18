@@ -22,6 +22,22 @@ const AboutUsAdmin = () => {
     awards: false
   });
 
+  const [editMode, setEditMode] = useState({
+    basic: false,
+    mission: false,
+    vision: false,
+    values: false,
+    milestones: false,
+    chairman: false,
+    md: false,
+    team: false,
+    certifications: false,
+    awards: false
+  });
+
+  const [modifiedSections, setModifiedSections] = useState(new Set());
+  const [sectionSnapshots, setSectionSnapshots] = useState({});
+
   const [formData, setFormData] = useState({
     title: '',
     content: '',
@@ -60,6 +76,81 @@ const AboutUsAdmin = () => {
 
   const toggleSection = (section) => {
     setExpandedSections(prev => ({ ...prev, [section]: !prev[section] }));
+  };
+
+  const handleEditSection = (section) => {
+    // Save snapshot of current section data
+    const snapshot = {
+      basic: { title: formData.title, content: formData.content, image: formData.image },
+      mission: { ...formData.mission },
+      vision: { ...formData.vision },
+      values: [...formData.values],
+      milestones: [...formData.milestones],
+      chairman: { ...formData.chairman_message },
+      md: { ...formData.md_message },
+      team: [...formData.team],
+      certifications: [...formData.certifications],
+      awards: [...formData.awards]
+    };
+
+    setSectionSnapshots(prev => ({ ...prev, [section]: snapshot[section] }));
+    setEditMode(prev => ({ ...prev, [section]: true }));
+    setExpandedSections(prev => ({ ...prev, [section]: true }));
+  };
+
+  const handleCancelSection = (section) => {
+    // Restore from snapshot
+    if (sectionSnapshots[section]) {
+      if (section === 'basic') {
+        setFormData(prev => ({
+          ...prev,
+          title: sectionSnapshots[section].title,
+          content: sectionSnapshots[section].content,
+          image: sectionSnapshots[section].image
+        }));
+      } else if (section === 'chairman') {
+        setFormData(prev => ({ ...prev, chairman_message: sectionSnapshots[section] }));
+      } else if (section === 'md') {
+        setFormData(prev => ({ ...prev, md_message: sectionSnapshots[section] }));
+      } else {
+        setFormData(prev => ({ ...prev, [section]: sectionSnapshots[section] }));
+      }
+    }
+    setEditMode(prev => ({ ...prev, [section]: false }));
+  };
+
+  const handleSaveSection = async (section) => {
+    try {
+      // Prepare data for only this section
+      const sectionData = {};
+
+      if (section === 'basic') {
+        sectionData.title = formData.title;
+        sectionData.content = formData.content;
+        sectionData.image = formData.image;
+      } else if (section === 'chairman') {
+        sectionData.chairman_message = formData.chairman_message;
+      } else if (section === 'md') {
+        sectionData.md_message = formData.md_message;
+      } else {
+        sectionData[section] = formData[section];
+      }
+
+      await updateAboutUs.mutateAsync({
+        id: aboutData._id,
+        data: sectionData
+      });
+
+      setEditMode(prev => ({ ...prev, [section]: false }));
+      setModifiedSections(prev => {
+        const newSet = new Set(prev);
+        newSet.delete(section);
+        return newSet;
+      });
+      await refetch();
+    } catch (error) {
+      console.error('Update failed:', error);
+    }
   };
 
   const convertToBase64 = (file) => {
@@ -143,39 +234,6 @@ const AboutUsAdmin = () => {
     }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    try {
-      await updateAboutUs.mutateAsync({
-        id: aboutData._id,
-        data: formData
-      });
-      await refetch();
-    } catch (error) {
-      console.error('Update failed:', error);
-    }
-  };
-
-  const handleReset = () => {
-    if (aboutData) {
-      setFormData({
-        title: aboutData.title || '',
-        content: aboutData.content || '',
-        image: aboutData.image || '',
-        mission: aboutData.mission || { title: '', content: '', icon: '' },
-        vision: aboutData.vision || { title: '', content: '', icon: '' },
-        values: aboutData.values || [],
-        milestones: aboutData.milestones || [],
-        chairman_message: aboutData.chairman_message || { title: '', name: '', position: '', image: '', message: '' },
-        md_message: aboutData.md_message || { title: '', name: '', position: '', image: '', message: '' },
-        team: aboutData.team || [],
-        certifications: aboutData.certifications || [],
-        awards: aboutData.awards || []
-      });
-      toast.success('Changes discarded');
-    }
-  };
 
   if (isLoading) {
     return <div className="flex items-center justify-center h-64">Loading...</div>;
@@ -191,11 +249,11 @@ const AboutUsAdmin = () => {
   }
 
   const SectionHeader = ({ title, section, badge = null }) => (
-    <div
-      className="flex items-center justify-between cursor-pointer p-4 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors"
-      onClick={() => toggleSection(section)}
-    >
-      <div className="flex items-center space-x-2">
+    <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+      <div
+        className="flex items-center space-x-2 cursor-pointer flex-1"
+        onClick={() => toggleSection(section)}
+      >
         <h3 className="text-lg font-semibold text-gray-900">{title}</h3>
         {badge && (
           <span className="px-2 py-1 bg-blue-100 text-blue-600 text-xs font-medium rounded-full">
@@ -203,11 +261,54 @@ const AboutUsAdmin = () => {
           </span>
         )}
       </div>
-      {expandedSections[section] ? (
-        <ChevronUp className="w-5 h-5 text-gray-500" />
-      ) : (
-        <ChevronDown className="w-5 h-5 text-gray-500" />
-      )}
+      <div className="flex items-center space-x-2">
+        {editMode[section] ? (
+          <>
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleCancelSection(section);
+              }}
+              className="px-3 py-1 text-sm border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors flex items-center space-x-1"
+            >
+              <X className="w-4 h-4" />
+              <span>Cancel</span>
+            </button>
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleSaveSection(section);
+              }}
+              disabled={updateAboutUs.isPending}
+              className="px-3 py-1 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-1 disabled:opacity-50"
+            >
+              <Save className="w-4 h-4" />
+              <span>Save</span>
+            </button>
+          </>
+        ) : (
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleEditSection(section);
+            }}
+            className="px-3 py-1 text-sm border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors flex items-center space-x-1"
+          >
+            <Edit2 className="w-4 h-4" />
+            <span>Edit</span>
+          </button>
+        )}
+        <div className="cursor-pointer" onClick={() => toggleSection(section)}>
+          {expandedSections[section] ? (
+            <ChevronUp className="w-5 h-5 text-gray-500" />
+          ) : (
+            <ChevronDown className="w-5 h-5 text-gray-500" />
+          )}
+        </div>
+      </div>
     </div>
   );
 
@@ -252,7 +353,7 @@ const AboutUsAdmin = () => {
         <p className="text-gray-600 mt-1">Manage all About Us page content</p>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <div className="space-y-6">
         {/* Basic Information */}
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
           <SectionHeader title="Basic Information" section="basic" />
@@ -267,7 +368,8 @@ const AboutUsAdmin = () => {
                   name="title"
                   value={formData.title}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  disabled={!editMode.basic}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
                   required
                 />
               </div>
@@ -280,18 +382,33 @@ const AboutUsAdmin = () => {
                   name="content"
                   value={formData.content}
                   onChange={handleInputChange}
+                  disabled={!editMode.basic}
                   rows="6"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
                   required
                 />
               </div>
 
-              <ImageUploadField
-                label="Main Image"
-                imageSrc={formData.image}
-                onUpload={(e) => handleImageUpload(e, 'image')}
-                required
-              />
+              {editMode.basic && (
+                <ImageUploadField
+                  label="Main Image"
+                  imageSrc={formData.image}
+                  onUpload={(e) => handleImageUpload(e, 'image')}
+                  required
+                />
+              )}
+              {!editMode.basic && formData.image && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Main Image
+                  </label>
+                  <img
+                    src={formData.image.startsWith('data:') ? formData.image : assetUrl(formData.image)}
+                    alt="Main"
+                    className="w-48 h-48 object-cover rounded-lg border border-gray-300"
+                  />
+                </div>
+              )}
             </div>
           )}
         </div>
@@ -307,7 +424,8 @@ const AboutUsAdmin = () => {
                   type="text"
                   value={formData.mission.title}
                   onChange={(e) => handleNestedChange('mission', 'title', e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  disabled={!editMode.mission}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed"
                 />
               </div>
               <div>
@@ -315,18 +433,9 @@ const AboutUsAdmin = () => {
                 <textarea
                   value={formData.mission.content}
                   onChange={(e) => handleNestedChange('mission', 'content', e.target.value)}
+                  disabled={!editMode.mission}
                   rows="4"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Icon URL</label>
-                <input
-                  type="text"
-                  value={formData.mission.icon}
-                  onChange={(e) => handleNestedChange('mission', 'icon', e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                  placeholder="/icons/mission.svg"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed"
                 />
               </div>
             </div>
@@ -344,7 +453,8 @@ const AboutUsAdmin = () => {
                   type="text"
                   value={formData.vision.title}
                   onChange={(e) => handleNestedChange('vision', 'title', e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  disabled={!editMode.vision}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed"
                 />
               </div>
               <div>
@@ -352,18 +462,9 @@ const AboutUsAdmin = () => {
                 <textarea
                   value={formData.vision.content}
                   onChange={(e) => handleNestedChange('vision', 'content', e.target.value)}
+                  disabled={!editMode.vision}
                   rows="4"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Icon URL</label>
-                <input
-                  type="text"
-                  value={formData.vision.icon}
-                  onChange={(e) => handleNestedChange('vision', 'icon', e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                  placeholder="/icons/vision.svg"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed"
                 />
               </div>
             </div>
@@ -375,47 +476,46 @@ const AboutUsAdmin = () => {
           <SectionHeader title="Values" section="values" badge={formData.values.length} />
           {expandedSections.values && (
             <div className="p-6 space-y-4">
-              <button
-                type="button"
-                onClick={() => handleAddArrayItem('values', { valueId: Date.now(), title: '', description: '', icon: '' })}
-                className="flex items-center space-x-2 text-blue-600 hover:text-blue-700 text-sm font-medium"
-              >
-                <Plus className="w-4 h-4" />
-                <span>Add Value</span>
-              </button>
+              {editMode.values && (
+                <button
+                  type="button"
+                  onClick={() => handleAddArrayItem('values', { valueId: Date.now(), title: '', description: '', icon: '' })}
+                  className="flex items-center space-x-2 text-blue-600 hover:text-blue-700 text-sm font-medium"
+                >
+                  <Plus className="w-4 h-4" />
+                  <span>Add Value</span>
+                </button>
+              )}
 
               {formData.values.map((value, index) => (
                 <div key={index} className="border border-gray-200 rounded-lg p-4 space-y-3">
                   <div className="flex justify-between items-start">
                     <h4 className="font-medium text-gray-900">Value {index + 1}</h4>
-                    <button
-                      type="button"
-                      onClick={() => handleRemoveArrayItem('values', index)}
-                      className="text-red-600 hover:text-red-700"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
+                    {editMode.values && (
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveArrayItem('values', index)}
+                        className="text-red-600 hover:text-red-700"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    )}
                   </div>
                   <input
                     type="text"
                     placeholder="Title"
                     value={value.title}
                     onChange={(e) => handleArrayItemChange('values', index, 'title', e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                    disabled={!editMode.values}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg disabled:bg-gray-100 disabled:cursor-not-allowed"
                   />
                   <textarea
                     placeholder="Description"
                     value={value.description}
                     onChange={(e) => handleArrayItemChange('values', index, 'description', e.target.value)}
+                    disabled={!editMode.values}
                     rows="2"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg"
-                  />
-                  <input
-                    type="text"
-                    placeholder="Icon URL"
-                    value={value.icon}
-                    onChange={(e) => handleArrayItemChange('values', index, 'icon', e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg disabled:bg-gray-100 disabled:cursor-not-allowed"
                   />
                 </div>
               ))}
@@ -428,53 +528,72 @@ const AboutUsAdmin = () => {
           <SectionHeader title="Milestones" section="milestones" badge={formData.milestones.length} />
           {expandedSections.milestones && (
             <div className="p-6 space-y-4">
-              <button
-                type="button"
-                onClick={() => handleAddArrayItem('milestones', { year: '', title: '', description: '', image: '' })}
-                className="flex items-center space-x-2 text-blue-600 hover:text-blue-700 text-sm font-medium"
-              >
-                <Plus className="w-4 h-4" />
-                <span>Add Milestone</span>
-              </button>
+              {editMode.milestones && (
+                <button
+                  type="button"
+                  onClick={() => handleAddArrayItem('milestones', { year: '', title: '', description: '', image: '' })}
+                  className="flex items-center space-x-2 text-blue-600 hover:text-blue-700 text-sm font-medium"
+                >
+                  <Plus className="w-4 h-4" />
+                  <span>Add Milestone</span>
+                </button>
+              )}
 
               {formData.milestones.map((milestone, index) => (
                 <div key={index} className="border border-gray-200 rounded-lg p-4 space-y-3">
                   <div className="flex justify-between items-start">
                     <h4 className="font-medium text-gray-900">Milestone {index + 1}</h4>
-                    <button
-                      type="button"
-                      onClick={() => handleRemoveArrayItem('milestones', index)}
-                      className="text-red-600 hover:text-red-700"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
+                    {editMode.milestones && (
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveArrayItem('milestones', index)}
+                        className="text-red-600 hover:text-red-700"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    )}
                   </div>
                   <input
                     type="text"
                     placeholder="Year"
                     value={milestone.year}
                     onChange={(e) => handleArrayItemChange('milestones', index, 'year', e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                    disabled={!editMode.milestones}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg disabled:bg-gray-100 disabled:cursor-not-allowed"
                   />
                   <input
                     type="text"
                     placeholder="Title"
                     value={milestone.title}
                     onChange={(e) => handleArrayItemChange('milestones', index, 'title', e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                    disabled={!editMode.milestones}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg disabled:bg-gray-100 disabled:cursor-not-allowed"
                   />
                   <textarea
                     placeholder="Description"
                     value={milestone.description}
                     onChange={(e) => handleArrayItemChange('milestones', index, 'description', e.target.value)}
+                    disabled={!editMode.milestones}
                     rows="2"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg disabled:bg-gray-100 disabled:cursor-not-allowed"
                   />
-                  <ImageUploadField
-                    label={`Milestone ${index + 1} Image`}
-                    imageSrc={milestone.image}
-                    onUpload={(e) => handleImageUpload(e, 'milestones', 'image', index)}
-                  />
+                  {editMode.milestones && (
+                    <ImageUploadField
+                      label={`Milestone ${index + 1} Image`}
+                      imageSrc={milestone.image}
+                      onUpload={(e) => handleImageUpload(e, 'milestones', 'image', index)}
+                    />
+                  )}
+                  {!editMode.milestones && milestone.image && (
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Image</label>
+                      <img
+                        src={milestone.image.startsWith('data:') ? milestone.image : assetUrl(milestone.image)}
+                        alt={`Milestone ${index + 1}`}
+                        className="w-32 h-32 object-cover rounded-lg border border-gray-300"
+                      />
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
@@ -491,34 +610,50 @@ const AboutUsAdmin = () => {
                 placeholder="Title"
                 value={formData.chairman_message.title}
                 onChange={(e) => handleNestedChange('chairman_message', 'title', e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                disabled={!editMode.chairman}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg disabled:bg-gray-100 disabled:cursor-not-allowed"
               />
               <input
                 type="text"
                 placeholder="Name"
                 value={formData.chairman_message.name}
                 onChange={(e) => handleNestedChange('chairman_message', 'name', e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                disabled={!editMode.chairman}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg disabled:bg-gray-100 disabled:cursor-not-allowed"
               />
               <input
                 type="text"
                 placeholder="Position"
                 value={formData.chairman_message.position}
                 onChange={(e) => handleNestedChange('chairman_message', 'position', e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                disabled={!editMode.chairman}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg disabled:bg-gray-100 disabled:cursor-not-allowed"
               />
               <textarea
                 placeholder="Message"
                 value={formData.chairman_message.message}
                 onChange={(e) => handleNestedChange('chairman_message', 'message', e.target.value)}
+                disabled={!editMode.chairman}
                 rows="4"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg disabled:bg-gray-100 disabled:cursor-not-allowed"
               />
-              <ImageUploadField
-                label="Chairman Photo"
-                imageSrc={formData.chairman_message.image}
-                onUpload={(e) => handleImageUpload(e, 'chairman_message', 'image')}
-              />
+              {editMode.chairman && (
+                <ImageUploadField
+                  label="Chairman Photo"
+                  imageSrc={formData.chairman_message.image}
+                  onUpload={(e) => handleImageUpload(e, 'chairman_message', 'image')}
+                />
+              )}
+              {!editMode.chairman && formData.chairman_message.image && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Chairman Photo</label>
+                  <img
+                    src={formData.chairman_message.image.startsWith('data:') ? formData.chairman_message.image : assetUrl(formData.chairman_message.image)}
+                    alt="Chairman"
+                    className="w-32 h-32 object-cover rounded-lg border border-gray-300"
+                  />
+                </div>
+              )}
             </div>
           )}
         </div>
@@ -533,34 +668,50 @@ const AboutUsAdmin = () => {
                 placeholder="Title"
                 value={formData.md_message.title}
                 onChange={(e) => handleNestedChange('md_message', 'title', e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                disabled={!editMode.md}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg disabled:bg-gray-100 disabled:cursor-not-allowed"
               />
               <input
                 type="text"
                 placeholder="Name"
                 value={formData.md_message.name}
                 onChange={(e) => handleNestedChange('md_message', 'name', e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                disabled={!editMode.md}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg disabled:bg-gray-100 disabled:cursor-not-allowed"
               />
               <input
                 type="text"
                 placeholder="Position"
                 value={formData.md_message.position}
                 onChange={(e) => handleNestedChange('md_message', 'position', e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                disabled={!editMode.md}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg disabled:bg-gray-100 disabled:cursor-not-allowed"
               />
               <textarea
                 placeholder="Message"
                 value={formData.md_message.message}
                 onChange={(e) => handleNestedChange('md_message', 'message', e.target.value)}
+                disabled={!editMode.md}
                 rows="4"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg disabled:bg-gray-100 disabled:cursor-not-allowed"
               />
-              <ImageUploadField
-                label="MD Photo"
-                imageSrc={formData.md_message.image}
-                onUpload={(e) => handleImageUpload(e, 'md_message', 'image')}
-              />
+              {editMode.md && (
+                <ImageUploadField
+                  label="MD Photo"
+                  imageSrc={formData.md_message.image}
+                  onUpload={(e) => handleImageUpload(e, 'md_message', 'image')}
+                />
+              )}
+              {!editMode.md && formData.md_message.image && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">MD Photo</label>
+                  <img
+                    src={formData.md_message.image.startsWith('data:') ? formData.md_message.image : assetUrl(formData.md_message.image)}
+                    alt="MD"
+                    className="w-32 h-32 object-cover rounded-lg border border-gray-300"
+                  />
+                </div>
+              )}
             </div>
           )}
         </div>
@@ -570,35 +721,39 @@ const AboutUsAdmin = () => {
           <SectionHeader title="Team Members" section="team" badge={formData.team.length} />
           {expandedSections.team && (
             <div className="p-6 space-y-4">
-              <button
-                type="button"
-                onClick={() => handleAddArrayItem('team', {
-                  id: Date.now(),
-                  name: '',
-                  position: '',
-                  department: '',
-                  image: '',
-                  bio: '',
-                  email: '',
-                  phone: ''
-                })}
-                className="flex items-center space-x-2 text-blue-600 hover:text-blue-700 text-sm font-medium"
-              >
-                <Plus className="w-4 h-4" />
-                <span>Add Team Member</span>
-              </button>
+              {editMode.team && (
+                <button
+                  type="button"
+                  onClick={() => handleAddArrayItem('team', {
+                    id: Date.now(),
+                    name: '',
+                    position: '',
+                    department: '',
+                    image: '',
+                    bio: '',
+                    email: '',
+                    phone: ''
+                  })}
+                  className="flex items-center space-x-2 text-blue-600 hover:text-blue-700 text-sm font-medium"
+                >
+                  <Plus className="w-4 h-4" />
+                  <span>Add Team Member</span>
+                </button>
+              )}
 
               {formData.team.map((member, index) => (
                 <div key={index} className="border border-gray-200 rounded-lg p-4 space-y-3">
                   <div className="flex justify-between items-start">
                     <h4 className="font-medium text-gray-900">{member.name || `Team Member ${index + 1}`}</h4>
-                    <button
-                      type="button"
-                      onClick={() => handleRemoveArrayItem('team', index)}
-                      className="text-red-600 hover:text-red-700"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
+                    {editMode.team && (
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveArrayItem('team', index)}
+                        className="text-red-600 hover:text-red-700"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    )}
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     <input
@@ -606,49 +761,67 @@ const AboutUsAdmin = () => {
                       placeholder="Name"
                       value={member.name}
                       onChange={(e) => handleArrayItemChange('team', index, 'name', e.target.value)}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                      disabled={!editMode.team}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg disabled:bg-gray-100 disabled:cursor-not-allowed"
                     />
                     <input
                       type="text"
                       placeholder="Position"
                       value={member.position}
                       onChange={(e) => handleArrayItemChange('team', index, 'position', e.target.value)}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                      disabled={!editMode.team}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg disabled:bg-gray-100 disabled:cursor-not-allowed"
                     />
                     <input
                       type="text"
                       placeholder="Department"
                       value={member.department}
                       onChange={(e) => handleArrayItemChange('team', index, 'department', e.target.value)}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                      disabled={!editMode.team}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg disabled:bg-gray-100 disabled:cursor-not-allowed"
                     />
                     <input
                       type="email"
                       placeholder="Email"
                       value={member.email}
                       onChange={(e) => handleArrayItemChange('team', index, 'email', e.target.value)}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                      disabled={!editMode.team}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg disabled:bg-gray-100 disabled:cursor-not-allowed"
                     />
                     <input
                       type="tel"
                       placeholder="Phone"
                       value={member.phone}
                       onChange={(e) => handleArrayItemChange('team', index, 'phone', e.target.value)}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                      disabled={!editMode.team}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg disabled:bg-gray-100 disabled:cursor-not-allowed"
                     />
                   </div>
                   <textarea
                     placeholder="Bio"
                     value={member.bio}
                     onChange={(e) => handleArrayItemChange('team', index, 'bio', e.target.value)}
+                    disabled={!editMode.team}
                     rows="2"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg disabled:bg-gray-100 disabled:cursor-not-allowed"
                   />
-                  <ImageUploadField
-                    label={`${member.name || 'Member'} Photo`}
-                    imageSrc={member.image}
-                    onUpload={(e) => handleImageUpload(e, 'team', 'image', index)}
-                  />
+                  {editMode.team && (
+                    <ImageUploadField
+                      label={`${member.name || 'Member'} Photo`}
+                      imageSrc={member.image}
+                      onUpload={(e) => handleImageUpload(e, 'team', 'image', index)}
+                    />
+                  )}
+                  {!editMode.team && member.image && (
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Photo</label>
+                      <img
+                        src={member.image.startsWith('data:') ? member.image : assetUrl(member.image)}
+                        alt={member.name}
+                        className="w-32 h-32 object-cover rounded-lg border border-gray-300"
+                      />
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
@@ -660,40 +833,45 @@ const AboutUsAdmin = () => {
           <SectionHeader title="Certifications" section="certifications" badge={formData.certifications.length} />
           {expandedSections.certifications && (
             <div className="p-6 space-y-4">
-              <button
-                type="button"
-                onClick={() => handleAddArrayItem('certifications', {
-                  id: Date.now(),
-                  name: '',
-                  issuedBy: '',
-                  year: '',
-                  image: '',
-                  description: ''
-                })}
-                className="flex items-center space-x-2 text-blue-600 hover:text-blue-700 text-sm font-medium"
-              >
-                <Plus className="w-4 h-4" />
-                <span>Add Certification</span>
-              </button>
+              {editMode.certifications && (
+                <button
+                  type="button"
+                  onClick={() => handleAddArrayItem('certifications', {
+                    id: Date.now(),
+                    name: '',
+                    issuedBy: '',
+                    year: '',
+                    image: '',
+                    description: ''
+                  })}
+                  className="flex items-center space-x-2 text-blue-600 hover:text-blue-700 text-sm font-medium"
+                >
+                  <Plus className="w-4 h-4" />
+                  <span>Add Certification</span>
+                </button>
+              )}
 
               {formData.certifications.map((cert, index) => (
                 <div key={index} className="border border-gray-200 rounded-lg p-4 space-y-3">
                   <div className="flex justify-between items-start">
                     <h4 className="font-medium text-gray-900">{cert.name || `Certification ${index + 1}`}</h4>
-                    <button
-                      type="button"
-                      onClick={() => handleRemoveArrayItem('certifications', index)}
-                      className="text-red-600 hover:text-red-700"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
+                    {editMode.certifications && (
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveArrayItem('certifications', index)}
+                        className="text-red-600 hover:text-red-700"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    )}
                   </div>
                   <input
                     type="text"
                     placeholder="Certification Name"
                     value={cert.name}
                     onChange={(e) => handleArrayItemChange('certifications', index, 'name', e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                    disabled={!editMode.certifications}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg disabled:bg-gray-100 disabled:cursor-not-allowed"
                   />
                   <div className="grid grid-cols-2 gap-3">
                     <input
@@ -701,28 +879,43 @@ const AboutUsAdmin = () => {
                       placeholder="Issued By"
                       value={cert.issuedBy}
                       onChange={(e) => handleArrayItemChange('certifications', index, 'issuedBy', e.target.value)}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                      disabled={!editMode.certifications}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg disabled:bg-gray-100 disabled:cursor-not-allowed"
                     />
                     <input
                       type="text"
                       placeholder="Year"
                       value={cert.year}
                       onChange={(e) => handleArrayItemChange('certifications', index, 'year', e.target.value)}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                      disabled={!editMode.certifications}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg disabled:bg-gray-100 disabled:cursor-not-allowed"
                     />
                   </div>
                   <textarea
                     placeholder="Description"
                     value={cert.description}
                     onChange={(e) => handleArrayItemChange('certifications', index, 'description', e.target.value)}
+                    disabled={!editMode.certifications}
                     rows="2"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg disabled:bg-gray-100 disabled:cursor-not-allowed"
                   />
-                  <ImageUploadField
-                    label={`${cert.name || 'Certification'} Image`}
-                    imageSrc={cert.image}
-                    onUpload={(e) => handleImageUpload(e, 'certifications', 'image', index)}
-                  />
+                  {editMode.certifications && (
+                    <ImageUploadField
+                      label={`${cert.name || 'Certification'} Image`}
+                      imageSrc={cert.image}
+                      onUpload={(e) => handleImageUpload(e, 'certifications', 'image', index)}
+                    />
+                  )}
+                  {!editMode.certifications && cert.image && (
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Image</label>
+                      <img
+                        src={cert.image.startsWith('data:') ? cert.image : assetUrl(cert.image)}
+                        alt={cert.name}
+                        className="w-32 h-32 object-cover rounded-lg border border-gray-300"
+                      />
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
@@ -734,40 +927,45 @@ const AboutUsAdmin = () => {
           <SectionHeader title="Awards" section="awards" badge={formData.awards.length} />
           {expandedSections.awards && (
             <div className="p-6 space-y-4">
-              <button
-                type="button"
-                onClick={() => handleAddArrayItem('awards', {
-                  id: Date.now(),
-                  title: '',
-                  year: '',
-                  issuedBy: '',
-                  image: '',
-                  description: ''
-                })}
-                className="flex items-center space-x-2 text-blue-600 hover:text-blue-700 text-sm font-medium"
-              >
-                <Plus className="w-4 h-4" />
-                <span>Add Award</span>
-              </button>
+              {editMode.awards && (
+                <button
+                  type="button"
+                  onClick={() => handleAddArrayItem('awards', {
+                    id: Date.now(),
+                    title: '',
+                    year: '',
+                    issuedBy: '',
+                    image: '',
+                    description: ''
+                  })}
+                  className="flex items-center space-x-2 text-blue-600 hover:text-blue-700 text-sm font-medium"
+                >
+                  <Plus className="w-4 h-4" />
+                  <span>Add Award</span>
+                </button>
+              )}
 
               {formData.awards.map((award, index) => (
                 <div key={index} className="border border-gray-200 rounded-lg p-4 space-y-3">
                   <div className="flex justify-between items-start">
                     <h4 className="font-medium text-gray-900">{award.title || `Award ${index + 1}`}</h4>
-                    <button
-                      type="button"
-                      onClick={() => handleRemoveArrayItem('awards', index)}
-                      className="text-red-600 hover:text-red-700"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
+                    {editMode.awards && (
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveArrayItem('awards', index)}
+                        className="text-red-600 hover:text-red-700"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    )}
                   </div>
                   <input
                     type="text"
                     placeholder="Award Title"
                     value={award.title}
                     onChange={(e) => handleArrayItemChange('awards', index, 'title', e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                    disabled={!editMode.awards}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg disabled:bg-gray-100 disabled:cursor-not-allowed"
                   />
                   <div className="grid grid-cols-2 gap-3">
                     <input
@@ -775,54 +973,50 @@ const AboutUsAdmin = () => {
                       placeholder="Year"
                       value={award.year}
                       onChange={(e) => handleArrayItemChange('awards', index, 'year', e.target.value)}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                      disabled={!editMode.awards}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg disabled:bg-gray-100 disabled:cursor-not-allowed"
                     />
                     <input
                       type="text"
                       placeholder="Issued By"
                       value={award.issuedBy}
                       onChange={(e) => handleArrayItemChange('awards', index, 'issuedBy', e.target.value)}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                      disabled={!editMode.awards}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg disabled:bg-gray-100 disabled:cursor-not-allowed"
                     />
                   </div>
                   <textarea
                     placeholder="Description"
                     value={award.description}
                     onChange={(e) => handleArrayItemChange('awards', index, 'description', e.target.value)}
+                    disabled={!editMode.awards}
                     rows="2"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg disabled:bg-gray-100 disabled:cursor-not-allowed"
                   />
-                  <ImageUploadField
-                    label={`${award.title || 'Award'} Image`}
-                    imageSrc={award.image}
-                    onUpload={(e) => handleImageUpload(e, 'awards', 'image', index)}
-                  />
+                  {editMode.awards && (
+                    <ImageUploadField
+                      label={`${award.title || 'Award'} Image`}
+                      imageSrc={award.image}
+                      onUpload={(e) => handleImageUpload(e, 'awards', 'image', index)}
+                    />
+                  )}
+                  {!editMode.awards && award.image && (
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Image</label>
+                      <img
+                        src={award.image.startsWith('data:') ? award.image : assetUrl(award.image)}
+                        alt={award.title}
+                        className="w-32 h-32 object-cover rounded-lg border border-gray-300"
+                      />
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
           )}
         </div>
 
-        {/* Action Buttons */}
-        <div className="flex justify-end space-x-4 sticky bottom-0 bg-white p-4 border-t border-gray-200 rounded-lg shadow-sm">
-          <button
-            type="button"
-            onClick={handleReset}
-            className="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors flex items-center space-x-2"
-          >
-            <X className="w-4 h-4" />
-            <span>Discard Changes</span>
-          </button>
-          <button
-            type="submit"
-            disabled={updateAboutUs.isPending}
-            className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            <Save className="w-4 h-4" />
-            <span>{updateAboutUs.isPending ? 'Saving...' : 'Save All Changes'}</span>
-          </button>
-        </div>
-      </form>
+      </div>
     </div>
   );
 };
