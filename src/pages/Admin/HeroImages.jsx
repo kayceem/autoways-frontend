@@ -50,7 +50,7 @@ const HeroImagesAdmin = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleImageChange = (e) => {
+  const handleImageChange = async (e) => {
     const file = e.target.files[0];
     if (file) {
       // Validate file type
@@ -64,8 +64,17 @@ const HeroImagesAdmin = () => {
         toast.error('Image size must be less than 5MB');
         return;
       }
+        const convertToBase64 = (file) => {
+            return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = (error) => reject(error);
+            });
+        };
+      const base64 = await convertToBase64(file);
 
-      setImageFile(file);
+      setImageFile(base64);
 
       // Create preview
       const reader = new FileReader();
@@ -103,7 +112,7 @@ const HeroImagesAdmin = () => {
       ctaText: image.ctaText || '',
       ctaLink: image.ctaLink || ''
     });
-    setImagePreview(assetUrl(image.url));
+    setImagePreview(assetUrl(image.image));
     setImageFile(null);
   };
 
@@ -122,31 +131,24 @@ const HeroImagesAdmin = () => {
     try {
       if (isCreating) {
         // Create new hero image
-        const submitData = new FormData();
-        submitData.append('image', imageFile);
-        submitData.append('title', formData.title);
-        submitData.append('subtitle', formData.subtitle);
-        submitData.append('ctaText', formData.ctaText);
-        submitData.append('ctaLink', formData.ctaLink);
+        const sectionData = {
+            title: formData.title,
+            subtitle: formData.subtitle,
+            ctaText: formData.ctaText,
+            ctaLink: formData.ctaLink,
+            image : imageFile
+        };
 
-        await createHeroImage.mutateAsync(submitData);
+        await createHeroImage.mutateAsync(sectionData);
       } else {
         // Update existing hero image
-        const submitData = imageFile ? new FormData() : {};
-
-        if (imageFile) {
-          submitData.append('image', imageFile);
-          submitData.append('title', formData.title);
-          submitData.append('subtitle', formData.subtitle);
-          submitData.append('ctaText', formData.ctaText);
-          submitData.append('ctaLink', formData.ctaLink);
-        } else {
-          submitData.title = formData.title;
-          submitData.subtitle = formData.subtitle;
-          submitData.ctaText = formData.ctaText;
-          submitData.ctaLink = formData.ctaLink;
-        }
-
+        const submitData = {
+            title: formData.title,
+            subtitle: formData.subtitle,
+            ctaText: formData.ctaText,
+            ctaLink: formData.ctaLink,
+            image: imageFile
+        };
         await updateHeroImage.mutateAsync({
           id: editingId,
           data: submitData
@@ -411,7 +413,7 @@ const HeroImagesAdmin = () => {
                       <div className="flex items-center">
                         <div className="h-20 w-32 bg-gray-100 rounded overflow-hidden">
                           <img
-                            src={assetUrl(image.url)}
+                            src={assetUrl(image.image)}
                             alt={image.title}
                             className="h-full w-full object-cover"
                           />

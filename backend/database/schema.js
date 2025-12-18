@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 // ==================== Hero Images Schema ====================
 const HeroImageSchema = new Schema({
-    url: {
+    image: {
         type: String,
         required: true
     },
@@ -13,15 +13,12 @@ const HeroImageSchema = new Schema({
     },
     subtitle: {
         type: String,
-        required: true
     },
     ctaText: {
         type: String,
-        required: true
     },
     alt: {
         type: String,
-        required: true
     }
 }, { timestamps: true });
 

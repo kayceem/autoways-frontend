@@ -47,7 +47,7 @@ const HeroSection = ({ heroImages = [], className = '' }) => {
 
               {/* Hero Image */}
               <img
-                src={assetUrl(image.url)}
+                src={assetUrl(image.image)}
                 alt={image.alt || `Hero slide ${index + 1}`}
                 className={`w-full h-full object-cover transition-opacity duration-500 ${
                   loadedImages[index] ? 'opacity-100' : 'opacity-0'
