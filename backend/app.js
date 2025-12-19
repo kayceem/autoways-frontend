@@ -344,7 +344,7 @@ async function startServer() {
   // Contact routes - no database dependency
   app.use("/api/contact", contactRoutes);
 
-  app.use("/assets", express.static(path.join(__dirname, "assets")));
+  app.use("/api/assets", express.static(path.join(__dirname, "assets")));
 
   // ---------- ERROR HANDLING ----------
 

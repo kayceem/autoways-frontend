@@ -27,7 +27,7 @@ const Locations = () => {
                 <div className="mt-8 lg:mt-12">
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6">
                         {locations.map((location) => (
-                            <div key={location.locationId} className="bg-secondary rounded-lg p-4 lg:p-6 shadow-lg hover:shadow-xl transition-shadow">
+                            <div key={location.locationId} className="bg-primary rounded-lg p-4 lg:p-6 shadow-lg hover:shadow-xl transition-shadow">
                                 <h3 className="text-lg lg:text-xl font-bold text-primary mb-2 lg:mb-3">{location.name}</h3>
                                 <p className="text-sm lg:text-base text-primary mb-2">{location.address}</p>
                                 <p className="text-xs lg:text-sm text-primary opacity-80 mb-2 lg:mb-3">{location.info}</p>

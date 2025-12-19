@@ -9,6 +9,7 @@
   --color-text-primary: #000000;
   --color-text-secondary: #1c1c1d;
   --color-text-accent: #a7ed81;
+  --color-text-accent-2: #35621b;
 
   /* Semantic Status Colors */
   --color-success: #16a34a;
@@ -58,6 +59,7 @@
 .text-primary { color: var(--color-text-primary); }
 .text-secondary { color: var(--color-text-secondary); }
 .text-accent { color: var(--color-text-accent); }
+.text-accent-2 { color: var(--color-text-accent-2); }
 
 .border-primary { border-color: var(--color-primary); }
 .border-secondary { border-color: var(--color-secondary); }

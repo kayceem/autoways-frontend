@@ -203,11 +203,12 @@ const ProductTypePage = () => {
                     >
                         Our team is ready to help you find your perfect vehicle
                     </p>
-                    <button
+                    <Link
+                        to="/contact"
                         className={`bg-accent text-secondary px-6 py-3 lg:px-8 lg:py-4 rounded-lg font-bold text-sm lg:text-lg hover:bg-primary hover:text-accent border-2 border-accent transition-all duration-300 transform hover:scale-105`}
                     >
                         Contact Our Experts
-                    </button>
+                    </Link>
                 </div>
             </section>
         </div>
