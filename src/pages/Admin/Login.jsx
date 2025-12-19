@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import toast from 'react-hot-toast';
 import { Lock, User } from 'lucide-react';
+import { useLogin } from '../../hooks/useAuthMutation';
 
 const AdminLogin = () => {
   const navigate = useNavigate();
@@ -9,27 +9,16 @@ const AdminLogin = () => {
     username: '',
     password: ''
   });
-  const [isLoading, setIsLoading] = useState(false);
+  const { mutate: login, isPending } = useLogin();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
 
-    try {
-      // Simple authentication - in production, this should call an API
-      if (credentials.username === 'admin' && credentials.password === 'admin123') {
-        localStorage.setItem('accessToken', 'admin-token-' + Date.now());
-        localStorage.setItem('isAdmin', 'true');
-        toast.success('Login successful!');
+    login(credentials, {
+      onSuccess: () => {
         navigate('/admin/dashboard');
-      } else {
-        toast.error('Invalid credentials');
       }
-    } catch (error) {
-      toast.error('Login failed. Please try again.');
-    } finally {
-      setIsLoading(false);
-    }
+    });
   };
 
   const handleChange = (e) => {
@@ -96,16 +85,16 @@ const AdminLogin = () => {
 
             <button
               type="submit"
-              disabled={isLoading}
+              disabled={isPending}
               className="w-full bg-gradient-to-r from-blue-500 to-blue-600 text-white py-3 px-4 rounded-lg font-medium hover:from-blue-600 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {isLoading ? 'Signing in...' : 'Sign In'}
+              {isPending ? 'Signing in...' : 'Sign In'}
             </button>
           </form>
 
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-600">
-              Demo credentials: <span className="font-mono text-blue-600">admin / admin123</span>
+              Enter your admin credentials to continue
             </p>
           </div>
         </div>

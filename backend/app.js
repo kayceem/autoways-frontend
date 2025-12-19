@@ -1,3 +1,6 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 import express from "express";
 import cors from "cors";
 import helmet from "helmet";
@@ -5,6 +8,8 @@ import path from "path";
 import mongoose from "mongoose";
 import { connectDB } from "./database/client.js";
 import { fileURLToPath } from "url";
+import authRoutes from "./routes/authRoutes.js";
+import contactRoutes from "./routes/contactRoutes.js";
 import {
   getAllData,
   refreshCache,
@@ -301,6 +306,13 @@ router.delete("/spare-parts/:id", deleteSparePart);
 
 // Mount router
 app.use("/api", router);
+
+// Auth routes - no database dependency
+app.use("/api/auth", authRoutes);
+
+// Contact routes - no database dependency
+app.use("/api/contact", contactRoutes);
+
 app.use("/assets", express.static(path.join(__dirname, "assets")));
 
 // ---------- ERROR HANDLING ----------

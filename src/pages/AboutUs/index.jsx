@@ -3,6 +3,7 @@ import LoadingSpinner from '../../components/common/Loading';
 import WaveBackground from '../../components/common/WaveBackground';
 import { useState, useRef } from 'react';
 import { assetUrl } from '../../utils';
+import { Link } from 'react-router-dom';
 
 const AboutUs = () => {
   const { content, isLoading } = useContent();
@@ -439,12 +440,11 @@ const AboutUs = () => {
               Be part of Nepal's leading automotive company. Explore career opportunities and grow with us.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="px-8 py-4 bg-dark text-secondary rounded-lg font-semibold hover:bg-opacity-90 transition-all transform hover:scale-105 shadow-lg">
-                View Careers
-              </button>
-              <button className="px-8 py-4 bg-accent text-secondary rounded-lg font-semibold hover:bg-opacity-90 transition-all transform hover:scale-105 shadow-lg">
+            <Link to="/contact"
+               className="px-8 py-4 bg-accent text-secondary rounded-lg font-semibold hover:bg-opacity-90 transition-all transform hover:scale-105 shadow-lg"
+            >
                 Contact Us
-              </button>
+            </Link>
             </div>
           </div>
         </div>
