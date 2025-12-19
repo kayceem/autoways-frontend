@@ -12,7 +12,8 @@ import {
   X,
   MapPin,
   Award,
-  Newspaper
+  Newspaper,
+  Wrench
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 
@@ -31,6 +32,7 @@ const AdminLayout = () => {
     { path: '/admin/locations', label: 'Locations', icon: MapPin },
     { path: '/admin/csr-initiatives', label: 'CSR Initiatives', icon: Award },
     { path: '/admin/news-media', label: 'News & Media', icon: Newspaper },
+    { path: '/admin/spare-parts', label: 'Spare Parts', icon: Wrench },
   ];
 
   const handleLogout = () => {
