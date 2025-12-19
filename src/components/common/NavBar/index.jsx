@@ -55,6 +55,12 @@ const Navbar = ({ className = "" }) => {
                         {/* Middle - Navigation Links (Desktop) */}
                         <div className="hidden lg:flex items-center gap-6 xl:gap-8">
                             <Link
+                                to="/about"
+                                className="text-secondary hover:text-accent transition-colors duration-200 font-medium py-2"
+                            >
+                                About Us
+                            </Link>
+                            <Link
                                 to="/shop/bull"
                                 className="text-secondary hover:text-accent transition-colors duration-200 font-medium py-2"
                             >
@@ -93,12 +99,6 @@ const Navbar = ({ className = "" }) => {
                                 label="Sister Companies"
                                 items={navBarItems.partnersItems}
                             />
-                            <Link
-                                to="/about"
-                                className="text-secondary hover:text-accent transition-colors duration-200 font-medium py-2"
-                            >
-                                About Us
-                            </Link>
                         </div>
 
                         {/* Right - Contact and Find a Store (Desktop) */}
