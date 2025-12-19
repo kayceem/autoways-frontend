@@ -124,7 +124,7 @@ const AboutUs = () => {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                     </svg>
                   </div>
-                  <h2 className="text-4xl font-bold text-secondary">Message from Chairman</h2>
+                  <h2 className="text-4xl font-bold text-secondary">Message from {chairman_message.title}</h2>
                 </div>
                 <div className="w-24 h-1 bg-accent mb-6" />
                 <p className="text-secondary text-justify opacity-80 leading-relaxed text-lg whitespace-pre-line mb-6">
@@ -136,7 +136,7 @@ const AboutUs = () => {
                       {chairman_message.name}
                     </p>
                     <p className="text-accent font-semibold">
-                      {chairman_message.title || 'Chairman'}
+                      {chairman_message.title || 'Chairman & Managing Director'}
                     </p>
                   </div>
                 </div>
@@ -176,7 +176,7 @@ const AboutUs = () => {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                     </svg>
                   </div>
-                  <h2 className="text-4xl font-bold text-secondary">Message from Managing Director</h2>
+                  <h2 className="text-4xl font-bold text-secondary">Message from {md_message.title}</h2>
                 </div>
                 <div className="w-24 h-1 bg-accent mb-6" />
                 <p className="text-secondary text-justify opacity-80 leading-relaxed text-lg whitespace-pre-line mb-6">
@@ -188,7 +188,7 @@ const AboutUs = () => {
                       {md_message.name}
                     </p>
                     <p className="text-accent font-semibold">
-                      {md_message.title || 'Managing Director'}
+                      {md_message.title || 'CEO'}
                     </p>
                   </div>
                 </div>
