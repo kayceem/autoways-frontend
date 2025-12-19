@@ -10,8 +10,6 @@ import {
 } from "lucide-react";
 import useProductsQuery from "../../hooks/useProductsQuery";
 import LoadingSpinner from "../../components/common/Loading";
-import { useContent } from "../../context/globalContext";
-import "./index.css";
 
 const ProductTypePage = () => {
     const { brand, typeSlug } = useParams();

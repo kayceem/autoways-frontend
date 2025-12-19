@@ -281,10 +281,10 @@ const SparePartsAdmin = () => {
             accept="image/*"
             onChange={onUpload}
             className="hidden"
-            id={\`upload-\${label.replace(/\s/g, '-')}\`}
+            id="image-upload"
           />
           <label
-            htmlFor={\`upload-\${label.replace(/\s/g, '-')}\`}
+            htmlFor="image-upload"
             className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 cursor-pointer"
           >
             <Upload className="w-4 h-4 mr-2" />
@@ -362,7 +362,7 @@ const SparePartsAdmin = () => {
         <SectionHeader 
           title="Parts" 
           section="parts" 
-          badge={formData.parts.length > 0 ? \`\${formData.parts.length} parts\` : null}
+          badge={formData.parts.length > 0 ? `${formData.parts.length} parts` : null}
         />
         {expandedSections.parts && (
           <div className="p-6">
@@ -405,7 +405,7 @@ const SparePartsAdmin = () => {
                       />
                     </div>
                     <ImageUploadField
-                      label={\`Part Image \${index + 1}\`}
+                      label={`Part Image ${index + 1}`}
                       imageSrc={part.image}
                       onUpload={(e) => handleImageUpload(e, 'parts', index)}
                       required
@@ -440,7 +440,7 @@ const SparePartsAdmin = () => {
                           {part.image && (
                             <img
                               src={assetUrl(part.image)}
-                              alt={\`Part \${part.partId}\`}
+                              alt={`Part ${part.partId}`}
                               className="w-16 h-16 object-cover rounded"
                             />
                           )}
@@ -463,7 +463,7 @@ const SparePartsAdmin = () => {
         <SectionHeader 
           title="Services" 
           section="services" 
-          badge={formData.services.length > 0 ? \`\${formData.services.length} services\` : null}
+          badge={formData.services.length > 0 ? `${formData.services.length} services` : null}
         />
         {expandedSections.services && (
           <div className="p-6">

@@ -42,26 +42,23 @@ const SparesParts = () => {
 
                 {/* Hero Content */}
                 <div className="relative z-10 text-center px-4 lg:px-6 max-w-5xl">
-                    <div className="flex items-center justify-center mb-4 lg:mb-6">
-                        <Wrench className="w-12 h-12 lg:w-16 lg:h-16 text-accent" />
-                    </div>
-                    <h1 className="font-bold text-4xl lg:text-6xl text-white mb-4 lg:mb-6 animate-fade-in-up"
+                    {/* <h1 className="font-bold text-4xl lg:text-6xl text-white mb-4 lg:mb-6 animate-fade-in-up"
                         style={{
-                            textShadow: \`
+                            textShadow: `
                                 0 2px 8px rgba(0, 0, 0, 0.9),
                                 0 4px 16px rgba(0, 0, 0, 0.7)
-                            \`
+                            `
                         }}
                     >
                         Spares & Parts
-                    </h1>
-                    {sparePart?.description && (
+                    </h1> */}
+                    {/* {sparePart?.description && (
                         <p className="font-medium text-lg lg:text-2xl text-white max-w-3xl mx-auto animate-fade-in-up-delay"
                             style={{
-                                textShadow: \`
+                                textShadow: `
                                     0 2px 8px rgba(0, 0, 0, 0.9),
                                     0 4px 16px rgba(0, 0, 0, 0.7)
-                                \`,
+                                `,
                                 backdropFilter: 'blur(2px)',
                                 background: 'linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.1))',
                                 padding: '1rem 2rem',
@@ -72,7 +69,7 @@ const SparesParts = () => {
                         >
                             {sparePart.description}
                         </p>
-                    )}
+                    )} */}
                 </div>
             </section>
 
@@ -94,14 +91,14 @@ const SparesParts = () => {
                                 <div
                                     key={part.partId}
                                     className="group animate-fade-in-up"
-                                    style={{ animationDelay: \`\${index * 100}ms\` }}
+                                    style={{ animationDelay: `${index * 100}ms` }}
                                 >
                                     <div className="relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500">
                                         {/* Image Container */}
                                         <div className="relative h-48 lg:h-64 overflow-hidden">
                                             <img
                                                 src={assetUrl(part.image)}
-                                                alt={\`Part \${part.partId}\`}
+                                                alt={`Part ${part.partId}`}
                                                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                                             />
 
@@ -147,7 +144,7 @@ const SparesParts = () => {
                             </p>
                             <Link
                                 to="/contact"
-                                className="inline-flex items-center gap-3 bg-accent hover:bg-accent/90 text-white font-semibold px-6 lg:px-8 py-3 lg:py-4 rounded-lg transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl"
+                                className="inline-flex items-center gap-3 bg-secondary hover:bg-accent/90 text-white font-semibold px-6 lg:px-8 py-3 lg:py-4 rounded-lg transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl"
                             >
                                 <span className="text-base lg:text-lg">Contact Us for Services</span>
                                 <ArrowRight className="w-5 h-5 lg:w-6 lg:h-6" />
