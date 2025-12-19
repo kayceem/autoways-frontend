@@ -60,19 +60,6 @@ const CompanyCard = ({ company, index }) => {
           </div>
         )}
 
-        {/* Stats */}
-        {company.stats && Object.keys(company.stats).length > 0 && (
-          <div className="grid grid-cols-2 gap-4 mb-6 p-4 bg-dark bg-opacity-50 rounded-lg">
-            {Object.entries(company.stats).map(([key, value], idx) => (
-              <div key={idx} className="text-center">
-                <div className="text-2xl font-bold text-accent mb-1">{value}</div>
-                <div className="text-xs text-secondary opacity-70 capitalize">
-                  {key.replace(/([A-Z])/g, ' $1').trim()}
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
 
         {/* Contact Information */}
         {company.contact && (

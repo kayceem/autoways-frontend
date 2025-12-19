@@ -440,7 +440,6 @@ const SisterCompanySchema = new Schema({
         phone: String,
         website: String
     },
-    stats: Schema.Types.Mixed
 }, { timestamps: true });
 
 // ==================== Spares Parts Schema ====================
