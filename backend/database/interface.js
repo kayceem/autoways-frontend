@@ -16,9 +16,6 @@ import {
     CSRHero,
     SisterCompany,
     SparePart,
-    SparePartsService,
-    SparePartsStats,
-    SparePartsContact
 } from './schema.js';
 
 import { processProductFiles, deleteProductFiles } from './utils.js';
@@ -70,9 +67,6 @@ const fetchAllDataFromDB = async () => {
         csrHero,
         sisterCompanies,
         spareParts,
-        sparePartsServices,
-        sparePartsStats,
-        sparePartsContact
     ] = await Promise.all([
         HeroImage.find(),
         AboutUs.find(),
@@ -88,9 +82,6 @@ const fetchAllDataFromDB = async () => {
         CSRHero.find(),
         SisterCompany.find(),
         SparePart.find(),
-        SparePartsService.find(),
-        SparePartsStats.find(),
-        SparePartsContact.find()
     ]);
 
     const csr = {
@@ -111,9 +102,6 @@ const fetchAllDataFromDB = async () => {
         csr,
         sisterCompanies,
         spareParts,
-        sparePartsServices,
-        sparePartsStats,
-        sparePartsContact
     };
 };
 
@@ -611,98 +599,6 @@ export const getSparePartById = asyncHandler(async (req, res) => {
     });
 });
 
-// ==================== SPARE PARTS SERVICE GET ROUTES ====================
-export const getSparePartsServices = asyncHandler(async (req, res) => {
-    const { limit, skip, sort } = req.query;
-    const query = SparePartsService.find();
-
-    if (skip) query.skip(parseInt(skip));
-    if (limit) query.limit(parseInt(limit));
-    if (sort) query.sort(sort);
-
-    const sparePartsServices = await query;
-    const total = await SparePartsService.countDocuments();
-
-    res.json({
-        success: true,
-        data: sparePartsServices,
-        total,
-        count: sparePartsServices.length
-    });
-});
-
-export const getSparePartsServiceById = asyncHandler(async (req, res) => {
-    const sparePartsService = await SparePartsService.findById(req.params.id);
-    if (!sparePartsService) {
-        return res.status(404).json({ success: false, error: 'Spare parts service not found' });
-    }
-    res.json({
-        success: true,
-        data: sparePartsService
-    });
-});
-
-// ==================== SPARE PARTS STATS GET ROUTES ====================
-export const getSparePartsStats = asyncHandler(async (req, res) => {
-    const { limit, skip, sort } = req.query;
-    const query = SparePartsStats.find();
-
-    if (skip) query.skip(parseInt(skip));
-    if (limit) query.limit(parseInt(limit));
-    if (sort) query.sort(sort);
-
-    const sparePartsStats = await query;
-    const total = await SparePartsStats.countDocuments();
-
-    res.json({
-        success: true,
-        data: sparePartsStats,
-        total,
-        count: sparePartsStats.length
-    });
-});
-
-export const getSparePartsStatsById = asyncHandler(async (req, res) => {
-    const sparePartsStats = await SparePartsStats.findById(req.params.id);
-    if (!sparePartsStats) {
-        return res.status(404).json({ success: false, error: 'Spare parts stats not found' });
-    }
-    res.json({
-        success: true,
-        data: sparePartsStats
-    });
-});
-
-// ==================== SPARE PARTS CONTACT GET ROUTES ====================
-export const getSparePartsContact = asyncHandler(async (req, res) => {
-    const { limit, skip, sort } = req.query;
-    const query = SparePartsContact.find();
-
-    if (skip) query.skip(parseInt(skip));
-    if (limit) query.limit(parseInt(limit));
-    if (sort) query.sort(sort);
-
-    const sparePartsContact = await query;
-    const total = await SparePartsContact.countDocuments();
-
-    res.json({
-        success: true,
-        data: sparePartsContact,
-        total,
-        count: sparePartsContact.length
-    });
-});
-
-export const getSparePartsContactById = asyncHandler(async (req, res) => {
-    const sparePartsContact = await SparePartsContact.findById(req.params.id);
-    if (!sparePartsContact) {
-        return res.status(404).json({ success: false, error: 'Spare parts contact not found' });
-    }
-    res.json({
-        success: true,
-        data: sparePartsContact
-    });
-});
 
 // ==================== HERO IMAGE ROUTES ====================
 export const createHeroImage = asyncHandler(async (req, res) => {
@@ -1439,119 +1335,6 @@ export const deleteSparePart = asyncHandler(async (req, res) => {
     });
 });
 
-// ==================== SPARE PARTS SERVICE ROUTES ====================
-export const createSparePartsService = asyncHandler(async (req, res) => {
-    const sparePartsService = await SparePartsService.create(req.body);
-    await refreshCacheInBackground();
-    res.status(201).json({
-        success: true,
-        data: sparePartsService
-    });
-});
-
-export const updateSparePartsService = asyncHandler(async (req, res) => {
-    const sparePartsService = await SparePartsService.findByIdAndUpdate(
-        req.params.id,
-        req.body,
-        { new: true, runValidators: true }
-    );
-    if (!sparePartsService) {
-        return res.status(404).json({ success: false, error: 'Spare parts service not found' });
-    }
-    await refreshCacheInBackground();
-    res.json({
-        success: true,
-        data: sparePartsService
-    });
-});
-
-export const deleteSparePartsService = asyncHandler(async (req, res) => {
-    const sparePartsService = await SparePartsService.findByIdAndDelete(req.params.id);
-    if (!sparePartsService) {
-        return res.status(404).json({ success: false, error: 'Spare parts service not found' });
-    }
-    await refreshCacheInBackground();
-    res.json({
-        success: true,
-        message: 'Spare parts service deleted successfully'
-    });
-});
-
-// ==================== SPARE PARTS STATS ROUTES ====================
-export const createSparePartsStats = asyncHandler(async (req, res) => {
-    const sparePartsStats = await SparePartsStats.create(req.body);
-    await refreshCacheInBackground();
-    res.status(201).json({
-        success: true,
-        data: sparePartsStats
-    });
-});
-
-export const updateSparePartsStats = asyncHandler(async (req, res) => {
-    const sparePartsStats = await SparePartsStats.findByIdAndUpdate(
-        req.params.id,
-        req.body,
-        { new: true, runValidators: true }
-    );
-    if (!sparePartsStats) {
-        return res.status(404).json({ success: false, error: 'Spare parts stats not found' });
-    }
-    await refreshCacheInBackground();
-    res.json({
-        success: true,
-        data: sparePartsStats
-    });
-});
-
-export const deleteSparePartsStats = asyncHandler(async (req, res) => {
-    const sparePartsStats = await SparePartsStats.findByIdAndDelete(req.params.id);
-    if (!sparePartsStats) {
-        return res.status(404).json({ success: false, error: 'Spare parts stats not found' });
-    }
-    await refreshCacheInBackground();
-    res.json({
-        success: true,
-        message: 'Spare parts stats deleted successfully'
-    });
-});
-
-// ==================== SPARE PARTS CONTACT ROUTES ====================
-export const createSparePartsContact = asyncHandler(async (req, res) => {
-    const sparePartsContact = await SparePartsContact.create(req.body);
-    await refreshCacheInBackground();
-    res.status(201).json({
-        success: true,
-        data: sparePartsContact
-    });
-});
-
-export const updateSparePartsContact = asyncHandler(async (req, res) => {
-    const sparePartsContact = await SparePartsContact.findByIdAndUpdate(
-        req.params.id,
-        req.body,
-        { new: true, runValidators: true }
-    );
-    if (!sparePartsContact) {
-        return res.status(404).json({ success: false, error: 'Spare parts contact not found' });
-    }
-    await refreshCacheInBackground();
-    res.json({
-        success: true,
-        data: sparePartsContact
-    });
-});
-
-export const deleteSparePartsContact = asyncHandler(async (req, res) => {
-    const sparePartsContact = await SparePartsContact.findByIdAndDelete(req.params.id);
-    if (!sparePartsContact) {
-        return res.status(404).json({ success: false, error: 'Spare parts contact not found' });
-    }
-    await refreshCacheInBackground();
-    res.json({
-        success: true,
-        message: 'Spare parts contact deleted successfully'
-    });
-});
 
 // ==================== HELPER FUNCTION ====================
 const refreshCacheInBackground = async () => {
