@@ -405,8 +405,8 @@ const CSRHeroSchema = new Schema({
 
 // ==================== Sister Company Schema ====================
 const SisterCompanySchema = new Schema({
-    companyId: {
-        type: Number,
+    slug: {
+        type: String,
         required: true,
         unique: true
     },

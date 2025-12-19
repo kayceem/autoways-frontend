@@ -27,3 +27,8 @@ export const assetUrl = (path) => {
     if (path.startsWith("http")) return path;
     return `${config.assetUrl}${path}`;
 }
+
+export const getSisterCompanyData = (sisterCompanies, companySlug) => {
+    const company = sisterCompanies?.find(c => c.slug === companySlug);
+    return company ? company : null;
+}
