@@ -5,10 +5,11 @@ import "./index.css";
 import logoMap from "../../../config/logoMap";
 import { useContent } from "../../../context/globalContext";
 import LoadingSpinner from "../../common/Loading";
+import { assetUrl } from "../../../utils";
 
 const createCustomIcon = () => {
     return L.icon({
-        iconUrl: logoMap.autoways,
+        iconUrl: assetUrl(logoMap.autoways),
         iconSize: [40, 40],
         iconAnchor: [20, 40],
         popupAnchor: [0, -40],
