@@ -4,13 +4,13 @@ import { assetUrl } from '../../../utils';
 
 const ProductTypeCard = ({ type, image, link, state, brandName, className = "" }) => {
     return (
-        <div className="flex flex-col gap-4 group">
+        <div className="flex flex-col gap-2 lg:gap-4 group">
             <Link
                 to={link}
                 className={`relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 ${className}`}
             >
                 {/* Image Container */}
-                <div className="relative h-80 overflow-hidden">
+                <div className="relative h-56 lg:h-80 overflow-hidden">
                     <img
                         src={assetUrl(image)}
                         alt={`${brandName} ${type}`}
@@ -33,7 +33,7 @@ const ProductTypeCard = ({ type, image, link, state, brandName, className = "" }
             <div className="transform translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
                 {/* Type Name */}
                 <h3
-                    className={`font-bold text-3xl text-primary mb-2 transform transition-transform duration-300`}
+                    className={`font-bold text-xl lg:text-3xl text-primary mb-2 transform transition-transform duration-300`}
                 >
                     {type}
                 </h3>
@@ -41,7 +41,7 @@ const ProductTypeCard = ({ type, image, link, state, brandName, className = "" }
                 {/* Explore Button */}
                 <div className="flex items-center gap-2 text-accent opacity-0 group-hover:opacity-100 transform translate-x-4 group-hover:translate-x-0 transition-all duration-500 delay-100">
                     <span
-                        className={`text-sm text-primary uppercase tracking-wider`}
+                        className={`text-xs lg:text-sm text-primary uppercase tracking-wider`}
                     >
                         Explore
                     </span>

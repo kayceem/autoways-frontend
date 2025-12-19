@@ -5,35 +5,35 @@ const CTASection = ({ contactInfo = {}, className = '' }) => {
   const { email = '', phone = '' } = contactInfo;
 
   return (
-    <section className={`relative py-24 md:py-16 px-6 md:px-4 bg-primary overflow-hidden ${className}`}>
+    <section className={`relative py-12 lg:py-24 px-4 lg:px-6 bg-primary overflow-hidden ${className}`}>
       {/* Background Decorative Elements */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full blur-3xl md:w-64 md:h-64" />
-      <div className="absolute bottom-0 left-0 w-96 h-96 bg-white/5 rounded-full blur-3xl md:w-64 md:h-64" />
-      
+      <div className="absolute top-0 right-0 w-64 h-64 lg:w-96 lg:h-96 bg-white/5 rounded-full blur-3xl" />
+      <div className="absolute bottom-0 left-0 w-64 h-64 lg:w-96 lg:h-96 bg-white/5 rounded-full blur-3xl" />
+
       <div className="max-w-5xl mx-auto relative z-10">
         <div className="text-center">
           {/* Icon */}
-          <div className="inline-flex items-center justify-center w-20 h-20 md:w-16 md:h-16 bg-white/10 rounded-full mb-6 md:mb-4 backdrop-blur-sm">
-            <MessageSquare className="w-10 h-10 md:w-8 md:h-8 text-white" />
+          <div className="inline-flex items-center justify-center w-16 h-16 lg:w-20 lg:h-20 bg-white/10 rounded-full mb-4 lg:mb-6 backdrop-blur-sm">
+            <MessageSquare className="w-8 h-8 lg:w-10 lg:h-10 text-white" />
           </div>
 
           {/* Heading */}
-          <h2 className="text-5xl md:text-3xl font-bold text-white mb-4 md:mb-3 leading-tight text-secondary">
+          <h2 className="text-2xl lg:text-5xl font-bold text-white mb-3 lg:mb-4 leading-tight text-secondary px-4">
             Ready to Find Your Perfect Drive?
           </h2>
 
           {/* Subheading */}
-          <p className="text-xl md:text-lg text-white/90 mb-10 md:mb-8 max-w-2xl mx-auto text-secondary">
+          <p className="text-sm lg:text-xl text-white/90 mb-8 lg:mb-10 max-w-2xl mx-auto text-secondary px-4">
             Get in touch with our expert team today. We're here to help you every step of the way.
           </p>
 
           {/* CTA Buttons */}
-          <div className="flex justify-center gap-4 md:flex-col md:gap-3 mb-12 md:mb-8">
+          <div className="flex justify-center gap-3 lg:gap-4 mb-8 lg:mb-12">
             <Link
               to="/contact"
-              className="bg-white text-secondary px-10 py-4 md:px-8 md:py-3 rounded-full font-semibold text-lg md:text-base hover:bg-white/90 transition-all duration-300 transform hover:scale-105 shadow-xl inline-flex items-center justify-center gap-2"
+              className="bg-white text-secondary px-6 py-3 lg:px-10 lg:py-4 rounded-full font-semibold text-sm lg:text-lg hover:bg-white/90 transition-all duration-300 transform hover:scale-105 shadow-xl inline-flex items-center justify-center gap-2"
             >
-              <Mail className="w-5 h-5" />
+              <Mail className="w-4 h-4 lg:w-5 lg:h-5" />
               Contact Us
             </Link>
           </div>

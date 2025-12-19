@@ -9,25 +9,25 @@ const PartnersSection = ({ partners = {}, className = '' }) => {
   }));
 
   return (
-    <section className={`py-20 md:py-12 px-6 md:px-4 bg-primary ${className}`}>
+    <section className={`py-10 lg:py-20 px-4 lg:px-6 bg-primary ${className}`}>
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
-        <div className="text-center mb-16 md:mb-10">
-          <h2 className="text-4xl md:text-3xl font-bold text-secondary mb-4 md:mb-3">
+        <div className="text-center mb-8 lg:mb-16">
+          <h2 className="text-2xl lg:text-4xl font-bold text-secondary mb-3 lg:mb-4">
             Our Sister Companies
           </h2>
-          <p className="text-lg md:text-base text-secondary max-w-2xl mx-auto">
+          <p className="text-sm lg:text-lg text-secondary max-w-2xl mx-auto px-4">
             Collaborating with industry leaders to bring you the best services
           </p>
         </div>
 
         <div className="relative">
                 {/* Fade Effect on Edges */}
-                <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-primary to-transparent z-10 pointer-events-none" />
-                <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-primary to-transparent z-10 pointer-events-none" />
+                <div className="absolute left-0 top-0 bottom-0 w-16 lg:w-20 bg-gradient-to-r from-primary to-transparent z-10 pointer-events-none" />
+                <div className="absolute right-0 top-0 bottom-0 w-16 lg:w-20 bg-gradient-to-l from-primary to-transparent z-10 pointer-events-none" />
 
                 {/* Scrollable Cards */}
-                <div className="flex gap-8 overflow-x-auto scrollbar-hide px-6 pb-4 scroll-smooth">
+                <div className="flex gap-4 lg:gap-8 overflow-x-auto scrollbar-hide px-4 lg:px-6 pb-4 scroll-smooth">
                     {partnerArray.map((partner, index) => (
                         <Link
                             key={partner.id}
@@ -41,12 +41,12 @@ const PartnersSection = ({ partners = {}, className = '' }) => {
                         >
                             {/* Fixed Size Card Container */}
                             <div
-                                className={`rounded-2xl overflow-hidden transition-all duration-500 hover:shadow-2xl hover:scale-[1.02] border border-primary w-[360px]`}
+                                className={`rounded-2xl overflow-hidden transition-all duration-500 hover:shadow-2xl hover:scale-[1.02] border border-primary w-64 lg:w-[360px]`}
                             >
                                 {/* Vertical Layout */}
                                 <div className="flex flex-col">
                                     {/* partner Logo - Top Section (Square) */}
-                                    <div className="w-full aspect-square bg-white flex items-center justify-center p-12 relative overflow-hidden">
+                                    <div className="w-full aspect-square bg-white flex items-center justify-center p-6 lg:p-12 relative overflow-hidden">
                                         {/* Subtle Glow on Hover */}
                                         <div className="absolute inset-0 bg-accent/0 group-hover:bg-accent/5 transition-all duration-500" />
 
@@ -62,9 +62,9 @@ const PartnersSection = ({ partners = {}, className = '' }) => {
 
                                     {/* partner Info - Bottom Section */}
                                     <div
-                                        className={`p-6 flex flex-col items-center justify-center relative bg-transparent h-[40px]`}
+                                        className={`p-4 lg:p-6 flex flex-col items-center justify-center relative bg-transparent h-[40px]`}
                                     >
-                                        <h3 className="text-xl font-bold text-secondary inline-flex items-center group-hover:text-accent transition-colors duration-300 relative z-10 text-center">
+                                        <h3 className="text-base lg:text-xl font-bold text-secondary inline-flex items-center group-hover:text-accent transition-colors duration-300 relative z-10 text-center">
                                             {partner.name}
                                         </h3>
                                     </div>
@@ -77,10 +77,10 @@ const PartnersSection = ({ partners = {}, className = '' }) => {
                 </div>
         {/* View All Partners Link */}
         {partnerArray.length > 8 && (
-          <div className="text-center mt-12 md:mt-8">
+          <div className="text-center mt-8 lg:mt-12">
             <Link
               to="/sister-companies"
-              className="inline-flex items-center gap-2 text-accent font-semibold text-lg md:text-base hover:gap-3 transition-all duration-300"
+              className="inline-flex items-center gap-2 text-accent font-semibold text-sm lg:text-lg hover:gap-3 transition-all duration-300"
             >
               View All Sister Companies
               <svg

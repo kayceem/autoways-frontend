@@ -82,21 +82,6 @@ import {
   createSparePart,
   updateSparePart,
   deleteSparePart,
-  getSparePartsServices,
-  getSparePartsServiceById,
-  createSparePartsService,
-  updateSparePartsService,
-  deleteSparePartsService,
-  getSparePartsStats,
-  getSparePartsStatsById,
-  createSparePartsStats,
-  updateSparePartsStats,
-  deleteSparePartsStats,
-  getSparePartsContact,
-  getSparePartsContactById,
-  createSparePartsContact,
-  updateSparePartsContact,
-  deleteSparePartsContact
 } from "./database/interface.js";
 
 let dbConnected = false;
@@ -313,27 +298,6 @@ router.get("/spare-parts/:id", getSparePartById);
 router.post("/spare-parts", createSparePart);
 router.patch("/spare-parts/:id", updateSparePart);
 router.delete("/spare-parts/:id", deleteSparePart);
-
-// Spare Parts Service routes
-router.get("/spare-parts-services", getSparePartsServices);
-router.get("/spare-parts-services/:id", getSparePartsServiceById);
-router.post("/spare-parts-services", createSparePartsService);
-router.patch("/spare-parts-services/:id", updateSparePartsService);
-router.delete("/spare-parts-services/:id", deleteSparePartsService);
-
-// Spare Parts Stats routes
-router.get("/spare-parts-stats", getSparePartsStats);
-router.get("/spare-parts-stats/:id", getSparePartsStatsById);
-router.post("/spare-parts-stats", createSparePartsStats);
-router.patch("/spare-parts-stats/:id", updateSparePartsStats);
-router.delete("/spare-parts-stats/:id", deleteSparePartsStats);
-
-// Spare Parts Contact routes
-router.get("/spare-parts-contact", getSparePartsContact);
-router.get("/spare-parts-contact/:id", getSparePartsContactById);
-router.post("/spare-parts-contact", createSparePartsContact);
-router.patch("/spare-parts-contact/:id", updateSparePartsContact);
-router.delete("/spare-parts-contact/:id", deleteSparePartsContact);
 
 // Mount router
 app.use("/api", router);

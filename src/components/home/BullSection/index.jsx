@@ -40,7 +40,7 @@ const BullSection = ({ className = "" }) => {
 
     return (
         <section
-            className={`relative py-24 bg-primary overflow-hidden ${className}`}
+            className={`relative py-12 lg:py-24 bg-primary overflow-hidden ${className}`}
         >
             {/* Wave Background - Top */}
             <WaveBackground
@@ -58,7 +58,7 @@ const BullSection = ({ className = "" }) => {
                 animate={true}
             />
 
-            <div className="max-w-7xl mx-auto px-6 relative z-10">
+            <div className="max-w-7xl mx-auto px-4 lg:px-6 relative z-10">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
                     {/* Left Side - Portrait Video */}
                     <div className="relative flex justify-center order-2 lg:order-1">
@@ -150,18 +150,18 @@ const BullSection = ({ className = "" }) => {
                         <div className="max-w-xl mx-auto lg:mx-0">
                             {/* Label */}
                             <div
-                                className={`inline-flex items-center gap-2 mb-6 px-4 py-2 bg-accent/10 rounded-full`}
+                                className={`inline-flex items-center gap-2 mb-4 lg:mb-6 px-3 lg:px-4 py-2 bg-accent/10 rounded-full`}
                             >
                                 <div className="w-2 h-2 bg-accent rounded-full animate-pulse" />
                                 <span
-                                    className={`text-accent font-semibold text-sm uppercase tracking-widest`}
+                                    className={`text-accent font-semibold text-xs lg:text-sm uppercase tracking-widest`}
                                 >
                                     Power & Reliability
                                 </span>
                             </div>
 
                             {/* Main Heading */}
-                            <h2 className="text-5xl lg:text-6xl font-bold text-secondary mb-6 leading-tight">
+                            <h2 className="text-3xl lg:text-5xl xl:text-6xl font-bold text-secondary mb-4 lg:mb-6 leading-tight">
                                 Built Like a{" "}
                                 <span
                                     className={`text-accent relative`}
@@ -184,7 +184,7 @@ const BullSection = ({ className = "" }) => {
                             </h2>
 
                             {/* Description */}
-                            <p className="text-lg text-secondary/80 leading-relaxed mb-10">
+                            <p className="text-sm lg:text-lg text-secondary/80 leading-relaxed mb-6 lg:mb-10">
                                 Experience the unwavering strength and
                                 reliability that drives your journey forward.
                                 Our commitment to excellence ensures you get the
@@ -192,7 +192,7 @@ const BullSection = ({ className = "" }) => {
                             </p>
 
                             {/* Feature Cards */}
-                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
+                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 lg:gap-4 mb-6 lg:mb-10">
                                 <div className="group p-4 bg-secondary/5 rounded-xl hover:bg-accent/10 transition-colors duration-300 cursor-default">
                                     <div className="w-10 h-10 text-accent rounded-lg flex items-center justify-center mb-3 mx-auto lg:mx-0 group-hover:bg-accent/30 transition-colors">
                                         <svg
@@ -260,11 +260,11 @@ const BullSection = ({ className = "" }) => {
                             {/* CTA Button */}
                             <Link
                                 to="/shop/bull"
-                                className={`group inline-flex items-center gap-3 bg-accent text-primary px-8 py-4 rounded-full font-semibold hover:bg-accent/90 transition-all duration-300 hover:shadow-lg hover:shadow-accent/25`}
+                                className={`group inline-flex items-center gap-2 lg:gap-3 bg-accent text-primary px-6 py-3 lg:px-8 lg:py-4 rounded-full text-sm lg:text-base font-semibold hover:bg-accent/90 transition-all duration-300 hover:shadow-lg hover:shadow-accent/25`}
                             >
                                 <span>Explore Products</span>
                                 <svg
-                                    className="w-5 h-5 transform group-hover:translate-x-1 transition-transform"
+                                    className="w-4 h-4 lg:w-5 lg:h-5 transform group-hover:translate-x-1 transition-transform"
                                     fill="none"
                                     viewBox="0 0 24 24"
                                     stroke="currentColor"

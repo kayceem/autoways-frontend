@@ -54,47 +54,47 @@ const Testimonials = () => {
       <WaveBackground />
 
       {/* Hero Section */}
-      <section className="relative py-20 px-6">
+      <section className="relative py-8 lg:py-20 px-4 lg:px-6">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16 animate-fade-in-up">
-            <h1 className="font-bold text-6xl text-secondary mb-4">Customer Testimonials</h1>
-            <div className="w-24 h-1 bg-accent mx-auto mb-6" />
-            <p className="text-xl text-secondary opacity-80 max-w-3xl mx-auto">
+          <div className="text-center mb-8 lg:mb-16 animate-fade-in-up">
+            <h1 className="font-bold text-3xl lg:text-6xl text-secondary mb-3 lg:mb-4">Customer Testimonials</h1>
+            <div className="w-16 lg:w-24 h-1 bg-accent mx-auto mb-4 lg:mb-6" />
+            <p className="text-base lg:text-xl text-secondary opacity-80 max-w-3xl mx-auto">
               Hear what our valued customers have to say about their experience with Autoways
             </p>
           </div>
 
           {/* Stats Section */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-12">
-            <div className="text-center p-6 bg-primary rounded-lg shadow-lg">
-              <div className="text-4xl font-bold text-accent mb-2">10,000+</div>
-              <div className="text-secondary opacity-70">Happy Customers</div>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mt-8 lg:mt-12">
+            <div className="text-center p-4 lg:p-6 bg-primary rounded-lg shadow-lg">
+              <div className="text-2xl lg:text-4xl font-bold text-accent mb-2">10,000+</div>
+              <div className="text-secondary opacity-70 text-xs lg:text-base">Happy Customers</div>
             </div>
-            <div className="text-center p-6 bg-primary rounded-lg shadow-lg">
-              <div className="text-4xl font-bold text-accent mb-2">15,000+</div>
-              <div className="text-secondary opacity-70">Vehicles Sold</div>
+            <div className="text-center p-4 lg:p-6 bg-primary rounded-lg shadow-lg">
+              <div className="text-2xl lg:text-4xl font-bold text-accent mb-2">15,000+</div>
+              <div className="text-secondary opacity-70 text-xs lg:text-base">Vehicles Sold</div>
             </div>
-            <div className="text-center p-6 bg-primary rounded-lg shadow-lg">
-              <div className="text-4xl font-bold text-accent mb-2">4.9/5</div>
-              <div className="text-secondary opacity-70">Average Rating</div>
+            <div className="text-center p-4 lg:p-6 bg-primary rounded-lg shadow-lg">
+              <div className="text-2xl lg:text-4xl font-bold text-accent mb-2">4.9/5</div>
+              <div className="text-secondary opacity-70 text-xs lg:text-base">Average Rating</div>
             </div>
-            <div className="text-center p-6 bg-primary rounded-lg shadow-lg">
-              <div className="text-4xl font-bold text-accent mb-2">20+</div>
-              <div className="text-secondary opacity-70">Years Experience</div>
+            <div className="text-center p-4 lg:p-6 bg-primary rounded-lg shadow-lg">
+              <div className="text-2xl lg:text-4xl font-bold text-accent mb-2">20+</div>
+              <div className="text-secondary opacity-70 text-xs lg:text-base">Years Experience</div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Category Filter */}
-      <section className="py-8 px-6">
+      <section className="py-4 lg:py-8 px-4 lg:px-6">
         <div className="max-w-7xl mx-auto">
-          <div className="flex flex-wrap justify-center gap-4">
+          <div className="flex flex-wrap justify-center gap-3 lg:gap-4">
             {categories.map((category) => (
               <button
                 key={category}
                 onClick={() => setSelectedCategory(category)}
-                className={`px-6 py-2 rounded-full font-semibold transition-all duration-300 ${
+                className={`px-4 lg:px-6 py-2 rounded-full font-semibold transition-all duration-300 text-sm lg:text-base ${
                   selectedCategory === category
                     ? 'bg-accent text-dark shadow-lg scale-105'
                     : 'bg-primary text-secondary hover:bg-opacity-80'
@@ -108,13 +108,13 @@ const Testimonials = () => {
       </section>
 
       {/* Testimonials Grid */}
-      <section className="py-12 px-6">
+      <section className="py-8 lg:py-12 px-4 lg:px-6">
         <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-8">
             {filteredTestimonials.map((testimonial, index) => (
               <div
                 key={testimonial.id}
-                className="bg-primary rounded-lg p-8 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 animate-fade-in-up relative"
+                className="bg-primary rounded-lg p-4 lg:p-8 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 animate-fade-in-up relative"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
                 {/* Quote Icon */}
@@ -169,13 +169,13 @@ const Testimonials = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 px-6">
+      <section className="py-8 lg:py-20 px-4 lg:px-6">
         <div className="max-w-4xl mx-auto">
-          <div className="bg-gradient-to-r from-primary to-accent rounded-2xl p-12 text-center shadow-2xl">
-            <h3 className="text-3xl font-bold text-secondary mb-4">
+          <div className="bg-gradient-to-r from-primary to-accent rounded-2xl p-6 lg:p-12 text-center shadow-2xl">
+            <h3 className="text-2xl lg:text-3xl font-bold text-secondary mb-3 lg:mb-4">
               Share Your Experience
             </h3>
-            <p className="text-secondary opacity-90 mb-8 text-lg">
+            <p className="text-secondary opacity-90 mb-6 lg:mb-8 text-base lg:text-lg">
               We'd love to hear about your journey with Autoways. Your feedback helps us serve you better.
             </p>
             {/* <button className="px-8 py-4 bg-dark text-secondary rounded-lg font-semibold hover:bg-opacity-90 transition-all transform hover:scale-105 shadow-lg">

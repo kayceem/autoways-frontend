@@ -12,8 +12,8 @@ const Header = ({ className = "", isVisible }) => {
     return (
         <header
             className={`
-        bg-primary text-secondary px-6
-        hidden md:block
+        bg-primary text-secondary px-4 lg:px-6
+        hidden lg:block
         transition-all duration-300 ease-in-out
         overflow-hidden
         ${isVisible ? "py-2 max-h-20 opacity-100" : "py-0 max-h-0 opacity-0"}
@@ -23,7 +23,7 @@ const Header = ({ className = "", isVisible }) => {
         >
             <div className="max-w-8xl flex justify-between items-center">
                 {/* Social Links - Left */}
-                <div className="flex items-start gap-4 pl-8">
+                <div className="flex items-start gap-2 lg:gap-4 pl-4 lg:pl-8">
                     <Logo logo={logoMap.autoways} size={40} />
                     {/* <a 
             href={content.info.socialLinks.facebook}
@@ -55,17 +55,17 @@ const Header = ({ className = "", isVisible }) => {
                 </div>
 
                 {/* Contact Info - Right */}
-                <div className="flex items-center gap-6 items-end">
+                <div className="flex items-center gap-4 lg:gap-6 items-end">
                     <a
                         href={`mailto:${content?.info.email}`}
-                        className="flex items-center gap-2 hover:text-accent transition-colors duration-200 md:text-sm"
+                        className="flex items-center gap-2 hover:text-accent transition-colors duration-200 text-xs lg:text-sm"
                     >
                         <Mail size={16} />
                         <span>{content.info.email}</span>
                     </a>
                     <a
                         href={`tel:${content.info.phone.replace(/\s/g, "")}`}
-                        className="flex items-center gap-2 hover:text-accent transition-colors duration-200 md:text-sm"
+                        className="flex items-center gap-2 hover:text-accent transition-colors duration-200 text-xs lg:text-sm"
                     >
                         <Phone size={16} />
                         <span>{content?.info.phone}</span>

@@ -23,12 +23,12 @@ const NepalMap = () => {
     const locations = content?.locations || [];
     const center = locations?.[0].position;
     return (
-        <div className="nepal-map-container">
+        <div className="w-full h-[400px] lg:h-[600px] relative rounded-lg overflow-hidden shadow-lg">
             <MapContainer
                 center={center}
                 zoom={8}
                 scrollWheelZoom={true}
-                className="nepal-map"
+                className="w-full h-full z-[1]"
             >
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -41,11 +41,11 @@ const NepalMap = () => {
                         icon={customIcon}
                     >
                         <Popup>
-                            <div className="popup-content">
-                                <h3 className="font-bold text-lg">
+                            <div className="text-center p-2">
+                                <h3 className="font-bold text-base lg:text-lg mb-1 text-gray-900">
                                     {location.name}
                                 </h3>
-                                <p className="text-sm">{location.info}</p>
+                                <p className="text-xs lg:text-sm text-gray-600 m-0">{location.info}</p>
                             </div>
                         </Popup>
                     </Marker>

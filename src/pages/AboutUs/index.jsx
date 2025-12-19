@@ -65,7 +65,7 @@ const AboutUs = () => {
       {/* Stats Section */}
       <section className="py-12 px-6">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+          <div className="grid grid-cols-2 lg:grid-cols-3 lg:grid-cols-6 gap-6">
             <div className="text-center p-6 bg-primary rounded-lg shadow-lg animate-fade-in-up">
               <div className="text-4xl font-bold text-accent mb-2">{stats.yearsOfExperience}</div>
               <div className="text-secondary opacity-70 text-sm">Years Experience</div>
@@ -97,7 +97,7 @@ const AboutUs = () => {
       {/* Company Story */}
       <section className="py-20 px-6">
         <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="animate-fade-in-up">
               <img
                 src={assetUrl(aboutUs.image)}
@@ -120,7 +120,7 @@ const AboutUs = () => {
       {chairman_message && (
         <section className="py-20 px-6 bg-primary bg-opacity-50">
           <div className="max-w-7xl mx-auto">
-            <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div className="animate-fade-in-up">
                 <div className="flex items-center gap-4 mb-6">
                   <div className="w-16 h-16 bg-accent rounded-full flex items-center justify-center">
@@ -163,9 +163,9 @@ const AboutUs = () => {
       {md_message && (
         <section className="py-20 px-6">
           <div className="max-w-7xl mx-auto">
-            <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div className="grid lg:grid-cols-2 gap-12 items-center">
               {md_message.image && (
-                <div className="animate-fade-in-up order-2 md:order-1">
+                <div className="animate-fade-in-up order-2 lg:order-1">
                   <img
                     src={assetUrl(md_message.image)}
                     alt="Managing Director"
@@ -173,7 +173,7 @@ const AboutUs = () => {
                   />
                 </div>
               )}
-              <div className="animate-fade-in-up order-1 md:order-2" style={{ animationDelay: '0.2s' }}>
+              <div className="animate-fade-in-up order-1 lg:order-2" style={{ animationDelay: '0.2s' }}>
                 <div className="flex items-center gap-4 mb-6">
                   <div className="w-16 h-16 bg-accent rounded-full flex items-center justify-center">
                     <svg className="w-8 h-8 text-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -205,7 +205,7 @@ const AboutUs = () => {
       {/* Mission & Vision */}
       <section className="py-20 px-6 bg-primary bg-opacity-50">
         <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid lg:grid-cols-2 gap-8">
             <div className="bg-primary rounded-lg p-8 shadow-lg animate-fade-in-up">
               <div className="flex items-center gap-4 mb-6">
                 <div className="w-16 h-16 bg-accent rounded-full flex items-center justify-center">
@@ -247,7 +247,7 @@ const AboutUs = () => {
               The principles that guide our decisions and define our culture
             </p>
           </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid lg:grid-cols-2 lg:grid-cols-3 gap-8">
             {values.map((value, index) => (
               <div
                 key={value.id}
@@ -333,7 +333,7 @@ const AboutUs = () => {
                 {milestones.map((milestone, index) => (
                   <div
                     key={index}
-                    className="flex-shrink-0 w-full md:w-[700px] scroll-snap-align-center"
+                    className="flex-shrink-0 w-full lg:w-[700px] scroll-snap-align-center"
                     style={{ scrollSnapAlign: 'center' }}
                   >
                     <div className="relative bg-primary rounded-2xl overflow-hidden shadow-2xl h-[450px] group">
@@ -401,7 +401,7 @@ const AboutUs = () => {
               {team.description}
             </p>
           </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid lg:grid-cols-2 lg:grid-cols-4 gap-8">
             {team?.members?.map((member, index) => (
                 <div
                 key={member.id}

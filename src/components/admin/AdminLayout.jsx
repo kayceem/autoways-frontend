@@ -45,12 +45,12 @@ const AdminLayout = () => {
       {/* Sidebar */}
       <aside
         className={`${
-          isSidebarOpen ? 'w-64' : 'w-0'
+          isSidebarOpen ? 'w-56 lg:w-64' : 'w-0'
         } bg-gray-900 text-white transition-all duration-300 overflow-hidden fixed h-full z-20`}
       >
-        <div className="p-6">
-          <div className="flex items-center justify-between mb-8">
-            <h1 className="text-2xl font-bold">Admin Panel</h1>
+        <div className="p-4 lg:p-6">
+          <div className="flex items-center justify-between mb-6 lg:mb-8">
+            <h1 className="text-xl lg:text-2xl font-bold">Admin Panel</h1>
             <button
               onClick={() => setIsSidebarOpen(false)}
               className="lg:hidden text-gray-400 hover:text-white"
@@ -93,12 +93,12 @@ const AdminLayout = () => {
       {/* Main Content */}
       <div
         className={`flex-1 transition-all duration-300 ${
-          isSidebarOpen ? 'ml-64' : 'ml-0'
+          isSidebarOpen ? 'ml-56 lg:ml-64' : 'ml-0'
         }`}
       >
         {/* Top Bar */}
         <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-10">
-          <div className="flex items-center justify-between px-6 py-4">
+          <div className="flex items-center justify-between px-4 lg:px-6 py-3 lg:py-4">
             <button
               onClick={() => setIsSidebarOpen(!isSidebarOpen)}
               className="text-gray-600 hover:text-gray-900"
@@ -112,7 +112,7 @@ const AdminLayout = () => {
         </header>
 
         {/* Page Content */}
-        <main className="p-6">
+        <main className="p-4 lg:p-6">
           <Outlet />
         </main>
       </div>

@@ -64,7 +64,7 @@ const LocationSchema = new Schema({
         type: [Number],
         required: true,
         validate: {
-            validator: function(v) {
+            validator: function (v) {
                 return v.length === 2;
             },
             message: 'Position must be an array of [latitude, longitude]'
@@ -176,7 +176,7 @@ const BrandSchema = new Schema({
         type: String,
         required: true
     },
-    heroImage : {
+    heroImage: {
         type: String,
         required: true
     },
@@ -445,89 +445,40 @@ const SisterCompanySchema = new Schema({
 
 // ==================== Spares Parts Schema ====================
 const SparePartSchema = new Schema({
-    partId: {
-        type: Number,
-        required: true,
-        unique: true
-    },
-    name: {
-        type: String,
-        required: true
-    },
-    category: {
-        type: String,
-        required: true
-    },
-    brand: {
-        type: String,
-        required: true
-    },
-    partNumber: {
-        type: String,
-        required: true,
-        unique: true
-    },
-    price: {
-        type: Number,
-        required: true
-    },
+    // auto-increment can be handled via a plugin or manually in application logic
     image: {
         type: String,
         required: true
     },
-    inStock: {
-        type: Boolean,
-        default: true
-    },
     description: {
         type: String,
-        required: true
-    }
+    },
+    parts: [{
+
+        partId: {
+            type: Number,
+            required: true,
+            unique: true,
+        },
+        image: {
+            type: String,
+            required: true
+        }
+    }],
+    services: [{
+
+        serviceId: {
+            type: Number,
+            required: true,
+            unique: true,
+        },
+        title: {
+            type: String,
+            required: true
+        }
+    }],
 }, { timestamps: true });
 
-const SparePartsServiceSchema = new Schema({
-    serviceId: {
-        type: Number,
-        required: true,
-        unique: true
-    },
-    title: {
-        type: String,
-        required: true
-    },
-    description: {
-        type: String,
-        required: true
-    },
-    icon: String
-}, { timestamps: true });
-
-const SparePartsStatsSchema = new Schema({
-    partsAvailable: String,
-    brandsSupported: String,
-    serviceLocations: String,
-    expertTechnicians: String
-}, { timestamps: true });
-
-const SparePartsContactSchema = new Schema({
-    title: {
-        type: String,
-        required: true
-    },
-    description: {
-        type: String,
-        required: true
-    },
-    phone: {
-        type: String,
-        required: true
-    },
-    email: {
-        type: String,
-        required: true
-    },
-    hours: String
-}, { timestamps: true });
 
 // ==================== About Us Schema ====================
 const AboutUsSchema = new Schema({
@@ -604,9 +555,6 @@ const CSRInitiative = mongoose.model('CSRInitiative', CSRInitiativeSchema);
 const CSRHero = mongoose.model('CSRHero', CSRHeroSchema);
 const SisterCompany = mongoose.model('SisterCompany', SisterCompanySchema);
 const SparePart = mongoose.model('SparePart', SparePartSchema);
-const SparePartsService = mongoose.model('SparePartsService', SparePartsServiceSchema);
-const SparePartsStats = mongoose.model('SparePartsStats', SparePartsStatsSchema);
-const SparePartsContact = mongoose.model('SparePartsContact', SparePartsContactSchema);
 
 export {
     HeroImage,
@@ -623,7 +571,4 @@ export {
     CSRHero,
     SisterCompany,
     SparePart,
-    SparePartsService,
-    SparePartsStats,
-    SparePartsContact
 };

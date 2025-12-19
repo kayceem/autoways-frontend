@@ -20,20 +20,20 @@ const Footer = ({ className = "" }) => {
     return (
         <footer className={`bg-primary-autoways border-t border-primary ${className}`}>
             {/* Main Footer Content */}
-            <div className="max-w-7xl mx-auto px-6 py-12">
-                <div className="grid grid-cols-4 gap-12 mb-12">
+            <div className="max-w-7xl mx-auto px-4 lg:px-6 py-8 lg:py-12">
+                <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 lg:gap-12 mb-8 lg:mb-12">
                     {/* Company Info */}
                     <div>
-                        <h3 className="text-2xl font-bold text-primary-autoways  mb-6">
+                        <h3 className="text-xl lg:text-2xl font-bold text-primary-autoways mb-4 lg:mb-6">
                             Autoways
                         </h3>
-                        <p className="text-primary-autoways  mb-6 leading-relaxed">
+                        <p className="text-sm lg:text-base text-primary-autoways mb-4 lg:mb-6 leading-relaxed">
                             Your trusted partner in finding the perfect vehicle.
                             Quality, service, and satisfaction guaranteed.
                         </p>
 
                         {/* Social Links */}
-                        <div className="flex gap-3">
+                        <div className="flex gap-2 lg:gap-3">
                             {socialLinks.facebook && (
                                 <a
                                     href={socialLinks.facebook}
@@ -72,10 +72,10 @@ const Footer = ({ className = "" }) => {
 
                     {/* Quick Links */}
                     <div>
-                        <h4 className="text-lg font-bold text-primary-autoways  mb-6">
+                        <h4 className="text-base lg:text-lg font-bold text-primary-autoways mb-4 lg:mb-6">
                             Quick Links
                         </h4>
-                        <ul className="space-y-3">
+                        <ul className="space-y-2 lg:space-y-3 text-sm lg:text-base">
                             <li>
                                 <Link
                                     to="/"
@@ -113,10 +113,10 @@ const Footer = ({ className = "" }) => {
 
                     {/* Shop by Brand */}
                     <div>
-                        <h4 className="text-lg font-bold text-primary-autoways  mb-6">
+                        <h4 className="text-base lg:text-lg font-bold text-primary-autoways mb-4 lg:mb-6">
                             Shop by Brand
                         </h4>
-                        <ul className="space-y-3">
+                        <ul className="space-y-2 lg:space-y-3 text-sm lg:text-base">
                             {brandArray.map((brand) => (
                                 <li key={brand.id}>
                                     <Link
@@ -142,10 +142,10 @@ const Footer = ({ className = "" }) => {
 
                     {/* Contact Info */}
                     <div>
-                        <h4 className="text-lg font-bold text-primary-autoways  mb-6">
+                        <h4 className="text-base lg:text-lg font-bold text-primary-autoways mb-4 lg:mb-6">
                             Contact Us
                         </h4>
-                        <ul className="space-y-4">
+                        <ul className="space-y-3 lg:space-y-4 text-sm lg:text-base">
                             {phone && (
                                 <li>
                                     <a
@@ -187,21 +187,21 @@ const Footer = ({ className = "" }) => {
 
             {/* Bottom Bar */}
             <div className="border-t border-primary">
-                <div className="max-w-7xl mx-auto px-6 py-6">
-                    <div className="flex justify-between items-center">
-                        <p className="text-primary-autoways  text-sm">
+                <div className="max-w-7xl mx-auto px-4 lg:px-6 py-4 lg:py-6">
+                    <div className="flex flex-col lg:flex-row justify-between items-center gap-4 lg:gap-0">
+                        <p className="text-primary-autoways text-xs lg:text-sm">
                             © {currentYear} Autoways. All rights reserved.
                         </p>
-                        <div className="flex gap-6">
+                        <div className="flex gap-4 lg:gap-6">
                             <Link
                                 to="/privacy"
-                                className="text-primary-autoways  hover:text-accent transition-colors duration-300 text-sm"
+                                className="text-primary-autoways hover:text-accent transition-colors duration-300"
                             >
                                 Privacy Policy
                             </Link>
                             <Link
                                 to="/terms"
-                                className="text-primary-autoways  hover:text-accent transition-colors duration-300 text-sm"
+                                className="text-primary-autoways hover:text-accent transition-colors duration-300"
                             >
                                 Terms of Service
                             </Link>

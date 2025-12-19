@@ -1,41 +1,4 @@
-.nepal-map-container {
-    width: 100%;
-    height: 600px;
-    position: relative;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-}
-
-.nepal-map {
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-}
-
-.popup-content {
-    text-align: center;
-    padding: 8px;
-}
-
-.popup-content h3 {
-    margin-bottom: 4px;
-    color: #1a202c;
-}
-
-.popup-content p {
-    color: #4a5568;
-    margin: 0;
-}
-
 /* Fix leaflet default icon issue */
 .leaflet-container {
     font-family: inherit;
-}
-
-/* Make map responsive */
-@media (max-width: 768px) {
-    .nepal-map-container {
-        height: 400px;
-    }
 }

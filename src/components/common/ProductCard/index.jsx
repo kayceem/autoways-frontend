@@ -45,7 +45,7 @@ const ProductCard = ({ product, typeSlug, brandName, className = "" }) => {
         >
             {/* Image Container with 3D Effect */}
             <div
-                className={`relative h-72 overflow-hidden bg-seondary`}
+                className={`relative h-48 lg:h-72 overflow-hidden bg-seondary`}
             >
                 {/* Default Image */}
                 <img
@@ -91,7 +91,7 @@ const ProductCard = ({ product, typeSlug, brandName, className = "" }) => {
                 />
             </div>
             {/* Content */}
-            <div className="p-6 relative z-10">
+            <div className="p-4 lg:p-6 relative z-10">
                 {/* Tag and Price Row */}
                 {/* <div className="flex items-center justify-between mb-3">
                     {product.tag && (
@@ -112,21 +112,21 @@ const ProductCard = ({ product, typeSlug, brandName, className = "" }) => {
                 </div> */}
                 {/* Product Name */}
                 <h3
-                    className={`font-bold text-2xl text-primary mb-2 group-hover:text-accent transition-colors duration-300`}
+                    className={`font-bold text-lg lg:text-2xl text-primary mb-2 group-hover:text-accent transition-colors duration-300`}
                 >
                     {product.name}
                 </h3>
                 {/* Short Description */}
                 {product.shortDescription && (
                     <p
-                        className={`font-light text-primary text-opacity-70 text-sm mb-4 line-clamp-2`}
+                        className={`font-light text-primary text-opacity-70 text-xs lg:text-sm mb-3 lg:mb-4 line-clamp-2`}
                     >
                         {product.shortDescription}
                     </p>
                 )}
                 {/* View Button */}
                 <div
-                    className={`group inline-flex items-center gap-4 bg-primary text-secondary px-6 py-3 rounded-xl font-bold border-2 border-transparent hover:border-accent transition-all duration-300 transform hover:bg-secondary hover:text-accent hover:scale-105`}
+                    className={`group inline-flex items-center gap-2 lg:gap-4 bg-primary text-secondary px-4 py-2 lg:px-6 lg:py-3 rounded-xl text-sm lg:text-base font-bold border-2 border-transparent hover:border-accent transition-all duration-300 transform hover:bg-secondary hover:text-accent hover:scale-105`}
                 >
                     <span>Explore</span>
 

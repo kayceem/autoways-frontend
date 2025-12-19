@@ -122,7 +122,7 @@ const ImageGallery = ({ images = [], productName = '' }) => {
         <div className="w-full">
             {/* Main Image Display */}
             <div className="w-full mb-4">
-                <div className="relative w-full h-[300px] md:h-[500px] rounded-2xl overflow-hidden">
+                <div className="relative w-full h-[300px] lg:h-[500px] rounded-2xl overflow-hidden">
                     <img
                         src={assetUrl(images[currentImageIndex])}
                         alt={`${productName} - Image ${currentImageIndex + 1}`}
@@ -135,14 +135,14 @@ const ImageGallery = ({ images = [], productName = '' }) => {
                         <>
                             <button
                                 onClick={goToPrevious}
-                                className="absolute top-1/2 left-2 md:left-4 -translate-y-1/2 bg-white/90 hover:bg-accent border-0 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center cursor-pointer transition-all duration-300 text-primary hover:text-secondary hover:scale-110 z-10 shadow-lg"
+                                className="absolute top-1/2 left-2 lg:left-4 -translate-y-1/2 bg-white/90 hover:bg-accent border-0 w-10 h-10 lg:w-12 lg:h-12 rounded-full flex items-center justify-center cursor-pointer transition-all duration-300 text-primary hover:text-secondary hover:scale-110 z-10 shadow-lg"
                                 aria-label="Previous image"
                             >
                                 <ChevronLeft size={24} />
                             </button>
                             <button
                                 onClick={goToNext}
-                                className="absolute top-1/2 right-2 md:right-4 -translate-y-1/2 bg-white/90 hover:bg-accent border-0 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center cursor-pointer transition-all duration-300 text-primary hover:text-secondary hover:scale-110 z-10 shadow-lg"
+                                className="absolute top-1/2 right-2 lg:right-4 -translate-y-1/2 bg-white/90 hover:bg-accent border-0 w-10 h-10 lg:w-12 lg:h-12 rounded-full flex items-center justify-center cursor-pointer transition-all duration-300 text-primary hover:text-secondary hover:scale-110 z-10 shadow-lg"
                                 aria-label="Next image"
                             >
                                 <ChevronRight size={24} />
@@ -170,7 +170,7 @@ const ImageGallery = ({ images = [], productName = '' }) => {
 
             {/* Thumbnail Strip */}
             {images.length > 1 && (
-                <div className="flex gap-2 md:gap-3 overflow-x-auto py-2 [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-track]:bg-secondary [&::-webkit-scrollbar-track]:rounded-sm [&::-webkit-scrollbar-thumb]:bg-accent [&::-webkit-scrollbar-thumb]:rounded-sm">
+                <div className="flex gap-2 lg:gap-3 overflow-x-auto py-2 [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-track]:bg-secondary [&::-webkit-scrollbar-track]:rounded-sm [&::-webkit-scrollbar-thumb]:bg-accent [&::-webkit-scrollbar-thumb]:rounded-sm">
                     {images.map((image, index) => (
                         <button
                             key={index}
@@ -178,7 +178,7 @@ const ImageGallery = ({ images = [], productName = '' }) => {
                                 setCurrentImageIndex(index);
                                 resetZoomAndPan();
                             }}
-                            className={`flex-shrink-0 w-20 h-[60px] md:w-[100px] md:h-20 rounded-lg overflow-hidden border-2 cursor-pointer transition-all duration-300 bg-secondary p-0 hover:border-accent hover:-translate-y-0.5 hover:shadow-md ${
+                            className={`flex-shrink-0 w-20 h-[60px] lg:w-[100px] lg:h-20 rounded-lg overflow-hidden border-2 cursor-pointer transition-all duration-300 bg-secondary p-0 hover:border-accent hover:-translate-y-0.5 hover:shadow-md ${
                                 index === currentImageIndex ? 'border-accent shadow-[0_0_0_3px_rgb(var(--accent-rgb)/0.2)]' : 'border-transparent'
                             }`}
                             aria-label={`View image ${index + 1}`}
@@ -234,20 +234,20 @@ const ImageGallery = ({ images = [], productName = '' }) => {
                                         e.stopPropagation();
                                         goToPrevious();
                                     }}
-                                    className="absolute top-1/2 left-4 md:left-8 -translate-y-1/2 bg-white/85 hover:bg-accent border-0 w-12 h-12 md:w-16 md:h-16 rounded-full flex items-center justify-center cursor-pointer transition-all duration-300 text-black hover:text-secondary z-[100001] shadow-xl hover:scale-110"
+                                    className="absolute top-1/2 left-4 lg:left-8 -translate-y-1/2 bg-white/85 hover:bg-accent border-0 w-12 h-12 lg:w-16 lg:h-16 rounded-full flex items-center justify-center cursor-pointer transition-all duration-300 text-black hover:text-secondary z-[100001] shadow-xl hover:scale-110"
                                     aria-label="Previous image"
                                 >
-                                    <ChevronLeft className="w-8 h-8 md:w-10 md:h-10" />
+                                    <ChevronLeft className="w-8 h-8 lg:w-10 lg:h-10" />
                                 </button>
                                 <button
                                     onClick={(e) => {
                                         e.stopPropagation();
                                         goToNext();
                                     }}
-                                    className="absolute top-1/2 right-4 md:right-8 -translate-y-1/2 bg-white/85 hover:bg-accent border-0 w-12 h-12 md:w-16 md:h-16 rounded-full flex items-center justify-center cursor-pointer transition-all duration-300 text-black hover:text-secondary z-[100001] shadow-xl hover:scale-110"
+                                    className="absolute top-1/2 right-4 lg:right-8 -translate-y-1/2 bg-white/85 hover:bg-accent border-0 w-12 h-12 lg:w-16 lg:h-16 rounded-full flex items-center justify-center cursor-pointer transition-all duration-300 text-black hover:text-secondary z-[100001] shadow-xl hover:scale-110"
                                     aria-label="Next image"
                                 >
-                                    <ChevronRight className="w-8 h-8 md:w-10 md:h-10" />
+                                    <ChevronRight className="w-8 h-8 lg:w-10 lg:h-10" />
                                 </button>
                             </>
                         )}
@@ -261,7 +261,7 @@ const ImageGallery = ({ images = [], productName = '' }) => {
 
                         {/* Fullscreen Thumbnails */}
                         {images.length > 1 && (
-                            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-2 md:gap-4 px-3 md:px-4 py-3 md:py-4 bg-white/15 rounded-2xl backdrop-blur-md max-w-[90%] overflow-x-auto z-[100001] shadow-xl [&::-webkit-scrollbar]:h-1 [&::-webkit-scrollbar-track]:bg-white/10 [&::-webkit-scrollbar-track]:rounded-sm [&::-webkit-scrollbar-thumb]:bg-accent [&::-webkit-scrollbar-thumb]:rounded-sm">
+                            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-2 lg:gap-4 px-3 lg:px-4 py-3 lg:py-4 bg-white/15 rounded-2xl backdrop-blur-md max-w-[90%] overflow-x-auto z-[100001] shadow-xl [&::-webkit-scrollbar]:h-1 [&::-webkit-scrollbar-track]:bg-white/10 [&::-webkit-scrollbar-track]:rounded-sm [&::-webkit-scrollbar-thumb]:bg-accent [&::-webkit-scrollbar-thumb]:rounded-sm">
                                 {images.map((image, index) => (
                                     <button
                                         key={index}
@@ -270,7 +270,7 @@ const ImageGallery = ({ images = [], productName = '' }) => {
                                             setCurrentImageIndex(index);
                                             resetZoomAndPan();
                                         }}
-                                        className={`flex-shrink-0 w-[60px] h-[45px] md:w-20 md:h-[60px] rounded-lg overflow-hidden border-2 cursor-pointer transition-all duration-300 bg-white/10 p-0 hover:border-accent hover:-translate-y-1 ${
+                                        className={`flex-shrink-0 w-[60px] h-[45px] lg:w-20 lg:h-[60px] rounded-lg overflow-hidden border-2 cursor-pointer transition-all duration-300 bg-white/10 p-0 hover:border-accent hover:-translate-y-1 ${
                                             index === currentImageIndex ? 'border-accent shadow-[0_0_0_3px_rgb(var(--accent-rgb)/0.3)]' : 'border-transparent'
                                         }`}
                                     >
@@ -281,20 +281,20 @@ const ImageGallery = ({ images = [], productName = '' }) => {
                         )}
 
                         {/* Zoom Controls */}
-                        <div className="absolute bottom-8 right-4 md:right-8 flex flex-col gap-2 z-[100001]">
+                        <div className="absolute bottom-8 right-4 lg:right-8 flex flex-col gap-2 z-[100001]">
                             <button
                                 onClick={(e) => {
                                     e.stopPropagation();
                                     zoomIn();
                                 }}
-                                className="bg-white/85 hover:bg-accent border-0 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center cursor-pointer transition-all duration-300 text-black hover:text-secondary shadow-xl hover:scale-110 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white/85 disabled:hover:text-black disabled:hover:scale-100"
+                                className="bg-white/85 hover:bg-accent border-0 w-10 h-10 lg:w-12 lg:h-12 rounded-full flex items-center justify-center cursor-pointer transition-all duration-300 text-black hover:text-secondary shadow-xl hover:scale-110 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white/85 disabled:hover:text-black disabled:hover:scale-100"
                                 aria-label="Zoom in"
                                 disabled={zoomLevel >= MAX_ZOOM}
                             >
-                                <ZoomIn size={18} className="md:w-5 md:h-5" />
+                                <ZoomIn size={18} className="lg:w-5 lg:h-5" />
                             </button>
 
-                            <div className="bg-white/85 text-black px-2 py-1.5 md:px-3 md:py-2 rounded-3xl text-xs md:text-sm font-semibold text-center shadow-xl min-w-[40px] md:min-w-[48px]">
+                            <div className="bg-white/85 text-black px-2 py-1.5 lg:px-3 lg:py-2 rounded-3xl text-xs lg:text-sm font-semibold text-center shadow-xl min-w-[40px] lg:min-w-[48px]">
                                 {Math.round(zoomLevel * 100)}%
                             </div>
 
@@ -303,11 +303,11 @@ const ImageGallery = ({ images = [], productName = '' }) => {
                                     e.stopPropagation();
                                     zoomOut();
                                 }}
-                                className="bg-white/85 hover:bg-accent border-0 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center cursor-pointer transition-all duration-300 text-black hover:text-secondary shadow-xl hover:scale-110 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white/85 disabled:hover:text-black disabled:hover:scale-100"
+                                className="bg-white/85 hover:bg-accent border-0 w-10 h-10 lg:w-12 lg:h-12 rounded-full flex items-center justify-center cursor-pointer transition-all duration-300 text-black hover:text-secondary shadow-xl hover:scale-110 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white/85 disabled:hover:text-black disabled:hover:scale-100"
                                 aria-label="Zoom out"
                                 disabled={zoomLevel <= MIN_ZOOM}
                             >
-                                <ZoomOut size={18} className="md:w-5 md:h-5" />
+                                <ZoomOut size={18} className="lg:w-5 lg:h-5" />
                             </button>
 
                             {zoomLevel > 1 && (
@@ -316,10 +316,10 @@ const ImageGallery = ({ images = [], productName = '' }) => {
                                         e.stopPropagation();
                                         resetZoom();
                                     }}
-                                    className="bg-white/85 hover:bg-accent border-0 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center cursor-pointer transition-all duration-300 text-black hover:text-secondary shadow-xl hover:scale-110"
+                                    className="bg-white/85 hover:bg-accent border-0 w-10 h-10 lg:w-12 lg:h-12 rounded-full flex items-center justify-center cursor-pointer transition-all duration-300 text-black hover:text-secondary shadow-xl hover:scale-110"
                                     aria-label="Reset zoom"
                                 >
-                                    <Maximize2 size={18} className="md:w-5 md:h-5" />
+                                    <Maximize2 size={18} className="lg:w-5 lg:h-5" />
                                 </button>
                             )}
                         </div>
