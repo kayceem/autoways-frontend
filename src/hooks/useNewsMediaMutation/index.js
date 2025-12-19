@@ -8,11 +8,7 @@ export const useCreateNewsArticle = () => {
 
   return useMutation({
     mutationFn: async (formData) => {
-      const response = await axiosInstance.post('/news-articles', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
+      const response = await axiosInstance.post('/news-articles', formData);
       return response.data;
     },
     onSuccess: () => {
@@ -32,11 +28,7 @@ export const useUpdateNewsArticle = () => {
 
   return useMutation({
     mutationFn: async ({ id, data }) => {
-      const response = await axiosInstance.patch(`/news-articles/${id}`, data, {
-        headers: data instanceof FormData ? {
-          'Content-Type': 'multipart/form-data',
-        } : undefined,
-      });
+      const response = await axiosInstance.patch(`/news-articles/${id}`, data);
       return response.data;
     },
     onSuccess: () => {

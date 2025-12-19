@@ -8,11 +8,7 @@ export const useCreateCSRInitiative = () => {
 
   return useMutation({
     mutationFn: async (formData) => {
-      const response = await axiosInstance.post('/csr-initiatives', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
+      const response = await axiosInstance.post('/csr-initiatives', formData);
       return response.data;
     },
     onSuccess: () => {
@@ -32,11 +28,7 @@ export const useUpdateCSRInitiative = () => {
 
   return useMutation({
     mutationFn: async ({ id, data }) => {
-      const response = await axiosInstance.patch(`/csr-initiatives/${id}`, data, {
-        headers: data instanceof FormData ? {
-          'Content-Type': 'multipart/form-data',
-        } : undefined,
-      });
+      const response = await axiosInstance.patch(`/csr-initiatives/${id}`, data);
       return response.data;
     },
     onSuccess: () => {
