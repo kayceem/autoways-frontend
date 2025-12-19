@@ -152,7 +152,7 @@ const ProductDetails = () => {
             {/* Features Section */}
             {product?.features && product?.features.length > 0 && (
                 <section className="bg-accent/30 border-y border-neutral-200 relative overflow-hidden">
-                    <WaveBackground position="bottom" opacity={0.08} waveColor="#35621b" />
+                    <WaveBackground position="top" opacity={0.08} waveColor="#35621b" />
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16 relative z-10">
                         <h2 className="text-2xl lg:text-3xl font-bold mb-8 lg:mb-10 text-center text-secondary animate-fade-in">Key Features</h2>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -170,7 +170,7 @@ const ProductDetails = () => {
             {/* Specifications Section */}
             {product?.specifications && (
                 <section className="bg-primary relative overflow-hidden">
-                    <WaveBackground position="top" opacity={0.04} waveColor="#a7ed81" />
+                    <WaveBackground position="top" opacity={0.1} waveColor="#a7ed81" />
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16 relative z-10">
                         <h2 className="text-2xl lg:text-3xl font-bold mb-8 lg:mb-10 text-center text-secondary animate-fade-in">Technical Specifications</h2>
                         <SpecificationsDisplay
@@ -183,7 +183,7 @@ const ProductDetails = () => {
 
             {/* Contact CTA Section */}
             <section className="bg-primary border-y border-neutral-200 relative overflow-hidden">
-                <WaveBackground position="top" opacity={0.03} waveColor="#ffffff" />
+                <WaveBackground position="top" opacity={0.03} waveColor="#ccc7c7ff" />
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-20 relative z-10">
                     <div className="text-center mb-10 lg:mb-14 animate-fade-in">
                         <h2 className="text-2xl lg:text-3xl font-bold mb-3 text-primary">Interested in {product?.name}?</h2>
