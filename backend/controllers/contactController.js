@@ -7,7 +7,7 @@ import nodemailer from 'nodemailer';
  */
 export const submitContactForm = async (req, res) => {
   try {
-    const { name, email, phone, subject, message } = req.body;
+    const { name, email, phone, subject, message, isParts } = req.body;
 
     // Validate request body
     if (!name || !email || !phone || !subject) {
@@ -29,7 +29,9 @@ export const submitContactForm = async (req, res) => {
     // Get email configuration from environment variables
     const senderEmail = process.env.SENDER_EMAIL;
     const senderPassword = process.env.SENDER_PASSWORD;
-    const destinationEmail = process.env.DESTINATION_EMAIL;
+    const destinationEmail = isParts
+      ? process.env.PARTS_CONTACT_EMAIL
+      : process.env.DESTINATION_EMAIL;
 
     // Validate environment variables are set
     if (!senderEmail || !senderPassword || !destinationEmail) {
@@ -47,7 +49,7 @@ export const submitContactForm = async (req, res) => {
 
     // Create transporter
     const transporter = nodemailer.createTransport({
-      service: 'gmail', // You can change this to other services like 'outlook', 'yahoo', etc.
+      service: 'smtp',
       auth: {
         user: senderEmail,
         pass: senderPassword

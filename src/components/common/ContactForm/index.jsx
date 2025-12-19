@@ -3,13 +3,15 @@ import { Mail, Phone, User, MessageSquare, Send } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { useSubmitContactForm } from '../../../hooks/useContactMutation';
 
-const ContactForm = () => {
+const ContactForm = ( { info = {} } ) => {
+    const { subject: defaultSubject = '', isParts } = info;
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     phone: '',
-    subject: '',
-    message: ''
+    subject: defaultSubject,
+    message: '',
+    isParts: isParts || false
   });
 
   const [errors, setErrors] = useState({});
@@ -76,7 +78,8 @@ const ContactForm = () => {
           email: '',
           phone: '',
           subject: '',
-          message: ''
+          message: '',
+          isParts: false
         });
         setErrors({});
       }

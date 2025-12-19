@@ -8,7 +8,7 @@ const handleError = (error) => {
     const errorMessage = error.response.data.status_message;
     toast.error(errorMessage);
   } else {
-    toast.error("Error fetching data");
+    console.log("Error fetching data");
   }
 };
 
