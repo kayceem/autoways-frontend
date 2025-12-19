@@ -1,9 +1,11 @@
+import { Link } from 'react-router-dom';
 import { assetUrl } from '../../../utils';
 
 const CompanyCard = ({ company, index }) => {
   return (
-    <div
-      className="bg-primary rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 animate-fade-in-up"
+    <Link
+      to={`/sister-companies/${company.companyId}`}
+      className="bg-primary rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 animate-fade-in-up block"
       style={{ animationDelay: `${index * 0.1}s` }}
     >
       {/* Company Header with Image */}
@@ -105,7 +107,7 @@ const CompanyCard = ({ company, index }) => {
           </div>
         )}
       </div>
-    </div>
+    </Link>
   );
 };
 

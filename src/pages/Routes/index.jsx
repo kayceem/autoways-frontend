@@ -10,6 +10,7 @@ import Testimonials from "../Testimonials";
 import AboutUs from "../AboutUs";
 import CSR from "../CSR";
 import SisterCompanies from "../SisterCompanies";
+import SisterCompaniesLanding from "../SisterCompanies/SisterCompaniesLanding";
 import SparesParts from "../SparesParts";
 import NotFound from "../NotFound";
 import Navbar from "../../components/common/NavBar";
