@@ -19,10 +19,10 @@ const SpecificationsDisplay = ({ specifications = {}, fuelType = 'normal' }) => 
     const renderSpecValue = (value) => {
         if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
             return (
-                <div className="flex flex-col gap-2 pl-3 border-l-2 border-neutral-300">
+                <div className="flex flex-col gap-1.5 pl-3">
                     {Object.entries(value).map(([subKey, subValue]) => (
                         <div key={subKey} className="flex gap-2 items-start">
-                            <span className="text-xs lg:text-sm font-medium opacity-60 text-secondary flex-shrink-0 min-w-[120px]">{formatKey(subKey)}:</span>
+                            <span className="text-xs lg:text-sm font-medium opacity-60 text-secondary flex-shrink-0 min-w-[100px]">{formatKey(subKey)}:</span>
                             <span className="text-xs lg:text-sm font-semibold text-secondary">
                                 {typeof subValue === 'object' ? JSON.stringify(subValue) : subValue}
                             </span>
