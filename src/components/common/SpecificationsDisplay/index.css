@@ -1,0 +1,25 @@
+/* Accordion smooth animation */
+.accordion-content {
+    transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+}
+
+.accordion-content.open {
+    max-height: 2000px;
+    opacity: 1;
+}
+
+.accordion-content.closed {
+    max-height: 0;
+    opacity: 0;
+}
+
+/* Chevron rotation animation */
+.accordion-chevron {
+    transition: transform 0.2s ease;
+}
+
+.accordion-chevron.open {
+    transform: rotate(180deg);
+}
