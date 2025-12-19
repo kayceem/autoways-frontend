@@ -69,8 +69,8 @@ const Home = () => {
       {content.contactInfo && (
         <CTASection 
           contactInfo={{
-            email: content.contactInfo?.[0].email || '',
-            phone: content.contactInfo?.[0].phone || ''
+            email: content?.contactInfo?.[0]?.email || '',
+            phone: content?.contactInfo?.[0]?.phone || ''
           }} 
         />
       )}

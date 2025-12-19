@@ -161,12 +161,9 @@ const SparePartsAdmin = () => {
   };
 
   const handleAddPart = () => {
-    const maxPartId = formData.parts.length > 0 
-      ? Math.max(...formData.parts.map(p => p.partId || 0))
-      : 0;
     setFormData(prev => ({
       ...prev,
-      parts: [...prev.parts, { partId: maxPartId + 1, image: '' }]
+      parts: [...prev.parts, { name: '', image: '' }]
     }));
   };
 
@@ -383,7 +380,7 @@ const SparePartsAdmin = () => {
                 {formData.parts.map((part, index) => (
                   <div key={index} className="p-4 border border-gray-200 rounded-lg space-y-3">
                     <div className="flex justify-between items-start">
-                      <h5 className="text-sm font-medium text-gray-700">Part #{part.partId}</h5>
+                      <h5 className="text-sm font-medium text-gray-700">Part {part.name}</h5>
                       <button
                         type="button"
                         onClick={() => handleRemovePart(index)}
@@ -394,14 +391,14 @@ const SparePartsAdmin = () => {
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Part ID <span className="text-red-500">*</span>
+                        Part Name <span className="text-red-500">*</span>
                       </label>
                       <input
-                        type="number"
-                        value={part.partId}
-                        onChange={(e) => handleArrayItemChange('parts', index, 'partId', parseInt(e.target.value))}
+                        type="text"
+                        value={part.name}
+                        onChange={(e) => handleArrayItemChange('parts', index, 'name', e.target.value)}
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        placeholder="Enter part ID"
+                        placeholder="Enter part name"
                       />
                     </div>
                     <ImageUploadField
@@ -434,13 +431,13 @@ const SparePartsAdmin = () => {
                     {formData.parts.map((part, index) => (
                       <tr key={index} className="hover:bg-gray-50">
                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                          #{part.partId}
+                          {part.name}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           {part.image && (
                             <img
                               src={assetUrl(part.image)}
-                              alt={`Part ${part.partId}`}
+                              alt={`Part ${part.name}`}
                               className="w-16 h-16 object-cover rounded"
                             />
                           )}

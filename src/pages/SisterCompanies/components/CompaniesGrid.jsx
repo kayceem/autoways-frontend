@@ -6,7 +6,7 @@ const CompaniesGrid = ({ companies }) => {
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-8">
           {companies.map((company, index) => (
-            <CompanyCard key={company.id} company={company} index={index} />
+            <CompanyCard key={index} company={company} index={index} />
           ))}
         </div>
       </div>
