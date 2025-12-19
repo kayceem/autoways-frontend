@@ -4,7 +4,7 @@ import { assetUrl } from '../../../utils';
 const CompanyCard = ({ company, index }) => {
   return (
     <Link
-      to={`/sister-companies/${company.companyId}`}
+      to={`/sister-companies/${company.slug}`}
       className="bg-primary rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 animate-fade-in-up block"
       style={{ animationDelay: `${index * 0.1}s` }}
     >

@@ -4,7 +4,7 @@ import { getSisterCompanyData, assetUrl } from "../../../utils";
 import { useContent } from "../../../context/globalContext";
 
 const SisterCompaniesLanding = () => {
-    const { companyId } = useParams();
+    const { companySlug } = useParams();
     const navigate = useNavigate();
     const { content, isLoading, error } = useContent();
 
@@ -17,10 +17,11 @@ const SisterCompaniesLanding = () => {
         return null;
     }
 
-    const companyData = getSisterCompanyData(content?.sisterCompanies, companyId);
+    const companyData = getSisterCompanyData(content?.sisterCompanies, companySlug);
+    console.log(companyData);
 
     if (!companyData) {
-        navigate("/not-found");
+        window.location.href = "/not-found";
         return null;
     }
 
@@ -54,20 +55,13 @@ const SisterCompaniesLanding = () => {
                     )}
 
                     {/* Company Name */}
-                    <h1 className="text-4xl lg:text-6xl font-bold text-secondary mb-4 animate-fade-in-up">
+                    {/* <h1 className="text-4xl lg:text-6xl font-bold text-secondary bg-primary rounded-2xl animate-fade-in-up">
                         {companyData.name}
-                    </h1>
-
-                    {/* Category Badge */}
-                    {companyData?.category && (
-                        <span className="inline-block px-4 py-2 bg-accent text-dark text-sm lg:text-base font-bold rounded-full mb-6">
-                            {companyData.category}
-                        </span>
-                    )}
+                    </h1> */}
 
                     {/* Tagline */}
                     {companyData?.tagline && (
-                        <p className="text-xl lg:text-3xl text-accent font-semibold italic mb-4 animate-fade-in-up-delay">
+                        <p className="text-xl lg:text-3xl text-white font-semibold italic mb-4 animate-fade-in-up-delay">
                             {companyData.tagline}
                         </p>
                     )}
