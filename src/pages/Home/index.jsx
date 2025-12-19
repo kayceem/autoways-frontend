@@ -45,7 +45,7 @@ const Home = () => {
       )}
 
       {/* About Section - Welcome to Autoways */}
-      {content.aboutUs.length !== 0 && (
+      {content.aboutUs?.length !== 0 && (
         <AboutSection 
           aboutData={{
             title: content.aboutUs?.[0]?.title || 'Welcome to Autoways',

@@ -86,7 +86,7 @@ const HeroImagesAdmin = () => {
   };
 
   const handleCreate = () => {
-    if (heroImages.length >= MAX_HERO_IMAGES) {
+    if (heroImages?.length >= MAX_HERO_IMAGES) {
       toast.error(`Maximum ${MAX_HERO_IMAGES} hero images allowed`);
       return;
     }
@@ -163,7 +163,7 @@ const HeroImagesAdmin = () => {
   };
 
   const handleDelete = async (id) => {
-    if (heroImages.length <= MIN_HERO_IMAGES) {
+    if (heroImages?.length <= MIN_HERO_IMAGES) {
       toast.error(`At least ${MIN_HERO_IMAGES} hero image must remain`);
       return;
     }
@@ -363,7 +363,7 @@ const HeroImagesAdmin = () => {
       )}
 
       {/* Hero Images Table */}
-      {heroImages.length === 0 ? (
+      {heroImages?.length === 0 ? (
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-12 text-center">
           <ImageIcon className="w-12 h-12 text-gray-400 mx-auto mb-4" />
           <p className="text-gray-500 mb-2">No hero images found</p>

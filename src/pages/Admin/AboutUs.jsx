@@ -54,7 +54,7 @@ const AboutUsAdmin = () => {
   });
 
   useEffect(() => {
-    if (content?.aboutUs && content.aboutUs.length > 0) {
+    if (content?.aboutUs && content.aboutUs?.length > 0) {
       const about = content.aboutUs[0];
       setAboutData(about);
       setFormData({

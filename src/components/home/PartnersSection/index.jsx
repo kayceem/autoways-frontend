@@ -76,7 +76,7 @@ const PartnersSection = ({ partners = {}, className = '' }) => {
                 </div>
                 </div>
         {/* View All Partners Link */}
-        {partnerArray.length > 8 && (
+        {partnerArray?.length > 8 && (
           <div className="text-center mt-8 lg:mt-12">
             <Link
               to="/sister-companies"

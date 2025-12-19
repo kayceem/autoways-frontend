@@ -33,7 +33,7 @@ const ImageGallery = ({ images = [], productName = '' }) => {
     const MAX_ZOOM = Math.max(...ZOOM_LEVELS);
     const MIN_ZOOM = Math.min(...ZOOM_LEVELS);
 
-    if (!images || images.length === 0) {
+    if (!images || images?.length === 0) {
         return null;
     }
 
@@ -43,12 +43,12 @@ const ImageGallery = ({ images = [], productName = '' }) => {
     };
 
     const goToNext = () => {
-        setCurrentImageIndex((prev) => (prev + 1) % images.length);
+        setCurrentImageIndex((prev) => (prev + 1) % images?.length);
         resetZoomAndPan();
     };
 
     const goToPrevious = () => {
-        setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length);
+        setCurrentImageIndex((prev) => (prev - 1 + images?.length) % images?.length);
         resetZoomAndPan();
     };
 
@@ -131,7 +131,7 @@ const ImageGallery = ({ images = [], productName = '' }) => {
                     />
 
                     {/* Navigation Arrows */}
-                    {images.length > 1 && (
+                    {images?.length > 1 && (
                         <>
                             <button
                                 onClick={goToPrevious}
@@ -160,16 +160,16 @@ const ImageGallery = ({ images = [], productName = '' }) => {
                     </button>
 
                     {/* Image Counter */}
-                    {images.length > 1 && (
+                    {images?.length > 1 && (
                         <div className="absolute bottom-4 left-4 bg-black/70 text-white px-4 py-2 rounded-full text-sm font-semibold z-10">
-                            {currentImageIndex + 1} / {images.length}
+                            {currentImageIndex + 1} / {images?.length}
                         </div>
                     )}
                 </div>
             </div>
 
             {/* Thumbnail Strip */}
-            {images.length > 1 && (
+            {images?.length > 1 && (
                 <div className="flex gap-2 lg:gap-3 overflow-x-auto py-2 [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-track]:bg-secondary [&::-webkit-scrollbar-track]:rounded-sm [&::-webkit-scrollbar-thumb]:bg-accent [&::-webkit-scrollbar-thumb]:rounded-sm">
                     {images.map((image, index) => (
                         <button
@@ -227,7 +227,7 @@ const ImageGallery = ({ images = [], productName = '' }) => {
                         />
 
                         {/* Navigation in Fullscreen */}
-                        {images.length > 1 && (
+                        {images?.length > 1 && (
                             <>
                                 <button
                                     onClick={(e) => {
@@ -253,14 +253,14 @@ const ImageGallery = ({ images = [], productName = '' }) => {
                         )}
 
                         {/* Fullscreen Counter */}
-                        {images.length > 1 && (
+                        {images?.length > 1 && (
                             <div className="absolute top-8 left-1/2 -translate-x-1/2 bg-white/85 text-black px-6 py-3 rounded-full text-base font-semibold z-[100001] backdrop-blur-md shadow-xl">
-                                {currentImageIndex + 1} / {images.length}
+                                {currentImageIndex + 1} / {images?.length}
                             </div>
                         )}
 
                         {/* Fullscreen Thumbnails */}
-                        {images.length > 1 && (
+                        {images?.length > 1 && (
                             <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-2 lg:gap-4 px-3 lg:px-4 py-3 lg:py-4 bg-white/15 rounded-2xl backdrop-blur-md max-w-[90%] overflow-x-auto z-[100001] shadow-xl [&::-webkit-scrollbar]:h-1 [&::-webkit-scrollbar-track]:bg-white/10 [&::-webkit-scrollbar-track]:rounded-sm [&::-webkit-scrollbar-thumb]:bg-accent [&::-webkit-scrollbar-thumb]:rounded-sm">
                                 {images.map((image, index) => (
                                     <button
