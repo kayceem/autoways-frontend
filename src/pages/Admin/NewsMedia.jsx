@@ -56,7 +56,7 @@ const NewsMediaAdmin = () => {
     }));
   };
 
-  const handleImageChange = (e) => {
+  const handleImageChange = async (e) => {
     const file = e.target.files[0];
     if (file) {
       if (!file.type.startsWith('image/')) {
@@ -68,8 +68,17 @@ const NewsMediaAdmin = () => {
         toast.error('Image size must be less than 5MB');
         return;
       }
+        const convertToBase64 = (file) => {
+            return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = (error) => reject(error);
+            });
+        };
+      const base64 = await convertToBase64(file);
 
-      setImageFile(file);
+      setImageFile(base64);
 
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -129,19 +138,28 @@ const NewsMediaAdmin = () => {
     }
 
     try {
-      const submitData = new FormData();
+      const submitData = {
+        articleId: formData.articleId,
+        title: formData.title,
+        category: formData.category,
+        date: formData.date,
+        excerpt: formData.excerpt,
+        content: formData.content,
+        isFeatured: formData.isFeatured
+      };
 
       if (imageFile) {
         submitData.append('image', imageFile);
       }
 
-      submitData.append('articleId', formData.articleId);
-      submitData.append('title', formData.title);
-      submitData.append('category', formData.category);
-      submitData.append('date', formData.date);
-      submitData.append('excerpt', formData.excerpt);
-      submitData.append('content', formData.content);
-      submitData.append('isFeatured', formData.isFeatured);
+    //   submitData.append('articleId', formData.articleId);
+    //   submitData.append('title', formData.title);
+    //   submitData.append('category', formData.category);
+    //   submitData.append('date', formData.date);
+    //   submitData.append('excerpt', formData.excerpt);
+    //   submitData.append('content', formData.content);
+    //   submitData.append('isFeatured', formData.isFeatured);
+
 
       if (isCreating) {
         await createNewsArticle.mutateAsync(submitData);
