@@ -15,13 +15,8 @@ const SparesParts = () => {
     }
 
     if (error) {
-        return (
-            <div className="min-h-screen flex items-center justify-center bg-primary">
-                <div className="text-error text-2xl">
-                    Failed to load spare parts data
-                </div>
-            </div>
-        );
+        window.location.href = "/not-found";
+        return null;
     }
 
     return (
@@ -89,7 +84,7 @@ const SparesParts = () => {
                         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-8 mb-12 lg:mb-16">
                             {sparePart.parts.map((part, index) => (
                                 <div
-                                    key={part.partId}
+                                    key={index}
                                     className="group animate-fade-in-up"
                                     style={{ animationDelay: `${index * 100}ms` }}
                                 >
@@ -98,7 +93,7 @@ const SparesParts = () => {
                                         <div className="relative h-48 lg:h-64 overflow-hidden">
                                             <img
                                                 src={assetUrl(part.image)}
-                                                alt={`Part ${part.partId}`}
+                                                alt={`Part ${part.name}`}
                                                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                                             />
 
@@ -118,7 +113,7 @@ const SparesParts = () => {
                                     {/* Part ID */}
                                     <div className="mt-3 lg:mt-4 text-center">
                                         <p className="text-sm lg:text-base font-semibold text-primary">
-                                            Part #{part.partId}
+                                            {part.name}
                                         </p>
                                     </div>
                                 </div>

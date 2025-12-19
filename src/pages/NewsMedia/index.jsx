@@ -9,11 +9,8 @@ const NewsMedia = () => {
   if (isLoading) return <LoadingSpinner />;
   console.log(content)
   if (!content || !content.newsArticles) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-2xl text-secondary">Failed to load news content</div>
-      </div>
-    );
+    window.location.href = "/not-found";
+    return null;
   }
 
   const articles = content.newsArticles.filter((article => article.isFeatured === false)); 

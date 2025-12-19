@@ -1,7 +1,7 @@
 import config from "../config";
 
 export const getBrandData = (brands, brandName) => {
-    const brand = brands.find(b => b.name.toLowerCase() === brandName.toLowerCase());
+    const brand = brands?.find(b => b.name.toLowerCase() === brandName.toLowerCase());
     return brand ? brand : null;
 }
 

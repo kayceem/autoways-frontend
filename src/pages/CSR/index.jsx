@@ -10,11 +10,8 @@ const CSR = () => {
   if (isLoading) return <LoadingSpinner />;
   console.log(content)
   if (!content || !content.csr) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-2xl text-secondary">Failed to load CSR content</div>
-      </div>
-    );
+    window.location.href = "/not-found";
+    return null;
   }
 
   const { hero: heroData, initiatives} = content.csr;

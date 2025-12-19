@@ -9,11 +9,8 @@ const Testimonials = () => {
 
   if (isLoading) return <LoadingSpinner />;
   if (!content || !content.testimonials) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-2xl text-secondary">Failed to load testimonials</div>
-      </div>
-    );
+    window.location.href = "/not-found";
+    return null;
   }
 
   const testimonials = content.testimonials;

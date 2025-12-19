@@ -12,16 +12,11 @@ const AboutUs = () => {
 
   if (isLoading) return <LoadingSpinner />;
   if (!content || content.aboutUs?.length === 0) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-2xl text-secondary">Failed to load about us content</div>
-      </div>
-    );
+    window.location.href = "/not-found";
   }
 
-  const { mission, vision, values, milestones, team, stats, chairman_message, md_message, certifications, awards } = content.aboutUs[0] || [];
+  const { mission, vision, values, milestones, team, stats, chairman_message, md_message} = content.aboutUs[0] || [];
   const aboutUs = content.aboutUs[0];
-  console.log(stats)
 
   // Handlers for timeline navigation
   const scrollToMilestone = (index) => {

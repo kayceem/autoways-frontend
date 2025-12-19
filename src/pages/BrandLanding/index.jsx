@@ -15,16 +15,14 @@ const BrandLanding = () => {
     }
     
     if (error) {
-        return (
-            <div className="min-h-screen flex items-center justify-center bg-primary">
-                <div className="text-error text-2xl">
-                    Failed to load brand data
-                </div>
-            </div>
-        );
+        window.location.href = "/not-found";
+        return null;
     }
     const brandData = getBrandData(content?.brands, brand);
-    console.log('BrandLanding brand:', brandData);
+    if (!brandData) {
+        navigate("/not-found");
+        return null;
+    }
 
     return (
         <div className={`min-h-screen bg-primary`}>
@@ -107,7 +105,7 @@ style={{
 
                     {/* Product Type Cards Grid */}
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-8">
-                        {brandData.productTypes?.map((productType, index) => (
+                        {brandData?.productTypes?.map((productType, index) => (
                             <ProductTypeCard
                                 key={index}
                                 type={productType.name}
@@ -121,8 +119,8 @@ style={{
                     </div>
 
                     {/* Empty State */}
-                    {(!brandData.productTypes ||
-                        brandData.productTypes.length === 0) && (
+                    {(!brandData?.productTypes ||
+                        brandData.productTypes?.length === 0) && (
                         <div className="text-center py-20">
                             <p
                                 className={`text-primary text-xl opacity-50`}

@@ -8,7 +8,11 @@ const handleError = (error) => {
     const errorMessage = error.response.data.status_message;
     toast.error(errorMessage);
   } else {
-    console.log("Error fetching data");
+    if (typeof error === 'string') {
+      toast.error(error);
+    } else {
+      toast.error('An unexpected error occurred. Please try again later.');
+    }
   }
 };
 

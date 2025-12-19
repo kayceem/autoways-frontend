@@ -22,13 +22,8 @@ const ProductTypePage = () => {
         return <LoadingSpinner name={brand} />;
     }
     if (error) {
-        return (
-            <div className="min-h-screen flex items-center justify-center bg-primary">
-                <div className="text-error text-2xl">
-                    Failed to load brand data
-                </div>
-            </div>
-        );
+        window.location.href = "/not-found";
+        return null;
     }
 
     return (

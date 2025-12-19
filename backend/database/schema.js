@@ -454,11 +454,9 @@ const SparePartSchema = new Schema({
         type: String,
     },
     parts: [{
-
-        partId: {
-            type: Number,
+        name: {
+            type: String,
             required: true,
-            unique: true,
         },
         image: {
             type: String,
