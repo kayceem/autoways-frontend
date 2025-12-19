@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { X, Upload, FileText, Plus, Trash2, ArrowLeft } from 'lucide-react';
+import { X, Upload, FileText, Plus, Trash2, ArrowLeft, ChevronDown, ChevronUp } from 'lucide-react';
 
 const ProductForm = ({ 
   editingProduct = null, 
@@ -21,7 +21,19 @@ const ProductForm = ({
     fullDescription: '',
     features: [''],
     brochureUrl: '',
-    specSheetUrl: ''
+    specSheetUrl: '',
+    specifications: {
+      engine: [],
+      motor: [],
+      performance: [],
+      dimensions: [],
+      battery: [],
+      hydraulics: [],
+      liftArm: [],
+      capacities: [],
+      safety: [],
+      offroad: []
+    }
   });
 
   const [imagePreviews, setImagePreviews] = useState([]);
@@ -32,9 +44,64 @@ const ProductForm = ({
   const [errors, setErrors] = useState({});
   const [uploadErrors, setUploadErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [expandedSpecs, setExpandedSpecs] = useState({});
+
+  // Specification categories with their display names
+  const specificationCategories = [
+    { key: 'engine', label: 'Engine' },
+    { key: 'motor', label: 'Motor' },
+    { key: 'performance', label: 'Performance' },
+    { key: 'dimensions', label: 'Dimensions' },
+    { key: 'battery', label: 'Battery' },
+    { key: 'hydraulics', label: 'Hydraulics' },
+    { key: 'liftArm', label: 'Lift Arm' },
+    { key: 'capacities', label: 'Capacities' },
+    { key: 'safety', label: 'Safety' },
+    { key: 'offroad', label: 'Off-Road' }
+  ];
+
+  // Utility function to convert string to camelCase
+  const toCamelCase = (str) => {
+    return str
+      .trim()
+      .replace(/[^a-zA-Z\s]/g, '') // Remove non-letter, non-space characters
+      .split(/\s+/) // Split by whitespace
+      .map((word, index) => {
+        if (index === 0) {
+          return word.toLowerCase();
+        }
+        return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+      })
+      .join('');
+  };
 
   useEffect(() => {
     if (editingProduct) {
+      // Convert existing specifications object to array format
+      const loadedSpecs = {
+        engine: [],
+        motor: [],
+        performance: [],
+        dimensions: [],
+        battery: [],
+        hydraulics: [],
+        liftArm: [],
+        capacities: [],
+        safety: [],
+        offroad: []
+      };
+
+      if (editingProduct.specifications) {
+        Object.keys(loadedSpecs).forEach(category => {
+          if (editingProduct.specifications[category] && typeof editingProduct.specifications[category] === 'object') {
+            loadedSpecs[category] = Object.entries(editingProduct.specifications[category]).map(([key, value]) => ({
+              key: key.replace(/([A-Z])/g, ' $1').trim(), // Convert camelCase back to readable format
+              value: value
+            }));
+          }
+        });
+      }
+
       setFormData({
         name: editingProduct.name || '',
         type: editingProduct.type || '',
@@ -46,7 +113,8 @@ const ProductForm = ({
         fullDescription: editingProduct.fullDescription || '',
         features: editingProduct.features?.length > 0 ? editingProduct.features : [''],
         brochureUrl: editingProduct.brochureUrl || '',
-        specSheetUrl: editingProduct.specSheetUrl || ''
+        specSheetUrl: editingProduct.specSheetUrl || '',
+        specifications: loadedSpecs
       });
       setImagePreviews(editingProduct.images || []);
     }
@@ -175,6 +243,48 @@ const ProductForm = ({
     }
   };
 
+  // Specification handlers
+  const toggleSpecCategory = (category) => {
+    setExpandedSpecs(prev => ({
+      ...prev,
+      [category]: !prev[category]
+    }));
+  };
+
+  const handleAddSpecField = (category) => {
+    setFormData(prev => ({
+      ...prev,
+      specifications: {
+        ...prev.specifications,
+        [category]: [...prev.specifications[category], { key: '', value: '' }]
+      }
+    }));
+  };
+
+  const handleRemoveSpecField = (category, index) => {
+    setFormData(prev => ({
+      ...prev,
+      specifications: {
+        ...prev.specifications,
+        [category]: prev.specifications[category].filter((_, i) => i !== index)
+      }
+    }));
+  };
+
+  const handleSpecFieldChange = (category, index, field, value) => {
+    setFormData(prev => {
+      const newSpecs = [...prev.specifications[category]];
+      newSpecs[index] = { ...newSpecs[index], [field]: value };
+      return {
+        ...prev,
+        specifications: {
+          ...prev.specifications,
+          [category]: newSpecs
+        }
+      };
+    });
+  };
+
   const validateForm = () => {
     const newErrors = {};
 
@@ -211,9 +321,29 @@ const ProductForm = ({
       return;
     }
 
+    // Convert specifications array format to object format with camelCase keys
+    const processedSpecs = {};
+    Object.keys(formData.specifications).forEach(category => {
+      const fields = formData.specifications[category];
+      if (fields.length > 0) {
+        processedSpecs[category] = {};
+        fields.forEach(field => {
+          if (field.key.trim() && field.value.trim()) {
+            const camelKey = toCamelCase(field.key);
+            processedSpecs[category][camelKey] = field.value.trim();
+          }
+        });
+        // Remove empty categories
+        if (Object.keys(processedSpecs[category]).length === 0) {
+          delete processedSpecs[category];
+        }
+      }
+    });
+
     const submitData = {
       ...formData,
-      features: formData.features.filter(feat => feat.trim())
+      features: formData.features.filter(feat => feat.trim()),
+      specifications: processedSpecs
     };
 
     setIsSubmitting(true);
@@ -474,6 +604,91 @@ const ProductForm = ({
                       >
                         <Trash2 className="w-5 h-5" />
                       </button>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Product Specifications */}
+            <div>
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Product Specifications (Optional)</h3>
+              <p className="text-sm text-gray-600 mb-4">
+                Add technical specifications for your product. Each category can contain multiple fields.
+              </p>
+              <div className="space-y-3">
+                {specificationCategories.map((category) => (
+                  <div key={category.key} className="border border-gray-200 rounded-lg overflow-hidden">
+                    {/* Category Header */}
+                    <button
+                      type="button"
+                      onClick={() => toggleSpecCategory(category.key)}
+                      className="w-full px-4 py-3 bg-gray-50 hover:bg-gray-100 transition-colors flex items-center justify-between"
+                    >
+                      <div className="flex items-center space-x-2">
+                        <span className="font-medium text-gray-900">{category.label}</span>
+                        {formData.specifications[category.key].length > 0 && (
+                          <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full">
+                            {formData.specifications[category.key].length} field{formData.specifications[category.key].length !== 1 ? 's' : ''}
+                          </span>
+                        )}
+                      </div>
+                      {expandedSpecs[category.key] ? (
+                        <ChevronUp className="w-5 h-5 text-gray-500" />
+                      ) : (
+                        <ChevronDown className="w-5 h-5 text-gray-500" />
+                      )}
+                    </button>
+
+                    {/* Category Content */}
+                    {expandedSpecs[category.key] && (
+                      <div className="p-4 bg-white space-y-3">
+                        {formData.specifications[category.key].map((field, index) => (
+                          <div key={index} className="flex items-start space-x-2">
+                            <div className="flex-1 grid grid-cols-2 gap-2">
+                              <div>
+                                <input
+                                  type="text"
+                                  value={field.key}
+                                  onChange={(e) => handleSpecFieldChange(category.key, index, 'key', e.target.value)}
+                                  placeholder="Field name (e.g., Max Power)"
+                                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                                />
+                              </div>
+                              <div>
+                                <input
+                                  type="text"
+                                  value={field.value}
+                                  onChange={(e) => handleSpecFieldChange(category.key, index, 'value', e.target.value)}
+                                  placeholder="Value (e.g., 100 HP)"
+                                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                                />
+                              </div>
+                            </div>
+                            <button
+                              type="button"
+                              onClick={() => handleRemoveSpecField(category.key, index)}
+                              className="text-red-600 hover:text-red-700 p-2 mt-0.5"
+                              title="Remove field"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </button>
+                          </div>
+                        ))}
+
+                        <button
+                          type="button"
+                          onClick={() => handleAddSpecField(category.key)}
+                          className="flex items-center space-x-1 text-blue-600 hover:text-blue-700 text-sm font-medium mt-2"
+                        >
+                          <Plus className="w-4 h-4" />
+                          <span>Add Field</span>
+                        </button>
+
+                        {formData.specifications[category.key].length === 0 && (
+                          <p className="text-sm text-gray-500 italic">No fields added yet. Click "Add Field" to get started.</p>
+                        )}
+                      </div>
                     )}
                   </div>
                 ))}
