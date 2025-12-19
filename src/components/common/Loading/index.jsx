@@ -10,8 +10,8 @@ const LoadingSpinner = ({ name = 'default', size = 128, className = '' }) => {
       style={{ width: size, height: size }}
     >
       <img
-        src={logoMap[name]}
-        alt={`${name} loading`}
+        src={assetUrl(logoMap[name] || logoMap['default'])}
+        alt={`Loading`}
         className="object-contain h-full animate-[spin-horizontal_1.8s_linear_infinite]"
         style={{ width: size, height: size }}
       />
