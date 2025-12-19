@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Mail, Phone, User, MessageSquare, Send } from 'lucide-react';
 import toast from 'react-hot-toast';
+import axiosInstance from '../../../services/apiService';
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
@@ -71,10 +72,9 @@ const ContactForm = () => {
     setIsSubmitting(true);
 
     try {
-      // TODO: Replace with actual API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      // Send contact form data to backend
+      await axiosInstance.post('/contact', formData);
 
-      // Simulate successful submission
       toast.success('Thank you for your inquiry! We will get back to you soon.');
 
       setFormData({
@@ -86,7 +86,8 @@ const ContactForm = () => {
       });
       setErrors({});
     } catch (error) {
-      toast.error('Something went wrong. Please try again later.');
+      console.error('Contact form submission error:', error);
+      toast.error(error?.message || 'Something went wrong. Please try again later.');
     } finally {
       setIsSubmitting(false);
     }

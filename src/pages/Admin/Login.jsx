@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { Lock, User } from 'lucide-react';
+import axiosInstance from '../../services/apiService';
 
 const AdminLogin = () => {
   const navigate = useNavigate();
@@ -16,17 +17,19 @@ const AdminLogin = () => {
     setIsLoading(true);
 
     try {
-      // Simple authentication - in production, this should call an API
-      if (credentials.username === 'admin' && credentials.password === 'admin123') {
-        localStorage.setItem('accessToken', 'admin-token-' + Date.now());
-        localStorage.setItem('isAdmin', 'true');
-        toast.success('Login successful!');
-        navigate('/admin/dashboard');
-      } else {
-        toast.error('Invalid credentials');
-      }
+      // Authenticate via backend API
+      const response = await axiosInstance.post('/auth/login', credentials);
+
+      // Store the token returned from backend
+      const { token } = response.data;
+      localStorage.setItem('accessToken', token);
+      localStorage.setItem('isAdmin', 'true');
+
+      toast.success('Login successful!');
+      navigate('/admin/dashboard');
     } catch (error) {
-      toast.error('Login failed. Please try again.');
+      console.error('Login error:', error);
+      toast.error(error?.message || 'Invalid credentials. Please try again.');
     } finally {
       setIsLoading(false);
     }
@@ -105,7 +108,7 @@ const AdminLogin = () => {
 
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-600">
-              Demo credentials: <span className="font-mono text-blue-600">admin / admin123</span>
+              Enter your admin credentials to continue
             </p>
           </div>
         </div>
