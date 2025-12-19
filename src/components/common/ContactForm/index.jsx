@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Mail, Phone, User, MessageSquare, Send } from 'lucide-react';
 import toast from 'react-hot-toast';
-import axiosInstance from '../../../services/apiService';
+import { useSubmitContactForm } from '../../../hooks/useContactMutation';
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
@@ -12,8 +12,8 @@ const ContactForm = () => {
     message: ''
   });
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState({});
+  const { mutate: submitContact, isPending } = useSubmitContactForm();
 
   const validateForm = () => {
     const newErrors = {};
@@ -69,28 +69,18 @@ const ContactForm = () => {
       return;
     }
 
-    setIsSubmitting(true);
-
-    try {
-      // Send contact form data to backend
-      await axiosInstance.post('/contact', formData);
-
-      toast.success('Thank you for your inquiry! We will get back to you soon.');
-
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        subject: '',
-        message: ''
-      });
-      setErrors({});
-    } catch (error) {
-      console.error('Contact form submission error:', error);
-      toast.error(error?.message || 'Something went wrong. Please try again later.');
-    } finally {
-      setIsSubmitting(false);
-    }
+    submitContact(formData, {
+      onSuccess: () => {
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          subject: '',
+          message: ''
+        });
+        setErrors({});
+      }
+    });
   };
 
   return (
@@ -225,10 +215,10 @@ const ContactForm = () => {
           {/* Submit Button */}
           <button
             type="submit"
-            disabled={isSubmitting}
+            disabled={isPending}
             className="w-full bg-accent text-primary py-3 px-6 rounded-lg font-medium hover:bg-neutral-800 focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2 transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {isSubmitting ? (
+            {isPending ? (
               <>
                 <div className="w-5 h-5 border-2 border-primary border-t-transparent rounded-full animate-spin" />
                 <span>Sending...</span>
