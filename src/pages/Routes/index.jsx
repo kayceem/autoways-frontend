@@ -72,6 +72,7 @@ const PageRoutes = () => {
                             <Route path="/about" element={<AboutUs />} />
                             <Route path="/csr" element={<CSR />} />
                             <Route path="/sister-companies" element={<SisterCompanies />} />
+                            <Route path="/sister-companies/:companyId" element={<SisterCompaniesLanding />} />
                             <Route path="/spares-parts" element={<SparesParts />} />
                             <Route path="/shop/:brand" element={<BrandLanding />} />
                             <Route path="/shop/:brand/:typeSlug" element={<ProductType />} />
