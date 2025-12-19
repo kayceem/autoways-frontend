@@ -1,5 +1,5 @@
 const logoMap = {
-    default: "/assets/images/autoways-text-logo.png",
+    default: "autoways-logo.svg",
     toyota: "/assets/images/brands/toyota/toyota-logo.png",
     eicher: "/assets/images/brands/eicher/eicher-logo.png",
     bull: "/assets/images/brands/bull/bull-machine-logo.png",
