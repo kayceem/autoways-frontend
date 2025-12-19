@@ -1,7 +1,6 @@
-import fs from 'fs/promises';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import {
+const fs = require('fs/promises');
+const path = require('path');
+const {
     HeroImage,
     AboutUs,
     ContactInfo,
@@ -16,9 +15,9 @@ import {
     CSRHero,
     SisterCompany,
     SparePart,
-} from './schema.js';
+} = require('./schema.js');
 
-import {
+const {
     processProductFiles,
     deleteProductFiles,
     deleteImage,
@@ -42,10 +41,8 @@ import {
     deleteSisterCompanyFiles,
     processSparePartFiles,
     deleteSparePartFiles,
-} from './utils.js';
+} = require('./utils.js');
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 const DATA_FILE_PATH = path.join(__dirname, '..', 'assets', 'data.json');
 
 // ==================== UTILITY FUNCTIONS ====================
@@ -130,7 +127,7 @@ const fetchAllDataFromDB = async () => {
 };
 
 // ==================== GET ALL DATA ====================
-export const getAllData = asyncHandler(async (req, res) => {
+const getAllData = asyncHandler(async (req, res) => {
     const fileExists = await checkDataFileExists();
 
     if (fileExists) {
@@ -153,7 +150,7 @@ export const getAllData = asyncHandler(async (req, res) => {
 });
 
 // ==================== REFRESH CACHE ====================
-export const refreshCache = asyncHandler(async (req, res) => {
+const refreshCache = asyncHandler(async (req, res) => {
     const data = await fetchAllDataFromDB();
     await writeDataFile(data);
 
@@ -165,7 +162,7 @@ export const refreshCache = asyncHandler(async (req, res) => {
 });
 
 // ==================== HERO IMAGE GET ROUTES ====================
-export const getHeroImages = asyncHandler(async (req, res) => {
+const getHeroImages = asyncHandler(async (req, res) => {
     const { limit, skip, sort } = req.query;
     const query = HeroImage.find();
 
@@ -184,7 +181,7 @@ export const getHeroImages = asyncHandler(async (req, res) => {
     });
 });
 
-export const getHeroImageById = asyncHandler(async (req, res) => {
+const getHeroImageById = asyncHandler(async (req, res) => {
     const heroImage = await HeroImage.findById(req.params.id);
     if (!heroImage) {
         return res.status(404).json({ success: false, error: 'Hero image not found' });
@@ -196,7 +193,7 @@ export const getHeroImageById = asyncHandler(async (req, res) => {
 });
 
 // ==================== ABOUT US GET ROUTES ====================
-export const getAboutUs = asyncHandler(async (req, res) => {
+const getAboutUs = asyncHandler(async (req, res) => {
     const { limit, skip, sort } = req.query;
     const query = AboutUs.find();
 
@@ -215,7 +212,7 @@ export const getAboutUs = asyncHandler(async (req, res) => {
     });
 });
 
-export const getAboutUsById = asyncHandler(async (req, res) => {
+const getAboutUsById = asyncHandler(async (req, res) => {
     const aboutUs = await AboutUs.findById(req.params.id);
     if (!aboutUs) {
         return res.status(404).json({ success: false, error: 'About us not found' });
@@ -227,7 +224,7 @@ export const getAboutUsById = asyncHandler(async (req, res) => {
 });
 
 // ==================== CONTACT INFO GET ROUTES ====================
-export const getContactInfo = asyncHandler(async (req, res) => {
+const getContactInfo = asyncHandler(async (req, res) => {
     const { limit, skip, sort } = req.query;
     const query = ContactInfo.find();
 
@@ -246,7 +243,7 @@ export const getContactInfo = asyncHandler(async (req, res) => {
     });
 });
 
-export const getContactInfoById = asyncHandler(async (req, res) => {
+const getContactInfoById = asyncHandler(async (req, res) => {
     const contactInfo = await ContactInfo.findById(req.params.id);
     if (!contactInfo) {
         return res.status(404).json({ success: false, error: 'Contact info not found' });
@@ -258,7 +255,7 @@ export const getContactInfoById = asyncHandler(async (req, res) => {
 });
 
 // ==================== LOCATION GET ROUTES ====================
-export const getLocations = asyncHandler(async (req, res) => {
+const getLocations = asyncHandler(async (req, res) => {
     const { limit, skip, sort } = req.query;
     const query = Location.find();
 
@@ -277,7 +274,7 @@ export const getLocations = asyncHandler(async (req, res) => {
     });
 });
 
-export const getLocationById = asyncHandler(async (req, res) => {
+const getLocationById = asyncHandler(async (req, res) => {
     const location = await Location.findById(req.params.id);
     if (!location) {
         return res.status(404).json({ success: false, error: 'Location not found' });
@@ -289,7 +286,7 @@ export const getLocationById = asyncHandler(async (req, res) => {
 });
 
 // ==================== PRODUCT GET ROUTES ====================
-export const getProducts = asyncHandler(async (req, res) => {
+const getProducts = asyncHandler(async (req, res) => {
     const { limit, skip, sort, brand, category, type, id } = req.query;
     const filter = {};
 
@@ -315,7 +312,7 @@ export const getProducts = asyncHandler(async (req, res) => {
     });
 });
 
-export const getProductById = asyncHandler(async (req, res) => {
+const getProductById = asyncHandler(async (req, res) => {
     const product = await Product.findById(req.params.id);
     if (!product) {
         return res.status(404).json({ success: false, error: 'Product not found' });
@@ -327,7 +324,7 @@ export const getProductById = asyncHandler(async (req, res) => {
 });
 
 // ==================== BRAND GET ROUTES ====================
-export const getBrands = asyncHandler(async (req, res) => {
+const getBrands = asyncHandler(async (req, res) => {
     const { limit, skip, sort } = req.query;
     const query = Brand.find();
 
@@ -346,7 +343,7 @@ export const getBrands = asyncHandler(async (req, res) => {
     });
 });
 
-export const getBrandById = asyncHandler(async (req, res) => {
+const getBrandById = asyncHandler(async (req, res) => {
     const brand = await Brand.findById(req.params.id);
     if (!brand) {
         return res.status(404).json({ success: false, error: 'Brand not found' });
@@ -358,7 +355,7 @@ export const getBrandById = asyncHandler(async (req, res) => {
 });
 
 // ==================== PARTNER GET ROUTES ====================
-export const getPartners = asyncHandler(async (req, res) => {
+const getPartners = asyncHandler(async (req, res) => {
     const { limit, skip, sort, category } = req.query;
     const filter = {};
 
@@ -381,7 +378,7 @@ export const getPartners = asyncHandler(async (req, res) => {
     });
 });
 
-export const getPartnerById = asyncHandler(async (req, res) => {
+const getPartnerById = asyncHandler(async (req, res) => {
     const partner = await Partner.findById(req.params.id);
     if (!partner) {
         return res.status(404).json({ success: false, error: 'Partner not found' });
@@ -393,7 +390,7 @@ export const getPartnerById = asyncHandler(async (req, res) => {
 });
 
 // ==================== CLIENT GET ROUTES ====================
-export const getClients = asyncHandler(async (req, res) => {
+const getClients = asyncHandler(async (req, res) => {
     const { limit, skip, sort } = req.query;
     const query = Client.find();
 
@@ -412,7 +409,7 @@ export const getClients = asyncHandler(async (req, res) => {
     });
 });
 
-export const getClientById = asyncHandler(async (req, res) => {
+const getClientById = asyncHandler(async (req, res) => {
     const client = await Client.findById(req.params.id);
     if (!client) {
         return res.status(404).json({ success: false, error: 'Client not found' });
@@ -424,7 +421,7 @@ export const getClientById = asyncHandler(async (req, res) => {
 });
 
 // ==================== NEWS ARTICLE GET ROUTES ====================
-export const getNewsArticles = asyncHandler(async (req, res) => {
+const getNewsArticles = asyncHandler(async (req, res) => {
     const { limit, skip, sort, featured, category } = req.query;
     const filter = {};
 
@@ -448,7 +445,7 @@ export const getNewsArticles = asyncHandler(async (req, res) => {
     });
 });
 
-export const getNewsArticleById = asyncHandler(async (req, res) => {
+const getNewsArticleById = asyncHandler(async (req, res) => {
     const newsArticle = await NewsArticle.findById(req.params.id);
     if (!newsArticle) {
         return res.status(404).json({ success: false, error: 'News article not found' });
@@ -460,7 +457,7 @@ export const getNewsArticleById = asyncHandler(async (req, res) => {
 });
 
 // ==================== TESTIMONIAL GET ROUTES ====================
-export const getTestimonials = asyncHandler(async (req, res) => {
+const getTestimonials = asyncHandler(async (req, res) => {
     const { limit, skip, sort, minRating } = req.query;
     const filter = {};
 
@@ -483,7 +480,7 @@ export const getTestimonials = asyncHandler(async (req, res) => {
     });
 });
 
-export const getTestimonialById = asyncHandler(async (req, res) => {
+const getTestimonialById = asyncHandler(async (req, res) => {
     const testimonial = await Testimonial.findById(req.params.id);
     if (!testimonial) {
         return res.status(404).json({ success: false, error: 'Testimonial not found' });
@@ -495,7 +492,7 @@ export const getTestimonialById = asyncHandler(async (req, res) => {
 });
 
 // ==================== CSR INITIATIVE GET ROUTES ====================
-export const getCSRInitiatives = asyncHandler(async (req, res) => {
+const getCSRInitiatives = asyncHandler(async (req, res) => {
     const { limit, skip, sort } = req.query;
     const query = CSRInitiative.find();
 
@@ -514,7 +511,7 @@ export const getCSRInitiatives = asyncHandler(async (req, res) => {
     });
 });
 
-export const getCSRInitiativeById = asyncHandler(async (req, res) => {
+const getCSRInitiativeById = asyncHandler(async (req, res) => {
     const csrInitiative = await CSRInitiative.findById(req.params.id);
     if (!csrInitiative) {
         return res.status(404).json({ success: false, error: 'CSR initiative not found' });
@@ -526,7 +523,7 @@ export const getCSRInitiativeById = asyncHandler(async (req, res) => {
 });
 
 // ==================== CSR HERO GET ROUTES ====================
-export const getCSRHero = asyncHandler(async (req, res) => {
+const getCSRHero = asyncHandler(async (req, res) => {
     const { limit, skip, sort } = req.query;
     const query = CSRHero.find();
 
@@ -545,7 +542,7 @@ export const getCSRHero = asyncHandler(async (req, res) => {
     });
 });
 
-export const getCSRHeroById = asyncHandler(async (req, res) => {
+const getCSRHeroById = asyncHandler(async (req, res) => {
     const csrHero = await CSRHero.findById(req.params.id);
     if (!csrHero) {
         return res.status(404).json({ success: false, error: 'CSR hero not found' });
@@ -557,7 +554,7 @@ export const getCSRHeroById = asyncHandler(async (req, res) => {
 });
 
 // ==================== SISTER COMPANY GET ROUTES ====================
-export const getSisterCompanies = asyncHandler(async (req, res) => {
+const getSisterCompanies = asyncHandler(async (req, res) => {
     const { limit, skip, sort } = req.query;
     const query = SisterCompany.find();
 
@@ -576,7 +573,7 @@ export const getSisterCompanies = asyncHandler(async (req, res) => {
     });
 });
 
-export const getSisterCompanyById = asyncHandler(async (req, res) => {
+const getSisterCompanyById = asyncHandler(async (req, res) => {
     const sisterCompany = await SisterCompany.findById(req.params.id);
     if (!sisterCompany) {
         return res.status(404).json({ success: false, error: 'Sister company not found' });
@@ -588,7 +585,7 @@ export const getSisterCompanyById = asyncHandler(async (req, res) => {
 });
 
 // ==================== SPARE PART GET ROUTES ====================
-export const getSpareParts = asyncHandler(async (req, res) => {
+const getSpareParts = asyncHandler(async (req, res) => {
     const { limit, skip, sort, category, inStock } = req.query;
     const filter = {};
 
@@ -612,7 +609,7 @@ export const getSpareParts = asyncHandler(async (req, res) => {
     });
 });
 
-export const getSparePartById = asyncHandler(async (req, res) => {
+const getSparePartById = asyncHandler(async (req, res) => {
     const sparePart = await SparePart.findById(req.params.id);
     if (!sparePart) {
         return res.status(404).json({ success: false, error: 'Spare part not found' });
@@ -625,7 +622,7 @@ export const getSparePartById = asyncHandler(async (req, res) => {
 
 
 // ==================== HERO IMAGE ROUTES ====================
-export const createHeroImage = asyncHandler(async (req, res) => {
+const createHeroImage = asyncHandler(async (req, res) => {
     const processedData = await processHeroImageFiles(req.body);
     const heroImage = await HeroImage.create(processedData);
     await refreshCacheInBackground();
@@ -635,7 +632,7 @@ export const createHeroImage = asyncHandler(async (req, res) => {
     });
 });
 
-export const updateHeroImage = asyncHandler(async (req, res) => {
+const updateHeroImage = asyncHandler(async (req, res) => {
     let heroImage = await HeroImage.findById(req.params.id);
     if (!heroImage) {
         return res.status(404).json({ success: false, error: 'Hero image not found' });
@@ -661,7 +658,7 @@ export const updateHeroImage = asyncHandler(async (req, res) => {
     });
 });
 
-export const deleteHeroImage = asyncHandler(async (req, res) => {
+const deleteHeroImage = asyncHandler(async (req, res) => {
     const heroImage = await HeroImage.findByIdAndDelete(req.params.id);
     if (!heroImage) {
         return res.status(404).json({ success: false, error: 'Hero image not found' });
@@ -676,7 +673,7 @@ export const deleteHeroImage = asyncHandler(async (req, res) => {
 });
 
 // ==================== ABOUT US ROUTES ====================
-export const createAboutUs = asyncHandler(async (req, res) => {
+const createAboutUs = asyncHandler(async (req, res) => {
     const processedData = await processAboutUsFiles(req.body);
     const aboutUs = await AboutUs.create(processedData);
     await refreshCacheInBackground();
@@ -686,7 +683,7 @@ export const createAboutUs = asyncHandler(async (req, res) => {
     });
 });
 
-export const updateAboutUs = asyncHandler(async (req, res) => {
+const updateAboutUs = asyncHandler(async (req, res) => {
     let aboutUs = await AboutUs.findById(req.params.id);
     if (!aboutUs) {
         return res.status(404).json({ success: false, error: 'About us not found' });
@@ -711,7 +708,7 @@ export const updateAboutUs = asyncHandler(async (req, res) => {
     });
 });
 
-export const deleteAboutUs = asyncHandler(async (req, res) => {
+const deleteAboutUs = asyncHandler(async (req, res) => {
     const aboutUs = await AboutUs.findByIdAndDelete(req.params.id);
     if (!aboutUs) {
         return res.status(404).json({ success: false, error: 'About us not found' });
@@ -726,7 +723,7 @@ export const deleteAboutUs = asyncHandler(async (req, res) => {
 });
 
 // ==================== CONTACT INFO ROUTES ====================
-export const createContactInfo = asyncHandler(async (req, res) => {
+const createContactInfo = asyncHandler(async (req, res) => {
     const contactInfo = await ContactInfo.create(req.body);
     await refreshCacheInBackground();
     res.status(201).json({
@@ -735,7 +732,7 @@ export const createContactInfo = asyncHandler(async (req, res) => {
     });
 });
 
-export const updateContactInfo = asyncHandler(async (req, res) => {
+const updateContactInfo = asyncHandler(async (req, res) => {
     const contactInfo = await ContactInfo.findByIdAndUpdate(
         req.params.id,
         req.body,
@@ -751,7 +748,7 @@ export const updateContactInfo = asyncHandler(async (req, res) => {
     });
 });
 
-export const deleteContactInfo = asyncHandler(async (req, res) => {
+const deleteContactInfo = asyncHandler(async (req, res) => {
     const contactInfo = await ContactInfo.findByIdAndDelete(req.params.id);
     if (!contactInfo) {
         return res.status(404).json({ success: false, error: 'Contact info not found' });
@@ -764,7 +761,7 @@ export const deleteContactInfo = asyncHandler(async (req, res) => {
 });
 
 // ==================== LOCATION ROUTES ====================
-export const createLocation = asyncHandler(async (req, res) => {
+const createLocation = asyncHandler(async (req, res) => {
     const location = await Location.create(req.body);
     await refreshCacheInBackground();
     res.status(201).json({
@@ -773,7 +770,7 @@ export const createLocation = asyncHandler(async (req, res) => {
     });
 });
 
-export const updateLocation = asyncHandler(async (req, res) => {
+const updateLocation = asyncHandler(async (req, res) => {
     const location = await Location.findByIdAndUpdate(
         req.params.id,
         req.body,
@@ -789,7 +786,7 @@ export const updateLocation = asyncHandler(async (req, res) => {
     });
 });
 
-export const deleteLocation = asyncHandler(async (req, res) => {
+const deleteLocation = asyncHandler(async (req, res) => {
     const location = await Location.findByIdAndDelete(req.params.id);
     if (!location) {
         return res.status(404).json({ success: false, error: 'Location not found' });
@@ -802,7 +799,7 @@ export const deleteLocation = asyncHandler(async (req, res) => {
 });
 
 // ==================== PRODUCT ROUTES ====================
-export const createProduct = asyncHandler(async (req, res) => {
+const createProduct = asyncHandler(async (req, res) => {
   // Process and save files
   const processedData = await processProductFiles(req.body);
   
@@ -817,7 +814,7 @@ export const createProduct = asyncHandler(async (req, res) => {
   });
 });
 
-export const updateProduct = asyncHandler(async (req, res) => {
+const updateProduct = asyncHandler(async (req, res) => {
   let product = await Product.findById(req.params.id);
   
   if (!product) {
@@ -864,7 +861,7 @@ export const updateProduct = asyncHandler(async (req, res) => {
   });
 });
 
-export const deleteProduct = asyncHandler(async (req, res) => {
+const deleteProduct = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.id);
   
   if (!product) {
@@ -894,7 +891,7 @@ export const deleteProduct = asyncHandler(async (req, res) => {
 
 
 // ==================== BRAND ROUTES ====================
-export const createBrand = asyncHandler(async (req, res) => {
+const createBrand = asyncHandler(async (req, res) => {
     const processedData = await processBrandFiles(req.body);
     const brand = await Brand.create(processedData);
     await refreshCacheInBackground();
@@ -904,7 +901,7 @@ export const createBrand = asyncHandler(async (req, res) => {
     });
 });
 
-export const updateBrand = asyncHandler(async (req, res) => {
+const updateBrand = asyncHandler(async (req, res) => {
     let brand = await Brand.findById(req.params.id);
     if (!brand) {
         return res.status(404).json({ success: false, error: 'Brand not found' });
@@ -938,7 +935,7 @@ export const updateBrand = asyncHandler(async (req, res) => {
     });
 });
 
-export const deleteBrand = asyncHandler(async (req, res) => {
+const deleteBrand = asyncHandler(async (req, res) => {
     const brand = await Brand.findByIdAndDelete(req.params.id);
     if (!brand) {
         return res.status(404).json({ success: false, error: 'Brand not found' });
@@ -953,7 +950,7 @@ export const deleteBrand = asyncHandler(async (req, res) => {
 });
 
 // ==================== PRODUCT TYPE ROUTES (within Brand) ====================
-export const getProductTypes = asyncHandler(async (req, res) => {
+const getProductTypes = asyncHandler(async (req, res) => {
     const { brandId } = req.query;
 
     let brands;
@@ -984,7 +981,7 @@ export const getProductTypes = asyncHandler(async (req, res) => {
     });
 });
 
-export const createProductType = asyncHandler(async (req, res) => {
+const createProductType = asyncHandler(async (req, res) => {
     const { brandId, name, type, image } = req.body;
 
     if (!brandId || !name || !type || !image) {
@@ -1024,7 +1021,7 @@ export const createProductType = asyncHandler(async (req, res) => {
     });
 });
 
-export const updateProductType = asyncHandler(async (req, res) => {
+const updateProductType = asyncHandler(async (req, res) => {
     const { brandId, oldType, name, type, image } = req.body;
 
     if (!brandId || !oldType) {
@@ -1078,7 +1075,7 @@ export const updateProductType = asyncHandler(async (req, res) => {
     });
 });
 
-export const deleteProductType = asyncHandler(async (req, res) => {
+const deleteProductType = asyncHandler(async (req, res) => {
     const { brandId, type } = req.body;
 
     if (!brandId || !type) {
@@ -1109,7 +1106,7 @@ export const deleteProductType = asyncHandler(async (req, res) => {
 });
 
 // ==================== PARTNER ROUTES ====================
-export const createPartner = asyncHandler(async (req, res) => {
+const createPartner = asyncHandler(async (req, res) => {
     const partner = await Partner.create(req.body);
     await refreshCacheInBackground();
     res.status(201).json({
@@ -1118,7 +1115,7 @@ export const createPartner = asyncHandler(async (req, res) => {
     });
 });
 
-export const updatePartner = asyncHandler(async (req, res) => {
+const updatePartner = asyncHandler(async (req, res) => {
     const partner = await Partner.findByIdAndUpdate(
         req.params.id,
         req.body,
@@ -1134,7 +1131,7 @@ export const updatePartner = asyncHandler(async (req, res) => {
     });
 });
 
-export const deletePartner = asyncHandler(async (req, res) => {
+const deletePartner = asyncHandler(async (req, res) => {
     const partner = await Partner.findByIdAndDelete(req.params.id);
     if (!partner) {
         return res.status(404).json({ success: false, error: 'Partner not found' });
@@ -1147,7 +1144,7 @@ export const deletePartner = asyncHandler(async (req, res) => {
 });
 
 // ==================== CLIENT ROUTES ====================
-export const createClient = asyncHandler(async (req, res) => {
+const createClient = asyncHandler(async (req, res) => {
     const client = await Client.create(req.body);
     await refreshCacheInBackground();
     res.status(201).json({
@@ -1156,7 +1153,7 @@ export const createClient = asyncHandler(async (req, res) => {
     });
 });
 
-export const updateClient = asyncHandler(async (req, res) => {
+const updateClient = asyncHandler(async (req, res) => {
     const client = await Client.findByIdAndUpdate(
         req.params.id,
         req.body,
@@ -1172,7 +1169,7 @@ export const updateClient = asyncHandler(async (req, res) => {
     });
 });
 
-export const deleteClient = asyncHandler(async (req, res) => {
+const deleteClient = asyncHandler(async (req, res) => {
     const client = await Client.findByIdAndDelete(req.params.id);
     if (!client) {
         return res.status(404).json({ success: false, error: 'Client not found' });
@@ -1185,7 +1182,7 @@ export const deleteClient = asyncHandler(async (req, res) => {
 });
 
 // ==================== NEWS ARTICLE ROUTES ====================
-export const createNewsArticle = asyncHandler(async (req, res) => {
+const createNewsArticle = asyncHandler(async (req, res) => {
     const processedData = await processNewsArticleFiles(req.body);
     const newsArticle = await NewsArticle.create(processedData);
     await refreshCacheInBackground();
@@ -1195,7 +1192,7 @@ export const createNewsArticle = asyncHandler(async (req, res) => {
     });
 });
 
-export const updateNewsArticle = asyncHandler(async (req, res) => {
+const updateNewsArticle = asyncHandler(async (req, res) => {
     let newsArticle = await NewsArticle.findById(req.params.id);
     if (!newsArticle) {
         return res.status(404).json({ success: false, error: 'News article not found' });
@@ -1221,7 +1218,7 @@ export const updateNewsArticle = asyncHandler(async (req, res) => {
     });
 });
 
-export const deleteNewsArticle = asyncHandler(async (req, res) => {
+const deleteNewsArticle = asyncHandler(async (req, res) => {
     const newsArticle = await NewsArticle.findByIdAndDelete(req.params.id);
     if (!newsArticle) {
         return res.status(404).json({ success: false, error: 'News article not found' });
@@ -1236,7 +1233,7 @@ export const deleteNewsArticle = asyncHandler(async (req, res) => {
 });
 
 // ==================== TESTIMONIAL ROUTES ====================
-export const createTestimonial = asyncHandler(async (req, res) => {
+const createTestimonial = asyncHandler(async (req, res) => {
     const processedData = await processTestimonialFiles(req.body);
     const testimonial = await Testimonial.create(processedData);
     await refreshCacheInBackground();
@@ -1246,7 +1243,7 @@ export const createTestimonial = asyncHandler(async (req, res) => {
     });
 });
 
-export const updateTestimonial = asyncHandler(async (req, res) => {
+const updateTestimonial = asyncHandler(async (req, res) => {
     let testimonial = await Testimonial.findById(req.params.id);
     if (!testimonial) {
         return res.status(404).json({ success: false, error: 'Testimonial not found' });
@@ -1272,7 +1269,7 @@ export const updateTestimonial = asyncHandler(async (req, res) => {
     });
 });
 
-export const deleteTestimonial = asyncHandler(async (req, res) => {
+const deleteTestimonial = asyncHandler(async (req, res) => {
     const testimonial = await Testimonial.findByIdAndDelete(req.params.id);
     if (!testimonial) {
         return res.status(404).json({ success: false, error: 'Testimonial not found' });
@@ -1287,7 +1284,7 @@ export const deleteTestimonial = asyncHandler(async (req, res) => {
 });
 
 // ==================== CSR INITIATIVE ROUTES ====================
-export const createCSRInitiative = asyncHandler(async (req, res) => {
+const createCSRInitiative = asyncHandler(async (req, res) => {
     const processedData = await processCSRInitiativeFiles(req.body);
     const csrInitiative = await CSRInitiative.create(processedData);
     await refreshCacheInBackground();
@@ -1297,7 +1294,7 @@ export const createCSRInitiative = asyncHandler(async (req, res) => {
     });
 });
 
-export const updateCSRInitiative = asyncHandler(async (req, res) => {
+const updateCSRInitiative = asyncHandler(async (req, res) => {
     let csrInitiative = await CSRInitiative.findById(req.params.id);
     if (!csrInitiative) {
         return res.status(404).json({ success: false, error: 'CSR initiative not found' });
@@ -1323,7 +1320,7 @@ export const updateCSRInitiative = asyncHandler(async (req, res) => {
     });
 });
 
-export const deleteCSRInitiative = asyncHandler(async (req, res) => {
+const deleteCSRInitiative = asyncHandler(async (req, res) => {
     const csrInitiative = await CSRInitiative.findByIdAndDelete(req.params.id);
     if (!csrInitiative) {
         return res.status(404).json({ success: false, error: 'CSR initiative not found' });
@@ -1338,7 +1335,7 @@ export const deleteCSRInitiative = asyncHandler(async (req, res) => {
 });
 
 // ==================== CSR HERO ROUTES ====================
-export const createCSRHero = asyncHandler(async (req, res) => {
+const createCSRHero = asyncHandler(async (req, res) => {
     const processedData = await processCSRHeroFiles(req.body);
     const csrHero = await CSRHero.create(processedData);
     await refreshCacheInBackground();
@@ -1348,7 +1345,7 @@ export const createCSRHero = asyncHandler(async (req, res) => {
     });
 });
 
-export const updateCSRHero = asyncHandler(async (req, res) => {
+const updateCSRHero = asyncHandler(async (req, res) => {
     let csrHero = await CSRHero.findById(req.params.id);
     if (!csrHero) {
         return res.status(404).json({ success: false, error: 'CSR hero not found' });
@@ -1374,7 +1371,7 @@ export const updateCSRHero = asyncHandler(async (req, res) => {
     });
 });
 
-export const deleteCSRHero = asyncHandler(async (req, res) => {
+const deleteCSRHero = asyncHandler(async (req, res) => {
     const csrHero = await CSRHero.findByIdAndDelete(req.params.id);
     if (!csrHero) {
         return res.status(404).json({ success: false, error: 'CSR hero not found' });
@@ -1389,7 +1386,7 @@ export const deleteCSRHero = asyncHandler(async (req, res) => {
 });
 
 // ==================== SISTER COMPANY ROUTES ====================
-export const createSisterCompany = asyncHandler(async (req, res) => {
+const createSisterCompany = asyncHandler(async (req, res) => {
     const processedData = await processSisterCompanyFiles(req.body);
     const sisterCompany = await SisterCompany.create(processedData);
     await refreshCacheInBackground();
@@ -1399,7 +1396,7 @@ export const createSisterCompany = asyncHandler(async (req, res) => {
     });
 });
 
-export const updateSisterCompany = asyncHandler(async (req, res) => {
+const updateSisterCompany = asyncHandler(async (req, res) => {
     let sisterCompany = await SisterCompany.findById(req.params.id);
     if (!sisterCompany) {
         return res.status(404).json({ success: false, error: 'Sister company not found' });
@@ -1429,7 +1426,7 @@ export const updateSisterCompany = asyncHandler(async (req, res) => {
     });
 });
 
-export const deleteSisterCompany = asyncHandler(async (req, res) => {
+const deleteSisterCompany = asyncHandler(async (req, res) => {
     const sisterCompany = await SisterCompany.findByIdAndDelete(req.params.id);
     if (!sisterCompany) {
         return res.status(404).json({ success: false, error: 'Sister company not found' });
@@ -1444,7 +1441,7 @@ export const deleteSisterCompany = asyncHandler(async (req, res) => {
 });
 
 // ==================== SPARE PART ROUTES ====================
-export const createSparePart = asyncHandler(async (req, res) => {
+const createSparePart = asyncHandler(async (req, res) => {
     const processedData = await processSparePartFiles(req.body);
     const sparePart = await SparePart.create(processedData);
     await refreshCacheInBackground();
@@ -1454,7 +1451,7 @@ export const createSparePart = asyncHandler(async (req, res) => {
     });
 });
 
-export const updateSparePart = asyncHandler(async (req, res) => {
+const updateSparePart = asyncHandler(async (req, res) => {
     let sparePart = await SparePart.findById(req.params.id);
     if (!sparePart) {
         return res.status(404).json({ success: false, error: 'Spare part not found' });
@@ -1482,7 +1479,7 @@ export const updateSparePart = asyncHandler(async (req, res) => {
     });
 });
 
-export const deleteSparePart = asyncHandler(async (req, res) => {
+const deleteSparePart = asyncHandler(async (req, res) => {
     const sparePart = await SparePart.findByIdAndDelete(req.params.id);
     if (!sparePart) {
         return res.status(404).json({ success: false, error: 'Spare part not found' });
@@ -1505,4 +1502,84 @@ const refreshCacheInBackground = async () => {
     } catch (error) {
         console.error('Error refreshing cache:', error);
     }
+};
+
+// ==================== EXPORTS ====================
+module.exports = {
+    getAllData,
+    refreshCache,
+    getHeroImages,
+    getHeroImageById,
+    getAboutUs,
+    getAboutUsById,
+    getContactInfo,
+    getContactInfoById,
+    getLocations,
+    getLocationById,
+    getProducts,
+    getProductById,
+    getBrands,
+    getBrandById,
+    getPartners,
+    getPartnerById,
+    getClients,
+    getClientById,
+    getNewsArticles,
+    getNewsArticleById,
+    getTestimonials,
+    getTestimonialById,
+    getCSRInitiatives,
+    getCSRInitiativeById,
+    getCSRHero,
+    getCSRHeroById,
+    getSisterCompanies,
+    getSisterCompanyById,
+    getSpareParts,
+    getSparePartById,
+    createHeroImage,
+    updateHeroImage,
+    deleteHeroImage,
+    createAboutUs,
+    updateAboutUs,
+    deleteAboutUs,
+    createContactInfo,
+    updateContactInfo,
+    deleteContactInfo,
+    createLocation,
+    updateLocation,
+    deleteLocation,
+    createProduct,
+    updateProduct,
+    deleteProduct,
+    createBrand,
+    updateBrand,
+    deleteBrand,
+    getProductTypes,
+    createProductType,
+    updateProductType,
+    deleteProductType,
+    createPartner,
+    updatePartner,
+    deletePartner,
+    createClient,
+    updateClient,
+    deleteClient,
+    createNewsArticle,
+    updateNewsArticle,
+    deleteNewsArticle,
+    createTestimonial,
+    updateTestimonial,
+    deleteTestimonial,
+    createCSRInitiative,
+    updateCSRInitiative,
+    deleteCSRInitiative,
+    createCSRHero,
+    updateCSRHero,
+    deleteCSRHero,
+    createSisterCompany,
+    updateSisterCompany,
+    deleteSisterCompany,
+    createSparePart,
+    updateSparePart,
+    deleteSparePart
 };

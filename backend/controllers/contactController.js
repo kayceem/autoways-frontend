@@ -1,11 +1,11 @@
-import nodemailer from 'nodemailer';
+const nodemailer = require('nodemailer');
 
 /**
  * Submit contact form - sends email using environment variables
  * @param {Object} req - Express request object
  * @param {Object} res - Express response object
  */
-export const submitContactForm = async (req, res) => {
+const submitContactForm = async (req, res) => {
   try {
     const { name, email, phone, subject, message, isParts } = req.body;
 
@@ -139,3 +139,5 @@ Time: ${new Date().toLocaleString()}
     });
   }
 };
+
+module.exports = { submitContactForm };

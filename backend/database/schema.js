@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 // ==================== Hero Images Schema ====================
@@ -553,7 +553,7 @@ const CSRHero = mongoose.model('CSRHero', CSRHeroSchema);
 const SisterCompany = mongoose.model('SisterCompany', SisterCompanySchema);
 const SparePart = mongoose.model('SparePart', SparePartSchema);
 
-export {
+module.exports = {
     HeroImage,
     AboutUs,
     ContactInfo,

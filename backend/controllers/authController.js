@@ -1,11 +1,11 @@
-import jwt from 'jsonwebtoken';
+const jwt = require('jsonwebtoken');
 
 /**
  * Login controller - validates credentials against environment variables
  * @param {Object} req - Express request object
  * @param {Object} res - Express response object
  */
-export const login = async (req, res) => {
+const login = async (req, res) => {
   try {
     const { username, password } = req.body;
 
@@ -64,3 +64,5 @@ export const login = async (req, res) => {
     });
   }
 };
+
+module.exports = { login };

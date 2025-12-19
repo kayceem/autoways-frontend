@@ -1,16 +1,12 @@
-import fs from 'fs';
-import path from 'path';
-import { promisify } from 'util';
-import { fileURLToPath } from 'url';
-
+const fs = require('fs');
+const path = require('path');
+const { promisify } = require('util');
 
 const writeFile = promisify(fs.writeFile);
 const mkdir = promisify(fs.mkdir);
 const unlink = promisify(fs.unlink);
 const readdir = promisify(fs.readdir);
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 const ASSETS_DIR = path.join(__dirname, '..', 'assets');
 
 
@@ -46,7 +42,7 @@ const parseBase64 = (dataUri) => {
 /**
  * Save image to filesystem
  */
-export const saveImage = async (base64Image, brandName, productName, index) => {
+const saveImage = async (base64Image, brandName, productName, index) => {
   try {
     const { base64Data, ext } = parseBase64(base64Image);
     
@@ -76,7 +72,7 @@ export const saveImage = async (base64Image, brandName, productName, index) => {
 /**
  * Save PDF to filesystem
  */
-export const savePDF = async (base64PDF, brandName, productName, type) => {
+const savePDF = async (base64PDF, brandName, productName, type) => {
   try {
     if (!base64PDF) return null;
     
@@ -108,7 +104,7 @@ export const savePDF = async (base64PDF, brandName, productName, type) => {
 /**
  * Delete image from filesystem
  */
-export const deleteImage = async (imagePath) => {
+const deleteImage = async (imagePath) => {
   try {
     if (!imagePath) return;
     
@@ -126,7 +122,7 @@ export const deleteImage = async (imagePath) => {
 /**
  * Delete PDF from filesystem
  */
-export const deletePDF = async (pdfPath) => {
+const deletePDF = async (pdfPath) => {
   try {
     if (!pdfPath) return;
     
@@ -144,7 +140,7 @@ export const deletePDF = async (pdfPath) => {
 /**
  * Delete all product files
  */
-export const deleteProductFiles = async (brandName, productName, images, brochureUrl, specSheetUrl) => {
+const deleteProductFiles = async (brandName, productName, images, brochureUrl, specSheetUrl) => {
   try {
     // Delete images
     if (images && images.length > 0) {
@@ -208,7 +204,7 @@ const saveImageGeneric = async (base64Image, dirPath, fileName) => {
 /**
  * Process product data and save files
  */
-export const processProductFiles = async (productData) => {
+const processProductFiles = async (productData) => {
   const { name: productName, brand: brandName, images, brochureUrl, specSheetUrl } = productData;
 
   try {
@@ -255,7 +251,7 @@ export const processProductFiles = async (productData) => {
 /**
  * Process hero image files
  */
-export const processHeroImageFiles = async (heroImageData) => {
+const processHeroImageFiles = async (heroImageData) => {
   try {
     const { image, title } = heroImageData;
 
@@ -278,7 +274,7 @@ export const processHeroImageFiles = async (heroImageData) => {
 /**
  * Delete hero image files
  */
-export const deleteHeroImageFiles = async (imagePath) => {
+const deleteHeroImageFiles = async (imagePath) => {
   try {
     if (imagePath) await deleteImage(imagePath);
   } catch (error) {
@@ -289,7 +285,7 @@ export const deleteHeroImageFiles = async (imagePath) => {
 /**
  * Process product type files (within Brand)
  */
-export const processProductTypeFiles = async (productTypeData, brandName) => {
+const processProductTypeFiles = async (productTypeData, brandName) => {
   try {
     const { image, type } = productTypeData;
 
@@ -313,7 +309,7 @@ export const processProductTypeFiles = async (productTypeData, brandName) => {
 /**
  * Process brand files
  */
-export const processBrandFiles = async (brandData) => {
+const processBrandFiles = async (brandData) => {
   try {
     const { name: brandName, heroImage, logo, images, productTypes } = brandData;
     const cleanBrand = cleanFileName(brandName);
@@ -369,7 +365,7 @@ export const processBrandFiles = async (brandData) => {
 /**
  * Delete brand files
  */
-export const deleteBrandFiles = async (brandName, heroImage, logo, images, productTypes) => {
+const deleteBrandFiles = async (brandName, heroImage, logo, images, productTypes) => {
   try {
     if (heroImage) await deleteImage(heroImage);
     if (logo) await deleteImage(logo);
@@ -389,7 +385,7 @@ export const deleteBrandFiles = async (brandName, heroImage, logo, images, produ
 /**
  * Process news article files
  */
-export const processNewsArticleFiles = async (newsArticleData) => {
+const processNewsArticleFiles = async (newsArticleData) => {
   try {
     const { image, title } = newsArticleData;
 
@@ -412,7 +408,7 @@ export const processNewsArticleFiles = async (newsArticleData) => {
 /**
  * Delete news article files
  */
-export const deleteNewsArticleFiles = async (imagePath) => {
+const deleteNewsArticleFiles = async (imagePath) => {
   try {
     if (imagePath) await deleteImage(imagePath);
   } catch (error) {
@@ -423,7 +419,7 @@ export const deleteNewsArticleFiles = async (imagePath) => {
 /**
  * Process testimonial files
  */
-export const processTestimonialFiles = async (testimonialData) => {
+const processTestimonialFiles = async (testimonialData) => {
   try {
     const { image, name } = testimonialData;
 
@@ -446,7 +442,7 @@ export const processTestimonialFiles = async (testimonialData) => {
 /**
  * Delete testimonial files
  */
-export const deleteTestimonialFiles = async (imagePath) => {
+const deleteTestimonialFiles = async (imagePath) => {
   try {
     if (imagePath) await deleteImage(imagePath);
   } catch (error) {
@@ -457,7 +453,7 @@ export const deleteTestimonialFiles = async (imagePath) => {
 /**
  * Process about us files
  */
-export const processAboutUsFiles = async (aboutUsData) => {
+const processAboutUsFiles = async (aboutUsData) => {
   try {
     const { image, milestones, chairman_message, md_message, team, certifications, awards } = aboutUsData;
 
@@ -548,7 +544,7 @@ export const processAboutUsFiles = async (aboutUsData) => {
 /**
  * Delete about us files
  */
-export const deleteAboutUsFiles = async (aboutUsData) => {
+const deleteAboutUsFiles = async (aboutUsData) => {
   try {
     const { image, milestones, chairman_message, md_message, team, certifications, awards } = aboutUsData;
 
@@ -580,7 +576,7 @@ export const deleteAboutUsFiles = async (aboutUsData) => {
 /**
  * Process CSR initiative files
  */
-export const processCSRInitiativeFiles = async (csrInitiativeData) => {
+const processCSRInitiativeFiles = async (csrInitiativeData) => {
   try {
     const { image, title } = csrInitiativeData;
 
@@ -603,7 +599,7 @@ export const processCSRInitiativeFiles = async (csrInitiativeData) => {
 /**
  * Delete CSR initiative files
  */
-export const deleteCSRInitiativeFiles = async (imagePath) => {
+const deleteCSRInitiativeFiles = async (imagePath) => {
   try {
     if (imagePath) await deleteImage(imagePath);
   } catch (error) {
@@ -614,7 +610,7 @@ export const deleteCSRInitiativeFiles = async (imagePath) => {
 /**
  * Process CSR hero files
  */
-export const processCSRHeroFiles = async (csrHeroData) => {
+const processCSRHeroFiles = async (csrHeroData) => {
   try {
     const { image, title } = csrHeroData;
 
@@ -637,7 +633,7 @@ export const processCSRHeroFiles = async (csrHeroData) => {
 /**
  * Delete CSR hero files
  */
-export const deleteCSRHeroFiles = async (imagePath) => {
+const deleteCSRHeroFiles = async (imagePath) => {
   try {
     if (imagePath) await deleteImage(imagePath);
   } catch (error) {
@@ -648,7 +644,7 @@ export const deleteCSRHeroFiles = async (imagePath) => {
 /**
  * Process sister company files
  */
-export const processSisterCompanyFiles = async (sisterCompanyData) => {
+const processSisterCompanyFiles = async (sisterCompanyData) => {
   try {
     const { logo, image, name } = sisterCompanyData;
     const cleanName = cleanFileName(name);
@@ -679,7 +675,7 @@ export const processSisterCompanyFiles = async (sisterCompanyData) => {
 /**
  * Delete sister company files
  */
-export const deleteSisterCompanyFiles = async (logo, image) => {
+const deleteSisterCompanyFiles = async (logo, image) => {
   try {
     if (logo) await deleteImage(logo);
     if (image) await deleteImage(image);
@@ -691,7 +687,7 @@ export const deleteSisterCompanyFiles = async (logo, image) => {
 /**
  * Process spare part files
  */
-export const processSparePartFiles = async (sparePartData) => {
+const processSparePartFiles = async (sparePartData) => {
   try {
     const { image, parts } = sparePartData;
 
@@ -727,7 +723,7 @@ export const processSparePartFiles = async (sparePartData) => {
 /**
  * Delete spare part files
  */
-export const deleteSparePartFiles = async (image, parts) => {
+const deleteSparePartFiles = async (image, parts) => {
   try {
     if (image) await deleteImage(image);
 
@@ -737,4 +733,33 @@ export const deleteSparePartFiles = async (image, parts) => {
   } catch (error) {
     console.error('Error deleting spare part files:', error);
   }
+};
+
+// Export all functions
+module.exports = {
+  saveImage,
+  savePDF,
+  deleteImage,
+  deletePDF,
+  deleteProductFiles,
+  processProductFiles,
+  processHeroImageFiles,
+  deleteHeroImageFiles,
+  processProductTypeFiles,
+  processBrandFiles,
+  deleteBrandFiles,
+  processNewsArticleFiles,
+  deleteNewsArticleFiles,
+  processTestimonialFiles,
+  deleteTestimonialFiles,
+  processAboutUsFiles,
+  deleteAboutUsFiles,
+  processCSRInitiativeFiles,
+  deleteCSRInitiativeFiles,
+  processCSRHeroFiles,
+  deleteCSRHeroFiles,
+  processSisterCompanyFiles,
+  deleteSisterCompanyFiles,
+  processSparePartFiles,
+  deleteSparePartFiles
 };
