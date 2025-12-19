@@ -6,14 +6,14 @@ const NotFound = () => {
     <div className="min-h-screen flex items-center justify-center bg-primary px-4">
       <div className="text-center">
         {/* 404 Text */}
-        <h1 className="text-9xl font-bold text-secondary mb-4">404</h1>
+        <h1 className="text-6xl lg:text-9xl font-bold text-secondary mb-3 lg:mb-4">404</h1>
 
         {/* Error Message */}
-        <h2 className="text-4xl font-semibold text-white mb-4">
+        <h2 className="text-2xl lg:text-4xl font-semibold text-white mb-3 lg:mb-4">
           Page Not Found
         </h2>
 
-        <p className="text-lg text-gray-300 mb-8 max-w-md mx-auto">
+        <p className="text-sm lg:text-lg text-gray-300 mb-6 lg:mb-8 max-w-md mx-auto">
           Sorry, the page you are looking for doesn't exist or has been moved.
         </p>
 
