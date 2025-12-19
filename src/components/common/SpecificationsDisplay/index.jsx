@@ -3,7 +3,7 @@ import { ChevronDown } from 'lucide-react';
 import './index.css';
 
 const SpecificationsDisplay = ({ specifications = {}, fuelType = 'normal' }) => {
-    const [openSection, setOpenSection] = useState(null);
+    const [openSections, setOpenSections] = useState({});
 
     if (!specifications || Object.keys(specifications).length === 0) {
         return null;
@@ -19,11 +19,11 @@ const SpecificationsDisplay = ({ specifications = {}, fuelType = 'normal' }) => 
     const renderSpecValue = (value) => {
         if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
             return (
-                <div className="flex flex-col gap-1.5 pl-3">
+                <div className="flex flex-col gap-3 pl-4 border-l-2 border-accent/20">
                     {Object.entries(value).map(([subKey, subValue]) => (
-                        <div key={subKey} className="flex gap-2 items-start">
-                            <span className="text-xs lg:text-sm font-medium opacity-60 text-secondary flex-shrink-0 min-w-[100px]">{formatKey(subKey)}:</span>
-                            <span className="text-xs lg:text-sm font-semibold text-secondary">
+                        <div key={subKey} className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3">
+                            <span className="text-xs font-semibold opacity-50 text-secondary uppercase tracking-wider min-w-[140px]">{formatKey(subKey)}</span>
+                            <span className="text-sm lg:text-base font-bold text-secondary">
                                 {typeof subValue === 'object' ? JSON.stringify(subValue) : subValue}
                             </span>
                         </div>
@@ -38,37 +38,48 @@ const SpecificationsDisplay = ({ specifications = {}, fuelType = 'normal' }) => 
     };
 
     const toggleSection = (sectionId) => {
-        setOpenSection(openSection === sectionId ? null : sectionId);
+        setOpenSections(prev => ({
+            ...prev,
+            [sectionId]: !prev[sectionId]
+        }));
     };
 
     const renderSpecSection = (title, data, sectionId) => {
         if (!data || Object.keys(data).length === 0) return null;
 
-        const isOpen = openSection === sectionId;
+        const isOpen = openSections[sectionId];
 
         return (
-            <div className="mb-3 bg-primary rounded-lg border border-neutral-200 overflow-hidden transition-all duration-200 hover:border-neutral-300">
+            <div className="mb-4 bg-primary rounded-xl border border-neutral-200 overflow-hidden transition-all duration-300 hover:border-accent/40 hover:shadow-sm">
                 <button
                     onClick={() => toggleSection(sectionId)}
-                    className="w-full px-4 lg:px-6 py-3 lg:py-4 flex items-center justify-between gap-4 text-left hover:bg-accent transition-colors duration-200"
+                    className="w-full px-5 lg:px-7 py-4 lg:py-5 flex items-center justify-between gap-4 text-left hover:bg-accent/5 transition-all duration-300 group"
                 >
-                    <h3 className="text-base lg:text-lg font-bold text-secondary flex items-center gap-3">
-                        <span className="w-1 h-5 bg-accent-2 rounded"></span>
+                    <h3 className="text-base lg:text-xl font-bold text-secondary flex items-center gap-3 group-hover:text-accent-2 transition-colors duration-300">
+                        <span className="w-1 h-6 bg-accent-2 rounded group-hover:h-8 transition-all duration-300"></span>
                         {title}
                     </h3>
                     <ChevronDown
-                        size={20}
-                        className={`flex-shrink-0 text-secondary accordion-chevron ${isOpen ? 'open' : ''}`}
+                        size={22}
+                        className={`flex-shrink-0 text-secondary accordion-chevron ${isOpen ? 'open' : ''} group-hover:text-accent-2 transition-colors duration-300`}
                     />
                 </button>
 
                 <div className={`accordion-content ${isOpen ? 'open' : 'closed'}`}>
-                    <div className="px-4 lg:px-6 pb-4 lg:pb-5 pt-2">
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-4">
-                            {Object.entries(data).map(([key, value]) => (
-                                <div key={key} className="bg-accent/10 p-3 lg:p-4 rounded-lg border border-accent/20 transition-all duration-200 hover:bg-accent/20 hover:border-accent/40">
-                                    <div className="text-xs font-semibold opacity-60 mb-1.5 uppercase tracking-wide text-secondary">{formatKey(key)}</div>
-                                    <div className="text-sm lg:text-base font-semibold leading-relaxed text-secondary">{renderSpecValue(value)}</div>
+                    <div className="px-5 lg:px-7 pb-6 lg:pb-8 pt-2">
+                        <div className="space-y-4 lg:space-y-5">
+                            {Object.entries(data).map(([key, value], index) => (
+                                <div
+                                    key={key}
+                                    className="flex flex-col sm:flex-row sm:items-start gap-2 sm:gap-6 py-3 border-b border-neutral-100 last:border-b-0 hover:bg-accent/5 px-3 rounded transition-all duration-200 animate-slide-up"
+                                    style={{animationDelay: `${index * 30}ms`}}
+                                >
+                                    <div className="text-xs lg:text-sm font-bold opacity-60 text-secondary uppercase tracking-wider min-w-[160px] sm:w-[160px] flex-shrink-0">
+                                        {formatKey(key)}
+                                    </div>
+                                    <div className="text-sm lg:text-base font-semibold leading-relaxed text-secondary flex-1">
+                                        {renderSpecValue(value)}
+                                    </div>
                                 </div>
                             ))}
                         </div>
