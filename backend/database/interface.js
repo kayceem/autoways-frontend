@@ -18,7 +18,31 @@ import {
     SparePart,
 } from './schema.js';
 
-import { processProductFiles, deleteProductFiles } from './utils.js';
+import {
+    processProductFiles,
+    deleteProductFiles,
+    deleteImage,
+    deletePDF,
+    processHeroImageFiles,
+    deleteHeroImageFiles,
+    processProductTypeFiles,
+    processBrandFiles,
+    deleteBrandFiles,
+    processNewsArticleFiles,
+    deleteNewsArticleFiles,
+    processTestimonialFiles,
+    deleteTestimonialFiles,
+    processAboutUsFiles,
+    deleteAboutUsFiles,
+    processCSRInitiativeFiles,
+    deleteCSRInitiativeFiles,
+    processCSRHeroFiles,
+    deleteCSRHeroFiles,
+    processSisterCompanyFiles,
+    deleteSisterCompanyFiles,
+    processSparePartFiles,
+    deleteSparePartFiles,
+} from './utils.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -602,7 +626,8 @@ export const getSparePartById = asyncHandler(async (req, res) => {
 
 // ==================== HERO IMAGE ROUTES ====================
 export const createHeroImage = asyncHandler(async (req, res) => {
-    const heroImage = await HeroImage.create(req.body);
+    const processedData = await processHeroImageFiles(req.body);
+    const heroImage = await HeroImage.create(processedData);
     await refreshCacheInBackground();
     res.status(201).json({
         success: true,
@@ -611,14 +636,24 @@ export const createHeroImage = asyncHandler(async (req, res) => {
 });
 
 export const updateHeroImage = asyncHandler(async (req, res) => {
-    const heroImage = await HeroImage.findByIdAndUpdate(
-        req.params.id,
-        req.body,
-        { new: true, runValidators: true }
-    );
+    let heroImage = await HeroImage.findById(req.params.id);
     if (!heroImage) {
         return res.status(404).json({ success: false, error: 'Hero image not found' });
     }
+
+    const oldImage = heroImage.image;
+    const processedData = await processHeroImageFiles(req.body);
+
+    heroImage = await HeroImage.findByIdAndUpdate(
+        req.params.id,
+        processedData,
+        { new: true, runValidators: true }
+    );
+
+    if (oldImage && oldImage !== processedData.image) {
+        await deleteHeroImageFiles(oldImage);
+    }
+
     await refreshCacheInBackground();
     res.json({
         success: true,
@@ -631,6 +666,8 @@ export const deleteHeroImage = asyncHandler(async (req, res) => {
     if (!heroImage) {
         return res.status(404).json({ success: false, error: 'Hero image not found' });
     }
+
+    await deleteHeroImageFiles(heroImage.image);
     await refreshCacheInBackground();
     res.json({
         success: true,
@@ -640,7 +677,8 @@ export const deleteHeroImage = asyncHandler(async (req, res) => {
 
 // ==================== ABOUT US ROUTES ====================
 export const createAboutUs = asyncHandler(async (req, res) => {
-    const aboutUs = await AboutUs.create(req.body);
+    const processedData = await processAboutUsFiles(req.body);
+    const aboutUs = await AboutUs.create(processedData);
     await refreshCacheInBackground();
     res.status(201).json({
         success: true,
@@ -649,14 +687,23 @@ export const createAboutUs = asyncHandler(async (req, res) => {
 });
 
 export const updateAboutUs = asyncHandler(async (req, res) => {
-    const aboutUs = await AboutUs.findByIdAndUpdate(
-        req.params.id,
-        req.body,
-        { new: true, runValidators: true }
-    );
+    let aboutUs = await AboutUs.findById(req.params.id);
     if (!aboutUs) {
         return res.status(404).json({ success: false, error: 'About us not found' });
     }
+
+    const oldData = aboutUs.toObject();
+    const processedData = await processAboutUsFiles(req.body);
+
+    aboutUs = await AboutUs.findByIdAndUpdate(
+        req.params.id,
+        processedData,
+        { new: true, runValidators: true }
+    );
+
+    // Clean up old files that are no longer used
+    await deleteAboutUsFiles(oldData);
+
     await refreshCacheInBackground();
     res.json({
         success: true,
@@ -669,6 +716,8 @@ export const deleteAboutUs = asyncHandler(async (req, res) => {
     if (!aboutUs) {
         return res.status(404).json({ success: false, error: 'About us not found' });
     }
+
+    await deleteAboutUsFiles(aboutUs.toObject());
     await refreshCacheInBackground();
     res.json({
         success: true,
@@ -846,7 +895,8 @@ export const deleteProduct = asyncHandler(async (req, res) => {
 
 // ==================== BRAND ROUTES ====================
 export const createBrand = asyncHandler(async (req, res) => {
-    const brand = await Brand.create(req.body);
+    const processedData = await processBrandFiles(req.body);
+    const brand = await Brand.create(processedData);
     await refreshCacheInBackground();
     res.status(201).json({
         success: true,
@@ -855,14 +905,32 @@ export const createBrand = asyncHandler(async (req, res) => {
 });
 
 export const updateBrand = asyncHandler(async (req, res) => {
-    const brand = await Brand.findByIdAndUpdate(
-        req.params.id,
-        req.body,
-        { new: true, runValidators: true }
-    );
+    let brand = await Brand.findById(req.params.id);
     if (!brand) {
         return res.status(404).json({ success: false, error: 'Brand not found' });
     }
+
+    const oldHeroImage = brand.heroImage;
+    const oldLogo = brand.logo;
+    const oldImages = brand.images || [];
+    const oldProductTypes = brand.productTypes || [];
+
+    const processedData = await processBrandFiles(req.body);
+
+    brand = await Brand.findByIdAndUpdate(
+        req.params.id,
+        processedData,
+        { new: true, runValidators: true }
+    );
+
+    // Clean up old files that are no longer used
+    if (oldHeroImage && oldHeroImage !== processedData.heroImage) {
+        await deleteBrandFiles(brand.name, oldHeroImage, null, [], []);
+    }
+    if (oldLogo && oldLogo !== processedData.logo) {
+        await deleteBrandFiles(brand.name, null, oldLogo, [], []);
+    }
+
     await refreshCacheInBackground();
     res.json({
         success: true,
@@ -875,6 +943,8 @@ export const deleteBrand = asyncHandler(async (req, res) => {
     if (!brand) {
         return res.status(404).json({ success: false, error: 'Brand not found' });
     }
+
+    await deleteBrandFiles(brand.name, brand.heroImage, brand.logo, brand.images, brand.productTypes);
     await refreshCacheInBackground();
     res.json({
         success: true,
@@ -937,7 +1007,8 @@ export const createProductType = asyncHandler(async (req, res) => {
         });
     }
 
-    brand.productTypes.push({ name, type, image });
+    const processedData = await processProductTypeFiles({ name, type, image }, brand.name);
+    brand.productTypes.push(processedData);
     await brand.save();
     await refreshCacheInBackground();
 
@@ -983,9 +1054,15 @@ export const updateProductType = asyncHandler(async (req, res) => {
         }
     }
 
-    if (name) brand.productTypes[typeIndex].name = name;
-    if (type) brand.productTypes[typeIndex].type = type;
-    if (image) brand.productTypes[typeIndex].image = image;
+    const processedData = await processProductTypeFiles({
+        name: name || brand.productTypes[typeIndex].name,
+        type: type || brand.productTypes[typeIndex].type,
+        image: image || brand.productTypes[typeIndex].image
+    }, brand.name);
+
+    if (name) brand.productTypes[typeIndex].name = processedData.name;
+    if (type) brand.productTypes[typeIndex].type = processedData.type;
+    if (image) brand.productTypes[typeIndex].image = processedData.image;
 
     await brand.save();
     await refreshCacheInBackground();
@@ -1109,7 +1186,8 @@ export const deleteClient = asyncHandler(async (req, res) => {
 
 // ==================== NEWS ARTICLE ROUTES ====================
 export const createNewsArticle = asyncHandler(async (req, res) => {
-    const newsArticle = await NewsArticle.create(req.body);
+    const processedData = await processNewsArticleFiles(req.body);
+    const newsArticle = await NewsArticle.create(processedData);
     await refreshCacheInBackground();
     res.status(201).json({
         success: true,
@@ -1118,14 +1196,24 @@ export const createNewsArticle = asyncHandler(async (req, res) => {
 });
 
 export const updateNewsArticle = asyncHandler(async (req, res) => {
-    const newsArticle = await NewsArticle.findByIdAndUpdate(
-        req.params.id,
-        req.body,
-        { new: true, runValidators: true }
-    );
+    let newsArticle = await NewsArticle.findById(req.params.id);
     if (!newsArticle) {
         return res.status(404).json({ success: false, error: 'News article not found' });
     }
+
+    const oldImage = newsArticle.image;
+    const processedData = await processNewsArticleFiles(req.body);
+
+    newsArticle = await NewsArticle.findByIdAndUpdate(
+        req.params.id,
+        processedData,
+        { new: true, runValidators: true }
+    );
+
+    if (oldImage && oldImage !== processedData.image) {
+        await deleteNewsArticleFiles(oldImage);
+    }
+
     await refreshCacheInBackground();
     res.json({
         success: true,
@@ -1138,6 +1226,8 @@ export const deleteNewsArticle = asyncHandler(async (req, res) => {
     if (!newsArticle) {
         return res.status(404).json({ success: false, error: 'News article not found' });
     }
+
+    await deleteNewsArticleFiles(newsArticle.image);
     await refreshCacheInBackground();
     res.json({
         success: true,
@@ -1147,7 +1237,8 @@ export const deleteNewsArticle = asyncHandler(async (req, res) => {
 
 // ==================== TESTIMONIAL ROUTES ====================
 export const createTestimonial = asyncHandler(async (req, res) => {
-    const testimonial = await Testimonial.create(req.body);
+    const processedData = await processTestimonialFiles(req.body);
+    const testimonial = await Testimonial.create(processedData);
     await refreshCacheInBackground();
     res.status(201).json({
         success: true,
@@ -1156,14 +1247,24 @@ export const createTestimonial = asyncHandler(async (req, res) => {
 });
 
 export const updateTestimonial = asyncHandler(async (req, res) => {
-    const testimonial = await Testimonial.findByIdAndUpdate(
-        req.params.id,
-        req.body,
-        { new: true, runValidators: true }
-    );
+    let testimonial = await Testimonial.findById(req.params.id);
     if (!testimonial) {
         return res.status(404).json({ success: false, error: 'Testimonial not found' });
     }
+
+    const oldImage = testimonial.image;
+    const processedData = await processTestimonialFiles(req.body);
+
+    testimonial = await Testimonial.findByIdAndUpdate(
+        req.params.id,
+        processedData,
+        { new: true, runValidators: true }
+    );
+
+    if (oldImage && oldImage !== processedData.image) {
+        await deleteTestimonialFiles(oldImage);
+    }
+
     await refreshCacheInBackground();
     res.json({
         success: true,
@@ -1176,6 +1277,8 @@ export const deleteTestimonial = asyncHandler(async (req, res) => {
     if (!testimonial) {
         return res.status(404).json({ success: false, error: 'Testimonial not found' });
     }
+
+    await deleteTestimonialFiles(testimonial.image);
     await refreshCacheInBackground();
     res.json({
         success: true,
@@ -1185,7 +1288,8 @@ export const deleteTestimonial = asyncHandler(async (req, res) => {
 
 // ==================== CSR INITIATIVE ROUTES ====================
 export const createCSRInitiative = asyncHandler(async (req, res) => {
-    const csrInitiative = await CSRInitiative.create(req.body);
+    const processedData = await processCSRInitiativeFiles(req.body);
+    const csrInitiative = await CSRInitiative.create(processedData);
     await refreshCacheInBackground();
     res.status(201).json({
         success: true,
@@ -1194,14 +1298,24 @@ export const createCSRInitiative = asyncHandler(async (req, res) => {
 });
 
 export const updateCSRInitiative = asyncHandler(async (req, res) => {
-    const csrInitiative = await CSRInitiative.findByIdAndUpdate(
-        req.params.id,
-        req.body,
-        { new: true, runValidators: true }
-    );
+    let csrInitiative = await CSRInitiative.findById(req.params.id);
     if (!csrInitiative) {
         return res.status(404).json({ success: false, error: 'CSR initiative not found' });
     }
+
+    const oldImage = csrInitiative.image;
+    const processedData = await processCSRInitiativeFiles(req.body);
+
+    csrInitiative = await CSRInitiative.findByIdAndUpdate(
+        req.params.id,
+        processedData,
+        { new: true, runValidators: true }
+    );
+
+    if (oldImage && oldImage !== processedData.image) {
+        await deleteCSRInitiativeFiles(oldImage);
+    }
+
     await refreshCacheInBackground();
     res.json({
         success: true,
@@ -1214,6 +1328,8 @@ export const deleteCSRInitiative = asyncHandler(async (req, res) => {
     if (!csrInitiative) {
         return res.status(404).json({ success: false, error: 'CSR initiative not found' });
     }
+
+    await deleteCSRInitiativeFiles(csrInitiative.image);
     await refreshCacheInBackground();
     res.json({
         success: true,
@@ -1223,7 +1339,8 @@ export const deleteCSRInitiative = asyncHandler(async (req, res) => {
 
 // ==================== CSR HERO ROUTES ====================
 export const createCSRHero = asyncHandler(async (req, res) => {
-    const csrHero = await CSRHero.create(req.body);
+    const processedData = await processCSRHeroFiles(req.body);
+    const csrHero = await CSRHero.create(processedData);
     await refreshCacheInBackground();
     res.status(201).json({
         success: true,
@@ -1232,14 +1349,24 @@ export const createCSRHero = asyncHandler(async (req, res) => {
 });
 
 export const updateCSRHero = asyncHandler(async (req, res) => {
-    const csrHero = await CSRHero.findByIdAndUpdate(
-        req.params.id,
-        req.body,
-        { new: true, runValidators: true }
-    );
+    let csrHero = await CSRHero.findById(req.params.id);
     if (!csrHero) {
         return res.status(404).json({ success: false, error: 'CSR hero not found' });
     }
+
+    const oldImage = csrHero.image;
+    const processedData = await processCSRHeroFiles(req.body);
+
+    csrHero = await CSRHero.findByIdAndUpdate(
+        req.params.id,
+        processedData,
+        { new: true, runValidators: true }
+    );
+
+    if (oldImage && oldImage !== processedData.image) {
+        await deleteCSRHeroFiles(oldImage);
+    }
+
     await refreshCacheInBackground();
     res.json({
         success: true,
@@ -1252,6 +1379,8 @@ export const deleteCSRHero = asyncHandler(async (req, res) => {
     if (!csrHero) {
         return res.status(404).json({ success: false, error: 'CSR hero not found' });
     }
+
+    await deleteCSRHeroFiles(csrHero.image);
     await refreshCacheInBackground();
     res.json({
         success: true,
@@ -1261,7 +1390,8 @@ export const deleteCSRHero = asyncHandler(async (req, res) => {
 
 // ==================== SISTER COMPANY ROUTES ====================
 export const createSisterCompany = asyncHandler(async (req, res) => {
-    const sisterCompany = await SisterCompany.create(req.body);
+    const processedData = await processSisterCompanyFiles(req.body);
+    const sisterCompany = await SisterCompany.create(processedData);
     await refreshCacheInBackground();
     res.status(201).json({
         success: true,
@@ -1270,14 +1400,28 @@ export const createSisterCompany = asyncHandler(async (req, res) => {
 });
 
 export const updateSisterCompany = asyncHandler(async (req, res) => {
-    const sisterCompany = await SisterCompany.findByIdAndUpdate(
-        req.params.id,
-        req.body,
-        { new: true, runValidators: true }
-    );
+    let sisterCompany = await SisterCompany.findById(req.params.id);
     if (!sisterCompany) {
         return res.status(404).json({ success: false, error: 'Sister company not found' });
     }
+
+    const oldLogo = sisterCompany.logo;
+    const oldImage = sisterCompany.image;
+    const processedData = await processSisterCompanyFiles(req.body);
+
+    sisterCompany = await SisterCompany.findByIdAndUpdate(
+        req.params.id,
+        processedData,
+        { new: true, runValidators: true }
+    );
+
+    if (oldLogo && oldLogo !== processedData.logo) {
+        await deleteSisterCompanyFiles(oldLogo, null);
+    }
+    if (oldImage && oldImage !== processedData.image) {
+        await deleteSisterCompanyFiles(null, oldImage);
+    }
+
     await refreshCacheInBackground();
     res.json({
         success: true,
@@ -1290,6 +1434,8 @@ export const deleteSisterCompany = asyncHandler(async (req, res) => {
     if (!sisterCompany) {
         return res.status(404).json({ success: false, error: 'Sister company not found' });
     }
+
+    await deleteSisterCompanyFiles(sisterCompany.logo, sisterCompany.image);
     await refreshCacheInBackground();
     res.json({
         success: true,
@@ -1299,7 +1445,8 @@ export const deleteSisterCompany = asyncHandler(async (req, res) => {
 
 // ==================== SPARE PART ROUTES ====================
 export const createSparePart = asyncHandler(async (req, res) => {
-    const sparePart = await SparePart.create(req.body);
+    const processedData = await processSparePartFiles(req.body);
+    const sparePart = await SparePart.create(processedData);
     await refreshCacheInBackground();
     res.status(201).json({
         success: true,
@@ -1308,14 +1455,26 @@ export const createSparePart = asyncHandler(async (req, res) => {
 });
 
 export const updateSparePart = asyncHandler(async (req, res) => {
-    const sparePart = await SparePart.findByIdAndUpdate(
-        req.params.id,
-        req.body,
-        { new: true, runValidators: true }
-    );
+    let sparePart = await SparePart.findById(req.params.id);
     if (!sparePart) {
         return res.status(404).json({ success: false, error: 'Spare part not found' });
     }
+
+    const oldImage = sparePart.image;
+    const oldParts = sparePart.parts || [];
+    const processedData = await processSparePartFiles(req.body);
+
+    sparePart = await SparePart.findByIdAndUpdate(
+        req.params.id,
+        processedData,
+        { new: true, runValidators: true }
+    );
+
+    // Clean up old files that are no longer used
+    if (oldImage && oldImage !== processedData.image) {
+        await deleteSparePartFiles(oldImage, []);
+    }
+
     await refreshCacheInBackground();
     res.json({
         success: true,
@@ -1328,6 +1487,8 @@ export const deleteSparePart = asyncHandler(async (req, res) => {
     if (!sparePart) {
         return res.status(404).json({ success: false, error: 'Spare part not found' });
     }
+
+    await deleteSparePartFiles(sparePart.image, sparePart.parts);
     await refreshCacheInBackground();
     res.json({
         success: true,
