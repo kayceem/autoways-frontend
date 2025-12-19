@@ -151,7 +151,7 @@ const ProductDetails = () => {
 
             {/* Features Section */}
             {product?.features && product?.features.length > 0 && (
-                <section className="bg-accent/30 border-y border-neutral-200 relative overflow-hidden">
+                <section className="bg-accent/30 border-neutral-200 relative overflow-hidden">
                     <WaveBackground position="top" opacity={0.08} waveColor="#35621b" />
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16 relative z-10">
                         <h2 className="text-2xl lg:text-3xl font-bold mb-8 lg:mb-10 text-center text-secondary animate-fade-in">Key Features</h2>
@@ -170,7 +170,7 @@ const ProductDetails = () => {
             {/* Specifications Section */}
             {product?.specifications && (
                 <section className="bg-primary relative overflow-hidden">
-                    <WaveBackground position="top" opacity={0.1} waveColor="#a7ed81" />
+                    <WaveBackground position="top" opacity={0.04} waveColor="#a7ed81" />
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16 relative z-10">
                         <h2 className="text-2xl lg:text-3xl font-bold mb-8 lg:mb-10 text-center text-secondary animate-fade-in">Technical Specifications</h2>
                         <SpecificationsDisplay
@@ -228,21 +228,13 @@ const ProductDetails = () => {
                         <Link to="/contact" className="inline-block px-8 py-3.5 rounded-lg font-semibold text-base bg-accent text-secondary hover:bg-accent-2 transition-all duration-300 shadow-sm hover:shadow-lg cursor-pointer hover:-translate-y-0.5">
                             Send Inquiry
                         </Link>
-                    </div>
-                </div>
-            </section>
-
-            {/* Related Products Section */}
-            <section className="bg-primary border-t border-neutral-200 relative overflow-hidden">
-                <WaveBackground position="bottom" opacity={0.04} waveColor="#a7ed81" />
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16 text-center relative z-10">
-                    <h2 className="text-2xl lg:text-3xl font-bold mb-6 text-secondary capitalize animate-fade-in">More from {brand}</h2>
                     <Link
                         to={`/shop/${brand}/${typeSlug}`}
                         className="inline-block px-6 py-3 rounded-lg font-semibold text-sm lg:text-base bg-accent text-secondary hover:bg-accent-2 transition-all duration-300 shadow-sm hover:shadow-md cursor-pointer hover:-translate-y-0.5 animate-fade-in-up"
                     >
                         View All Products
                     </Link>
+                    </div>
                 </div>
             </section>
         </div>
