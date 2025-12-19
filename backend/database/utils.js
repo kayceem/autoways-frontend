@@ -179,11 +179,38 @@ export const deleteProductFiles = async (brandName, productName, images, brochur
 };
 
 /**
+ * Generic save image function with custom directory path
+ */
+const saveImageGeneric = async (base64Image, dirPath, fileName) => {
+  try {
+    const { base64Data, ext } = parseBase64(base64Image);
+
+    // Create directory path
+    const imageDir = path.join(ASSETS_DIR, 'images', dirPath);
+    await mkdir(imageDir, { recursive: true });
+
+    // Create filename
+    const fullFileName = `${fileName}.${ext}`;
+    const filePath = path.join(imageDir, fullFileName);
+
+    // Write file
+    const buffer = Buffer.from(base64Data, 'base64');
+    await writeFile(filePath, buffer);
+
+    // Return relative path for database
+    return `/assets/images/${dirPath}/${fullFileName}`;
+  } catch (error) {
+    console.error('Error saving image:', error);
+    throw new Error(`Failed to save image: ${error.message}`);
+  }
+};
+
+/**
  * Process product data and save files
  */
 export const processProductFiles = async (productData) => {
   const { name: productName, brand: brandName, images, brochureUrl, specSheetUrl } = productData;
-  
+
   try {
     // Process images
     const savedImagePaths = [];
@@ -200,19 +227,19 @@ export const processProductFiles = async (productData) => {
         }
       }
     }
-    
+
     // Process brochure
     let savedBrochurePath = brochureUrl;
     if (brochureUrl && brochureUrl.startsWith('data:')) {
       savedBrochurePath = await savePDF(brochureUrl, brandName, productName, 'brochure');
     }
-    
+
     // Process spec sheet
     let savedSpecSheetPath = specSheetUrl;
     if (specSheetUrl && specSheetUrl.startsWith('data:')) {
       savedSpecSheetPath = await savePDF(specSheetUrl, brandName, productName, 'specs');
     }
-    
+
     return {
       ...productData,
       images: savedImagePaths,
@@ -222,5 +249,492 @@ export const processProductFiles = async (productData) => {
   } catch (error) {
     console.error('Error processing product files:', error);
     throw error;
+  }
+};
+
+/**
+ * Process hero image files
+ */
+export const processHeroImageFiles = async (heroImageData) => {
+  try {
+    const { image, title } = heroImageData;
+
+    let savedImagePath = image;
+    if (image && image.startsWith('data:')) {
+      const cleanTitle = cleanFileName(title);
+      savedImagePath = await saveImageGeneric(image, 'hero', `hero_${cleanTitle}_${Date.now()}`);
+    }
+
+    return {
+      ...heroImageData,
+      image: savedImagePath
+    };
+  } catch (error) {
+    console.error('Error processing hero image files:', error);
+    throw error;
+  }
+};
+
+/**
+ * Delete hero image files
+ */
+export const deleteHeroImageFiles = async (imagePath) => {
+  try {
+    if (imagePath) await deleteImage(imagePath);
+  } catch (error) {
+    console.error('Error deleting hero image files:', error);
+  }
+};
+
+/**
+ * Process product type files (within Brand)
+ */
+export const processProductTypeFiles = async (productTypeData, brandName) => {
+  try {
+    const { image, type } = productTypeData;
+
+    let savedImagePath = image;
+    if (image && image.startsWith('data:')) {
+      const cleanBrand = cleanFileName(brandName);
+      const cleanType = cleanFileName(type);
+      savedImagePath = await saveImageGeneric(image, `brand/${cleanBrand}/product-types`, cleanType);
+    }
+
+    return {
+      ...productTypeData,
+      image: savedImagePath
+    };
+  } catch (error) {
+    console.error('Error processing product type files:', error);
+    throw error;
+  }
+};
+
+/**
+ * Process brand files
+ */
+export const processBrandFiles = async (brandData) => {
+  try {
+    const { name: brandName, heroImage, logo, images, productTypes } = brandData;
+    const cleanBrand = cleanFileName(brandName);
+
+    // Process hero image
+    let savedHeroImagePath = heroImage;
+    if (heroImage && heroImage.startsWith('data:')) {
+      savedHeroImagePath = await saveImageGeneric(heroImage, `brand/${cleanBrand}`, 'hero');
+    }
+
+    // Process logo
+    let savedLogoPath = logo;
+    if (logo && logo.startsWith('data:')) {
+      savedLogoPath = await saveImageGeneric(logo, `brand/${cleanBrand}`, 'logo');
+    }
+
+    // Process additional images
+    const savedImagePaths = [];
+    if (images && images.length > 0) {
+      for (let i = 0; i < images.length; i++) {
+        const image = images[i];
+        if (image.startsWith('data:')) {
+          const savedPath = await saveImageGeneric(image, `brand/${cleanBrand}`, `image_${i}`);
+          savedImagePaths.push(savedPath);
+        } else {
+          savedImagePaths.push(image);
+        }
+      }
+    }
+
+    // Process product types
+    const processedProductTypes = [];
+    if (productTypes && productTypes.length > 0) {
+      for (const productType of productTypes) {
+        const processed = await processProductTypeFiles(productType, brandName);
+        processedProductTypes.push(processed);
+      }
+    }
+
+    return {
+      ...brandData,
+      heroImage: savedHeroImagePath,
+      logo: savedLogoPath,
+      images: savedImagePaths,
+      productTypes: processedProductTypes
+    };
+  } catch (error) {
+    console.error('Error processing brand files:', error);
+    throw error;
+  }
+};
+
+/**
+ * Delete brand files
+ */
+export const deleteBrandFiles = async (brandName, heroImage, logo, images, productTypes) => {
+  try {
+    if (heroImage) await deleteImage(heroImage);
+    if (logo) await deleteImage(logo);
+
+    if (images && images.length > 0) {
+      await Promise.all(images.map(img => deleteImage(img)));
+    }
+
+    if (productTypes && productTypes.length > 0) {
+      await Promise.all(productTypes.map(pt => deleteImage(pt.image)));
+    }
+  } catch (error) {
+    console.error('Error deleting brand files:', error);
+  }
+};
+
+/**
+ * Process news article files
+ */
+export const processNewsArticleFiles = async (newsArticleData) => {
+  try {
+    const { image, title } = newsArticleData;
+
+    let savedImagePath = image;
+    if (image && image.startsWith('data:')) {
+      const cleanTitle = cleanFileName(title);
+      savedImagePath = await saveImageGeneric(image, 'news', `news_${cleanTitle}_${Date.now()}`);
+    }
+
+    return {
+      ...newsArticleData,
+      image: savedImagePath
+    };
+  } catch (error) {
+    console.error('Error processing news article files:', error);
+    throw error;
+  }
+};
+
+/**
+ * Delete news article files
+ */
+export const deleteNewsArticleFiles = async (imagePath) => {
+  try {
+    if (imagePath) await deleteImage(imagePath);
+  } catch (error) {
+    console.error('Error deleting news article files:', error);
+  }
+};
+
+/**
+ * Process testimonial files
+ */
+export const processTestimonialFiles = async (testimonialData) => {
+  try {
+    const { image, name } = testimonialData;
+
+    let savedImagePath = image;
+    if (image && image.startsWith('data:')) {
+      const cleanName = cleanFileName(name);
+      savedImagePath = await saveImageGeneric(image, 'testimonials', `testimonial_${cleanName}_${Date.now()}`);
+    }
+
+    return {
+      ...testimonialData,
+      image: savedImagePath
+    };
+  } catch (error) {
+    console.error('Error processing testimonial files:', error);
+    throw error;
+  }
+};
+
+/**
+ * Delete testimonial files
+ */
+export const deleteTestimonialFiles = async (imagePath) => {
+  try {
+    if (imagePath) await deleteImage(imagePath);
+  } catch (error) {
+    console.error('Error deleting testimonial files:', error);
+  }
+};
+
+/**
+ * Process about us files
+ */
+export const processAboutUsFiles = async (aboutUsData) => {
+  try {
+    const { image, milestones, chairman_message, md_message, team, certifications, awards } = aboutUsData;
+
+    // Process main image
+    let savedImagePath = image;
+    if (image && image.startsWith('data:')) {
+      savedImagePath = await saveImageGeneric(image, 'about', `about_main_${Date.now()}`);
+    }
+
+    // Process milestones
+    const processedMilestones = [];
+    if (milestones && milestones.length > 0) {
+      for (let i = 0; i < milestones.length; i++) {
+        const milestone = milestones[i];
+        let milestoneImage = milestone.image;
+        if (milestoneImage && milestoneImage.startsWith('data:')) {
+          milestoneImage = await saveImageGeneric(milestoneImage, 'about/milestones', `milestone_${milestone.year}_${i}`);
+        }
+        processedMilestones.push({ ...milestone, image: milestoneImage });
+      }
+    }
+
+    // Process chairman message image
+    let chairmanImage = chairman_message?.image;
+    if (chairmanImage && chairmanImage.startsWith('data:')) {
+      chairmanImage = await saveImageGeneric(chairmanImage, 'about/leadership', 'chairman');
+    }
+
+    // Process MD message image
+    let mdImage = md_message?.image;
+    if (mdImage && mdImage.startsWith('data:')) {
+      mdImage = await saveImageGeneric(mdImage, 'about/leadership', 'md');
+    }
+
+    // Process team images
+    const processedTeam = [];
+    if (team && team.length > 0) {
+      for (const member of team) {
+        let memberImage = member.image;
+        if (memberImage && memberImage.startsWith('data:')) {
+          const cleanName = cleanFileName(member.name);
+          memberImage = await saveImageGeneric(memberImage, 'about/team', `team_${cleanName}_${member.id}`);
+        }
+        processedTeam.push({ ...member, image: memberImage });
+      }
+    }
+
+    // Process certifications images
+    const processedCertifications = [];
+    if (certifications && certifications.length > 0) {
+      for (const cert of certifications) {
+        let certImage = cert.image;
+        if (certImage && certImage.startsWith('data:')) {
+          certImage = await saveImageGeneric(certImage, 'about/certifications', `cert_${cert.id}`);
+        }
+        processedCertifications.push({ ...cert, image: certImage });
+      }
+    }
+
+    // Process awards images
+    const processedAwards = [];
+    if (awards && awards.length > 0) {
+      for (const award of awards) {
+        let awardImage = award.image;
+        if (awardImage && awardImage.startsWith('data:')) {
+          awardImage = await saveImageGeneric(awardImage, 'about/awards', `award_${award.id}`);
+        }
+        processedAwards.push({ ...award, image: awardImage });
+      }
+    }
+
+    return {
+      ...aboutUsData,
+      image: savedImagePath,
+      milestones: processedMilestones,
+      chairman_message: chairman_message ? { ...chairman_message, image: chairmanImage } : chairman_message,
+      md_message: md_message ? { ...md_message, image: mdImage } : md_message,
+      team: processedTeam,
+      certifications: processedCertifications,
+      awards: processedAwards
+    };
+  } catch (error) {
+    console.error('Error processing about us files:', error);
+    throw error;
+  }
+};
+
+/**
+ * Delete about us files
+ */
+export const deleteAboutUsFiles = async (aboutUsData) => {
+  try {
+    const { image, milestones, chairman_message, md_message, team, certifications, awards } = aboutUsData;
+
+    if (image) await deleteImage(image);
+
+    if (milestones) {
+      await Promise.all(milestones.map(m => m.image ? deleteImage(m.image) : Promise.resolve()));
+    }
+
+    if (chairman_message?.image) await deleteImage(chairman_message.image);
+    if (md_message?.image) await deleteImage(md_message.image);
+
+    if (team) {
+      await Promise.all(team.map(m => m.image ? deleteImage(m.image) : Promise.resolve()));
+    }
+
+    if (certifications) {
+      await Promise.all(certifications.map(c => c.image ? deleteImage(c.image) : Promise.resolve()));
+    }
+
+    if (awards) {
+      await Promise.all(awards.map(a => a.image ? deleteImage(a.image) : Promise.resolve()));
+    }
+  } catch (error) {
+    console.error('Error deleting about us files:', error);
+  }
+};
+
+/**
+ * Process CSR initiative files
+ */
+export const processCSRInitiativeFiles = async (csrInitiativeData) => {
+  try {
+    const { image, title } = csrInitiativeData;
+
+    let savedImagePath = image;
+    if (image && image.startsWith('data:')) {
+      const cleanTitle = cleanFileName(title);
+      savedImagePath = await saveImageGeneric(image, 'csr/initiatives', `initiative_${cleanTitle}_${Date.now()}`);
+    }
+
+    return {
+      ...csrInitiativeData,
+      image: savedImagePath
+    };
+  } catch (error) {
+    console.error('Error processing CSR initiative files:', error);
+    throw error;
+  }
+};
+
+/**
+ * Delete CSR initiative files
+ */
+export const deleteCSRInitiativeFiles = async (imagePath) => {
+  try {
+    if (imagePath) await deleteImage(imagePath);
+  } catch (error) {
+    console.error('Error deleting CSR initiative files:', error);
+  }
+};
+
+/**
+ * Process CSR hero files
+ */
+export const processCSRHeroFiles = async (csrHeroData) => {
+  try {
+    const { image, title } = csrHeroData;
+
+    let savedImagePath = image;
+    if (image && image.startsWith('data:')) {
+      const cleanTitle = cleanFileName(title);
+      savedImagePath = await saveImageGeneric(image, 'csr/hero', `csr_hero_${cleanTitle}_${Date.now()}`);
+    }
+
+    return {
+      ...csrHeroData,
+      image: savedImagePath
+    };
+  } catch (error) {
+    console.error('Error processing CSR hero files:', error);
+    throw error;
+  }
+};
+
+/**
+ * Delete CSR hero files
+ */
+export const deleteCSRHeroFiles = async (imagePath) => {
+  try {
+    if (imagePath) await deleteImage(imagePath);
+  } catch (error) {
+    console.error('Error deleting CSR hero files:', error);
+  }
+};
+
+/**
+ * Process sister company files
+ */
+export const processSisterCompanyFiles = async (sisterCompanyData) => {
+  try {
+    const { logo, image, name } = sisterCompanyData;
+    const cleanName = cleanFileName(name);
+
+    // Process logo
+    let savedLogoPath = logo;
+    if (logo && logo.startsWith('data:')) {
+      savedLogoPath = await saveImageGeneric(logo, 'sister-companies', `${cleanName}_logo`);
+    }
+
+    // Process image
+    let savedImagePath = image;
+    if (image && image.startsWith('data:')) {
+      savedImagePath = await saveImageGeneric(image, 'sister-companies', `${cleanName}_image`);
+    }
+
+    return {
+      ...sisterCompanyData,
+      logo: savedLogoPath,
+      image: savedImagePath
+    };
+  } catch (error) {
+    console.error('Error processing sister company files:', error);
+    throw error;
+  }
+};
+
+/**
+ * Delete sister company files
+ */
+export const deleteSisterCompanyFiles = async (logo, image) => {
+  try {
+    if (logo) await deleteImage(logo);
+    if (image) await deleteImage(image);
+  } catch (error) {
+    console.error('Error deleting sister company files:', error);
+  }
+};
+
+/**
+ * Process spare part files
+ */
+export const processSparePartFiles = async (sparePartData) => {
+  try {
+    const { image, parts } = sparePartData;
+
+    // Process main image
+    let savedImagePath = image;
+    if (image && image.startsWith('data:')) {
+      savedImagePath = await saveImageGeneric(image, 'spare-parts', `spare_main_${Date.now()}`);
+    }
+
+    // Process parts images
+    const processedParts = [];
+    if (parts && parts.length > 0) {
+      for (const part of parts) {
+        let partImage = part.image;
+        if (partImage && partImage.startsWith('data:')) {
+          partImage = await saveImageGeneric(partImage, 'spare-parts/parts', `part_${part.partId}`);
+        }
+        processedParts.push({ ...part, image: partImage });
+      }
+    }
+
+    return {
+      ...sparePartData,
+      image: savedImagePath,
+      parts: processedParts
+    };
+  } catch (error) {
+    console.error('Error processing spare part files:', error);
+    throw error;
+  }
+};
+
+/**
+ * Delete spare part files
+ */
+export const deleteSparePartFiles = async (image, parts) => {
+  try {
+    if (image) await deleteImage(image);
+
+    if (parts && parts.length > 0) {
+      await Promise.all(parts.map(p => p.image ? deleteImage(p.image) : Promise.resolve()));
+    }
+  } catch (error) {
+    console.error('Error deleting spare part files:', error);
   }
 };
