@@ -182,7 +182,7 @@ const ProductDetails = () => {
             )}
 
             {/* Contact CTA Section */}
-            <section className="bg-secondary border-y border-neutral-200 relative overflow-hidden">
+            <section className="bg-primary border-y border-neutral-200 relative overflow-hidden">
                 <WaveBackground position="top" opacity={0.03} waveColor="#ffffff" />
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-20 relative z-10">
                     <div className="text-center mb-10 lg:mb-14 animate-fade-in">
