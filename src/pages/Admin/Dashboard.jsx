@@ -135,14 +135,6 @@ const stats = [
           </Link>
         </div>
       </div>
-
-      {/* Recent Activity Info */}
-      <div className="mt-8 bg-blue-50 border border-blue-200 rounded-xl p-6">
-        <h2 className="text-lg font-semibold text-blue-900 mb-2">Welcome to Admin Panel</h2>
-        <p className="text-blue-700">
-          Use the sidebar navigation to manage different sections of your website. Products and Product Types support full CRUD operations, while Hero Images, About Us, and Contact Info can only be updated.
-        </p>
-      </div>
     </div>
   );
 };

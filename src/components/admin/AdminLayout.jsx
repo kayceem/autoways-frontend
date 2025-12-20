@@ -13,7 +13,8 @@ import {
   MapPin,
   Award,
   Newspaper,
-  Wrench
+  Wrench,
+  Building2
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 
@@ -25,6 +26,7 @@ const AdminLayout = () => {
   const menuItems = [
     { path: '/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { path: '/admin/products', label: 'Products', icon: Package },
+    { path: '/admin/sister-companies', label: 'Sister Companies', icon: Building2 },
     { path: '/admin/product-types', label: 'Product Types', icon: Layers },
     { path: '/admin/hero-images', label: 'Hero Images', icon: Image },
     { path: '/admin/about-us', label: 'About Us', icon: Info },
@@ -107,6 +109,9 @@ const AdminLayout = () => {
             >
               <Menu className="w-6 h-6" />
             </button>
+            <Link to="/" className="text-lg font-semibold text-accent-2">
+                Autoways
+            </Link>
             <div className="text-sm text-gray-600">
               Welcome, <span className="font-semibold">Admin</span>
             </div>
