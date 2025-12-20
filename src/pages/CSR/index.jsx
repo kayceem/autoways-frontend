@@ -8,7 +8,6 @@ const CSR = () => {
   const { content, isLoading } = useContent();
 
   if (isLoading) return <LoadingSpinner />;
-  console.log(content)
   if (!content || !content.csr) {
     window.location.href = "/not-found";
     return null;
@@ -221,6 +220,7 @@ const CSR = () => {
             <Link
                 to={"/contact"}
                 className={"px-8 py-4 bg-dark text-secondary rounded-lg font-semibold hover:bg-opacity-90 transition-all transform hover:scale-105 shadow-lg"}
+                state={{ subject: "CSR Partner Inquiry"}}
             >
                 Become a Partner
             </Link>

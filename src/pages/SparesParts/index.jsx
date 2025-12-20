@@ -165,6 +165,7 @@ const SparesParts = () => {
                             <Link
                                 to="/contact"
                                 className="inline-flex items-center gap-3 bg-secondary hover:bg-accent/90 text-white font-semibold px-6 lg:px-8 py-3 lg:py-4 rounded-lg transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl"
+                                state={{ subject: "Spare parts and Services Inquiry", isParts: true }}
                             >
                                 <span className="text-base lg:text-lg">Contact Us for Services</span>
                                 <ArrowRight className="w-5 h-5 lg:w-6 lg:h-6" />

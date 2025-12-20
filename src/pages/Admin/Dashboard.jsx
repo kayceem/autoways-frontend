@@ -92,6 +92,13 @@ const stats = [
             <p className="text-sm text-gray-600">Add, edit, or delete products</p>
           </Link>
           <Link
+            to="/admin/sister-companies"
+            className="p-4 border-2 border-blue-200 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition-all"
+          >
+            <h3 className="font-semibold text-gray-900 mb-1">Manage Sister Companies</h3>
+            <p className="text-sm text-gray-600">Add, edit, or delete sister companies</p>
+          </Link>
+          <Link
             to="/admin/csr-initiatives"
             className="p-4 border-2 border-yellow-200 rounded-lg hover:border-yellow-500 hover:bg-yellow-50 transition-all"
           >

@@ -3,6 +3,7 @@ import { Plus, Edit, Trash2, Search, Globe, Mail, Phone } from 'lucide-react';
 import useSisterCompaniesQuery from '../../hooks/useSisterCompaniesQuery';
 import { useCreateSisterCompany, useUpdateSisterCompany, useDeleteSisterCompany } from '../../hooks/useSisterCompaniesMutation';
 import SisterCompanyForm from './SisterCompanyForm';
+import { assetUrl } from '../../utils';
 
 const SisterCompaniesAdmin = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -146,7 +147,7 @@ const SisterCompaniesAdmin = () => {
             {company.image && (
               <div className="h-48 overflow-hidden bg-gray-100">
                 <img
-                  src={company.image}
+                  src={assetUrl(company.image)}
                   alt={company.name}
                   className="w-full h-full object-cover"
                   onError={(e) => {
@@ -161,7 +162,7 @@ const SisterCompaniesAdmin = () => {
               <div className="flex items-start space-x-4 mb-4">
                 {company.logo && (
                   <img
-                    src={company.logo}
+                    src={assetUrl(company.logo)}
                     alt={`${company.name} logo`}
                     className="w-16 h-16 object-contain rounded-lg border border-gray-200"
                     onError={(e) => {

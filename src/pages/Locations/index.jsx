@@ -6,7 +6,6 @@ const Locations = () => {
     const { content, isLoading } = useContent();
     if (isLoading) return <LoadingSpinner size={64} />;
     const locations = content?.locations ? content.locations : [];
-    console.log('Locations content:', locations);
     return (
         <div className="min-h-screen bg-primary">
             <div className="max-w-7xl mx-auto px-4 lg:px-6 py-8 lg:py-12">

@@ -7,7 +7,6 @@ const NewsMedia = () => {
   const { content, isLoading } = useContent();
 
   if (isLoading) return <LoadingSpinner />;
-  console.log(content)
   if (!content || !content.newsArticles) {
     window.location.href = "/not-found";
     return null;

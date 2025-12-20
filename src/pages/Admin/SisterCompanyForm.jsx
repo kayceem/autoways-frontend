@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { X, Upload, Plus, Trash2, ArrowLeft } from 'lucide-react';
+import { assetUrl } from '../../utils';
 
 const SisterCompanyForm = ({
   editingCompany = null,
@@ -50,7 +51,7 @@ const SisterCompanyForm = ({
       setLogoPreview(editingCompany.logo || '');
       setImagePreview(editingCompany.image || '');
     }
-  }, [editingCompany]);
+}, [editingCompany]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -364,7 +365,7 @@ const SisterCompanyForm = ({
                   {logoPreview ? (
                     <div className="relative">
                       <img
-                        src={logoPreview}
+                        src={assetUrl(logoPreview)}
                         alt="Logo preview"
                         className="w-full h-48 object-contain bg-gray-100 rounded-lg"
                       />
@@ -406,7 +407,7 @@ const SisterCompanyForm = ({
                   {imagePreview ? (
                     <div className="relative">
                       <img
-                        src={imagePreview}
+                        src={assetUrl(imagePreview)}
                         alt="Cover preview"
                         className="w-full h-48 object-cover rounded-lg"
                       />
