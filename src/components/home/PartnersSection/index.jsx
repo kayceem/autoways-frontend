@@ -1,16 +1,12 @@
 import { Link } from 'react-router-dom';
 import { assetUrl } from '../../../utils';
 
-const PartnersSection = ({ partners = {}, className = '' }) => {
+const PartnersSection = ({ partnersArray = [], className = '' }) => {
   // Convert partners object to array
-  const partnerArray = Object.entries(partners).map(([key, partner]) => ({
-    id: key,
-    ...partner,
-  }));
 
   return (
     <section className={`py-10 lg:py-20 px-4 lg:px-6 bg-primary ${className}`}>
-      <div className="max-w-7xl mx-auto">
+      <div className="w-full mx-auto">
         {/* Section Header */}
         <div className="text-center mb-8 lg:mb-16">
           <h2 className="text-2xl lg:text-4xl font-bold text-secondary mb-3 lg:mb-4">
@@ -28,9 +24,9 @@ const PartnersSection = ({ partners = {}, className = '' }) => {
 
                 {/* Scrollable Cards */}
                 <div className="flex gap-4 lg:gap-8 overflow-x-auto scrollbar-hide px-4 lg:px-6 pb-4 scroll-smooth">
-                    {partnerArray.map((partner, index) => (
+                    {partnersArray.map((partner, index) => (
                         <Link
-                            key={partner.id}
+                            key={index}
                             to={`/sister-companies/${partner.slug}`}
                             className="group flex-shrink-0"
                             style={{
@@ -76,7 +72,7 @@ const PartnersSection = ({ partners = {}, className = '' }) => {
                 </div>
                 </div>
         {/* View All Partners Link */}
-        {partnerArray?.length > 8 && (
+        {partnersArray?.length > 8 && (
           <div className="text-center mt-8 lg:mt-12">
             <Link
               to="/sister-companies"

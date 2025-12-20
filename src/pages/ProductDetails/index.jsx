@@ -224,8 +224,11 @@ const ProductDetails = () => {
                         </Link>
                     </div>
 
-                    <div className="text-center animate-fade-in-up">
-                        <Link to="/contact" className="inline-block px-8 py-3.5 rounded-lg font-semibold text-base bg-accent text-secondary hover:bg-accent-2 transition-all duration-300 shadow-sm hover:shadow-lg cursor-pointer hover:-translate-y-0.5">
+                    <div className="text-center animate-fade-in-up flex align-center justify-center gap-2">
+                        <Link to="/contact" 
+                        className="inline-block px-8 py-3.5 rounded-lg font-semibold text-base bg-accent text-secondary hover:bg-accent-2 transition-all duration-300 shadow-sm hover:shadow-lg cursor-pointer hover:-translate-y-0.5"
+                        state={{subject: `${product?.name} - ${brand} Inquiry`}}
+                        >
                             Send Inquiry
                         </Link>
                     <Link

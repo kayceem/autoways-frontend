@@ -130,7 +130,7 @@ const Navbar = ({ className = "" }) => {
 
                 {/* Mobile Menu */}
                 {isMobileMenuOpen && (
-                    <div className="lg:hidden bg-primary border-t border-secondary/20">
+                    <div className="lg:hidden bg-primary border-secondary/20">
                         <div className="px-4 py-4 space-y-3">
                             <Link
                                 to="/shop/bull"
@@ -195,7 +195,7 @@ const Navbar = ({ className = "" }) => {
                             </Link>
 
                             {/* Mobile Contact Links */}
-                            <div className="flex items-center gap-6 pt-4 border-t border-secondary/20">
+                            <div className="flex items-center gap-6 pt-4 border-secondary/20">
                                 <Link
                                     to="/contact"
                                     className="flex items-center gap-2 text-secondary hover:text-accent transition-colors duration-200 font-medium"

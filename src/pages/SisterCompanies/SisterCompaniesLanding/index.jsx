@@ -18,7 +18,6 @@ const SisterCompaniesLanding = () => {
     }
 
     const companyData = getSisterCompanyData(content?.sisterCompanies, companySlug);
-    console.log(companyData);
 
     if (!companyData) {
         window.location.href = "/not-found";
@@ -141,7 +140,7 @@ const SisterCompaniesLanding = () => {
                                         href={`mailto:${companyData.contact.email}`}
                                         className="flex flex-col items-center gap-3 p-6 bg-dark rounded-xl hover:bg-accent hover:text-dark transition-all duration-300 group"
                                     >
-                                        <Mail className="w-10 h-10 text-accent-2 group-hover:text-dark transition-colors" />
+                                        <Mail className="w-10 h-10 text-secondary group-hover:text-accent-2 transition-colors" />
                                         <div className="text-center">
                                             {/* <p className="text-secondary group-hover:text-dark font-semibold mb-1">Email</p> */}
                                             <p className="text-accent-2 group-hover:text-dark text-sm">{companyData.contact.email}</p>
@@ -155,7 +154,7 @@ const SisterCompaniesLanding = () => {
                                         href={`tel:${companyData.contact.phone}`}
                                         className="flex flex-col items-center gap-3 p-6 bg-dark rounded-xl hover:bg-accent hover:text-dark transition-all duration-300 group"
                                     >
-                                        <Phone className="w-10 h-10 text-accent-2 group-hover:text-dark transition-colors" />
+                                        <Phone className="w-10 h-10 text-secondary group-hover:text-accent-2 transition-colors" />
                                         <div className="text-center">
                                             {/* <p className="text-secondary group-hover:text-dark font-semibold mb-1">Phone</p> */}
                                             <p className="text-accent-2 group-hover:text-dark text-sm">{companyData.contact.phone}</p>
@@ -171,7 +170,7 @@ const SisterCompaniesLanding = () => {
                                         rel="noopener noreferrer"
                                         className="flex flex-col items-center gap-3 p-6 bg-dark rounded-xl hover:bg-accent hover:text-dark transition-all duration-300 group"
                                     >
-                                        <Globe className="w-10 h-10 text-accent-2 group-hover:text-dark transition-colors" />
+                                        <Globe className="w-10 h-10 text-secondary group-hover:text-accent-2 transition-colors" />
                                         <div className="text-center">
                                             {/* <p className="text-secondary group-hover:text-dark font-semibold mb-1">Website</p> */}
                                             <p className="text-accent-2 group-hover:text-dark text-sm">{companyData.contact.website}</p>

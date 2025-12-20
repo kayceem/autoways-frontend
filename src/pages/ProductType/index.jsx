@@ -205,7 +205,8 @@ const ProductTypePage = () => {
                     </p>
                     <Link
                         to="/contact"
-                        className={`bg-accent text-secondary px-6 py-3 lg:px-8 lg:py-4 rounded-lg font-bold text-sm lg:text-lg hover:bg-primary hover:text-accent border-2 border-accent transition-all duration-300 transform hover:scale-105`}
+                        className={`inline-block px-8 py-3.5 rounded-lg font-semibold text-base bg-accent text-secondary hover:bg-accent-2 transition-all duration-300 shadow-sm hover:shadow-lg cursor-pointer hover:-translate-y-0.5`}
+                        state={{subject: `${brand} ${typeName} Inquiry`}}
                     >
                         Contact Our Experts
                     </Link>

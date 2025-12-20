@@ -30,6 +30,7 @@ import LocationsAdmin from "../Admin/Locations";
 import CSRInitiativesAdmin from "../Admin/CSRInitiatives";
 import NewsMediaAdmin from "../Admin/NewsMedia";
 import SparePartsAdmin from "../Admin/SpareParts";
+import SisterCompaniesAdmin from "../Admin/SisterCompanies";
 import ProtectedRoute from "../../components/common/ProtectedRoute";
 
 const PageRoutes = () => {
@@ -55,6 +56,7 @@ const PageRoutes = () => {
                 <Route path="csr-initiatives" element={<CSRInitiativesAdmin />} />
                 <Route path="news-media" element={<NewsMediaAdmin />} />
                 <Route path="spare-parts" element={<SparePartsAdmin />} />
+                <Route path="sister-companies" element={<SisterCompaniesAdmin />} />
             </Route>
 
             {/* Public Routes */}

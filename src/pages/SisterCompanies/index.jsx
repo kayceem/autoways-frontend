@@ -25,7 +25,6 @@ const SisterCompanies = () => {
   const filteredCompanies = selectedCategory === 'all'
     ? companies
     : companies.filter(company => company.category === selectedCategory);
-console.log(content);
   return (
     <main className="min-h-screen bg-dark relative">
       <WaveBackground />

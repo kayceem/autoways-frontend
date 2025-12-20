@@ -10,7 +10,6 @@ import ClientsSection from '../../components/home/ClientsSection';
 
 const Home = () => {
   const { content, isLoading } = useContent();
-    console.log('Home content:', content);
   // Show loading spinner while content is being fetched
   if (isLoading) {
     return (
@@ -56,8 +55,8 @@ const Home = () => {
       )}
 
       {/* Partners Section - Our trusted partners */}
-      {content.partners && Object.keys(content.partners).length > 0 && (
-        <PartnersSection partners={content.partners} />
+      {content.sisterCompanies && Object.keys(content.sisterCompanies).length > 0 && (
+        <PartnersSection partnersArray={content.sisterCompanies} />
       )}
 
       {/* Clients Section - Trusted by leading organizations */}
