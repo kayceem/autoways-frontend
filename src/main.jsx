@@ -7,7 +7,18 @@ import { Toaster } from "react-hot-toast";
 import "./index.css";
 import App from "./App.jsx";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+    defaultOptions: {
+        queries: {
+            staleTime: 30 * 60 * 1000, // 30 minutes - data rarely changes
+            gcTime: 60 * 60 * 1000, // 1 hour - keep in cache longer
+            refetchOnWindowFocus: false, // Don't refetch on window focus
+            refetchOnMount: false, // Don't refetch on component mount if data is fresh
+            retry: 1,
+            retryDelay: 2000,
+        },
+    },
+});
 
 createRoot(document.getElementById("root")).render(
     <BrowserRouter>

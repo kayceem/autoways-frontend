@@ -10,8 +10,7 @@ const useProductTypesQuery = (brandId = null) => {
       const response = await axiosInstance.get('/product-types', { params });
       return response.data.data;
     },
-    retry: 1,
-    retryDelay: 2000,
+    staleTime: 60 * 60 * 1000, // 1 hour - product types rarely change
     onError: handleError
   });
 };

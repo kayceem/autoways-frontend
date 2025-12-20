@@ -13,8 +13,7 @@ const useSparepartsQuery = (filters = {}) => {
       const response = await axiosInstance.get('/spare-parts', { params });
       return response.data.data;
     },
-    retry: 1,
-    retryDelay: 2000,
+    staleTime: 45 * 60 * 1000, // 45 minutes - spare parts rarely change
     onError: handleError
   });
 };
