@@ -4,7 +4,7 @@ import logoMap from '../../../config/logoMap';
 import { assetUrl } from '../../../utils';
 import { Loader } from 'lucide-react';
 
-const LoadingSpinner = ({ name = '', size = 64, className = '' }) => {
+const LoadingSpinner = ({ name = '', size = 128, className = '' }) => {
   const [imageLoaded, setImageLoaded] = useState(false);
 
   return (
@@ -26,8 +26,8 @@ const LoadingSpinner = ({ name = '', size = 64, className = '' }) => {
             imageLoaded ? 'opacity-100' : 'opacity-0'
           }`}
           style={{
-            width: size,
-            height: size,
+            width: name ? size : 64,
+            height: name ? size : 64,
             animation: imageLoaded ? 'brand-loading 2.5s ease-in-out infinite, brand-glow 2.5s ease-in-out infinite' : 'none',
           }}
           loading={'eager'}
