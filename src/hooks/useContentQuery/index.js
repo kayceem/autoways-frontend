@@ -7,11 +7,10 @@ const useContentQuery = () => {
   return useQuery({
     queryKey: ['site-content'],
     queryFn: async () => {
-      const response = await axiosInstance.get(API_END_POINT.content.getAll); 
+      const response = await axiosInstance.get(API_END_POINT.content.getAll);
       return response.data.data;
     },
-    retry: 1,
-    retryDelay: 2000,
+    staleTime: 60 * 60 * 1000, // 1 hour - site content rarely changes
     onError: handleError
   });
 };

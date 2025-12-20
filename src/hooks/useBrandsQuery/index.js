@@ -9,8 +9,7 @@ const useBrandsQuery = () => {
       const response = await axiosInstance.get('/brands');
       return response.data.data;
     },
-    retry: 1,
-    retryDelay: 2000,
+    staleTime: 60 * 60 * 1000, // 1 hour - brands rarely change
     onError: handleError
   });
 };

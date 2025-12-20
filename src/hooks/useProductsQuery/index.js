@@ -11,12 +11,11 @@ const useProductsQuery = (filters = {}) => {
       if (filters.category) params.category = filters.category;
       if (filters.type) params.type = filters.type;
         if (filters.id) params.id = filters.id;
-    
+
       const response = await axiosInstance.get('/products', { params });
       return response.data.data;
     },
-    retry: 1,
-    retryDelay: 2000,
+    staleTime: 45 * 60 * 1000, // 45 minutes - products rarely change
     onError: handleError
   });
 };

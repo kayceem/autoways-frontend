@@ -7,11 +7,10 @@ const useBrandQuery = (brandName) => {
   return useQuery({
     queryKey: ['brand', brandName],
     queryFn: async () => {
-      const response = await axiosInstance.get(`${API_END_POINT.content.brand}${brandId}`); 
+      const response = await axiosInstance.get(`${API_END_POINT.content.brand}${brandId}`);
       return response.data;
     },
-    retry: 1,
-    retryDelay: 2000,
+    staleTime: 60 * 60 * 1000, // 1 hour - brand data rarely changes
     onError: handleError
   });
 };
