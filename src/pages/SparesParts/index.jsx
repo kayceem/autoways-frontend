@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, Wrench } from "lucide-react";
+import { useEffect } from "react";
 import LoadingSpinner from "../../components/common/Loading";
 import useSparepartsQuery from "../../hooks/useSparepartsQuery";
 import { assetUrl } from "../../utils";
@@ -9,6 +10,27 @@ const SparesParts = () => {
 
     // Get the first spare parts entry (assuming there's only one document with all data)
     const sparePart = sparePartsData?.[0];
+
+    // Preload hero image and first 4 part images for instant display
+    useEffect(() => {
+        if (sparePart) {
+            // Preload hero image
+            if (sparePart.image) {
+                const heroImg = new Image();
+                heroImg.src = assetUrl(sparePart.image);
+            }
+
+            // Preload first 4 part images
+            if (sparePart.parts) {
+                sparePart.parts.slice(0, 4).forEach((part) => {
+                    if (part.image) {
+                        const partImg = new Image();
+                        partImg.src = assetUrl(part.image);
+                    }
+                });
+            }
+        }
+    }, [sparePart]);
 
     if (isLoading) {
         return <LoadingSpinner name="Spares & Parts" />;
@@ -30,6 +52,8 @@ const SparesParts = () => {
                             src={assetUrl(sparePart.image)}
                             alt="Spares & Parts"
                             className="w-full h-full object-cover opacity-90"
+                            loading="eager"
+                            fetchPriority="high"
                         />
                     )}
                     <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/50 to-primary" />
@@ -95,6 +119,7 @@ const SparesParts = () => {
                                                 src={assetUrl(part.image)}
                                                 alt={`Part ${part.name}`}
                                                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                                loading={index < 4 ? 'eager' : 'lazy'}
                                             />
 
                                             {/* Gradient Overlay */}

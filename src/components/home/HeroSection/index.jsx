@@ -1,6 +1,6 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
@@ -10,6 +10,19 @@ import { assetUrl } from '../../../utils';
 
 const HeroSection = ({ heroImages = [], className = '' }) => {
   const [loadedImages, setLoadedImages] = useState({});
+
+  // Preload first 3 images for instant display and smooth transitions
+  useEffect(() => {
+    const imagesToPreload = heroImages.slice(0, 3);
+
+    imagesToPreload.forEach((image, index) => {
+      const img = new Image();
+      img.src = assetUrl(image.image);
+      img.onload = () => {
+        setLoadedImages(prev => ({ ...prev, [index]: true }));
+      };
+    });
+  }, [heroImages]);
 
   const handleImageLoad = (index) => {
     setLoadedImages(prev => ({ ...prev, [index]: true }));
@@ -53,7 +66,8 @@ const HeroSection = ({ heroImages = [], className = '' }) => {
                   loadedImages[index] ? 'opacity-100' : 'opacity-0'
                 }`}
                 onLoad={() => handleImageLoad(index)}
-                loading={index === 0 ? 'eager' : 'lazy'}
+                loading={index < 3 ? 'eager' : 'lazy'}
+                fetchPriority={index === 0 ? 'high' : 'auto'}
               />
               
               {/* Overlay Gradient */}
