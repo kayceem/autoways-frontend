@@ -36,7 +36,7 @@ const BrandsSection = ({ brands = {}, className = "" }) => {
                     {brandArray.map((brand, index) => (
                         <Link
                             key={brand.id}
-                            to={`/shop/${brand.id}`}
+                            to={`/shop/${brand.slug}`}
                             className="group flex-shrink-0"
                             style={{
                                 animation: `slideInFromRight 0.6s ease-out ${

@@ -31,7 +31,7 @@ const PartnersSection = ({ partners = {}, className = '' }) => {
                     {partnerArray.map((partner, index) => (
                         <Link
                             key={partner.id}
-                            to={`/sister-companies/${partner.id}`}
+                            to={`/sister-companies/${partner.slug}`}
                             className="group flex-shrink-0"
                             style={{
                                 animation: `slideInFromRight 0.6s ease-out ${

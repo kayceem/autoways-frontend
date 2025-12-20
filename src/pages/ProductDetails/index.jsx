@@ -16,6 +16,7 @@ import ImageGallery from '../../components/common/ImageGallery';
 import SpecificationsDisplay from '../../components/common/SpecificationsDisplay';
 import LoadingSpinner from '../../components/common/Loading';
 import useContentQuery from '../../hooks/useContentQuery';
+import WaveBackground from '../../components/common/WaveBackground';
 import { assetUrl } from '../../utils';
 
 const ProductDetails = () => {
@@ -75,26 +76,27 @@ const ProductDetails = () => {
     return (
         <div className="min-h-screen bg-primary">
             {/* Breadcrumb */}
-            <section className="bg-primary border-b border-primary/10">
-                <div className="max-w-7xl mx-auto px-4 lg:px-6 py-4 lg:py-6">
-                    <div className="flex items-center gap-2 text-xs lg:text-sm text-primary opacity-70">
-                        <Link to="/" className="hover:text-accent hover:opacity-100 transition-all">Home</Link>
-                        <ChevronDown size={16} className="rotate-[-90deg]" />
-                        <Link to={`/shop/${brand}`} className="capitalize hover:text-accent hover:opacity-100 transition-all">{brand}</Link>
-                        <ChevronDown size={16} className="rotate-[-90deg]" />
-                        <Link to={`/shop/${brand}/${typeSlug}`} className="capitalize hover:text-accent hover:opacity-100 transition-all">{typeName}</Link>
-                        <ChevronDown size={16} className="rotate-[-90deg]" />
-                        <span className="font-semibold text-secondary opacity-100">{product?.name}</span>
-                    </div>
+            <section className="bg-primary border-b border-neutral-200">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 lg:py-4">
+                    <nav className="flex items-center gap-2 text-xs lg:text-sm" aria-label="Breadcrumb">
+                        <Link to="/" className="text-secondary/60 hover:text-accent transition-colors font-medium">Home</Link>
+                        <ChevronDown size={14} className="rotate-[-90deg] text-secondary/40" />
+                        <Link to={`/shop/${brand}`} className="text-secondary/60 hover:text-accent transition-colors font-medium capitalize">{brand}</Link>
+                        <ChevronDown size={14} className="rotate-[-90deg] text-secondary/40" />
+                        <Link to={`/shop/${brand}/${typeSlug}`} className="text-secondary/60 hover:text-accent transition-colors font-medium capitalize">{typeName}</Link>
+                        <ChevronDown size={14} className="rotate-[-90deg] text-secondary/40" />
+                        <span className="font-semibold text-secondary">{product?.name}</span>
+                    </nav>
                 </div>
             </section>
 
             {/* Hero Section */}
-            <section className="bg-primary">
-                <div className="max-w-7xl mx-auto px-4 lg:px-6 py-6 lg:py-12">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-16 items-start">
+            <section className="bg-primary relative">
+                <WaveBackground position="top" opacity={0.05} waveColor="#a7ed81" />
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-16 relative z-10">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 xl:gap-16 items-start">
                         {/* Left: Image Gallery */}
-                        <div className="lg:sticky lg:top-8">
+                        <div className="lg:sticky lg:top-24 animate-fade-in">
                             <ImageGallery
                                 images={product?.images}
                                 productName={product?.name}
@@ -102,41 +104,43 @@ const ProductDetails = () => {
                         </div>
 
                         {/* Right: Product Info */}
-                        <div className="py-4 lg:py-8">
-                            <h1 className="text-3xl lg:text-5xl font-bold text-primary mb-4 lg:mb-6 leading-tight">{product?.name}</h1>
+                        <div className="flex flex-col gap-6 animate-fade-in-up">
+                            <div>
+                                <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-secondary mb-4 leading-tight tracking-tight">{product?.name}</h1>
 
-                            <div className="inline-flex items-center gap-2 px-4 lg:px-6 py-2 lg:py-3 bg-accent/10 border border-accent rounded-full font-semibold mb-4 lg:mb-6 text-primary text-sm lg:text-base">
-                                {getFuelTypeIcon(product?.fuelType)}
-                                <span>{getFuelTypeLabel(product?.fuelType)}</span>
+                                <div className="inline-flex items-center gap-2 px-4 py-2 bg-accent/50 border border-accent rounded-full text-sm font-semibold text-secondary">
+                                    {getFuelTypeIcon(product?.fuelType)}
+                                    <span>{getFuelTypeLabel(product?.fuelType)}</span>
+                                </div>
                             </div>
 
                             {product?.shortDescription && (
-                                <p className="text-base lg:text-xl font-semibold text-primary mb-3 lg:mb-4 leading-relaxed">
+                                <p className="text-lg lg:text-xl font-semibold text-secondary leading-relaxed">
                                     {product?.shortDescription}
                                 </p>
                             )}
 
                             {product?.fullDescription && (
-                                <p className="text-sm lg:text-base text-primary mb-6 lg:mb-8 leading-relaxed opacity-100">
+                                <p className="text-sm lg:text-base text-secondary/70 leading-relaxed">
                                     {product?.fullDescription}
                                 </p>
                             )}
 
                             {/* Action Buttons */}
-                            <div className="flex flex-col lg:flex-row gap-3 lg:gap-4">
+                            <div className="flex flex-col sm:flex-row gap-3 pt-2">
                                 <button
                                     onClick={handleDownloadSpecs}
-                                    className="flex items-center justify-center gap-2 lg:gap-3 px-6 lg:px-8 py-3 lg:py-4 rounded-xl font-bold text-sm lg:text-base bg-accent text-secondary hover:bg-secondary hover:text-accent border-2 border-transparent hover:border-accent transition-all cursor-pointer"
+                                    className="group flex items-center justify-center gap-2 px-6 py-3.5 rounded-lg font-semibold text-sm lg:text-base bg-accent text-secondary hover:bg-accent-2 transition-all duration-300 shadow-sm hover:shadow-md cursor-pointer hover:-translate-y-0.5"
                                 >
-                                    <Download size={20} />
-                                    <span>Download Specifications</span>
+                                    <Download size={18} className="group-hover:scale-110 transition-transform duration-300" />
+                                    <span>Download Specs</span>
                                 </button>
 
                                 <button
                                     onClick={handleViewBrochure}
-                                    className="flex items-center justify-center gap-2 lg:gap-3 px-6 lg:px-8 py-3 lg:py-4 rounded-xl font-bold text-sm lg:text-base bg-accent text-primary hover:bg-accent hover:text-secondary border-2 border-accent hover:shadow-lg transition-all cursor-pointer"
+                                    className="group flex items-center justify-center gap-2 px-6 py-3.5 rounded-lg font-semibold text-sm lg:text-base bg-primary text-secondary border-2 border-neutral-300 hover:border-accent hover:bg-accent/10 transition-all duration-300 cursor-pointer hover:-translate-y-0.5"
                                 >
-                                    <FileText size={20} />
+                                    <FileText size={18} className="group-hover:scale-110 transition-transform duration-300" />
                                     <span>View Brochure</span>
                                 </button>
                             </div>
@@ -147,13 +151,14 @@ const ProductDetails = () => {
 
             {/* Features Section */}
             {product?.features && product?.features.length > 0 && (
-                <section className="bg-primary border-t border-primary/10">
-                    <div className="max-w-7xl mx-auto px-4 lg:px-6 py-6 lg:py-12">
-                        <h2 className="text-2xl lg:text-4xl font-bold mb-6 lg:mb-8 text-center text-primary">Key Features</h2>
-                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 lg:gap-4">
+                <section className="bg-accent/30 border-neutral-200 relative overflow-hidden">
+                    <WaveBackground position="top" opacity={0.08} waveColor="#35621b" />
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16 relative z-10">
+                        <h2 className="text-2xl lg:text-3xl font-bold mb-8 lg:mb-10 text-center text-secondary animate-fade-in">Key Features</h2>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                             {product?.features.map((feature, index) => (
-                                <div key={index} className="flex items-center gap-3 lg:gap-4 p-4 lg:p-5 bg-gradient-to-br from-primary to-primary/95 rounded-xl border border-accent/20 hover:border-accent hover:-translate-y-1 hover:shadow-lg transition-all">
-                                    <Check className="flex-shrink-0 text-accent" size={20} />
+                                <div key={index} className="flex items-start gap-3 p-4 bg-primary rounded-lg border border-neutral-200 hover:border-accent/60 hover:shadow-md transition-all duration-300 animate-slide-up cursor-default hover:-translate-y-1" style={{animationDelay: `${index * 50}ms`}}>
+                                    <Check className="flex-shrink-0 text-accent mt-0.5" size={18} />
                                     <span className="text-sm lg:text-base font-medium leading-relaxed text-secondary">{feature}</span>
                                 </div>
                             ))}
@@ -164,9 +169,10 @@ const ProductDetails = () => {
 
             {/* Specifications Section */}
             {product?.specifications && (
-                <section className="py-6 lg:py-12 bg-accent">
-                    <div className="max-w-7xl mx-auto px-4 lg:px-6">
-                        <h2 className="text-2xl lg:text-4xl font-bold mb-6 lg:mb-8 text-center text-primary">Technical Specifications</h2>
+                <section className="bg-primary relative overflow-hidden">
+                    <WaveBackground position="top" opacity={0.04} waveColor="#a7ed81" />
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16 relative z-10">
+                        <h2 className="text-2xl lg:text-3xl font-bold mb-8 lg:mb-10 text-center text-secondary animate-fade-in">Technical Specifications</h2>
                         <SpecificationsDisplay
                             specifications={product?.specifications}
                             fuelType={product?.fuelType}
@@ -176,55 +182,59 @@ const ProductDetails = () => {
             )}
 
             {/* Contact CTA Section */}
-            <section className="bg-gradient-to-br from-secondary to-secondary/95 border-t border-primary/10 border-b border-primary/10">
-                <div className="max-w-5xl mx-auto px-4 lg:px-6 py-10 lg:py-16 text-center">
-                    <h2 className="text-2xl lg:text-4xl font-bold mb-3 lg:mb-4 text-primary">Interested in {product?.name}?</h2>
-                    <p className="text-sm lg:text-lg opacity-80 mb-8 lg:mb-12 text-primary">
-                        Get in touch with our sales team for pricing, availability, and expert guidance
-                    </p>
+            <section className="bg-primary border-y border-neutral-200 relative overflow-hidden">
+                <WaveBackground position="top" opacity={0.03} waveColor="#ccc7c7ff" />
+                <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-20 relative z-10">
+                    <div className="text-center mb-10 lg:mb-14 animate-fade-in">
+                        <h2 className="text-2xl lg:text-3xl font-bold mb-3 text-primary">Interested in {product?.name}?</h2>
+                        <p className="text-sm lg:text-base text-primary/70 max-w-2xl mx-auto">
+                            Get in touch with our sales team for pricing, availability, and expert guidance
+                        </p>
+                    </div>
 
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-8 mb-8 lg:mb-12">
-                        <a href={`tel:${siteContent?.info?.phone}`} className="flex items-center gap-4 lg:gap-6 p-6 lg:p-8 rounded-2xl border-2 border-transparent hover:border-accent hover:-translate-y-1 hover:shadow-lg transition-all bg-primary text-secondary">
-                            <Phone size={24} className="flex-shrink-0 text-accent" />
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6 mb-10">
+                        <a href={`tel:${siteContent?.info?.phone}`} className="flex items-center gap-4 p-5 rounded-lg border border-primary/20 hover:border-accent hover:bg-primary/5 transition-all duration-300 bg-transparent text-primary group cursor-pointer hover:-translate-y-1 animate-slide-up">
+                            <div className="p-3 rounded-full bg-accent/20 group-hover:bg-accent/30 transition-all duration-300 group-hover:scale-110">
+                                <Phone size={20} className="text-accent" />
+                            </div>
                             <div className="text-left">
-                                <div className="text-xs lg:text-sm font-semibold opacity-70 mb-1 text-secondary">Call Us</div>
-                                <div className="text-sm lg:text-base font-bold text-secondary">{siteContent?.contactInfo?.[0].phone}</div>
+                                <div className="text-xs font-semibold opacity-60 mb-1">Call Us</div>
+                                <div className="text-sm font-bold">{siteContent?.contactInfo?.[0].phone}</div>
                             </div>
                         </a>
 
-                        <a href={`mailto:${siteContent?.info?.email}`} className="flex items-center gap-4 lg:gap-6 p-6 lg:p-8 rounded-2xl border-2 border-transparent hover:border-accent hover:-translate-y-1 hover:shadow-lg transition-all bg-primary text-secondary">
-                            <Mail size={24} className="flex-shrink-0 text-accent" />
+                        <a href={`mailto:${siteContent?.info?.email}`} className="flex items-center gap-4 p-5 rounded-lg border border-primary/20 hover:border-accent hover:bg-primary/5 transition-all duration-300 bg-transparent text-primary group cursor-pointer hover:-translate-y-1 animate-slide-up" style={{animationDelay: '100ms'}}>
+                            <div className="p-3 rounded-full bg-accent/20 group-hover:bg-accent/30 transition-all duration-300 group-hover:scale-110">
+                                <Mail size={20} className="text-accent" />
+                            </div>
                             <div className="text-left">
-                                <div className="text-xs lg:text-sm font-semibold opacity-70 mb-1 text-secondary">Email Us</div>
-                                <div className="text-sm lg:text-base font-bold text-secondary">{siteContent?.contactInfo?.[0].email}</div>
+                                <div className="text-xs font-semibold opacity-60 mb-1">Email Us</div>
+                                <div className="text-sm font-bold">{siteContent?.contactInfo?.[0].email}</div>
                             </div>
                         </a>
 
-                        <Link to="/locations" className="flex items-center gap-4 lg:gap-6 p-6 lg:p-8 rounded-2xl border-2 border-transparent hover:border-accent hover:-translate-y-1 hover:shadow-lg transition-all bg-primary text-secondary">
-                            <MapPin size={24} className="flex-shrink-0 text-accent" />
+                        <Link to="/locations" className="flex items-center gap-4 p-5 rounded-lg border border-primary/20 hover:border-accent hover:bg-primary/5 transition-all duration-300 bg-transparent text-primary group cursor-pointer hover:-translate-y-1 animate-slide-up" style={{animationDelay: '200ms'}}>
+                            <div className="p-3 rounded-full bg-accent/20 group-hover:bg-accent/30 transition-all duration-300 group-hover:scale-110">
+                                <MapPin size={20} className="text-accent" />
+                            </div>
                             <div className="text-left">
-                                <div className="text-xs lg:text-sm font-semibold opacity-70 mb-1 text-secondary">Visit Us</div>
-                                <div className="text-sm lg:text-base font-bold text-secondary">Find nearest location</div>
+                                <div className="text-xs font-semibold opacity-60 mb-1">Visit Us</div>
+                                <div className="text-sm font-bold">Find nearest location</div>
                             </div>
                         </Link>
                     </div>
 
-                    <Link to="/contact" className="inline-block px-8 lg:px-12 py-3 lg:py-5 rounded-xl font-bold text-base lg:text-lg border-2 border-accent hover:-translate-y-1 hover:shadow-xl transition-all bg-accent text-secondary hover:bg-secondary hover:text-accent">
-                        Send Inquiry
-                    </Link>
-                </div>
-            </section>
-
-            {/* Related Products Section */}
-            <section className="bg-primary text-center">
-                <div className="max-w-7xl mx-auto px-4 lg:px-6 py-6 lg:py-12">
-                    <h2 className="text-2xl lg:text-4xl font-bold mb-6 lg:mb-8 text-primary capitalize">More products from {brand}</h2>
+                    <div className="text-center animate-fade-in-up">
+                        <Link to="/contact" className="inline-block px-8 py-3.5 rounded-lg font-semibold text-base bg-accent text-secondary hover:bg-accent-2 transition-all duration-300 shadow-sm hover:shadow-lg cursor-pointer hover:-translate-y-0.5">
+                            Send Inquiry
+                        </Link>
                     <Link
                         to={`/shop/${brand}/${typeSlug}`}
-                        className="inline-block px-6 lg:px-10 py-3 lg:py-4 rounded-xl font-bold text-sm lg:text-base border-2 border-accent hover:-translate-y-1 hover:shadow-xl transition-all bg-accent text-secondary hover:bg-secondary hover:text-accent"
+                        className="inline-block px-6 py-3 rounded-lg font-semibold text-sm lg:text-base bg-accent text-secondary hover:bg-accent-2 transition-all duration-300 shadow-sm hover:shadow-md cursor-pointer hover:-translate-y-0.5 animate-fade-in-up"
                     >
-                        View All products
+                        View All Products
                     </Link>
+                    </div>
                 </div>
             </section>
         </div>
