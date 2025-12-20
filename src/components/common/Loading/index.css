@@ -1,4 +1,75 @@
-@keyframes spin-horizontal {
-  0%   { transform: rotateY(0deg); }
-  100% { transform: rotateY(360deg); }
+/* Floating and pulsing animation */
+@keyframes brand-float {
+  0%, 100% {
+    transform: translateY(0px) scale(1);
+  }
+  50% {
+    transform: translateY(-20px) scale(1.05);
+  }
+}
+
+/* Breathing glow effect */
+@keyframes brand-glow {
+  0%, 100% {
+    filter: drop-shadow(0 0 10px rgba(59, 130, 246, 0.3));
+  }
+  50% {
+    filter: drop-shadow(0 0 25px rgba(59, 130, 246, 0.6));
+  }
+}
+
+/* Gentle rotation effect */
+@keyframes brand-rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-5deg);
+  }
+  75% {
+    transform: rotate(5deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+/* Pulse scale effect */
+@keyframes brand-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+}
+
+/* Combined floating and pulsing with rotation */
+@keyframes brand-loading {
+  0%, 100% {
+    transform: translateY(0px) scale(1) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-15px) scale(1.05) rotate(-3deg);
+  }
+  50% {
+    transform: translateY(-20px) scale(1.08) rotate(0deg);
+  }
+  75% {
+    transform: translateY(-15px) scale(1.05) rotate(3deg);
+  }
+}
+
+/* Fade in animation for image load */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
