@@ -130,18 +130,19 @@ async function startServer() {
   });
 
   // Apply rate limiting to all API routes
-  app.use("/api", limiter);
+//   app.use("/api", limiter);
 
   // CORS configuration
+  const allowedOrigins = process.env.CORS_ORIGIN?.split(",") || [];
   app.use(
     cors({
-      origin: process.env.CORS_ORIGIN || [
-        "http://192.168.1.87:5000",
-        "http://192.168.1.87:3000",
-        "http://localhost:5000",
-        "http://localhost:3000",
-        "http://localhost:5173",
-      ],
+        origin: (origin, callback) => {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(null, false);
+        }
+        },
       credentials: true,
       methods: ["GET", "POST", "PATCH", "DELETE"],
       allowedHeaders: ["Content-Type", "Authorization"],
