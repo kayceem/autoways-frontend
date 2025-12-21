@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { Plus, Edit, Trash2, Search, X, Filter } from 'lucide-react';
+import { Plus, Edit, Trash2, Search, Filter } from 'lucide-react';
 import useProductTypesQuery from '../../hooks/useProductTypesQuery';
 import useBrandsQuery from '../../hooks/useBrandsQuery';
 import {
@@ -8,6 +8,7 @@ import {
   useDeleteProductType
 } from '../../hooks/useProductTypesMutation';
 import { assetUrl } from '../../utils';
+import ProductTypeForm from './ProductTypeForm';
 
 const ProductTypesAdmin = () => {
   const { data: productTypes = [], isLoading: isLoadingTypes } = useProductTypesQuery();
@@ -15,15 +16,8 @@ const ProductTypesAdmin = () => {
 
   const [searchTerm, setSearchTerm] = useState('');
   const [brandFilter, setBrandFilter] = useState('');
-  const [showModal, setShowModal] = useState(false);
+  const [showForm, setShowForm] = useState(false);
   const [editingType, setEditingType] = useState(null);
-  const [formData, setFormData] = useState({
-    brandId: '',
-    name: '',
-    type: '',
-    image: ''
-  });
-  const [errors, setErrors] = useState({});
 
   const createMutation = useCreateProductType();
   const updateMutation = useUpdateProductType();
@@ -43,79 +37,17 @@ const ProductTypesAdmin = () => {
     });
   }, [productTypes, searchTerm, brandFilter]);
 
-  const resetForm = () => {
-    setFormData({
-      brandId: '',
-      name: '',
-      type: '',
-      image: ''
-    });
-    setErrors({});
+  const handleOpenForm = (type = null) => {
+    setEditingType(type);
+    setShowForm(true);
+  };
+
+  const handleCloseForm = () => {
+    setShowForm(false);
     setEditingType(null);
   };
 
-  const validateForm = () => {
-    const newErrors = {};
-
-    if (!formData.brandId) {
-      newErrors.brandId = 'Brand is required';
-    }
-
-    if (!formData.name || formData.name.trim().length === 0) {
-      newErrors.name = 'Name is required';
-    }
-
-    if (!formData.type || formData.type.trim().length === 0) {
-      newErrors.type = 'Type is required';
-    } else if (!/^[a-z0-9-]+$/.test(formData.type)) {
-      newErrors.type = 'Type must contain only lowercase letters, numbers, and hyphens';
-    }
-
-    if (!formData.image || formData.image.trim().length === 0) {
-      newErrors.image = 'Image URL is required';
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const handleOpenModal = (type = null) => {
-    if (type) {
-      setEditingType(type);
-      setFormData({
-        brandId: type.brandId || '',
-        name: type.name || '',
-        type: type.type || '',
-        image: type.image || ''
-      });
-    } else {
-      resetForm();
-    }
-    setShowModal(true);
-  };
-
-  const handleCloseModal = () => {
-    setShowModal(false);
-    resetForm();
-  };
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-
-    // Clear error for this field when user starts typing
-    if (errors[name]) {
-      setErrors(prev => ({ ...prev, [name]: '' }));
-    }
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (!validateForm()) {
-      return;
-    }
-
+  const handleFormSubmit = async (formData, editingType) => {
     try {
       if (editingType) {
         await updateMutation.mutateAsync({
@@ -128,9 +60,10 @@ const ProductTypesAdmin = () => {
       } else {
         await createMutation.mutateAsync(formData);
       }
-      handleCloseModal();
+      handleCloseForm();
     } catch (error) {
       console.error('Error submitting form:', error);
+      throw error;
     }
   };
 
@@ -150,7 +83,17 @@ const ProductTypesAdmin = () => {
   };
 
   const isLoading = isLoadingTypes || isLoadingBrands;
-  const isSubmitting = createMutation.isPending || updateMutation.isPending;
+
+  if (showForm) {
+    return (
+      <ProductTypeForm
+        editingType={editingType}
+        onClose={handleCloseForm}
+        onSubmit={handleFormSubmit}
+        brands={brands}
+      />
+    );
+  }
 
   if (isLoading) {
     return (
@@ -169,7 +112,7 @@ const ProductTypesAdmin = () => {
           <p className="text-gray-600 mt-1">Manage product categories for each brand</p>
         </div>
         <button
-          onClick={() => handleOpenModal()}
+          onClick={() => handleOpenForm()}
           className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2"
         >
           <Plus className="w-5 h-5" />
@@ -270,7 +213,7 @@ const ProductTypesAdmin = () => {
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                       <div className="flex justify-end space-x-2">
                         <button
-                          onClick={() => handleOpenModal(type)}
+                          onClick={() => handleOpenForm(type)}
                           className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
                           title="Edit"
                         >
@@ -298,160 +241,6 @@ const ProductTypesAdmin = () => {
       {filteredTypes.length > 0 && (
         <div className="text-sm text-gray-600">
           Showing {filteredTypes.length} of {productTypes.length} product types
-        </div>
-      )}
-
-      {/* Modal */}
-      {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="border-b border-gray-200 px-6 py-4 flex justify-between items-center sticky top-0 bg-white">
-              <h2 className="text-2xl font-bold text-gray-900">
-                {editingType ? 'Edit Product Type' : 'Add Product Type'}
-              </h2>
-              <button
-                onClick={handleCloseModal}
-                className="text-gray-400 hover:text-gray-600"
-                disabled={isSubmitting}
-              >
-                <X className="w-6 h-6" />
-              </button>
-            </div>
-
-            <form onSubmit={handleSubmit} className="p-6 space-y-6">
-              {/* Brand Selection */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Brand <span className="text-red-500">*</span>
-                </label>
-                <select
-                  name="brandId"
-                  value={formData.brandId}
-                  onChange={handleInputChange}
-                  disabled={editingType !== null}
-                  className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                    errors.brandId ? 'border-red-500' : 'border-gray-300'
-                  } ${editingType ? 'bg-gray-100 cursor-not-allowed' : ''}`}
-                >
-                  <option value="">Select a brand</option>
-                  {brands.map((brand) => (
-                    <option key={brand._id} value={brand._id}>
-                      {brand.name}
-                    </option>
-                  ))}
-                </select>
-                {errors.brandId && (
-                  <p className="mt-1 text-sm text-red-500">{errors.brandId}</p>
-                )}
-                {editingType && (
-                  <p className="mt-1 text-sm text-gray-500">
-                    Brand cannot be changed when editing. Delete and recreate to move to a different brand.
-                  </p>
-                )}
-              </div>
-
-              {/* Name */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Name <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleInputChange}
-                  className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                    errors.name ? 'border-red-500' : 'border-gray-300'
-                  }`}
-                  placeholder="e.g., Forklifts, Excavators, Passenger Cars"
-                />
-                {errors.name && (
-                  <p className="mt-1 text-sm text-red-500">{errors.name}</p>
-                )}
-              </div>
-
-              {/* Type */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Type Slug <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="text"
-                  name="type"
-                  value={formData.type}
-                  onChange={handleInputChange}
-                  className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                    errors.type ? 'border-red-500' : 'border-gray-300'
-                  }`}
-                  placeholder="e.g., forklifts, excavators, passenger-cars"
-                />
-                {errors.type && (
-                  <p className="mt-1 text-sm text-red-500">{errors.type}</p>
-                )}
-                <p className="mt-1 text-sm text-gray-500">
-                  Use lowercase with hyphens for URLs (e.g., heavy-equipment). This will be used in the website URL.
-                </p>
-              </div>
-
-              {/* Image URL */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Image URL <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="text"
-                  name="image"
-                  value={formData.image}
-                  onChange={handleInputChange}
-                  className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                    errors.image ? 'border-red-500' : 'border-gray-300'
-                  }`}
-                  placeholder="e.g., /images/product-types/forklifts.jpg"
-                />
-                {errors.image && (
-                  <p className="mt-1 text-sm text-red-500">{errors.image}</p>
-                )}
-              </div>
-
-              {/* Image Preview */}
-              {formData.image && (
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Preview
-                  </label>
-                  <div className="w-full h-48 bg-gray-100 rounded-lg overflow-hidden">
-                    <img
-                      src={assetUrl(formData.image)}
-                      alt="Preview"
-                      className="w-full h-full object-cover"
-                      onError={(e) => {
-                        e.target.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100" height="100"%3E%3Crect fill="%23ddd" width="100" height="100"/%3E%3Ctext fill="%23999" x="50%25" y="50%25" text-anchor="middle" dy=".3em"%3ENo Image%3C/text%3E%3C/svg%3E';
-                      }}
-                    />
-                  </div>
-                </div>
-              )}
-
-              {/* Form Actions */}
-              <div className="flex justify-end space-x-4 pt-4 border-t border-gray-200">
-                <button
-                  type="button"
-                  onClick={handleCloseModal}
-                  className="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
-                  disabled={isSubmitting}
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:bg-blue-400 disabled:cursor-not-allowed"
-                  disabled={isSubmitting}
-                >
-                  {isSubmitting ? 'Saving...' : editingType ? 'Update Product Type' : 'Create Product Type'}
-                </button>
-              </div>
-            </form>
-          </div>
         </div>
       )}
     </div>
