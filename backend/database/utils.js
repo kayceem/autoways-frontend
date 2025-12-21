@@ -316,7 +316,7 @@ const processProductTypeFiles = async (productTypeData, brandName) => {
     if (image && image.startsWith('data:')) {
       const cleanBrand = cleanFileName(brandName);
       const cleanType = cleanFileName(type);
-      savedImagePath = await saveImageGeneric(image, `brand/${cleanBrand}/product-types`, cleanType);
+      savedImagePath = await saveImageGeneric(image, `brands/${cleanBrand}/product-types`, cleanType);
     }
 
     return {
@@ -340,19 +340,19 @@ const processBrandFiles = async (brandData) => {
     // Process hero image
     let savedHeroImagePath = heroImage;
     if (heroImage && heroImage.startsWith('data:')) {
-      savedHeroImagePath = await saveImageGeneric(heroImage, `brand/${cleanBrand}`, 'hero');
+      savedHeroImagePath = await saveImageGeneric(heroImage, `brands/${cleanBrand}`, 'hero');
     }
 
     // Process logo
     let savedLogoPath = logo;
     if (logo && logo.startsWith('data:')) {
-      savedLogoPath = await saveImageGeneric(logo, `brand/${cleanBrand}`, 'logo');
+      savedLogoPath = await saveImageGeneric(logo, `brands/${cleanBrand}`, 'logo');
     }
 
     let savedVideoPath = video;
     if (video && video.startsWith('data:')) {
       // Assuming video saving function is similar to image
-      savedVideoPath = await saveVideoGeneric(video, `brand/${cleanBrand}`, 'video');
+      savedVideoPath = await saveVideoGeneric(video, `brands/${cleanBrand}`, 'video');
     }
     // Process additional images
     const savedImagePaths = [];
@@ -360,7 +360,7 @@ const processBrandFiles = async (brandData) => {
       for (let i = 0; i < images.length; i++) {
         const image = images[i];
         if (image.startsWith('data:')) {
-          const savedPath = await saveImageGeneric(image, `brand/${cleanBrand}`, `image_${i}`);
+          const savedPath = await saveImageGeneric(image, `brands/${cleanBrand}`, `image_${i}`);
           savedImagePaths.push(savedPath);
         } else {
           savedImagePaths.push(image);
