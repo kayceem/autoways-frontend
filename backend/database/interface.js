@@ -699,7 +699,7 @@ const updateAboutUs = asyncHandler(async (req, res) => {
     );
 
     // Clean up old files that are no longer used
-    await deleteAboutUsFiles(oldData);
+    // await deleteAboutUsFiles(oldData);
 
     await refreshCacheInBackground();
     res.json({
