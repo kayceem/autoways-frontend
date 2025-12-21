@@ -56,13 +56,13 @@ const Navbar = ({ className = "" }) => {
                         <div className="hidden lg:flex items-center gap-6 xl:gap-8">
                             <Link
                                 to="/about"
-                                className="text-secondary hover:text-accent transition-colors duration-200 font-medium py-2"
+                                className="nav-link-underline text-secondary hover:text-accent transition-colors duration-200 font-medium py-2"
                             >
                                 About Us
                             </Link>
                             <Link
                                 to="/shop/bull"
-                                className="text-secondary hover:text-accent transition-colors duration-200 font-medium py-2"
+                                className="nav-link-underline text-secondary hover:text-accent transition-colors duration-200 font-medium py-2"
                             >
                                 Bull
                             </Link>
@@ -73,25 +73,25 @@ const Navbar = ({ className = "" }) => {
 
                             <Link
                                 to="/spares-parts"
-                                className="text-secondary hover:text-accent transition-colors duration-200 font-medium py-2"
+                                className="nav-link-underline text-secondary hover:text-accent transition-colors duration-200 font-medium py-2"
                             >
                                 Spares & Parts
                             </Link>
                             <Link
                                 to="/news"
-                                className="text-secondary hover:text-accent transition-colors duration-200 font-medium py-2"
+                                className="nav-link-underline text-secondary hover:text-accent transition-colors duration-200 font-medium py-2"
                             >
                                 News & Media
                             </Link>
                             <Link
                                 to="/testimonials"
-                                className="text-secondary hover:text-accent transition-colors duration-200 font-medium py-2"
+                                className="nav-link-underline text-secondary hover:text-accent transition-colors duration-200 font-medium py-2"
                             >
                                 Testimonials
                             </Link>
                             <Link
                                 to="/csr"
-                                className="text-secondary hover:text-accent transition-colors duration-200 font-medium py-2"
+                                className="nav-link-underline text-secondary hover:text-accent transition-colors duration-200 font-medium py-2"
                             >
                                 CSR
                             </Link>
@@ -134,7 +134,7 @@ const Navbar = ({ className = "" }) => {
                         <div className="px-4 py-4 space-y-3">
                             <Link
                                 to="/shop/bull"
-                                className="block text-secondary hover:text-accent transition-colors duration-200 font-medium py-2"
+                                className="nav-link-underline block text-secondary hover:text-accent transition-colors duration-200 font-medium py-2"
                                 onClick={() => setIsMobileMenuOpen(false)}
                             >
                                 Bull
@@ -149,7 +149,7 @@ const Navbar = ({ className = "" }) => {
 
                             <Link
                                 to="/spares-parts"
-                                className="block text-secondary hover:text-accent transition-colors duration-200 font-medium py-2"
+                                className="nav-link-underline block text-secondary hover:text-accent transition-colors duration-200 font-medium py-2"
                                 onClick={() => setIsMobileMenuOpen(false)}
                             >
                                 Spares & Parts
@@ -157,7 +157,7 @@ const Navbar = ({ className = "" }) => {
 
                             <Link
                                 to="/news"
-                                className="block text-secondary hover:text-accent transition-colors duration-200 font-medium py-2"
+                                className="nav-link-underline block text-secondary hover:text-accent transition-colors duration-200 font-medium py-2"
                                 onClick={() => setIsMobileMenuOpen(false)}
                             >
                                 News & Media
@@ -165,7 +165,7 @@ const Navbar = ({ className = "" }) => {
 
                             <Link
                                 to="/testimonials"
-                                className="block text-secondary hover:text-accent transition-colors duration-200 font-medium py-2"
+                                className="nav-link-underline block text-secondary hover:text-accent transition-colors duration-200 font-medium py-2"
                                 onClick={() => setIsMobileMenuOpen(false)}
                             >
                                 Testimonials
@@ -173,7 +173,7 @@ const Navbar = ({ className = "" }) => {
 
                             <Link
                                 to="/csr"
-                                className="block text-secondary hover:text-accent transition-colors duration-200 font-medium py-2"
+                                className="nav-link-underline block text-secondary hover:text-accent transition-colors duration-200 font-medium py-2"
                                 onClick={() => setIsMobileMenuOpen(false)}
                             >
                                 CSR
@@ -188,7 +188,7 @@ const Navbar = ({ className = "" }) => {
 
                             <Link
                                 to="/about"
-                                className="block text-secondary hover:text-accent transition-colors duration-200 font-medium py-2"
+                                className="nav-link-underline block text-secondary hover:text-accent transition-colors duration-200 font-medium py-2"
                                 onClick={() => setIsMobileMenuOpen(false)}
                             >
                                 About Us

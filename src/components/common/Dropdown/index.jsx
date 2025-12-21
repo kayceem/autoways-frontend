@@ -59,12 +59,12 @@ const Dropdown = ({
       <div
         className={`fixed left-0 right-0 bg-accent shadow-2xl transition-all duration-300 ease-in-out z-50 ${
           isOpen
-            ? 'opacity-92 translate-y-0 pointer-events-auto'
+            ? 'opacity-96 translate-y-0 pointer-events-auto'
             : 'opacity-0 -translate-y-4 pointer-events-none'
         }`}
         style={{
           top: dropdownRef.current?.getBoundingClientRect().bottom || 0,
-          maxHeight: '60vh',
+          height: items.length > 1 ? `${(items.length-1) * 10}vh` : '50vh',
           overflow: 'auto'
         }}
       >
@@ -73,17 +73,20 @@ const Dropdown = ({
 
             {/* Left - Items List */}
             <div className="space-y-1 lg:space-y-2">
-              {items.map((item, index) => (
+                {items.map((item, index) => (
                 <Link
-                  key={index}
-                  to={item.link}
-                  className="block px-3 lg:px-4 py-2 lg:py-3 text-secondary hover:bg-accent hover:text-secondary hover:underline transition-all duration-200 rounded-lg text-base lg:text-lg font-medium"
-                  onClick={() => setIsOpen(false)}
-                  onMouseEnter={() => setHoveredIndex(index)}
+                    key={index}
+                    to={item.link}
+                    className="group block px-3 lg:px-4 py-1 lg:py-2 text-secondary hover:bg-accent hover:text-secondary transition-all duration-200 rounded-lg text-base lg:text-lg font-medium no-underline"
+                    onClick={() => setIsOpen(false)}
+                    onMouseEnter={() => setHoveredIndex(index)}
                 >
-                  {item.name}
+                    <div className="flex flex-col">
+                    <span>{item.name}</span>
+                    <span className="mt-2 h-1 bg-neutral-400 rounded-full w-0 group-hover:w-30 transition-all duration-300 ease-in-out" />
+                    </div>
                 </Link>
-              ))}
+                ))}
             </div>
 
             {/* Right - Image (Hidden on mobile) */}

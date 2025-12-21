@@ -48,7 +48,7 @@ const SparesParts = () => {
                         <img
                             src={assetUrl(sparePart.image)}
                             alt="Spares & Parts"
-                            className="w-full h-full object-cover opacity-90"
+                            className="w-full h-full object-cover opacity-90 animate-hero-image"
                             loading="eager"
                             fetchPriority="high"
                         />
