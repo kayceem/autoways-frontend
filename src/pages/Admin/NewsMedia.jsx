@@ -149,7 +149,7 @@ const NewsMediaAdmin = () => {
       };
 
       if (imageFile) {
-        submitData.append('image', imageFile);
+        submitData.image = imageFile;
       }
 
     //   submitData.append('articleId', formData.articleId);

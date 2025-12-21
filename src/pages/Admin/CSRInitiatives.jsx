@@ -163,7 +163,7 @@ const CSRInitiativesAdmin = () => {
       return;
     }
 
-    try {
+      try {
       const submitData = {
         initiativeId: formData.initiativeId,
         title: formData.title,
@@ -177,22 +177,24 @@ const CSRInitiativesAdmin = () => {
       };
 
       if (imageFile) {
-        submitData.append('image', imageFile);
+        // imageFile is stored as a base64 string in this component — attach it directly to the payload
+        submitData.image = imageFile;
       }
 
-    //   submitData.append('initiativeId', formData.initiativeId);
-    //   submitData.append('title', formData.title);
-    //   submitData.append('category', formData.category);
-    //   submitData.append('description', formData.description);
-
-    //   if (formData.impactMetric || formData.impactLabel) {
-    //     submitData.append('impact', JSON.stringify({
-    //       metric: formData.impactMetric,
-    //       label: formData.impactLabel
-    //     }));
-    //   }
-
-    //   submitData.append('activities', JSON.stringify(filteredActivities));
+    //   // If you need multipart/form-data instead (with a File/Blob), create a FormData here:
+    //   // const fd = new FormData();
+    //   // fd.append('image', fileObject);
+    //   // fd.append('initiativeId', String(formData.initiativeId));
+    //   // fd.append('title', formData.title);
+    //   // fd.append('category', formData.category);
+    //   // fd.append('description', formData.description);
+    //   // if (formData.impactMetric || formData.impactLabel) {
+    //   //   fd.append('impact', JSON.stringify({
+    //   //     metric: formData.impactMetric,
+    //   //     label: formData.impactLabel
+    //   //   }));
+    //   // }
+    //   // fd.append('activities', JSON.stringify(filteredActivities));
 
       if (isCreating) {
         await createCSRInitiative.mutateAsync(submitData);
