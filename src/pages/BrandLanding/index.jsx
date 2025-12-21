@@ -33,7 +33,7 @@ const BrandLanding = () => {
                         <img
                             src={assetUrl(brandData.heroImage)}
                             alt={brandData.name}
-                            className="w-full h-full object-cover opacity-90"
+                            className="w-full h-full object-cover opacity-90 animate-hero-image"
                         />
                     )}
                     <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/50 to-primary" />
