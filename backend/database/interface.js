@@ -909,8 +909,8 @@ const updateBrand = asyncHandler(async (req, res) => {
 
     const oldHeroImage = brand.heroImage;
     const oldLogo = brand.logo;
+    const oldVideo = brand.video || null;
     const oldImages = brand.images || [];
-    const oldProductTypes = brand.productTypes || [];
 
     const processedData = await processBrandFiles(req.body);
 
@@ -922,10 +922,20 @@ const updateBrand = asyncHandler(async (req, res) => {
 
     // Clean up old files that are no longer used
     if (oldHeroImage && oldHeroImage !== processedData.heroImage) {
-        await deleteBrandFiles(brand.name, oldHeroImage, null, [], []);
+        await deleteBrandFiles(oldHeroImage, null, [],  null, null);
     }
     if (oldLogo && oldLogo !== processedData.logo) {
-        await deleteBrandFiles(brand.name, null, oldLogo, [], []);
+        await deleteBrandFiles(null, oldLogo, [], null, null);
+    }
+    if (oldVideo && oldVideo !== processedData.video) {
+        await deleteBrandFiles(null, null, [], null, oldVideo);
+    }
+    if (oldImages.length > 0) {
+        const newImages = processedData.images || [];
+        const removedImages = oldImages.filter(img => !newImages.includes(img));
+        if (removedImages.length > 0) {
+            await deleteBrandFiles(null, null, removedImages, null, null);
+        }
     }
 
     await refreshCacheInBackground();
@@ -941,7 +951,7 @@ const deleteBrand = asyncHandler(async (req, res) => {
         return res.status(404).json({ success: false, error: 'Brand not found' });
     }
 
-    await deleteBrandFiles(brand.name, brand.heroImage, brand.logo, brand.images, brand.productTypes);
+    await deleteBrandFiles(brand.heroImage, brand.logo, brand.images, brand.productTypes, brand.video);
     await refreshCacheInBackground();
     res.json({
         success: true,
@@ -1095,7 +1105,13 @@ const deleteProductType = asyncHandler(async (req, res) => {
         return res.status(404).json({ success: false, error: 'Product type not found' });
     }
 
+    const productType = brand.productTypes[typeIndex];
+    if (productType) {
+        await deleteBrandFiles(null, null, [], productType, null);
+    }
+    await delete(brand.name, productType.image);
     brand.productTypes.splice(typeIndex, 1);
+    
     await brand.save();
     await refreshCacheInBackground();
 

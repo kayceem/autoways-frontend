@@ -48,8 +48,8 @@ const SisterCompanyForm = ({
           website: editingCompany.contact?.website || ''
         }
       });
-      setLogoPreview(editingCompany.logo || '');
-      setImagePreview(editingCompany.image || '');
+      setLogoPreview(assetUrl(editingCompany.logo) || '');
+      setImagePreview(assetUrl(editingCompany.image) || '');
     }
 }, [editingCompany]);
 
@@ -365,7 +365,7 @@ const SisterCompanyForm = ({
                   {logoPreview ? (
                     <div className="relative">
                       <img
-                        src={assetUrl(logoPreview)}
+                        src={logoPreview}
                         alt="Logo preview"
                         className="w-full h-48 object-contain bg-gray-100 rounded-lg"
                       />
@@ -407,7 +407,7 @@ const SisterCompanyForm = ({
                   {imagePreview ? (
                     <div className="relative">
                       <img
-                        src={assetUrl(imagePreview)}
+                        src={imagePreview}
                         alt="Cover preview"
                         className="w-full h-48 object-cover rounded-lg"
                       />

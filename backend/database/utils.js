@@ -200,6 +200,29 @@ const saveImageGeneric = async (base64Image, dirPath, fileName) => {
     throw new Error(`Failed to save image: ${error.message}`);
   }
 };
+const saveVideoGeneric = async (base64Video, dirPath, fileName) => {
+  try {
+    const { base64Data, ext } = parseBase64(base64Video);
+
+    // Create directory path
+    const videoDir = path.join(ASSETS_DIR, 'videos', dirPath);
+    await mkdir(videoDir, { recursive: true });
+
+    // Create filename
+    const fullFileName = `${fileName}.${ext}`;
+    const filePath = path.join(videoDir, fullFileName);
+
+    // Write file
+    const buffer = Buffer.from(base64Data, 'base64');
+    await writeFile(filePath, buffer);
+
+    // Return relative path for database
+    return `/assets/videos/${dirPath}/${fullFileName}`;
+  } catch (error) {
+    console.error('Error saving video:', error);
+    throw new Error(`Failed to save video: ${error.message}`);
+  }
+};
 
 /**
  * Process product data and save files
@@ -311,7 +334,7 @@ const processProductTypeFiles = async (productTypeData, brandName) => {
  */
 const processBrandFiles = async (brandData) => {
   try {
-    const { name: brandName, heroImage, logo, images, productTypes } = brandData;
+    const { name: brandName, heroImage, logo, images, video } = brandData;
     const cleanBrand = cleanFileName(brandName);
 
     // Process hero image
@@ -326,6 +349,11 @@ const processBrandFiles = async (brandData) => {
       savedLogoPath = await saveImageGeneric(logo, `brand/${cleanBrand}`, 'logo');
     }
 
+    let savedVideoPath = video;
+    if (video && video.startsWith('data:')) {
+      // Assuming video saving function is similar to image
+      savedVideoPath = await saveVideoGeneric(video, `brand/${cleanBrand}`, 'video');
+    }
     // Process additional images
     const savedImagePaths = [];
     if (images && images.length > 0) {
@@ -341,20 +369,21 @@ const processBrandFiles = async (brandData) => {
     }
 
     // Process product types
-    const processedProductTypes = [];
-    if (productTypes && productTypes.length > 0) {
-      for (const productType of productTypes) {
-        const processed = await processProductTypeFiles(productType, brandName);
-        processedProductTypes.push(processed);
-      }
-    }
+    // const processedProductTypes = [];
+    // if (productTypes && productTypes.length > 0) {
+    //   for (const productType of productTypes) {
+    //     const processed = await processProductTypeFiles(productType, brandName);
+    //     processedProductTypes.push(processed);
+    //   }
+    // }
 
     return {
       ...brandData,
       heroImage: savedHeroImagePath,
       logo: savedLogoPath,
       images: savedImagePaths,
-      productTypes: processedProductTypes
+      video: savedVideoPath
+    //   productTypes: processedProductTypes
     };
   } catch (error) {
     console.error('Error processing brand files:', error);
@@ -365,7 +394,7 @@ const processBrandFiles = async (brandData) => {
 /**
  * Delete brand files
  */
-const deleteBrandFiles = async (brandName, heroImage, logo, images, productTypes) => {
+const deleteBrandFiles = async (heroImage, logo, images, productType, video) => {
   try {
     if (heroImage) await deleteImage(heroImage);
     if (logo) await deleteImage(logo);
@@ -373,10 +402,11 @@ const deleteBrandFiles = async (brandName, heroImage, logo, images, productTypes
     if (images && images.length > 0) {
       await Promise.all(images.map(img => deleteImage(img)));
     }
-
-    if (productTypes && productTypes.length > 0) {
-      await Promise.all(productTypes.map(pt => deleteImage(pt.image)));
+    if (productType) {
+      await deleteImage(productType.image);
     }
+    if (video) await deleteVideo(video);
+
   } catch (error) {
     console.error('Error deleting brand files:', error);
   }

@@ -21,6 +21,7 @@ import ScrollToTop from "../../components/common/ScrollToTop";
 import AdminLogin from "../Admin/Login";
 import AdminLayout from "../../components/admin/AdminLayout";
 import AdminDashboard from "../Admin/Dashboard";
+import BrandAdmin from "../Admin/BrandAdmin";
 import ProductsAdmin from "../Admin/Products";
 import ProductTypesAdmin from "../Admin/ProductTypes";
 import HeroImagesAdmin from "../Admin/HeroImages";
@@ -47,6 +48,7 @@ const PageRoutes = () => {
                 }
             >
                 <Route path="dashboard" element={<AdminDashboard />} />
+                <Route path="brands" element={<BrandAdmin />} />
                 <Route path="products" element={<ProductsAdmin />} />
                 <Route path="product-types" element={<ProductTypesAdmin />} />
                 <Route path="hero-images" element={<HeroImagesAdmin />} />
