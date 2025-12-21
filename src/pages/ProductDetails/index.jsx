@@ -21,7 +21,7 @@ import { assetUrl } from '../../utils';
 
 const ProductDetails = () => {
     const { brand, typeSlug, id } = useParams();
-    const typeName = typeSlug.replace(/_/g, ' ');
+    const typeName = typeSlug.replace(/[-_]/g, ' ');
     const { data: siteContent, isLoading, error } = useContentQuery();
     const { data: productData, isLoading: productLoading, error: productError } = useProductsQuery({id: id});
 

@@ -13,7 +13,7 @@ import LoadingSpinner from "../../components/common/Loading";
 
 const ProductTypePage = () => {
     const { brand, typeSlug } = useParams();
-    const typeName = typeSlug.replace(/_/g, ' ');
+    const typeName = typeSlug.replace(/[-_]/g, ' ');
     const [viewMode, setViewMode] = useState("grid");
     const [sortBy, setSortBy] = useState("name");
     const { data = [], isLoading, error } = useProductsQuery({ brand: brand, type: typeSlug});
