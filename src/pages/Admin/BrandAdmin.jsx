@@ -3,6 +3,7 @@ import { Edit, Search } from 'lucide-react';
 import useBrandsQuery from '../../hooks/useBrandsQuery';
 import { useUpdateBrand } from '../../hooks/useBrandsMutation';
 import BrandForm from './BrandForm';
+import { assetUrl } from '../../utils';
 
 const BrandAdmin = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -11,6 +12,7 @@ const BrandAdmin = () => {
   const [editingBrand, setEditingBrand] = useState(null);
 
   const { data: brands = [], isLoading } = useBrandsQuery();
+  console.log('Brands data:', brands);
   const updateBrand = useUpdateBrand();
 
   const filteredBrands = useMemo(() => {
@@ -121,12 +123,9 @@ const BrandAdmin = () => {
             <div className="relative h-40 bg-gray-100">
               {brand.heroImage && (
                 <img
-                  src={brand.heroImage}
+                  src={assetUrl(brand.heroImage)}
                   alt={brand.name}
                   className="w-full h-full object-cover"
-                  onError={(e) => {
-                    e.target.src = 'https://via.placeholder.com/400x160';
-                  }}
                 />
               )}
             </div>
@@ -137,7 +136,7 @@ const BrandAdmin = () => {
                 <div className="flex-1">
                   {brand.logo && (
                     <img
-                      src={brand.logo}
+                      src={assetUrl(brand.logo)}
                       alt={`${brand.name} logo`}
                       className="h-12 w-auto object-contain mb-2"
                       onError={(e) => {

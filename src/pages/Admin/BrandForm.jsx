@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { X, Upload } from 'lucide-react';
+import { assetUrl } from '../../utils';
 
 const BrandForm = ({
   editingBrand = null,
@@ -12,7 +13,6 @@ const BrandForm = ({
     brandKey: '',
     name: '',
     slug: '',
-    type: '',
     description: '',
     heroImage: '',
     images: [],
@@ -35,7 +35,6 @@ const BrandForm = ({
         brandKey: editingBrand.brandKey || '',
         name: editingBrand.name || '',
         slug: editingBrand.slug || '',
-        type: editingBrand.type || '',
         description: editingBrand.description || '',
         heroImage: editingBrand.heroImage || '',
         images: editingBrand.images || [],
@@ -43,9 +42,9 @@ const BrandForm = ({
         logo: editingBrand.logo || ''
       });
       setImagePreviews({
-        heroImage: editingBrand.heroImage || '',
-        logo: editingBrand.logo || '',
-        images: editingBrand.images || []
+        heroImage: assetUrl(editingBrand.heroImage) || '',
+        logo: assetUrl(editingBrand.logo) || '',
+        images: editingBrand.images.map(img => assetUrl(img)) || []
       });
     }
   }, [editingBrand]);
@@ -163,10 +162,6 @@ const BrandForm = ({
       newErrors.slug = 'Slug is required';
     }
 
-    if (!formData.type.trim()) {
-      newErrors.type = 'Type is required';
-    }
-
     if (!formData.description.trim()) {
       newErrors.description = 'Description is required';
     }
@@ -222,9 +217,9 @@ const BrandForm = ({
           </div>
 
           <div className="p-6 space-y-8">
-            {/* Basic Information */}
+            {/* Information */}
             <div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Basic Information</h3>
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Information</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -264,29 +259,10 @@ const BrandForm = ({
                     type="text"
                     name="slug"
                     value={formData.slug}
-                    onChange={handleInputChange}
-                    className={`w-full px-4 py-2 border ${errors.slug ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                    disabled={isEditing}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-100 cursor-not-allowed"
                   />
-                  {errors.slug && (
-                    <p className="text-red-500 text-sm mt-1">{errors.slug}</p>
-                  )}
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Type <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    name="type"
-                    value={formData.type}
-                    onChange={handleInputChange}
-                    placeholder="e.g., construction, material-handling"
-                    className={`w-full px-4 py-2 border ${errors.type ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
-                  />
-                  {errors.type && (
-                    <p className="text-red-500 text-sm mt-1">{errors.type}</p>
-                  )}
+                <p className="text-xs text-gray-500 mt-1">Slug cannot be changed</p>
                 </div>
 
                 <div className="md:col-span-2">

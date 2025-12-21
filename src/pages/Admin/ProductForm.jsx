@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { X, Upload, FileText, Plus, Trash2, ArrowLeft, ChevronDown, ChevronUp } from 'lucide-react';
+import { assetUrl } from '../../utils';
 
 const ProductForm = ({ 
   editingProduct = null, 
@@ -116,7 +117,7 @@ const ProductForm = ({
         specSheetUrl: editingProduct.specSheetUrl || '',
         specifications: loadedSpecs
       });
-      setImagePreviews(editingProduct.images || []);
+      setImagePreviews(editingProduct.images.map(img => assetUrl(img)) || []);
     }
   }, [editingProduct]);
 
@@ -433,8 +434,8 @@ const ProductForm = ({
                     className={`w-full px-4 py-2 border ${errors.type ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
                   >
                     <option value="">Select Type</option>
-                    {productTypes.map(type => (
-                      <option key={type.type} value={type.type}>
+                    {productTypes.map((type, index) => (
+                      <option key={index} value={type.type}>
                         {type.name}
                       </option>
                     ))}
@@ -617,8 +618,8 @@ const ProductForm = ({
                 Add technical specifications for your product. Each category can contain multiple fields.
               </p>
               <div className="space-y-3">
-                {specificationCategories.map((category) => (
-                  <div key={category.key} className="border border-gray-200 rounded-lg overflow-hidden">
+                {specificationCategories.map((category, index) => (
+                  <div key={index} className="border border-gray-200 rounded-lg overflow-hidden">
                     {/* Category Header */}
                     <button
                       type="button"
