@@ -6,7 +6,7 @@ import { Loader } from 'lucide-react';
 
 const LoadingSpinner = ({ name = '', size = 128, className = '' }) => {
   const [imageLoaded, setImageLoaded] = useState(false);
-  const isDefaultLogo = !name; // Default logo is from public assets, no loading state needed
+  const isDefaultLogo = !name;
 
   return (
     <div
@@ -16,7 +16,7 @@ const LoadingSpinner = ({ name = '', size = 128, className = '' }) => {
       <div className="relative" style={{ width: size, height: size }}>
         {/* Placeholder/Skeleton while image loads - only for brand logos */}
         {!isDefaultLogo && !imageLoaded && (
-            <Loader className="animate-[spin_1.8s_linear_infinite] text-accent" size={size} />
+            <Loader className="animate-[spin_1.8s_linear_infinite] text-accent" size={64} />
         )}
 
         {/* Brand Logo */}
