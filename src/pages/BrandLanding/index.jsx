@@ -1,7 +1,6 @@
 import { useParams } from "react-router-dom";
 import LoadingSpinner from "../../components/common/Loading";
 import ProductTypeCard from "../../components/common/ProductTypeCard";
-import useBrandQuery from "../../hooks/useBrandQuery";
 import { getBrandData } from "../../utils";
 import { useContent } from "../../context/globalContext";
 import { assetUrl } from "../../utils";

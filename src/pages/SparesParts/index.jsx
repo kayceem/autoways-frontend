@@ -2,16 +2,13 @@ import { Link } from "react-router-dom";
 import { ArrowRight, Wrench } from "lucide-react";
 import { useEffect } from "react";
 import LoadingSpinner from "../../components/common/Loading";
-import useSparepartsQuery from "../../hooks/useSparepartsQuery";
+import { useContent } from "../../context/globalContext";
 import { assetUrl } from "../../utils";
 
 const SparesParts = () => {
-    const { data: sparePartsData, isLoading, error } = useSparepartsQuery();
+    const {content, isLoading, error} = useContent();
+    const sparePart = content?.spareParts?.[0];
 
-    // Get the first spare parts entry (assuming there's only one document with all data)
-    const sparePart = sparePartsData?.[0];
-
-    // Preload hero image and first 4 part images for instant display
     useEffect(() => {
         if (sparePart) {
             // Preload hero image
@@ -32,8 +29,8 @@ const SparesParts = () => {
         }
     }, [sparePart]);
 
-    if (isLoading) {
-        return <LoadingSpinner name="Spares & Parts" />;
+        if (isLoading) {
+        return <LoadingSpinner />;
     }
 
     if (error) {

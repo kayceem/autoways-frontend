@@ -21,7 +21,7 @@ const SpecificationsDisplay = ({ specifications = {}, fuelType = 'normal' }) => 
             return (
                 <div className="flex flex-col gap-3 pl-4 border-l-2 border-accent/20">
                     {Object.entries(value).map(([subKey, subValue]) => (
-                        <div key={subKey} className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3">
+                        <div key={subKey} className="flex flex-col gap-10 sm:flex-row sm:items-center sm:gap-3">
                             <span className="text-xs font-semibold opacity-50 text-secondary uppercase tracking-wider min-w-[140px]">{formatKey(subKey)}</span>
                             <span className="text-sm lg:text-base font-bold text-secondary">
                                 {typeof subValue === 'object' ? JSON.stringify(subValue) : subValue}
@@ -71,7 +71,7 @@ const SpecificationsDisplay = ({ specifications = {}, fuelType = 'normal' }) => 
                             {Object.entries(data).map(([key, value], index) => (
                                 <div
                                     key={key}
-                                    className="flex flex-col sm:flex-row sm:items-start gap-2 sm:gap-6 py-3 border-b border-neutral-100 last:border-b-0 hover:bg-accent/5 px-3 rounded transition-all duration-200 animate-slide-up"
+                                    className="flex flex-col sm:flex-row sm:items-start gap-2 sm:gap-80 py-3 border-b border-neutral-100 last:border-b-0 hover:bg-accent/5 px-3 rounded transition-all duration-200 animate-slide-up"
                                     style={{animationDelay: `${index * 30}ms`}}
                                 >
                                     <div className="text-xs lg:text-sm font-bold opacity-60 text-secondary uppercase tracking-wider min-w-[160px] sm:w-[160px] flex-shrink-0">

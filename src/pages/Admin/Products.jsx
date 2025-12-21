@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 import { Plus, Edit, Trash2, Search } from 'lucide-react';
 import useProductsQuery from '../../hooks/useProductsQuery';
 import { useCreateProduct, useUpdateProduct, useDeleteProduct } from '../../hooks/useProductsMutation';
@@ -9,7 +9,6 @@ import ProductForm from './ProductForm';
 const ProductsAdmin = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedBrand, setSelectedBrand] = useState('');
-  const [filteredProducts, setFilteredProducts] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
 
@@ -20,18 +19,15 @@ const ProductsAdmin = () => {
   const updateProduct = useUpdateProduct();
   const deleteProduct = useDeleteProduct();
 
-  useEffect(() => {
-    let filtered = products;
+    const filteredProducts = useMemo(() => {
+    if (!searchTerm) return products;
 
-    if (searchTerm) {
-      filtered = filtered.filter(product =>
+    return products.filter(product =>
         product.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         product.type?.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    }
+    );
+    }, [products, searchTerm]);
 
-    setFilteredProducts(filtered);
-  }, [searchTerm, products]);
 
   const handleOpenForm = (product = null) => {
     setEditingProduct(product);

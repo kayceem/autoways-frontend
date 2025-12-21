@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 import { Plus, Edit, Trash2, Search, Globe, Mail, Phone } from 'lucide-react';
 import useSisterCompaniesQuery from '../../hooks/useSisterCompaniesQuery';
 import { useCreateSisterCompany, useUpdateSisterCompany, useDeleteSisterCompany } from '../../hooks/useSisterCompaniesMutation';
@@ -8,7 +8,6 @@ import { assetUrl } from '../../utils';
 const SisterCompaniesAdmin = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
-  const [filteredCompanies, setFilteredCompanies] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [editingCompany, setEditingCompany] = useState(null);
 
@@ -20,23 +19,27 @@ const SisterCompaniesAdmin = () => {
   // Get unique categories
   const categories = [...new Set(companies.map(company => company.category))].filter(Boolean);
 
-  useEffect(() => {
-    let filtered = companies;
+const filteredCompanies = useMemo(() => {
+  let filtered = companies;
 
-    if (searchTerm) {
-      filtered = filtered.filter(company =>
-        company.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        company.category?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        company.tagline?.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    }
+  if (searchTerm) {
+    const term = searchTerm.toLowerCase();
+    filtered = filtered.filter(company =>
+      company.name?.toLowerCase().includes(term) ||
+      company.category?.toLowerCase().includes(term) ||
+      company.tagline?.toLowerCase().includes(term)
+    );
+  }
 
-    if (selectedCategory) {
-      filtered = filtered.filter(company => company.category === selectedCategory);
-    }
+  if (selectedCategory) {
+    filtered = filtered.filter(
+      company => company.category === selectedCategory
+    );
+  }
 
-    setFilteredCompanies(filtered);
-  }, [searchTerm, selectedCategory, companies]);
+  return filtered;
+}, [companies, searchTerm, selectedCategory]);
+
 
   const handleOpenForm = (company = null) => {
     setEditingCompany(company);
