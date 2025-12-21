@@ -64,7 +64,7 @@ const Dropdown = ({
         }`}
         style={{
           top: dropdownRef.current?.getBoundingClientRect().bottom || 0,
-          height: items.length > 1 ? `${(items.length-1) * 10}vh` : '50vh',
+          height: '60vh',
           overflow: 'auto'
         }}
       >
