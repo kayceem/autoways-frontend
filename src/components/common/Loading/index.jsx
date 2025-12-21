@@ -6,6 +6,7 @@ import { Loader } from 'lucide-react';
 
 const LoadingSpinner = ({ name = '', size = 128, className = '' }) => {
   const [imageLoaded, setImageLoaded] = useState(false);
+  const isDefaultLogo = !name; // Default logo is from public assets, no loading state needed
 
   return (
     <div
@@ -13,8 +14,8 @@ const LoadingSpinner = ({ name = '', size = 128, className = '' }) => {
     >
       {/* Logo Container */}
       <div className="relative" style={{ width: size, height: size }}>
-        {/* Placeholder/Skeleton while image loads */}
-        {!imageLoaded && (
+        {/* Placeholder/Skeleton while image loads - only for brand logos */}
+        {!isDefaultLogo && !imageLoaded && (
             <Loader className="animate-[spin_1.8s_linear_infinite] text-accent" size={size} />
         )}
 
@@ -23,12 +24,12 @@ const LoadingSpinner = ({ name = '', size = 128, className = '' }) => {
           src={assetUrl(logoMap[name]) || logoMap['default']}
           alt="Loading"
           className={`object-contain transition-opacity duration-300 ${
-            imageLoaded ? 'opacity-100' : 'opacity-0'
+            isDefaultLogo || imageLoaded ? 'opacity-100' : 'opacity-0'
           }`}
           style={{
             width: name ? size : 64,
             height: name ? size : 64,
-            animation: imageLoaded ? 'brand-loading 2.5s ease-in-out infinite, brand-glow 2.5s ease-in-out infinite' : 'none',
+            animation: isDefaultLogo || imageLoaded ? 'brand-loading 2.5s ease-in-out infinite, brand-glow 2.5s ease-in-out infinite' : 'none',
           }}
           loading={'eager'}
           onLoad={() => setImageLoaded(true)}
