@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { Plus, Edit, Trash2, Search, X, Filter } from 'lucide-react';
+import { Plus, Edit, Trash2, Search, X, Filter, Upload } from 'lucide-react';
 import useProductTypesQuery from '../../hooks/useProductTypesQuery';
 import useBrandsQuery from '../../hooks/useBrandsQuery';
 import {
@@ -24,10 +24,33 @@ const ProductTypesAdmin = () => {
     image: ''
   });
   const [errors, setErrors] = useState({});
+  const [imagePreview, setImagePreview] = useState('');
+  const [uploadErrors, setUploadErrors] = useState({});
 
   const createMutation = useCreateProductType();
   const updateMutation = useUpdateProductType();
   const deleteMutation = useDeleteProductType();
+
+  // Helper function to generate slug from name
+  const generateSlug = (name) => {
+    return name
+      .toLowerCase()
+      .trim()
+      .replace(/[^\w\s-]/g, '') // Remove special characters
+      .replace(/\s+/g, '-') // Replace spaces with hyphens
+      .replace(/-+/g, '-') // Replace multiple hyphens with single hyphen
+      .replace(/^-+|-+$/g, ''); // Remove leading/trailing hyphens
+  };
+
+  // Convert file to base64
+  const convertToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
+  };
 
   // Filter and search product types
   const filteredTypes = useMemo(() => {
@@ -51,6 +74,8 @@ const ProductTypesAdmin = () => {
       image: ''
     });
     setErrors({});
+    setUploadErrors({});
+    setImagePreview('');
     setEditingType(null);
   };
 
@@ -72,7 +97,7 @@ const ProductTypesAdmin = () => {
     }
 
     if (!formData.image || formData.image.trim().length === 0) {
-      newErrors.image = 'Image URL is required';
+      newErrors.image = 'Image is required';
     }
 
     setErrors(newErrors);
@@ -88,6 +113,7 @@ const ProductTypesAdmin = () => {
         type: type.type || '',
         image: type.image || ''
       });
+      setImagePreview(type.image ? assetUrl(type.image) : '');
     } else {
       resetForm();
     }
@@ -101,12 +127,60 @@ const ProductTypesAdmin = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+
+    // Auto-generate slug when name changes (only when creating new, not editing)
+    if (name === 'name' && !editingType) {
+      const slug = generateSlug(value);
+      setFormData(prev => ({ ...prev, name: value, type: slug }));
+    } else if (name === 'name' && editingType) {
+      // When editing, update name but keep existing slug
+      setFormData(prev => ({ ...prev, name: value }));
+    } else {
+      setFormData(prev => ({ ...prev, [name]: value }));
+    }
 
     // Clear error for this field when user starts typing
     if (errors[name]) {
       setErrors(prev => ({ ...prev, [name]: '' }));
     }
+  };
+
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+      setUploadErrors({ image: 'Only image files are allowed' });
+      return;
+    }
+
+    // Validate file size (5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      setUploadErrors({ image: 'Image must be less than 5MB' });
+      return;
+    }
+
+    setUploadErrors({});
+
+    try {
+      const base64 = await convertToBase64(file);
+      setFormData(prev => ({ ...prev, image: base64 }));
+      setImagePreview(base64);
+
+      // Clear image error if exists
+      if (errors.image) {
+        setErrors(prev => ({ ...prev, image: '' }));
+      }
+    } catch (error) {
+      console.error('Error converting image:', error);
+      setUploadErrors({ image: 'Error uploading image' });
+    }
+  };
+
+  const handleRemoveImage = () => {
+    setFormData(prev => ({ ...prev, image: '' }));
+    setImagePreview('');
   };
 
   const handleSubmit = async (e) => {
@@ -370,67 +444,101 @@ const ProductTypesAdmin = () => {
                 )}
               </div>
 
-              {/* Type */}
+              {/* Type Slug (Auto-generated) */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Type Slug <span className="text-red-500">*</span>
                 </label>
-                <input
-                  type="text"
-                  name="type"
-                  value={formData.type}
-                  onChange={handleInputChange}
-                  className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                    errors.type ? 'border-red-500' : 'border-gray-300'
-                  }`}
-                  placeholder="e.g., forklifts, excavators, passenger-cars"
-                />
+                <div className="relative">
+                  <input
+                    type="text"
+                    name="type"
+                    value={formData.type}
+                    readOnly
+                    disabled
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-50 text-gray-600 cursor-not-allowed"
+                    placeholder="Auto-generated from name"
+                  />
+                  <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                    <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">
+                      Auto-generated
+                    </span>
+                  </div>
+                </div>
                 {errors.type && (
                   <p className="mt-1 text-sm text-red-500">{errors.type}</p>
                 )}
                 <p className="mt-1 text-sm text-gray-500">
-                  Use lowercase with hyphens for URLs (e.g., heavy-equipment). This will be used in the website URL.
+                  This slug is automatically generated from the name and will be used in URLs.
                 </p>
               </div>
 
-              {/* Image URL */}
+              {/* Image Upload */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Image URL <span className="text-red-500">*</span>
+                  Product Type Image <span className="text-red-500">*</span>
                 </label>
-                <input
-                  type="text"
-                  name="image"
-                  value={formData.image}
-                  onChange={handleInputChange}
-                  className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                    errors.image ? 'border-red-500' : 'border-gray-300'
-                  }`}
-                  placeholder="e.g., /images/product-types/forklifts.jpg"
-                />
+
+                {!imagePreview ? (
+                  <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-blue-500 transition-colors cursor-pointer">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageUpload}
+                      className="hidden"
+                      id="image-upload"
+                    />
+                    <label htmlFor="image-upload" className="cursor-pointer">
+                      <Upload className="w-12 h-12 text-gray-400 mx-auto mb-3" />
+                      <p className="text-sm font-medium text-gray-700 mb-1">
+                        Click to upload image
+                      </p>
+                      <p className="text-xs text-gray-500">
+                        PNG, JPG, GIF up to 5MB
+                      </p>
+                    </label>
+                  </div>
+                ) : (
+                  <div className="space-y-3">
+                    <div className="relative w-full h-48 bg-gray-100 rounded-lg overflow-hidden border-2 border-gray-200">
+                      <img
+                        src={imagePreview}
+                        alt="Preview"
+                        className="w-full h-full object-cover"
+                      />
+                      <button
+                        type="button"
+                        onClick={handleRemoveImage}
+                        className="absolute top-2 right-2 bg-red-500 text-white p-2 rounded-full hover:bg-red-600 transition-colors shadow-lg"
+                        title="Remove image"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => document.getElementById('image-upload').click()}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors text-sm"
+                    >
+                      Change Image
+                    </button>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageUpload}
+                      className="hidden"
+                      id="image-upload"
+                    />
+                  </div>
+                )}
+
+                {uploadErrors.image && (
+                  <p className="mt-1 text-sm text-red-500">{uploadErrors.image}</p>
+                )}
                 {errors.image && (
                   <p className="mt-1 text-sm text-red-500">{errors.image}</p>
                 )}
               </div>
-
-              {/* Image Preview */}
-              {formData.image && (
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Preview
-                  </label>
-                  <div className="w-full h-48 bg-gray-100 rounded-lg overflow-hidden">
-                    <img
-                      src={assetUrl(formData.image)}
-                      alt="Preview"
-                      className="w-full h-full object-cover"
-                      onError={(e) => {
-                        e.target.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100" height="100"%3E%3Crect fill="%23ddd" width="100" height="100"/%3E%3Ctext fill="%23999" x="50%25" y="50%25" text-anchor="middle" dy=".3em"%3ENo Image%3C/text%3E%3C/svg%3E';
-                      }}
-                    />
-                  </div>
-                </div>
-              )}
 
               {/* Form Actions */}
               <div className="flex justify-end space-x-4 pt-4 border-t border-gray-200">
