@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, Wrench } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import LoadingSpinner from "../../components/common/Loading";
 import { useContent } from "../../context/globalContext";
 import { assetUrl } from "../../utils";
@@ -8,13 +8,17 @@ import { assetUrl } from "../../utils";
 const SparesParts = () => {
     const {content, isLoading, error} = useContent();
     const sparePart = content?.spareParts?.[0];
+    const [heroImageLoaded, setHeroImageLoaded] = useState(false);
 
     useEffect(() => {
         if (sparePart) {
-            // Preload hero image
+            // Preload hero image for instant display on navigation
             if (sparePart.image) {
                 const heroImg = new Image();
                 heroImg.src = assetUrl(sparePart.image);
+                heroImg.onload = () => {
+                    setHeroImageLoaded(true);
+                };
             }
 
             // Preload first 4 part images
@@ -44,11 +48,22 @@ const SparesParts = () => {
             <section className="relative h-[300px] lg:h-[600px] flex items-center justify-center overflow-hidden">
                 {/* Background Image */}
                 <div className="absolute inset-0 bg-secondary">
+                    {/* Loading Skeleton */}
+                    {!heroImageLoaded && sparePart?.image && (
+                        <div className="absolute inset-0 bg-gradient-to-br from-gray-200 via-gray-300 to-gray-200 animate-pulse">
+                            <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/10 to-black/30" />
+                        </div>
+                    )}
+
+                    {/* Hero Image */}
                     {sparePart?.image && (
                         <img
                             src={assetUrl(sparePart.image)}
                             alt="Spares & Parts"
-                            className="w-full h-full object-cover opacity-90 animate-hero-image"
+                            className={`w-full h-full object-cover opacity-90 animate-hero-image transition-opacity duration-500 ${
+                                heroImageLoaded ? 'opacity-90' : 'opacity-0'
+                            }`}
+                            onLoad={() => setHeroImageLoaded(true)}
                             loading="eager"
                             fetchPriority="high"
                         />

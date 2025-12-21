@@ -1,4 +1,5 @@
 import { useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
 import LoadingSpinner from "../../components/common/Loading";
 import ProductTypeCard from "../../components/common/ProductTypeCard";
 import { getBrandData } from "../../utils";
@@ -8,18 +9,32 @@ import { assetUrl } from "../../utils";
 const BrandLanding = () => {
     const { brand } = useParams();
     const {content, isLoading, error} = useContent();
-    
+    const [heroImageLoaded, setHeroImageLoaded] = useState(false);
+
+    const brandData = !isLoading && !error ? getBrandData(content?.brands, brand) : null;
+
+    // Preload hero image for instant display on navigation
+    useEffect(() => {
+        if (brandData?.heroImage) {
+            const img = new Image();
+            img.src = assetUrl(brandData.heroImage);
+            img.onload = () => {
+                setHeroImageLoaded(true);
+            };
+        }
+    }, [brandData?.heroImage]);
+
     if (isLoading) {
         return <LoadingSpinner name={brand} />;
     }
-    
+
     if (error) {
         window.location.href = "/not-found";
         return null;
     }
-    const brandData = getBrandData(content?.brands, brand);
+
     if (!brandData) {
-        navigate("/not-found");
+        window.location.href = "/not-found";
         return null;
     }
 
@@ -29,11 +44,24 @@ const BrandLanding = () => {
             <section className="relative h-[300px] lg:h-[600px] flex items-center justify-center overflow-hidden">
                 {/* Background Image */}
                 <div className={`absolute inset-0 bg-secondary`}>
-                    {brandData?.images?.[0] && (
+                    {/* Loading Skeleton */}
+                    {!heroImageLoaded && brandData?.heroImage && (
+                        <div className="absolute inset-0 bg-gradient-to-br from-gray-200 via-gray-300 to-gray-200 animate-pulse">
+                            <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/10 to-black/30" />
+                        </div>
+                    )}
+
+                    {/* Hero Image */}
+                    {brandData?.heroImage && (
                         <img
                             src={assetUrl(brandData.heroImage)}
                             alt={brandData.name}
-                            className="w-full h-full object-cover opacity-90 animate-hero-image"
+                            className={`w-full h-full object-cover opacity-90 animate-hero-image transition-opacity duration-500 ${
+                                heroImageLoaded ? 'opacity-90' : 'opacity-0'
+                            }`}
+                            onLoad={() => setHeroImageLoaded(true)}
+                            loading="eager"
+                            fetchPriority="high"
                         />
                     )}
                     <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/50 to-primary" />
