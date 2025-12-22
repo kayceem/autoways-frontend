@@ -398,33 +398,65 @@ const AboutUs = () => {
                 Our dedicated team driving innovation and excellence
             </p>
           </div>
-          <div className="grid lg:grid-cols-2 lg:grid-cols-4 gap-8">
-            {team.map((member, index) => (
-                <div
-                key={index}
-                className="bg-primary rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 animate-fade-in-up"
-                style={{ animationDelay: `${index * 0.1}s` }}
-                >
+
+          {/* First Team Member - Centered */}
+          {team[0] && (
+            <div className="flex justify-center mb-8">
+              <div
+                className="bg-primary rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 animate-fade-in-up w-full max-w-sm"
+                style={{ animationDelay: '0s' }}
+              >
                 <div className="h-48 bg-gradient-to-br from-accent to-primary flex items-center justify-center">
                   <div className="w-32 h-32 bg-dark rounded-full flex items-center justify-center">
                     <img
-                      src={assetUrl(member.image)}
-                      alt={member.name}
+                      src={assetUrl(team[0].image)}
+                      alt={team[0].name}
                       className="w-28 h-28 rounded-full object-cover"
                     />
                   </div>
                 </div>
                 <div className="p-6">
-                  <h3 className="text-xl font-bold text-secondary mb-2">{member.name}</h3>
-                  <div className="text-accent font-semibold mb-3">{member.position}</div>
-                  <div className="text-accent font-semibold mb-3">{member.department}</div>
+                  <h3 className="text-xl font-bold text-secondary mb-2">{team[0].name}</h3>
+                  <div className="text-accent font-semibold mb-3">{team[0].position}</div>
+                  <div className="text-accent font-semibold mb-3">{team[0].department}</div>
                   <p className="text-secondary opacity-80 text-sm leading-relaxed">
-                    {member.bio}
+                    {team[0].bio}
                   </p>
                 </div>
               </div>
-            ))}
-          </div>
+            </div>
+          )}
+
+          {/* Remaining Team Members - 3 per row */}
+          {team.length > 1 && (
+            <div className="grid lg:grid-cols-3 gap-8">
+              {team.slice(1).map((member, index) => (
+                <div
+                  key={index + 1}
+                  className="bg-primary rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 animate-fade-in-up"
+                  style={{ animationDelay: `${(index + 1) * 0.1}s` }}
+                >
+                  <div className="h-48 bg-gradient-to-br from-accent to-primary flex items-center justify-center">
+                    <div className="w-32 h-32 bg-dark rounded-full flex items-center justify-center">
+                      <img
+                        src={assetUrl(member.image)}
+                        alt={member.name}
+                        className="w-28 h-28 rounded-full object-cover"
+                      />
+                    </div>
+                  </div>
+                  <div className="p-6">
+                    <h3 className="text-xl font-bold text-secondary mb-2">{member.name}</h3>
+                    <div className="text-accent font-semibold mb-3">{member.position}</div>
+                    <div className="text-accent font-semibold mb-3">{member.department}</div>
+                    <p className="text-secondary opacity-80 text-sm leading-relaxed">
+                      {member.bio}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
     )}
