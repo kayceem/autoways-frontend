@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const { promisify } = require('util');
+const logger = require('../utils/logger');
 
 const writeFile = promisify(fs.writeFile);
 const mkdir = promisify(fs.mkdir);
@@ -64,7 +65,7 @@ const saveImage = async (base64Image, brandName, productName, index) => {
     // Return relative path for database
     return `/assets/images/brand/${cleanBrand}/${fileName}`;
   } catch (error) {
-    console.error('Error saving image:', error);
+    logger.error('Error saving image:', error);
     throw new Error(`Failed to save image: ${error.message}`);
   }
 };
@@ -96,7 +97,7 @@ const savePDF = async (base64PDF, brandName, productName, type) => {
     // Return relative path for database
     return `/assets/pdf/brand/${cleanBrand}/${cleanProduct}/${fileName}`;
   } catch (error) {
-    console.error('Error saving PDF:', error);
+    logger.error('Error saving PDF:', error);
     throw new Error(`Failed to save PDF: ${error.message}`);
   }
 };
@@ -114,7 +115,7 @@ const deleteImage = async (imagePath) => {
       await unlink(fullPath);
     }
   } catch (error) {
-    console.error('Error deleting image:', error);
+    logger.error('Error deleting image:', error);
     // Don't throw error for cleanup operations
   }
 };
@@ -132,7 +133,7 @@ const deletePDF = async (pdfPath) => {
       await unlink(fullPath);
     }
   } catch (error) {
-    console.error('Error deleting PDF:', error);
+    logger.error('Error deleting PDF:', error);
     // Don't throw error for cleanup operations
   }
 };
@@ -170,7 +171,7 @@ const deleteProductFiles = async (brandName, productName, images, brochureUrl, s
       // Directory not empty or doesn't exist
     }
   } catch (error) {
-    console.error('Error deleting product files:', error);
+    logger.error('Error deleting product files:', error);
   }
 };
 
@@ -196,7 +197,7 @@ const saveImageGeneric = async (base64Image, dirPath, fileName) => {
     // Return relative path for database
     return `/assets/images/${dirPath}/${fullFileName}`;
   } catch (error) {
-    console.error('Error saving image:', error);
+    logger.error('Error saving image:', error);
     throw new Error(`Failed to save image: ${error.message}`);
   }
 };
@@ -219,54 +220,62 @@ const saveVideoGeneric = async (base64Video, dirPath, fileName) => {
     // Return relative path for database
     return `/assets/videos/${dirPath}/${fullFileName}`;
   } catch (error) {
-    console.error('Error saving video:', error);
+    logger.error('Error saving video:', error);
     throw new Error(`Failed to save video: ${error.message}`);
   }
 };
 
 /**
  * Process product data and save files
+ * Only processes fields that are present in productData to support partial updates
  */
 const processProductFiles = async (productData) => {
-  const { name: productName, brand: brandName, images, brochureUrl, specSheetUrl } = productData;
-
   try {
-    // Process images
-    const savedImagePaths = [];
-    if (images && images.length > 0) {
-      for (let i = 0; i < images.length; i++) {
-        const image = images[i];
-        // Check if it's base64 data
-        if (image.startsWith('data:')) {
-          const savedPath = await saveImage(image, brandName, productName, i);
-          savedImagePaths.push(savedPath);
-        } else {
-          // Already a path, keep it
-          savedImagePaths.push(image);
+    const result = { ...productData };
+
+    // Get required fields for file paths
+    const productName = productData.name;
+    const brandName = productData.brand;
+    if (!productName || !brandName) {
+      throw new Error('Product name and brand are required for processing files');
+    }
+
+    // Process images only if present
+    if (productData.images !== undefined) {
+      const savedImagePaths = [];
+      if (productData.images && productData.images.length > 0) {
+        for (let i = 0; i < productData.images.length; i++) {
+          const image = productData.images[i];
+          // Check if it's base64 data
+          if (image.startsWith('data:')) {
+            const savedPath = await saveImage(image, brandName, productName, i);
+            savedImagePaths.push(savedPath);
+          } else {
+            // Already a path, keep it
+            savedImagePaths.push(image);
+          }
         }
+      }
+      result.images = savedImagePaths;
+    }
+
+    // Process brochure only if present
+    if (productData.brochureUrl !== undefined) {
+      if (productData.brochureUrl && productData.brochureUrl.startsWith('data:')) {
+        result.brochureUrl = await savePDF(productData.brochureUrl, brandName, productName, 'brochure');
       }
     }
 
-    // Process brochure
-    let savedBrochurePath = brochureUrl;
-    if (brochureUrl && brochureUrl.startsWith('data:')) {
-      savedBrochurePath = await savePDF(brochureUrl, brandName, productName, 'brochure');
+    // Process spec sheet only if present
+    if (productData.specSheetUrl !== undefined) {
+      if (productData.specSheetUrl && productData.specSheetUrl.startsWith('data:')) {
+        result.specSheetUrl = await savePDF(productData.specSheetUrl, brandName, productName, 'specs');
+      }
     }
 
-    // Process spec sheet
-    let savedSpecSheetPath = specSheetUrl;
-    if (specSheetUrl && specSheetUrl.startsWith('data:')) {
-      savedSpecSheetPath = await savePDF(specSheetUrl, brandName, productName, 'specs');
-    }
-
-    return {
-      ...productData,
-      images: savedImagePaths,
-      brochureUrl: savedBrochurePath,
-      specSheetUrl: savedSpecSheetPath
-    };
+    return result;
   } catch (error) {
-    console.error('Error processing product files:', error);
+    logger.error('Error processing product files:', error);
     throw error;
   }
 };
@@ -289,7 +298,7 @@ const processHeroImageFiles = async (heroImageData) => {
       image: savedImagePath
     };
   } catch (error) {
-    console.error('Error processing hero image files:', error);
+    logger.error('Error processing hero image files:', error);
     throw error;
   }
 };
@@ -301,7 +310,7 @@ const deleteHeroImageFiles = async (imagePath) => {
   try {
     if (imagePath) await deleteImage(imagePath);
   } catch (error) {
-    console.error('Error deleting hero image files:', error);
+    logger.error('Error deleting hero image files:', error);
   }
 };
 
@@ -324,69 +333,67 @@ const processProductTypeFiles = async (productTypeData, brandName) => {
       image: savedImagePath
     };
   } catch (error) {
-    console.error('Error processing product type files:', error);
+    logger.error('Error processing product type files:', error);
     throw error;
   }
 };
 
 /**
  * Process brand files
+ * Only processes fields that are present in brandData to support partial updates
  */
 const processBrandFiles = async (brandData) => {
   try {
-    const { name: brandName, heroImage, logo, images, video } = brandData;
+    const result = { ...brandData };
+
+    // Get brand name for file paths (required field)
+    const brandName = brandData.name;
+    if (!brandName) {
+      throw new Error('Brand name is required for processing files');
+    }
     const cleanBrand = cleanFileName(brandName);
 
-    // Process hero image
-    let savedHeroImagePath = heroImage;
-    if (heroImage && heroImage.startsWith('data:')) {
-      savedHeroImagePath = await saveImageGeneric(heroImage, `brands/${cleanBrand}`, 'hero');
-    }
-
-    // Process logo
-    let savedLogoPath = logo;
-    if (logo && logo.startsWith('data:')) {
-      savedLogoPath = await saveImageGeneric(logo, `brands/${cleanBrand}`, 'logo');
-    }
-
-    let savedVideoPath = video;
-    if (video && video.startsWith('data:')) {
-      // Assuming video saving function is similar to image
-      savedVideoPath = await saveVideoGeneric(video, `brands/${cleanBrand}`, 'video');
-    }
-    // Process additional images
-    const savedImagePaths = [];
-    if (images && images.length > 0) {
-      for (let i = 0; i < images.length; i++) {
-        const image = images[i];
-        if (image.startsWith('data:')) {
-          const savedPath = await saveImageGeneric(image, `brands/${cleanBrand}`, `image_${i}`);
-          savedImagePaths.push(savedPath);
-        } else {
-          savedImagePaths.push(image);
-        }
+    // Process hero image only if present
+    if (brandData.heroImage !== undefined) {
+      if (brandData.heroImage && brandData.heroImage.startsWith('data:')) {
+        result.heroImage = await saveImageGeneric(brandData.heroImage, `brands/${cleanBrand}`, 'hero');
       }
     }
 
-    // Process product types
-    // const processedProductTypes = [];
-    // if (productTypes && productTypes.length > 0) {
-    //   for (const productType of productTypes) {
-    //     const processed = await processProductTypeFiles(productType, brandName);
-    //     processedProductTypes.push(processed);
-    //   }
-    // }
+    // Process logo only if present
+    if (brandData.logo !== undefined) {
+      if (brandData.logo && brandData.logo.startsWith('data:')) {
+        result.logo = await saveImageGeneric(brandData.logo, `brands/${cleanBrand}`, 'logo');
+      }
+    }
 
-    return {
-      ...brandData,
-      heroImage: savedHeroImagePath,
-      logo: savedLogoPath,
-      images: savedImagePaths,
-      video: savedVideoPath
-    //   productTypes: processedProductTypes
-    };
+    // Process video only if present
+    if (brandData.video !== undefined) {
+      if (brandData.video && brandData.video.startsWith('data:')) {
+        result.video = await saveVideoGeneric(brandData.video, `brands/${cleanBrand}`, 'video');
+      }
+    }
+
+    // Process additional images only if present
+    if (brandData.images !== undefined) {
+      const savedImagePaths = [];
+      if (brandData.images && brandData.images.length > 0) {
+        for (let i = 0; i < brandData.images.length; i++) {
+          const image = brandData.images[i];
+          if (image.startsWith('data:')) {
+            const savedPath = await saveImageGeneric(image, `brands/${cleanBrand}`, `image_${i}`);
+            savedImagePaths.push(savedPath);
+          } else {
+            savedImagePaths.push(image);
+          }
+        }
+      }
+      result.images = savedImagePaths;
+    }
+
+    return result;
   } catch (error) {
-    console.error('Error processing brand files:', error);
+    logger.error('Error processing brand files:', error);
     throw error;
   }
 };
@@ -408,7 +415,7 @@ const deleteBrandFiles = async (heroImage, logo, images, productType, video) => 
     if (video) await deleteVideo(video);
 
   } catch (error) {
-    console.error('Error deleting brand files:', error);
+    logger.error('Error deleting brand files:', error);
   }
 };
 
@@ -430,7 +437,7 @@ const processNewsArticleFiles = async (newsArticleData) => {
       image: savedImagePath
     };
   } catch (error) {
-    console.error('Error processing news article files:', error);
+    logger.error('Error processing news article files:', error);
     throw error;
   }
 };
@@ -442,7 +449,7 @@ const deleteNewsArticleFiles = async (imagePath) => {
   try {
     if (imagePath) await deleteImage(imagePath);
   } catch (error) {
-    console.error('Error deleting news article files:', error);
+    logger.error('Error deleting news article files:', error);
   }
 };
 
@@ -464,7 +471,7 @@ const processTestimonialFiles = async (testimonialData) => {
       image: savedImagePath
     };
   } catch (error) {
-    console.error('Error processing testimonial files:', error);
+    logger.error('Error processing testimonial files:', error);
     throw error;
   }
 };
@@ -476,97 +483,108 @@ const deleteTestimonialFiles = async (imagePath) => {
   try {
     if (imagePath) await deleteImage(imagePath);
   } catch (error) {
-    console.error('Error deleting testimonial files:', error);
+    logger.error('Error deleting testimonial files:', error);
   }
 };
 
 /**
  * Process about us files
+ * Only processes fields that are present in aboutUsData to support partial updates
  */
 const processAboutUsFiles = async (aboutUsData) => {
   try {
-    const { image, milestones, chairman_message, md_message, team, certifications, awards } = aboutUsData;
+    const result = { ...aboutUsData };
 
-    // Process main image
-    let savedImagePath = image;
-    if (image && image.startsWith('data:')) {
-      savedImagePath = await saveImageGeneric(image, 'about', `about_main_${Date.now()}`);
-    }
-
-    // Process milestones
-    const processedMilestones = [];
-    if (milestones && milestones.length > 0) {
-      for (let i = 0; i < milestones.length; i++) {
-        const milestone = milestones[i];
-        let milestoneImage = milestone.image;
-        if (milestoneImage && milestoneImage.startsWith('data:')) {
-          milestoneImage = await saveImageGeneric(milestoneImage, 'about/milestones', `milestone_${milestone.year}_${i}`);
-        }
-        processedMilestones.push({ ...milestone, image: milestoneImage });
+    // Process main image only if present
+    if (aboutUsData.image !== undefined) {
+      if (aboutUsData.image && aboutUsData.image.startsWith('data:')) {
+        result.image = await saveImageGeneric(aboutUsData.image, 'about', `about_main_${Date.now()}`);
       }
     }
 
-    // Process chairman message image
-    let chairmanImage = chairman_message?.image;
-    if (chairmanImage && chairmanImage.startsWith('data:')) {
-      chairmanImage = await saveImageGeneric(chairmanImage, 'about/leadership', 'chairman');
-    }
-
-    // Process MD message image
-    let mdImage = md_message?.image;
-    if (mdImage && mdImage.startsWith('data:')) {
-      mdImage = await saveImageGeneric(mdImage, 'about/leadership', 'md');
-    }
-
-    // Process team images
-    const processedTeam = [];
-    if (team && team.length > 0) {
-      for (const member of team) {
-        let memberImage = member.image;
-        if (memberImage && memberImage.startsWith('data:')) {
-          const cleanName = cleanFileName(member.name);
-          memberImage = await saveImageGeneric(memberImage, 'about/team', `team_${cleanName}_${member.id}`);
+    // Process milestones only if present
+    if (aboutUsData.milestones !== undefined) {
+      const processedMilestones = [];
+      if (aboutUsData.milestones && aboutUsData.milestones.length > 0) {
+        for (let i = 0; i < aboutUsData.milestones.length; i++) {
+          const milestone = aboutUsData.milestones[i];
+          let milestoneImage = milestone.image;
+          if (milestoneImage && milestoneImage.startsWith('data:')) {
+            milestoneImage = await saveImageGeneric(milestoneImage, 'about/milestones', `milestone_${milestone.year}_${i}`);
+          }
+          processedMilestones.push({ ...milestone, image: milestoneImage });
         }
-        processedTeam.push({ ...member, image: memberImage });
       }
+      result.milestones = processedMilestones;
     }
 
-    // Process certifications images
-    const processedCertifications = [];
-    if (certifications && certifications.length > 0) {
-      for (const cert of certifications) {
-        let certImage = cert.image;
-        if (certImage && certImage.startsWith('data:')) {
-          certImage = await saveImageGeneric(certImage, 'about/certifications', `cert_${cert.id}`);
+    // Process chairman message only if present
+    if (aboutUsData.chairman_message !== undefined) {
+      let chairmanImage = aboutUsData.chairman_message?.image;
+      if (chairmanImage && chairmanImage.startsWith('data:')) {
+        chairmanImage = await saveImageGeneric(chairmanImage, 'about/leadership', 'chairman');
+      }
+      result.chairman_message = aboutUsData.chairman_message ? { ...aboutUsData.chairman_message, image: chairmanImage } : aboutUsData.chairman_message;
+    }
+
+    // Process MD message only if present
+    if (aboutUsData.md_message !== undefined) {
+      let mdImage = aboutUsData.md_message?.image;
+      if (mdImage && mdImage.startsWith('data:')) {
+        mdImage = await saveImageGeneric(mdImage, 'about/leadership', 'md');
+      }
+      result.md_message = aboutUsData.md_message ? { ...aboutUsData.md_message, image: mdImage } : aboutUsData.md_message;
+    }
+
+    // Process team only if present
+    if (aboutUsData.team !== undefined) {
+      const processedTeam = [];
+      if (aboutUsData.team && aboutUsData.team.length > 0) {
+        for (const member of aboutUsData.team) {
+          let memberImage = member.image;
+          if (memberImage && memberImage.startsWith('data:')) {
+            const cleanName = cleanFileName(member.name || 'member');
+            memberImage = await saveImageGeneric(memberImage, 'about/team', `team_${cleanName}_${member.id}`);
+          }
+          processedTeam.push({ ...member, image: memberImage });
         }
-        processedCertifications.push({ ...cert, image: certImage });
       }
+      result.team = processedTeam;
     }
 
-    // Process awards images
-    const processedAwards = [];
-    if (awards && awards.length > 0) {
-      for (const award of awards) {
-        let awardImage = award.image;
-        if (awardImage && awardImage.startsWith('data:')) {
-          awardImage = await saveImageGeneric(awardImage, 'about/awards', `award_${award.id}`);
+    // Process certifications only if present
+    if (aboutUsData.certifications !== undefined) {
+      const processedCertifications = [];
+      if (aboutUsData.certifications && aboutUsData.certifications.length > 0) {
+        for (const cert of aboutUsData.certifications) {
+          let certImage = cert.image;
+          if (certImage && certImage.startsWith('data:')) {
+            certImage = await saveImageGeneric(certImage, 'about/certifications', `cert_${cert.id}`);
+          }
+          processedCertifications.push({ ...cert, image: certImage });
         }
-        processedAwards.push({ ...award, image: awardImage });
       }
+      result.certifications = processedCertifications;
     }
 
-    return {
-      ...aboutUsData,
-      image: savedImagePath,
-      milestones: processedMilestones,
-      chairman_message: chairman_message ? { ...chairman_message, image: chairmanImage } : chairman_message,
-      md_message: md_message ? { ...md_message, image: mdImage } : md_message,
-      team: processedTeam,
-      certifications: processedCertifications,
-      awards: processedAwards
-    };
+    // Process awards only if present
+    if (aboutUsData.awards !== undefined) {
+      const processedAwards = [];
+      if (aboutUsData.awards && aboutUsData.awards.length > 0) {
+        for (const award of aboutUsData.awards) {
+          let awardImage = award.image;
+          if (awardImage && awardImage.startsWith('data:')) {
+            awardImage = await saveImageGeneric(awardImage, 'about/awards', `award_${award.id}`);
+          }
+          processedAwards.push({ ...award, image: awardImage });
+        }
+      }
+      result.awards = processedAwards;
+    }
+
+    return result;
   } catch (error) {
-    console.error('Error processing about us files:', error);
+    logger.error('Error processing about us files:', error);
     throw error;
   }
 };
@@ -599,7 +617,7 @@ const deleteAboutUsFiles = async (aboutUsData) => {
       await Promise.all(awards.map(a => a.image ? deleteImage(a.image) : Promise.resolve()));
     }
   } catch (error) {
-    console.error('Error deleting about us files:', error);
+    logger.error('Error deleting about us files:', error);
   }
 };
 
@@ -621,7 +639,7 @@ const processCSRInitiativeFiles = async (csrInitiativeData) => {
       image: savedImagePath
     };
   } catch (error) {
-    console.error('Error processing CSR initiative files:', error);
+    logger.error('Error processing CSR initiative files:', error);
     throw error;
   }
 };
@@ -633,7 +651,7 @@ const deleteCSRInitiativeFiles = async (imagePath) => {
   try {
     if (imagePath) await deleteImage(imagePath);
   } catch (error) {
-    console.error('Error deleting CSR initiative files:', error);
+    logger.error('Error deleting CSR initiative files:', error);
   }
 };
 
@@ -655,7 +673,7 @@ const processCSRHeroFiles = async (csrHeroData) => {
       image: savedImagePath
     };
   } catch (error) {
-    console.error('Error processing CSR hero files:', error);
+    logger.error('Error processing CSR hero files:', error);
     throw error;
   }
 };
@@ -667,37 +685,42 @@ const deleteCSRHeroFiles = async (imagePath) => {
   try {
     if (imagePath) await deleteImage(imagePath);
   } catch (error) {
-    console.error('Error deleting CSR hero files:', error);
+    logger.error('Error deleting CSR hero files:', error);
   }
 };
 
 /**
  * Process sister company files
+ * Only processes fields that are present in sisterCompanyData to support partial updates
  */
 const processSisterCompanyFiles = async (sisterCompanyData) => {
   try {
-    const { logo, image, name } = sisterCompanyData;
+    const result = { ...sisterCompanyData };
+
+    // Get name for file paths (required field)
+    const name = sisterCompanyData.name;
+    if (!name) {
+      throw new Error('Sister company name is required for processing files');
+    }
     const cleanName = cleanFileName(name);
 
-    // Process logo
-    let savedLogoPath = logo;
-    if (logo && logo.startsWith('data:')) {
-      savedLogoPath = await saveImageGeneric(logo, 'sister-companies', `${cleanName}_logo`);
+    // Process logo only if present
+    if (sisterCompanyData.logo !== undefined) {
+      if (sisterCompanyData.logo && sisterCompanyData.logo.startsWith('data:')) {
+        result.logo = await saveImageGeneric(sisterCompanyData.logo, 'sister-companies', `${cleanName}_logo`);
+      }
     }
 
-    // Process image
-    let savedImagePath = image;
-    if (image && image.startsWith('data:')) {
-      savedImagePath = await saveImageGeneric(image, 'sister-companies', `${cleanName}_image`);
+    // Process image only if present
+    if (sisterCompanyData.image !== undefined) {
+      if (sisterCompanyData.image && sisterCompanyData.image.startsWith('data:')) {
+        result.image = await saveImageGeneric(sisterCompanyData.image, 'sister-companies', `${cleanName}_image`);
+      }
     }
 
-    return {
-      ...sisterCompanyData,
-      logo: savedLogoPath,
-      image: savedImagePath
-    };
+    return result;
   } catch (error) {
-    console.error('Error processing sister company files:', error);
+    logger.error('Error processing sister company files:', error);
     throw error;
   }
 };
@@ -710,42 +733,43 @@ const deleteSisterCompanyFiles = async (logo, image) => {
     if (logo) await deleteImage(logo);
     if (image) await deleteImage(image);
   } catch (error) {
-    console.error('Error deleting sister company files:', error);
+    logger.error('Error deleting sister company files:', error);
   }
 };
 
 /**
  * Process spare part files
+ * Only processes fields that are present in sparePartData to support partial updates
  */
 const processSparePartFiles = async (sparePartData) => {
   try {
-    const { image, parts } = sparePartData;
+    const result = { ...sparePartData };
 
-    // Process main image
-    let savedImagePath = image;
-    if (image && image.startsWith('data:')) {
-      savedImagePath = await saveImageGeneric(image, 'spare-parts', `spare_main_${Date.now()}`);
-    }
-
-    // Process parts images
-    const processedParts = [];
-    if (parts && parts.length > 0) {
-      for (const part of parts) {
-        let partImage = part.image;
-        if (partImage && partImage.startsWith('data:')) {
-          partImage = await saveImageGeneric(partImage, 'spare-parts/parts', `part_${part.partId}`);
-        }
-        processedParts.push({ ...part, image: partImage });
+    // Process main image only if present
+    if (sparePartData.image !== undefined) {
+      if (sparePartData.image && sparePartData.image.startsWith('data:')) {
+        result.image = await saveImageGeneric(sparePartData.image, 'spare-parts', `spare_main_${Date.now()}`);
       }
     }
 
-    return {
-      ...sparePartData,
-      image: savedImagePath,
-      parts: processedParts
-    };
+    // Process parts images only if present
+    if (sparePartData.parts !== undefined) {
+      const processedParts = [];
+      if (sparePartData.parts && sparePartData.parts.length > 0) {
+        for (const part of sparePartData.parts) {
+          let partImage = part.image;
+          if (partImage && partImage.startsWith('data:')) {
+            partImage = await saveImageGeneric(partImage, 'spare-parts/parts', `part_${part.partId}`);
+          }
+          processedParts.push({ ...part, image: partImage });
+        }
+      }
+      result.parts = processedParts;
+    }
+
+    return result;
   } catch (error) {
-    console.error('Error processing spare part files:', error);
+    logger.error('Error processing spare part files:', error);
     throw error;
   }
 };
@@ -761,7 +785,7 @@ const deleteSparePartFiles = async (image, parts) => {
       await Promise.all(parts.map(p => p.image ? deleteImage(p.image) : Promise.resolve()));
     }
   } catch (error) {
-    console.error('Error deleting spare part files:', error);
+    logger.error('Error deleting spare part files:', error);
   }
 };
 
