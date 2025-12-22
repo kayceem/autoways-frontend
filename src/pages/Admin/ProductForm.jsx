@@ -24,6 +24,7 @@ const ProductForm = ({
     brochureUrl: '',
     specSheetUrl: '',
     specifications: {
+      general: [],
       engine: [],
       motor: [],
       performance: [],
@@ -33,7 +34,8 @@ const ProductForm = ({
       liftArm: [],
       capacities: [],
       safety: [],
-      offroad: []
+      offroad: [],
+      electronics: []
     }
   });
 
@@ -49,6 +51,7 @@ const ProductForm = ({
 
   // Specification categories with their display names
   const specificationCategories = [
+    { key: 'general', label: 'General' },
     { key: 'engine', label: 'Engine' },
     { key: 'motor', label: 'Motor' },
     { key: 'performance', label: 'Performance' },
@@ -58,7 +61,8 @@ const ProductForm = ({
     { key: 'liftArm', label: 'Lift Arm' },
     { key: 'capacities', label: 'Capacities' },
     { key: 'safety', label: 'Safety' },
-    { key: 'offroad', label: 'Off-Road' }
+    { key: 'offroad', label: 'Off-Road' },
+    { key: 'electronics', label: 'Electronics' }
   ];
 
   // Utility function to convert string to camelCase
@@ -80,6 +84,7 @@ const ProductForm = ({
     if (editingProduct) {
       // Convert existing specifications object to array format
       const loadedSpecs = {
+        general: [],
         engine: [],
         motor: [],
         performance: [],
@@ -89,7 +94,8 @@ const ProductForm = ({
         liftArm: [],
         capacities: [],
         safety: [],
-        offroad: []
+        offroad: [],
+        electronics: []
       };
 
       if (editingProduct.specifications) {

@@ -89,8 +89,11 @@ const SpecificationsDisplay = ({ specifications = {}, fuelType = 'normal' }) => 
         );
     };
 
-    return (
+        return (
         <div className="w-full space-y-3">
+            {specifications.general && (
+                renderSpecSection('General', specifications.general, 'general')
+            )}
             {/* Engine/Motor Section */}
             {fuelType === 'electric' && specifications.motor && (
                 renderSpecSection('Motor', specifications.motor, 'motor')
@@ -162,6 +165,11 @@ const SpecificationsDisplay = ({ specifications = {}, fuelType = 'normal' }) => 
             {/* Technology (for scooters) */}
             {specifications.technology && (
                 renderSpecSection('Technology', specifications.technology, 'technology')
+            )}
+            
+            {/* Electronics */}
+            {specifications.electronics && (
+                renderSpecSection('Electronics', specifications.electronics, 'electronics')
             )}
         </div>
     );

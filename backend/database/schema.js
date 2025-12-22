@@ -1,3 +1,4 @@
+const { SiGeneralelectric } = require('@icons-pack/react-simple-icons');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
@@ -86,6 +87,7 @@ const LocationSchema = new Schema({
 
 // ==================== Product Specifications Schema ====================
 const ProductSpecificationsSchema = new Schema({
+    general: Schema.Types.Mixed,
     engine: Schema.Types.Mixed,
     motor: Schema.Types.Mixed,
     performance: Schema.Types.Mixed,
@@ -95,7 +97,8 @@ const ProductSpecificationsSchema = new Schema({
     liftArm: Schema.Types.Mixed,
     capacities: Schema.Types.Mixed,
     safety: Schema.Types.Mixed,
-    offroad: Schema.Types.Mixed
+    offroad: Schema.Types.Mixed,
+    electronics: Schema.Types.Mixed,
 }, { _id: false });
 
 // ==================== Product Schema ====================
