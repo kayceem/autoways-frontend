@@ -55,15 +55,23 @@ const BrandLanding = () => {
                                     filter: 'blur(60px)',
                                     transform: 'scale(1.2)',
                                 }}
-                            />
-                            {/* Overlay for depth */}
-                            <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/10 to-black/40" />
-                            {/* Shimmer effect */}
+                                />
+                            {/* Colorful overlay for depth */}
+                            <div className="absolute inset-0 pointer-events-none">
+                                <div
+                                    className="absolute inset-0"
+                                    style={{
+                                        background: "linear-gradient(135deg, #ebecefff 0%rgba(212, 192, 232, 1)a2 25%, #d2b8d5ff 50%, #cae0f3ff 75%, #d1f3f5ff 100%)",
+                                        mixBlendMode: 'overlay',
+                                        backdropFilter: 'saturate(1.05) blur(6px)',
+                                    }}
+                                />
+                            </div>
                             <div
                                 className="absolute inset-0 opacity-30"
                                 style={{
                                     background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%)',
-                                    animation: 'shimmer 2s infinite',
+                                    animation: 'shimmer 3s infinite',
                                 }}
                             />
                         </div>
