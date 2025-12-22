@@ -407,14 +407,17 @@ const AboutUs = () => {
                 >
                 <div className="h-48 bg-gradient-to-br from-accent to-primary flex items-center justify-center">
                   <div className="w-32 h-32 bg-dark rounded-full flex items-center justify-center">
-                    <svg className="w-16 h-16 text-accent" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
-                    </svg>
+                    <img
+                      src={assetUrl(member.image)}
+                      alt={member.name}
+                      className="w-28 h-28 rounded-full object-cover"
+                    />
                   </div>
                 </div>
                 <div className="p-6">
                   <h3 className="text-xl font-bold text-secondary mb-2">{member.name}</h3>
                   <div className="text-accent font-semibold mb-3">{member.position}</div>
+                  <div className="text-accent font-semibold mb-3">{member.department}</div>
                   <p className="text-secondary opacity-80 text-sm leading-relaxed">
                     {member.bio}
                   </p>
