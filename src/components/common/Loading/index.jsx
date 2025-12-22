@@ -7,7 +7,7 @@ import { Loader } from 'lucide-react';
 const LoadingSpinner = ({ name = '', size = 128, className = '' }) => {
   const [imageLoaded, setImageLoaded] = useState(false);
   const isDefaultLogo = !name;
-
+  
   return (
     <div
       className={`flex flex-col items-center justify-center min-h-screen min-w-screen ${className}`}
@@ -15,13 +15,8 @@ const LoadingSpinner = ({ name = '', size = 128, className = '' }) => {
       {/* Logo Container */}
       <div className="relative" style={{ width: size, height: size }}>
         {/* Placeholder/Skeleton while image loads - only for brand logos */}
-        {!isDefaultLogo && !imageLoaded && (
-            <Loader className="animate-[spin_1.8s_linear_infinite] text-accent" size={64} />
-        )}
-
-        {/* Brand Logo */}
         <img
-          src={assetUrl(logoMap[name]) || logoMap['default']}
+          src={ isDefaultLogo ? logoMap['default'] : assetUrl(logoMap[name])}
           alt="Loading"
           className={`object-contain transition-opacity duration-300 ${
             isDefaultLogo || imageLoaded ? 'opacity-100' : 'opacity-0'

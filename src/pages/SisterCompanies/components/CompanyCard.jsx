@@ -27,7 +27,9 @@ const CompanyCard = ({ company, index }) => {
               <span className="inline-block px-2 lg:px-3 py-1 bg-accent text-dark text-xs font-bold rounded-full mb-1 lg:mb-2">
                 {company.category}
               </span>
-              <h2 className="text-xl lg:text-3xl font-bold text-secondary">{company.name}</h2>
+<h2 className="text-xl lg:text-3xl font-bold text-white drop-shadow-[0_0_4px_black]">
+  {company.name}
+</h2>
             </div>
           </div>
         </div>

@@ -59,7 +59,7 @@ const Dropdown = ({
       <div
         className={`fixed left-0 right-0 bg-accent shadow-2xl transition-all duration-300 ease-in-out z-50 ${
           isOpen
-            ? 'opacity-96 translate-y-0 pointer-events-auto'
+            ? 'opacity-98 translate-y-0 pointer-events-auto'
             : 'opacity-0 -translate-y-4 pointer-events-none'
         }`}
         style={{
@@ -96,6 +96,7 @@ const Dropdown = ({
                   src={assetUrl(items[hoveredIndex].image)}
                   alt={items[hoveredIndex].name}
                   className="max-h-128 object-cover transition-opacity duration-300"
+                  loading="eager"
                 />
               ) : (
               <Logo logo={logoMap.autoways} name="Autoways" className='font-logo' />

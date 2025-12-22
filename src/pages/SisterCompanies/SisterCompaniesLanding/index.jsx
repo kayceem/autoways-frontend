@@ -35,6 +35,7 @@ const SisterCompaniesLanding = () => {
                             src={assetUrl(companyData.image)}
                             alt={companyData.name}
                             className="w-full h-full object-cover opacity-90"
+                            loading="eager"
                         />
                     )}
                     <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/50 to-primary" />
@@ -74,7 +75,7 @@ const SisterCompaniesLanding = () => {
                         About {companyData.name}
                     </h2>
                     <div className="w-16 lg:w-24 h-1 bg-accent mx-auto mb-8" />
-                    <p className="text-secondary text-lg lg:text-xl leading-relaxed opacity-90 text-center">
+                    <p className="text-secondary text-lg lg:text-xl leading-relaxed opacity-90 text-center text-justify">
                         {companyData.description}
                     </p>
                 </div>
@@ -140,10 +141,10 @@ const SisterCompaniesLanding = () => {
                                         href={`mailto:${companyData.contact.email}`}
                                         className="flex flex-col items-center gap-3 p-6 bg-dark rounded-xl hover:bg-accent hover:text-dark transition-all duration-300 group"
                                     >
-                                        <Mail className="w-10 h-10 text-secondary group-hover:text-accent-2 transition-colors" />
+                                        <Mail className="w-10 h-10 text-accent-2 group-hover:text-accent-2 transition-colors" />
                                         <div className="text-center">
                                             {/* <p className="text-secondary group-hover:text-dark font-semibold mb-1">Email</p> */}
-                                            <p className="text-accent-2 group-hover:text-dark text-sm">{companyData.contact.email}</p>
+                                            <p className="text-secondary group-hover:text-dark text-sm">{companyData.contact.email}</p>
                                         </div>
                                     </a>
                                 )}
@@ -154,10 +155,10 @@ const SisterCompaniesLanding = () => {
                                         href={`tel:${companyData.contact.phone}`}
                                         className="flex flex-col items-center gap-3 p-6 bg-dark rounded-xl hover:bg-accent hover:text-dark transition-all duration-300 group"
                                     >
-                                        <Phone className="w-10 h-10 text-secondary group-hover:text-accent-2 transition-colors" />
+                                        <Phone className="w-10 h-10 text-accent-2 group-hover:text-accent-2 transition-colors" />
                                         <div className="text-center">
                                             {/* <p className="text-secondary group-hover:text-dark font-semibold mb-1">Phone</p> */}
-                                            <p className="text-accent-2 group-hover:text-dark text-sm">{companyData.contact.phone}</p>
+                                            <p className="text-secondary group-hover:text-dark text-sm">{companyData.contact.phone}</p>
                                         </div>
                                     </a>
                                 )}
@@ -170,10 +171,10 @@ const SisterCompaniesLanding = () => {
                                         rel="noopener noreferrer"
                                         className="flex flex-col items-center gap-3 p-6 bg-dark rounded-xl hover:bg-accent hover:text-dark transition-all duration-300 group"
                                     >
-                                        <Globe className="w-10 h-10 text-secondary group-hover:text-accent-2 transition-colors" />
+                                        <Globe className="w-10 h-10 text-accent-2 group-hover:text-accent-2 transition-colors" />
                                         <div className="text-center">
                                             {/* <p className="text-secondary group-hover:text-dark font-semibold mb-1">Website</p> */}
-                                            <p className="text-accent-2 group-hover:text-dark text-sm">{companyData.contact.website}</p>
+                                            <p className="text-secondary group-hover:text-dark text-sm">{companyData.contact.website}</p>
                                         </div>
                                     </a>
                                 )}
@@ -190,20 +191,7 @@ const SisterCompaniesLanding = () => {
                         onClick={() => navigate('/sister-companies')}
                         className="inline-flex items-center gap-2 px-8 py-4 bg-accent text-dark font-bold rounded-lg hover:bg-opacity-90 transition-all duration-300 hover:scale-105 shadow-lg"
                     >
-                        <svg
-                            className="w-5 h-5"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M10 19l-7-7m0 0l7-7m-7 7h18"
-                            />
-                        </svg>
-                        Back to All Sister Companies
+                        All Sister Companies
                     </button>
                 </div>
             </section>
