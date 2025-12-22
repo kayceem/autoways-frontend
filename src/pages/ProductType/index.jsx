@@ -150,7 +150,7 @@ const ProductTypePage = () => {
                         >
                             {data.map((product, index) => (
                                 <ProductCard
-                                    key={product._id}
+                                    key={index}
                                     product={product}
                                     brandName={brand}
                                     typeSlug={typeSlug}

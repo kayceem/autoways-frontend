@@ -344,9 +344,9 @@ const LocationsAdmin = () => {
             )}
           </div>
         ) : (
-          locations.map((location) => (
+          locations.map((location, index) => (
             <div
-              key={location._id}
+              key={index}
               className={`bg-white rounded-lg shadow-sm border border-gray-200 p-6 transition-all ${
                 editingId === location._id ? 'ring-2 ring-blue-500 border-blue-500' : ''
               }`}

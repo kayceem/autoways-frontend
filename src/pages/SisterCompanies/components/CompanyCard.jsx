@@ -52,8 +52,8 @@ const CompanyCard = ({ company, index }) => {
               Key Services
             </h3>
             <ul className="grid grid-cols-1 gap-2">
-              {company.services.map((service, idx) => (
-                <li key={idx} className="flex items-start gap-2 text-secondary opacity-80">
+              {company.services.map((service, index) => (
+                <li key={index} className="flex items-start gap-2 text-secondary opacity-80">
                   <span className="text-accent mt-1">•</span>
                   <span>{service}</span>
                 </li>

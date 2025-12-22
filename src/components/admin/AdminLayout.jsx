@@ -65,12 +65,12 @@ const AdminLayout = () => {
           </div>
 
           <nav className="space-y-2">
-            {menuItems.map((item) => {
+            {menuItems.map((item, index) => {
               const Icon = item.icon;
               const isActive = location.pathname === item.path;
               return (
                 <Link
-                  key={item.path}
+                  key={index}
                   to={item.path}
                   className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-all ${
                     isActive

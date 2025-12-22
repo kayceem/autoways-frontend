@@ -313,8 +313,8 @@ const ContactInfoAdmin = () => {
           <SectionHeader title="Social Media Links" section="social" />
           {expandedSections.social && (
             <div className="p-6 space-y-4">
-              {socialPlatforms.map((platform) => (
-                <div key={platform}>
+              {socialPlatforms.map((platform, index) => (
+                <div key={index}>
                   <label className="block text-sm font-medium text-gray-700 mb-2 capitalize">
                     {platform}
                   </label>

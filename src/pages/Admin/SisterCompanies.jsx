@@ -130,8 +130,8 @@ const filteredCompanies = useMemo(() => {
             className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           >
             <option value="">All Categories</option>
-            {categories.map(category => (
-              <option key={category} value={category}>
+            {categories.map((category, index) => (
+              <option key={index} value={category}>
                 {category}
               </option>
             ))}
@@ -141,9 +141,9 @@ const filteredCompanies = useMemo(() => {
 
       {/* Companies Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredCompanies.map((company) => (
+        {filteredCompanies.map((company, index) => (
           <div
-            key={company._id}
+            key={index}
             className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow"
           >
             {/* Cover Image */}

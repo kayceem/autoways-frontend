@@ -404,7 +404,7 @@ const HeroImagesAdmin = () => {
               <tbody className="bg-white divide-y divide-gray-200">
                 {heroImages.map((image, index) => (
                   <tr
-                    key={image._id}
+                    key={index}
                     className={`hover:bg-gray-50 transition-colors ${
                       editingId === image._id ? 'bg-blue-50' : ''
                     }`}

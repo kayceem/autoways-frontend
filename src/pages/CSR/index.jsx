@@ -87,7 +87,7 @@ const CSR = () => {
           <div className="grid gap-4 lg:gap-8">
             {initiatives.map((initiative, index) => (
               <div
-                key={initiative.initiativeId}
+                key={index}
                 className={`grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-8 items-center animate-fade-in-up ${
                   index % 2 !== 0 ? 'lg:flex-row-reverse' : ''
                 }`}
@@ -128,8 +128,8 @@ const CSR = () => {
                   <div className="bg-primary rounded-lg p-4 lg:p-6">
                     <h4 className="text-xl font-bold text-accent mb-4">Key Activities:</h4>
                     <ul className="space-y-3">
-                      {initiative.activities.map((activity, idx) => (
-                        <li key={idx} className="flex items-start gap-3 text-secondary opacity-80">
+                      {initiative.activities.map((activity, index) => (
+                        <li key={index} className="flex items-start gap-3 text-secondary opacity-80">
                           <svg className="w-5 h-5 text-accent mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                             <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                           </svg>

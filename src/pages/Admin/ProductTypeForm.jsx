@@ -191,8 +191,8 @@ const ProductTypeForm = ({
                 } ${editingType ? 'bg-gray-100 cursor-not-allowed' : ''}`}
               >
                 <option value="">Select a brand</option>
-                {brands.map((brand) => (
-                  <option key={brand._id} value={brand._id}>
+                {brands.map((brand, index) => (
+                  <option key={index} value={brand._id}>
                     {brand.name}
                   </option>
                 ))}

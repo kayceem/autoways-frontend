@@ -464,9 +464,9 @@ const NewsMediaAdmin = () => {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {articles.map((article) => (
+                {articles.map((article, index) => (
                   <tr
-                    key={article._id}
+                    key={index}
                     className={`hover:bg-gray-50 transition-colors ${
                       editingId === article._id ? 'bg-blue-50' : ''
                     }`}

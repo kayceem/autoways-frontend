@@ -87,9 +87,9 @@ const Testimonials = () => {
       <section className="py-4 lg:py-8 px-4 lg:px-6">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-wrap justify-center gap-3 lg:gap-4">
-            {categories.map((category) => (
+            {categories.map((category, index) => (
               <button
-                key={category}
+                key={index}
                 onClick={() => setSelectedCategory(category)}
                 className={`px-4 lg:px-6 py-2 rounded-full font-semibold transition-all duration-300 text-sm lg:text-base ${
                   selectedCategory === category
@@ -110,7 +110,7 @@ const Testimonials = () => {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-8">
             {filteredTestimonials.map((testimonial, index) => (
               <div
-                key={testimonial.id}
+                key={index}
                 className="bg-primary rounded-lg p-4 lg:p-8 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 animate-fade-in-up relative"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >

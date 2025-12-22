@@ -510,9 +510,9 @@ const CSRInitiativesAdmin = () => {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {initiatives.map((initiative) => (
+                {initiatives.map((initiative, index) => (
                   <tr
-                    key={initiative._id}
+                    key={index}
                     className={`hover:bg-gray-50 transition-colors ${
                       editingId === initiative._id ? 'bg-blue-50' : ''
                     }`}

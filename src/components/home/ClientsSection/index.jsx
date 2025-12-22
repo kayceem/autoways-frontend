@@ -52,7 +52,7 @@ const ClientsSection = ({ clients = {}, className = "" }) => {
                     <div className="flex gap-6 lg:gap-12 animate-scroll">
                         {duplicatedClients.map((client, index) => (
                             <div
-                                key={`${client.id}-${index}`}
+                                key={index}
                                 className="flex-shrink-0 w-32 h-20 lg:w-[200px] lg:h-[120px] bg-white rounded-xl p-3 lg:p-6 flex items-center justify-center border border-primary/10 hover:shadow-lg transition-shadow duration-300"
                             >
                                 <img

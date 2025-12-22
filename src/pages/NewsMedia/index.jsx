@@ -91,7 +91,7 @@ const NewsMedia = () => {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-8">
             {articles.map((article, index) => (
               <div
-                key={article.id}
+                key={index}
                 className="bg-primary rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 animate-fade-in-up"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >

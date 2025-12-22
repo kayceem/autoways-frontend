@@ -114,9 +114,9 @@ const BrandAdmin = () => {
 
       {/* Brands Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredBrands.map((brand) => (
+        {filteredBrands.map((brand, index) => (
           <div
-            key={brand._id}
+            key={index}
             className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow"
           >
             {/* Brand Hero Image */}

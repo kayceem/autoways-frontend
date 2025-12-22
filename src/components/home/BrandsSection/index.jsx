@@ -35,7 +35,7 @@ const BrandsSection = ({ brands = {}, className = "" }) => {
                 <div className="flex gap-4 lg:gap-8 overflow-x-auto scrollbar-hide px-4 lg:px-6 pb-4 scroll-smooth">
                     {brandArray.map((brand, index) => (
                         <Link
-                            key={brand.id}
+                            key={index}
                             to={`/shop/${brand.slug}`}
                             className="group flex-shrink-0"
                             style={{

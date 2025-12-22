@@ -117,8 +117,8 @@ const Footer = ({ className = "" }) => {
                             Shop by Brand
                         </h4>
                         <ul className="space-y-2 lg:space-y-3 text-sm lg:text-base">
-                            {brandArray.map((brand) => (
-                                <li key={brand.id}>
+                            {brandArray.map((brand, index) => (
+                                <li key={index}>
                                     <Link
                                         to={`/shop/${brand.id}`}
                                         className="text-primary-autoways  hover:text-accent transition-colors duration-300"

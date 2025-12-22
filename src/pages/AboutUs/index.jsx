@@ -16,6 +16,7 @@ const AboutUs = () => {
   }
 
   const { mission, vision, values, milestones, team, stats, chairman_message, md_message} = content.aboutUs[0] || [];
+  console.log('About Us Content:', team);
   const aboutUs = content.aboutUs[0];
 
   // Handlers for timeline navigation
@@ -246,7 +247,7 @@ const AboutUs = () => {
           <div className="grid lg:grid-cols-2 lg:grid-cols-3 gap-8">
             {values.map((value, index) => (
               <div
-                key={value.id}
+                key={index}
                 className="bg-primary rounded-lg p-8 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 animate-fade-in-up"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
@@ -387,7 +388,7 @@ const AboutUs = () => {
       </section>
 
     {/* Leadership Team */}
-    {team && team?.members && (
+    {team?.length > 0 && (
       <section className="py-20 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12 animate-fade-in-up">
@@ -398,9 +399,9 @@ const AboutUs = () => {
             </p>
           </div>
           <div className="grid lg:grid-cols-2 lg:grid-cols-4 gap-8">
-            {team?.members?.map((member, index) => (
+            {team.map((member, index) => (
                 <div
-                key={member.id}
+                key={index}
                 className="bg-primary rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 animate-fade-in-up"
                 style={{ animationDelay: `${index * 0.1}s` }}
                 >

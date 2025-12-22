@@ -144,8 +144,8 @@ const ProductTypesAdmin = () => {
               className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white"
             >
               <option value="">All Brands</option>
-              {brands.map((brand) => (
-                <option key={brand._id} value={brand._id}>
+              {brands.map((brand, index) => (
+                <option key={index} value={brand._id}>
                   {brand.name}
                 </option>
               ))}
@@ -186,7 +186,7 @@ const ProductTypesAdmin = () => {
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 {filteredTypes.map((type, index) => (
-                  <tr key={`${type.brandId}-${type.type}-${index}`} className="hover:bg-gray-50">
+                  <tr key={index} className="hover:bg-gray-50">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="h-16 w-24 bg-gray-100 rounded overflow-hidden">
                         <img
