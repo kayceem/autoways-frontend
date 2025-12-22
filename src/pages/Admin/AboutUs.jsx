@@ -35,7 +35,6 @@ const AboutUsAdmin = () => {
     awards: false
   });
 
-  const [modifiedSections, setModifiedSections] = useState(new Set());
   const [sectionSnapshots, setSectionSnapshots] = useState({});
 
   const [formData, setFormData] = useState({
@@ -78,19 +77,33 @@ const AboutUsAdmin = () => {
     setExpandedSections(prev => ({ ...prev, [section]: !prev[section] }));
   };
 
+  // Deep clone helper function to ensure snapshots are independent
+  const deepClone = (obj) => {
+    if (obj === null || typeof obj !== 'object') return obj;
+    if (obj instanceof Date) return new Date(obj.getTime());
+    if (Array.isArray(obj)) return obj.map(item => deepClone(item));
+    const clonedObj = {};
+    for (const key in obj) {
+      if (Object.prototype.hasOwnProperty.call(obj, key)) {
+        clonedObj[key] = deepClone(obj[key]);
+      }
+    }
+    return clonedObj;
+  };
+
   const handleEditSection = (section) => {
-    // Save snapshot of current section data
+    // Save snapshot of current section data with deep cloning
     const snapshot = {
       basic: { title: formData.title, content: formData.content, image: formData.image },
-      mission: { ...formData.mission },
-      vision: { ...formData.vision },
-      values: [...formData.values],
-      milestones: [...formData.milestones],
-      chairman: { ...formData.chairman_message },
-      md: { ...formData.md_message },
-      team: [...formData.team],
-      certifications: [...formData.certifications],
-      awards: [...formData.awards]
+      mission: deepClone(formData.mission),
+      vision: deepClone(formData.vision),
+      values: deepClone(formData.values),
+      milestones: deepClone(formData.milestones),
+      chairman: deepClone(formData.chairman_message),
+      md: deepClone(formData.md_message),
+      team: deepClone(formData.team),
+      certifications: deepClone(formData.certifications),
+      awards: deepClone(formData.awards)
     };
 
     setSectionSnapshots(prev => ({ ...prev, [section]: snapshot[section] }));
@@ -142,11 +155,6 @@ const AboutUsAdmin = () => {
       });
 
       setEditMode(prev => ({ ...prev, [section]: false }));
-      setModifiedSections(prev => {
-        const newSet = new Set(prev);
-        newSet.delete(section);
-        return newSet;
-      });
       await refetch();
     } catch (error) {
       console.error('Update failed:', error);
@@ -312,39 +320,44 @@ const AboutUsAdmin = () => {
     </div>
   );
 
-  const ImageUploadField = ({ label, imageSrc, onUpload, required = false }) => (
-    <div>
-      <label className="block text-sm font-medium text-gray-700 mb-2">
-        {label} {required && <span className="text-red-500">*</span>}
-      </label>
-      <div className="flex items-start space-x-4">
-        {imageSrc && (
-          <img
-            src={imageSrc.startsWith('data:') ? imageSrc : assetUrl(imageSrc)}
-            alt={label}
-            className="w-24 h-24 object-cover rounded-lg border border-gray-300"
-          />
-        )}
-        <div className="flex-1">
-          <input
-            type="file"
-            accept="image/*"
-            onChange={onUpload}
-            className="hidden"
-            id={`upload-${label.replace(/\s/g, '-')}`}
-          />
-          <label
-            htmlFor={`upload-${label.replace(/\s/g, '-')}`}
-            className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 cursor-pointer"
-          >
-            <Upload className="w-4 h-4 mr-2" />
-            {imageSrc ? 'Change Image' : 'Upload Image'}
-          </label>
-          <p className="text-xs text-gray-500 mt-1">Max 5MB</p>
+  const ImageUploadField = ({ label, imageSrc, onUpload, required = false, uniqueId }) => {
+    // Generate a truly unique ID using timestamp and random number if uniqueId not provided
+    const inputId = uniqueId || `upload-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+
+    return (
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-2">
+          {label} {required && <span className="text-red-500">*</span>}
+        </label>
+        <div className="flex items-start space-x-4">
+          {imageSrc && (
+            <img
+              src={imageSrc.startsWith('data:') ? imageSrc : assetUrl(imageSrc)}
+              alt={label}
+              className="w-24 h-24 object-cover rounded-lg border border-gray-300"
+            />
+          )}
+          <div className="flex-1">
+            <input
+              type="file"
+              accept="image/*"
+              onChange={onUpload}
+              className="hidden"
+              id={inputId}
+            />
+            <label
+              htmlFor={inputId}
+              className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 cursor-pointer"
+            >
+              <Upload className="w-4 h-4 mr-2" />
+              {imageSrc ? 'Change Image' : 'Upload Image'}
+            </label>
+            <p className="text-xs text-gray-500 mt-1">Max 5MB</p>
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  };
 
   return (
     <div>
@@ -395,6 +408,7 @@ const AboutUsAdmin = () => {
                   imageSrc={formData.image}
                   onUpload={(e) => handleImageUpload(e, 'image')}
                   required
+                  uniqueId="upload-basic-image"
                 />
               )}
               {!editMode.basic && formData.image && (
@@ -488,7 +502,7 @@ const AboutUsAdmin = () => {
               )}
 
               {formData.values.map((value, index) => (
-                <div key={index} className="border border-gray-200 rounded-lg p-4 space-y-3">
+                <div key={value.valueId || index} className="border border-gray-200 rounded-lg p-4 space-y-3">
                   <div className="flex justify-between items-start">
                     <h4 className="font-medium text-gray-900">Value {index + 1}</h4>
                     {editMode.values && (
@@ -531,7 +545,7 @@ const AboutUsAdmin = () => {
               {editMode.milestones && (
                 <button
                   type="button"
-                  onClick={() => handleAddArrayItem('milestones', { year: '', title: '', description: '', image: '' })}
+                  onClick={() => handleAddArrayItem('milestones', { id: Date.now(), year: '', title: '', description: '', image: '' })}
                   className="flex items-center space-x-2 text-blue-600 hover:text-blue-700 text-sm font-medium"
                 >
                   <Plus className="w-4 h-4" />
@@ -540,7 +554,7 @@ const AboutUsAdmin = () => {
               )}
 
               {formData.milestones.map((milestone, index) => (
-                <div key={index} className="border border-gray-200 rounded-lg p-4 space-y-3">
+                <div key={milestone.id || index} className="border border-gray-200 rounded-lg p-4 space-y-3">
                   <div className="flex justify-between items-start">
                     <h4 className="font-medium text-gray-900">Milestone {index + 1}</h4>
                     {editMode.milestones && (
@@ -582,6 +596,7 @@ const AboutUsAdmin = () => {
                       label={`Milestone ${index + 1} Image`}
                       imageSrc={milestone.image}
                       onUpload={(e) => handleImageUpload(e, 'milestones', 'image', index)}
+                      uniqueId={`upload-milestone-${index}`}
                     />
                   )}
                   {!editMode.milestones && milestone.image && (
@@ -642,6 +657,7 @@ const AboutUsAdmin = () => {
                   label="Chairman Photo"
                   imageSrc={formData.chairman_message.image}
                   onUpload={(e) => handleImageUpload(e, 'chairman_message', 'image')}
+                  uniqueId="upload-chairman-image"
                 />
               )}
               {!editMode.chairman && formData.chairman_message.image && (
@@ -700,6 +716,7 @@ const AboutUsAdmin = () => {
                   label="MD Photo"
                   imageSrc={formData.md_message.image}
                   onUpload={(e) => handleImageUpload(e, 'md_message', 'image')}
+                  uniqueId="upload-md-image"
                 />
               )}
               {!editMode.md && formData.md_message.image && (
@@ -742,7 +759,7 @@ const AboutUsAdmin = () => {
               )}
 
               {formData.team.map((member, index) => (
-                <div key={index} className="border border-gray-200 rounded-lg p-4 space-y-3">
+                <div key={member.id || index} className="border border-gray-200 rounded-lg p-4 space-y-3">
                   <div className="flex justify-between items-start">
                     <h4 className="font-medium text-gray-900">{member.name || `Team Member ${index + 1}`}</h4>
                     {editMode.team && (
@@ -810,6 +827,7 @@ const AboutUsAdmin = () => {
                       label={`${member.name || 'Member'} Photo`}
                       imageSrc={member.image}
                       onUpload={(e) => handleImageUpload(e, 'team', 'image', index)}
+                      uniqueId={`upload-team-${index}`}
                     />
                   )}
                   {!editMode.team && member.image && (
@@ -852,7 +870,7 @@ const AboutUsAdmin = () => {
               )}
 
               {formData.certifications.map((cert, index) => (
-                <div key={index} className="border border-gray-200 rounded-lg p-4 space-y-3">
+                <div key={cert.id || index} className="border border-gray-200 rounded-lg p-4 space-y-3">
                   <div className="flex justify-between items-start">
                     <h4 className="font-medium text-gray-900">{cert.name || `Certification ${index + 1}`}</h4>
                     {editMode.certifications && (
@@ -904,6 +922,7 @@ const AboutUsAdmin = () => {
                       label={`${cert.name || 'Certification'} Image`}
                       imageSrc={cert.image}
                       onUpload={(e) => handleImageUpload(e, 'certifications', 'image', index)}
+                      uniqueId={`upload-certification-${index}`}
                     />
                   )}
                   {!editMode.certifications && cert.image && (
@@ -946,7 +965,7 @@ const AboutUsAdmin = () => {
               )}
 
               {formData.awards.map((award, index) => (
-                <div key={index} className="border border-gray-200 rounded-lg p-4 space-y-3">
+                <div key={award.id || index} className="border border-gray-200 rounded-lg p-4 space-y-3">
                   <div className="flex justify-between items-start">
                     <h4 className="font-medium text-gray-900">{award.title || `Award ${index + 1}`}</h4>
                     {editMode.awards && (
@@ -998,6 +1017,7 @@ const AboutUsAdmin = () => {
                       label={`${award.title || 'Award'} Image`}
                       imageSrc={award.image}
                       onUpload={(e) => handleImageUpload(e, 'awards', 'image', index)}
+                      uniqueId={`upload-award-${index}`}
                     />
                   )}
                   {!editMode.awards && award.image && (
