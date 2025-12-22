@@ -78,9 +78,11 @@ const SparesParts = () => {
                         <img
                             src={assetUrl(sparePart.image)}
                             alt="Spares & Parts"
-                            className={`w-full h-full object-cover opacity-90 animate-hero-image transition-opacity duration-500 ${
-                                heroImageLoaded ? 'opacity-90' : 'opacity-0'
-                            }`}
+                            className="w-full h-full object-cover animate-hero-image transition-opacity duration-500"
+                            style={{
+                                opacity: heroImageLoaded ? 0.9 : 0,
+                                visibility: heroImageLoaded ? 'visible' : 'hidden'
+                            }}
                             onLoad={() => setHeroImageLoaded(true)}
                             loading="eager"
                             fetchPriority="high"
