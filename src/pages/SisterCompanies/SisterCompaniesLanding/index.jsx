@@ -1,4 +1,5 @@
 import { useParams, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 import LoadingSpinner from "../../../components/common/Loading";
 import { getSisterCompanyData, assetUrl } from "../../../utils";
 import { useContent } from "../../../context/globalContext";
@@ -7,6 +8,20 @@ const SisterCompaniesLanding = () => {
     const { companySlug } = useParams();
     const navigate = useNavigate();
     const { content, isLoading, error } = useContent();
+    const [heroImageLoaded, setHeroImageLoaded] = useState(false);
+
+    const companyData = !isLoading && !error ? getSisterCompanyData(content?.sisterCompanies, companySlug) : null;
+
+    // Preload hero image for instant display on navigation
+    useEffect(() => {
+        if (companyData?.image) {
+            const img = new Image();
+            img.src = assetUrl(companyData.image);
+            img.onload = () => {
+                setHeroImageLoaded(true);
+            };
+        }
+    }, [companyData?.image]);
 
     if (isLoading) {
         return <LoadingSpinner />;
@@ -16,8 +31,6 @@ const SisterCompaniesLanding = () => {
         window.location.href = "/not-found";
         return null;
     }
-
-    const companyData = getSisterCompanyData(content?.sisterCompanies, companySlug);
 
     if (!companyData) {
         window.location.href = "/not-found";
@@ -30,12 +43,42 @@ const SisterCompaniesLanding = () => {
             <section className="relative h-[300px] lg:h-[600px] flex items-center justify-center overflow-hidden">
                 {/* Background Image */}
                 <div className="absolute inset-0 bg-secondary">
+                    {/* Loading Skeleton - Enhanced with realistic blurred gradient */}
+                    {!heroImageLoaded && companyData?.image && (
+                        <div className="absolute inset-0 overflow-hidden">
+                            {/* Base gradient simulating blurred banner */}
+                            <div
+                                className="absolute inset-0 animate-pulse"
+                                style={{
+                                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #4facfe 75%, #00f2fe 100%)',
+                                    filter: 'blur(60px)',
+                                    transform: 'scale(1.2)',
+                                }}
+                            />
+                            {/* Overlay for depth */}
+                            <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/10 to-black/40" />
+                            {/* Shimmer effect */}
+                            <div
+                                className="absolute inset-0 opacity-30"
+                                style={{
+                                    background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%)',
+                                    animation: 'shimmer 2s infinite',
+                                }}
+                            />
+                        </div>
+                    )}
+
+                    {/* Hero Image */}
                     {companyData?.image && (
                         <img
                             src={assetUrl(companyData.image)}
                             alt={companyData.name}
-                            className="w-full h-full object-cover opacity-90"
+                            className={`w-full h-full object-cover opacity-90 animate-hero-image transition-opacity duration-500 ${
+                                heroImageLoaded ? 'opacity-90' : 'opacity-0'
+                            }`}
+                            onLoad={() => setHeroImageLoaded(true)}
                             loading="eager"
+                            fetchPriority="high"
                         />
                     )}
                     <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/50 to-primary" />

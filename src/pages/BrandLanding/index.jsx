@@ -44,10 +44,28 @@ const BrandLanding = () => {
             <section className="relative h-[300px] lg:h-[600px] flex items-center justify-center overflow-hidden">
                 {/* Background Image */}
                 <div className={`absolute inset-0 bg-secondary`}>
-                    {/* Loading Skeleton */}
+                    {/* Loading Skeleton - Enhanced with realistic blurred gradient */}
                     {!heroImageLoaded && brandData?.heroImage && (
-                        <div className="absolute inset-0 bg-gradient-to-br from-gray-200 via-gray-300 to-gray-200 animate-pulse">
-                            <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/10 to-black/30" />
+                        <div className="absolute inset-0 overflow-hidden">
+                            {/* Base gradient simulating blurred banner */}
+                            <div
+                                className="absolute inset-0 animate-pulse"
+                                style={{
+                                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #4facfe 75%, #00f2fe 100%)',
+                                    filter: 'blur(60px)',
+                                    transform: 'scale(1.2)',
+                                }}
+                            />
+                            {/* Overlay for depth */}
+                            <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/10 to-black/40" />
+                            {/* Shimmer effect */}
+                            <div
+                                className="absolute inset-0 opacity-30"
+                                style={{
+                                    background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%)',
+                                    animation: 'shimmer 2s infinite',
+                                }}
+                            />
                         </div>
                     )}
 
