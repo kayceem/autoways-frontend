@@ -482,89 +482,100 @@ const deleteTestimonialFiles = async (imagePath) => {
 
 /**
  * Process about us files
+ * Only processes fields that are present in aboutUsData to support partial updates
  */
 const processAboutUsFiles = async (aboutUsData) => {
   try {
-    const { image, milestones, chairman_message, md_message, team, certifications, awards } = aboutUsData;
+    const result = { ...aboutUsData };
 
-    // Process main image
-    let savedImagePath = image;
-    if (image && image.startsWith('data:')) {
-      savedImagePath = await saveImageGeneric(image, 'about', `about_main_${Date.now()}`);
-    }
-
-    // Process milestones
-    const processedMilestones = [];
-    if (milestones && milestones.length > 0) {
-      for (let i = 0; i < milestones.length; i++) {
-        const milestone = milestones[i];
-        let milestoneImage = milestone.image;
-        if (milestoneImage && milestoneImage.startsWith('data:')) {
-          milestoneImage = await saveImageGeneric(milestoneImage, 'about/milestones', `milestone_${milestone.year}_${i}`);
-        }
-        processedMilestones.push({ ...milestone, image: milestoneImage });
+    // Process main image only if present
+    if (aboutUsData.image !== undefined) {
+      if (aboutUsData.image && aboutUsData.image.startsWith('data:')) {
+        result.image = await saveImageGeneric(aboutUsData.image, 'about', `about_main_${Date.now()}`);
       }
     }
 
-    // Process chairman message image
-    let chairmanImage = chairman_message?.image;
-    if (chairmanImage && chairmanImage.startsWith('data:')) {
-      chairmanImage = await saveImageGeneric(chairmanImage, 'about/leadership', 'chairman');
-    }
-
-    // Process MD message image
-    let mdImage = md_message?.image;
-    if (mdImage && mdImage.startsWith('data:')) {
-      mdImage = await saveImageGeneric(mdImage, 'about/leadership', 'md');
-    }
-
-    // Process team images
-    const processedTeam = [];
-    if (team && team.length > 0) {
-      for (const member of team) {
-        let memberImage = member.image;
-        if (memberImage && memberImage.startsWith('data:')) {
-          const cleanName = cleanFileName(member.name);
-          memberImage = await saveImageGeneric(memberImage, 'about/team', `team_${cleanName}_${member.id}`);
+    // Process milestones only if present
+    if (aboutUsData.milestones !== undefined) {
+      const processedMilestones = [];
+      if (aboutUsData.milestones && aboutUsData.milestones.length > 0) {
+        for (let i = 0; i < aboutUsData.milestones.length; i++) {
+          const milestone = aboutUsData.milestones[i];
+          let milestoneImage = milestone.image;
+          if (milestoneImage && milestoneImage.startsWith('data:')) {
+            milestoneImage = await saveImageGeneric(milestoneImage, 'about/milestones', `milestone_${milestone.year}_${i}`);
+          }
+          processedMilestones.push({ ...milestone, image: milestoneImage });
         }
-        processedTeam.push({ ...member, image: memberImage });
       }
+      result.milestones = processedMilestones;
     }
 
-    // Process certifications images
-    const processedCertifications = [];
-    if (certifications && certifications.length > 0) {
-      for (const cert of certifications) {
-        let certImage = cert.image;
-        if (certImage && certImage.startsWith('data:')) {
-          certImage = await saveImageGeneric(certImage, 'about/certifications', `cert_${cert.id}`);
+    // Process chairman message only if present
+    if (aboutUsData.chairman_message !== undefined) {
+      let chairmanImage = aboutUsData.chairman_message?.image;
+      if (chairmanImage && chairmanImage.startsWith('data:')) {
+        chairmanImage = await saveImageGeneric(chairmanImage, 'about/leadership', 'chairman');
+      }
+      result.chairman_message = aboutUsData.chairman_message ? { ...aboutUsData.chairman_message, image: chairmanImage } : aboutUsData.chairman_message;
+    }
+
+    // Process MD message only if present
+    if (aboutUsData.md_message !== undefined) {
+      let mdImage = aboutUsData.md_message?.image;
+      if (mdImage && mdImage.startsWith('data:')) {
+        mdImage = await saveImageGeneric(mdImage, 'about/leadership', 'md');
+      }
+      result.md_message = aboutUsData.md_message ? { ...aboutUsData.md_message, image: mdImage } : aboutUsData.md_message;
+    }
+
+    // Process team only if present
+    if (aboutUsData.team !== undefined) {
+      const processedTeam = [];
+      if (aboutUsData.team && aboutUsData.team.length > 0) {
+        for (const member of aboutUsData.team) {
+          let memberImage = member.image;
+          if (memberImage && memberImage.startsWith('data:')) {
+            const cleanName = cleanFileName(member.name || 'member');
+            memberImage = await saveImageGeneric(memberImage, 'about/team', `team_${cleanName}_${member.id}`);
+          }
+          processedTeam.push({ ...member, image: memberImage });
         }
-        processedCertifications.push({ ...cert, image: certImage });
       }
+      result.team = processedTeam;
     }
 
-    // Process awards images
-    const processedAwards = [];
-    if (awards && awards.length > 0) {
-      for (const award of awards) {
-        let awardImage = award.image;
-        if (awardImage && awardImage.startsWith('data:')) {
-          awardImage = await saveImageGeneric(awardImage, 'about/awards', `award_${award.id}`);
+    // Process certifications only if present
+    if (aboutUsData.certifications !== undefined) {
+      const processedCertifications = [];
+      if (aboutUsData.certifications && aboutUsData.certifications.length > 0) {
+        for (const cert of aboutUsData.certifications) {
+          let certImage = cert.image;
+          if (certImage && certImage.startsWith('data:')) {
+            certImage = await saveImageGeneric(certImage, 'about/certifications', `cert_${cert.id}`);
+          }
+          processedCertifications.push({ ...cert, image: certImage });
         }
-        processedAwards.push({ ...award, image: awardImage });
       }
+      result.certifications = processedCertifications;
     }
 
-    return {
-      ...aboutUsData,
-      image: savedImagePath,
-      milestones: processedMilestones,
-      chairman_message: chairman_message ? { ...chairman_message, image: chairmanImage } : chairman_message,
-      md_message: md_message ? { ...md_message, image: mdImage } : md_message,
-      team: processedTeam,
-      certifications: processedCertifications,
-      awards: processedAwards
-    };
+    // Process awards only if present
+    if (aboutUsData.awards !== undefined) {
+      const processedAwards = [];
+      if (aboutUsData.awards && aboutUsData.awards.length > 0) {
+        for (const award of aboutUsData.awards) {
+          let awardImage = award.image;
+          if (awardImage && awardImage.startsWith('data:')) {
+            awardImage = await saveImageGeneric(awardImage, 'about/awards', `award_${award.id}`);
+          }
+          processedAwards.push({ ...award, image: awardImage });
+        }
+      }
+      result.awards = processedAwards;
+    }
+
+    return result;
   } catch (error) {
     console.error('Error processing about us files:', error);
     throw error;
