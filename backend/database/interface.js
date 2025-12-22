@@ -690,11 +690,95 @@ const updateAboutUs = asyncHandler(async (req, res) => {
     }
 
     const oldData = aboutUs.toObject();
-    const processedData = await processAboutUsFiles(req.body);
+
+    // Process only the fields that are present in req.body
+    const updateData = {};
+
+    // Process each field that exists in req.body
+    for (const [key, value] of Object.entries(req.body)) {
+        if (key === 'image' && value) {
+            // Process main image
+            if (value.startsWith('data:')) {
+                const { saveImageGeneric } = require('./utils.js');
+                updateData.image = await saveImageGeneric(value, 'about', `about_main_${Date.now()}`);
+            } else {
+                updateData.image = value;
+            }
+        } else if (key === 'milestones' && value) {
+            // Process milestones array
+            const processedMilestones = [];
+            for (let i = 0; i < value.length; i++) {
+                const milestone = value[i];
+                let milestoneImage = milestone.image;
+                if (milestoneImage && milestoneImage.startsWith('data:')) {
+                    const { saveImageGeneric } = require('./utils.js');
+                    milestoneImage = await saveImageGeneric(milestoneImage, 'about/milestones', `milestone_${milestone.year}_${i}`);
+                }
+                processedMilestones.push({ ...milestone, image: milestoneImage });
+            }
+            updateData.milestones = processedMilestones;
+        } else if (key === 'chairman_message' && value) {
+            // Process chairman message
+            let chairmanImage = value.image;
+            if (chairmanImage && chairmanImage.startsWith('data:')) {
+                const { saveImageGeneric } = require('./utils.js');
+                chairmanImage = await saveImageGeneric(chairmanImage, 'about/leadership', 'chairman');
+            }
+            updateData.chairman_message = { ...value, image: chairmanImage };
+        } else if (key === 'md_message' && value) {
+            // Process MD message
+            let mdImage = value.image;
+            if (mdImage && mdImage.startsWith('data:')) {
+                const { saveImageGeneric } = require('./utils.js');
+                mdImage = await saveImageGeneric(mdImage, 'about/leadership', 'md');
+            }
+            updateData.md_message = { ...value, image: mdImage };
+        } else if (key === 'team' && value) {
+            // Process team array
+            const processedTeam = [];
+            for (const member of value) {
+                let memberImage = member.image;
+                if (memberImage && memberImage.startsWith('data:')) {
+                    const { saveImageGeneric } = require('./utils.js');
+                    const cleanName = (member.name || 'member').toLowerCase().replace(/[^a-z0-9]/g, '_');
+                    memberImage = await saveImageGeneric(memberImage, 'about/team', `team_${cleanName}_${member.id}`);
+                }
+                processedTeam.push({ ...member, image: memberImage });
+            }
+            updateData.team = processedTeam;
+        } else if (key === 'certifications' && value) {
+            // Process certifications array
+            const processedCertifications = [];
+            for (const cert of value) {
+                let certImage = cert.image;
+                if (certImage && certImage.startsWith('data:')) {
+                    const { saveImageGeneric } = require('./utils.js');
+                    certImage = await saveImageGeneric(certImage, 'about/certifications', `cert_${cert.id}`);
+                }
+                processedCertifications.push({ ...cert, image: certImage });
+            }
+            updateData.certifications = processedCertifications;
+        } else if (key === 'awards' && value) {
+            // Process awards array
+            const processedAwards = [];
+            for (const award of value) {
+                let awardImage = award.image;
+                if (awardImage && awardImage.startsWith('data:')) {
+                    const { saveImageGeneric } = require('./utils.js');
+                    awardImage = await saveImageGeneric(awardImage, 'about/awards', `award_${award.id}`);
+                }
+                processedAwards.push({ ...award, image: awardImage });
+            }
+            updateData.awards = processedAwards;
+        } else {
+            // For other fields (title, content, mission, vision, values), use as-is
+            updateData[key] = value;
+        }
+    }
 
     aboutUs = await AboutUs.findByIdAndUpdate(
         req.params.id,
-        processedData,
+        updateData,
         { new: true, runValidators: true }
     );
 
