@@ -29,6 +29,7 @@ import AboutUsAdmin from "../Admin/AboutUs";
 import ContactInfoAdmin from "../Admin/ContactInfo";
 import LocationsAdmin from "../Admin/Locations";
 import CSRInitiativesAdmin from "../Admin/CSRInitiatives";
+import CSRHeroAdmin from "../Admin/CSRHero";
 import NewsMediaAdmin from "../Admin/NewsMedia";
 import SparePartsAdmin from "../Admin/SpareParts";
 import SisterCompaniesAdmin from "../Admin/SisterCompanies";
@@ -56,6 +57,7 @@ const PageRoutes = () => {
                 <Route path="contact-info" element={<ContactInfoAdmin />} />
                 <Route path="locations" element={<LocationsAdmin />} />
                 <Route path="csr-initiatives" element={<CSRInitiativesAdmin />} />
+                <Route path="csr-hero" element={<CSRHeroAdmin />} />
                 <Route path="news-media" element={<NewsMediaAdmin />} />
                 <Route path="spare-parts" element={<SparePartsAdmin />} />
                 <Route path="sister-companies" element={<SisterCompaniesAdmin />} />

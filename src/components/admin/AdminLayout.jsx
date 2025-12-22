@@ -12,6 +12,7 @@ import {
   X,
   MapPin,
   Award,
+  Heart,
   Newspaper,
   Wrench,
   Building2,
@@ -34,6 +35,7 @@ const AdminLayout = () => {
     { path: '/admin/contact-info', label: 'Contact Info', icon: Phone },
     { path: '/admin/locations', label: 'Locations', icon: MapPin },
     { path: '/admin/csr-initiatives', label: 'CSR Initiatives', icon: Award },
+    { path: '/admin/csr-hero', label: 'CSR Hero', icon: Heart },
     { path: '/admin/news-media', label: 'News & Media', icon: Newspaper },
     { path: '/admin/spare-parts', label: 'Spare Parts', icon: Wrench },
   ];
