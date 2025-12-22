@@ -46,7 +46,15 @@ const {
 } = require('./utils.js');
 
 const DATA_FILE_PATH = path.join(__dirname, '..', 'assets', 'data.json');
+const BASE_CHANGES_DIR = path.join(__dirname, '..', 'logs', 'data');
 
+try {
+    fs.mkdir(BASE_CHANGES_DIR, { recursive: true }).catch((err) => {
+        logger.error('Error creating data changes directory:', err);
+    });
+} catch (error) {
+    logger.error('Error creating data changes directory:', error);
+}
 // ==================== UTILITY FUNCTIONS ====================
 const asyncHandler = (fn) => (req, res, next) => {
     Promise.resolve(fn(req, res, next)).catch(next);
@@ -70,6 +78,15 @@ const readDataFile = async () => {
 
 // Write data to data.json
 const writeDataFile = async (data) => {
+    try {
+        const oldData = await readDataFile().catch(() => null);
+        if (oldData) {
+            const changesFilePath = path.join(BASE_CHANGES_DIR, `${Date.now()}.json`);
+            await fs.writeFile(changesFilePath, JSON.stringify(oldData, null, 2), 'utf-8');
+            }
+     } catch (error) {
+        logger.error('Error reading old data.json file:', error);       
+    }
     await fs.writeFile(DATA_FILE_PATH, JSON.stringify(data, null, 2), 'utf-8');
 };
 
