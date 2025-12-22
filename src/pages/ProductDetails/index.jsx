@@ -193,7 +193,7 @@ const ProductDetails = () => {
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6 mb-10">
-                        <a href={`tel:${siteContent?.info?.phone}`} className="flex items-center gap-4 p-5 rounded-lg border border-primary/20 hover:border-accent hover:bg-primary/5 transition-all duration-300 bg-transparent text-primary group cursor-pointer hover:-translate-y-1 animate-slide-up">
+                        <a href={`tel:${siteContent?.contactInfo?.[0].phone}`} className="flex items-center gap-4 p-5 rounded-lg border border-primary/20 hover:border-accent hover:bg-primary/5 transition-all duration-300 bg-transparent text-primary group cursor-pointer hover:-translate-y-1 animate-slide-up">
                             <div className="p-3 rounded-full bg-accent/20 group-hover:bg-accent/30 transition-all duration-300 group-hover:scale-110">
                                 <Phone size={20} className="text-accent" />
                             </div>
@@ -203,7 +203,7 @@ const ProductDetails = () => {
                             </div>
                         </a>
 
-                        <a href={`mailto:${siteContent?.info?.email}`} className="flex items-center gap-4 p-5 rounded-lg border border-primary/20 hover:border-accent hover:bg-primary/5 transition-all duration-300 bg-transparent text-primary group cursor-pointer hover:-translate-y-1 animate-slide-up" style={{animationDelay: '100ms'}}>
+                        <a href={`mailto:${siteContent?.contactInfo?.[0].email}`} className="flex items-center gap-4 p-5 rounded-lg border border-primary/20 hover:border-accent hover:bg-primary/5 transition-all duration-300 bg-transparent text-primary group cursor-pointer hover:-translate-y-1 animate-slide-up" style={{animationDelay: '100ms'}}>
                             <div className="p-3 rounded-full bg-accent/20 group-hover:bg-accent/30 transition-all duration-300 group-hover:scale-110">
                                 <Mail size={20} className="text-accent" />
                             </div>

@@ -9,6 +9,7 @@ const AboutUsAdmin = () => {
   const { content, isLoading, refetch } = useContext(ContentContext);
   const updateAboutUs = useUpdateAboutUs();
   const [aboutData, setAboutData] = useState(null);
+  const [activeTab, setActiveTab] = useState('basic');
   const [expandedSections, setExpandedSections] = useState({
     basic: true,
     mission: false,
@@ -35,7 +36,6 @@ const AboutUsAdmin = () => {
     awards: false
   });
 
-  const [modifiedSections, setModifiedSections] = useState(new Set());
   const [sectionSnapshots, setSectionSnapshots] = useState({});
 
   const [formData, setFormData] = useState({
@@ -78,19 +78,92 @@ const AboutUsAdmin = () => {
     setExpandedSections(prev => ({ ...prev, [section]: !prev[section] }));
   };
 
+  // Deep clone helper function to ensure snapshots are independent
+  const deepClone = (obj) => {
+    if (obj === null || typeof obj !== 'object') return obj;
+    if (obj instanceof Date) return new Date(obj.getTime());
+    if (Array.isArray(obj)) return obj.map(item => deepClone(item));
+    const clonedObj = {};
+    for (const key in obj) {
+      if (Object.prototype.hasOwnProperty.call(obj, key)) {
+        clonedObj[key] = deepClone(obj[key]);
+      }
+    }
+    return clonedObj;
+  };
+
+  // Validation functions for each section
+  const validateSection = (section) => {
+    switch (section) {
+      case 'basic':
+        return !!(formData.title?.trim() && formData.content?.trim() && formData.image);
+
+      case 'mission':
+        return !!(formData.mission?.title?.trim() && formData.mission?.content?.trim());
+
+      case 'vision':
+        return !!(formData.vision?.title?.trim() && formData.vision?.content?.trim());
+
+      case 'values':
+        return formData.values?.every(v => v.title?.trim() && v.description?.trim());
+
+      case 'milestones':
+        return formData.milestones?.every(m =>
+          m.year?.trim() && m.title?.trim() && m.description?.trim() && m.image
+        );
+
+      case 'chairman':
+        return !!(
+          formData.chairman_message?.title?.trim() &&
+          formData.chairman_message?.name?.trim() &&
+          formData.chairman_message?.position?.trim() &&
+          formData.chairman_message?.message?.trim() &&
+          formData.chairman_message?.image
+        );
+
+      case 'md':
+        return !!(
+          formData.md_message?.title?.trim() &&
+          formData.md_message?.name?.trim() &&
+          formData.md_message?.position?.trim() &&
+          formData.md_message?.message?.trim() &&
+          formData.md_message?.image
+        );
+
+      case 'team':
+        return formData.team?.every(t =>
+          t.name?.trim() && t.position?.trim() && t.department?.trim() && t.image
+          // email, phone, bio are optional
+        );
+
+      case 'certifications':
+        return formData.certifications?.every(c =>
+          c.name?.trim() && c.issuedBy?.trim() && c.year?.trim() && c.description?.trim() && c.image
+        );
+
+      case 'awards':
+        return formData.awards?.every(a =>
+          a.title?.trim() && a.year?.trim() && a.issuedBy?.trim() && a.description?.trim() && a.image
+        );
+
+      default:
+        return true;
+    }
+  };
+
   const handleEditSection = (section) => {
-    // Save snapshot of current section data
+    // Save snapshot of current section data with deep cloning
     const snapshot = {
       basic: { title: formData.title, content: formData.content, image: formData.image },
-      mission: { ...formData.mission },
-      vision: { ...formData.vision },
-      values: [...formData.values],
-      milestones: [...formData.milestones],
-      chairman: { ...formData.chairman_message },
-      md: { ...formData.md_message },
-      team: [...formData.team],
-      certifications: [...formData.certifications],
-      awards: [...formData.awards]
+      mission: deepClone(formData.mission),
+      vision: deepClone(formData.vision),
+      values: deepClone(formData.values),
+      milestones: deepClone(formData.milestones),
+      chairman: deepClone(formData.chairman_message),
+      md: deepClone(formData.md_message),
+      team: deepClone(formData.team),
+      certifications: deepClone(formData.certifications),
+      awards: deepClone(formData.awards)
     };
 
     setSectionSnapshots(prev => ({ ...prev, [section]: snapshot[section] }));
@@ -142,11 +215,6 @@ const AboutUsAdmin = () => {
       });
 
       setEditMode(prev => ({ ...prev, [section]: false }));
-      setModifiedSections(prev => {
-        const newSet = new Set(prev);
-        newSet.delete(section);
-        return newSet;
-      });
       await refetch();
     } catch (error) {
       console.error('Update failed:', error);
@@ -248,103 +316,122 @@ const AboutUsAdmin = () => {
     );
   }
 
-  const SectionHeader = ({ title, section, badge = null }) => (
-    <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-      <div
-        className="flex items-center space-x-2 cursor-pointer flex-1"
-        onClick={() => toggleSection(section)}
-      >
-        <h3 className="text-lg font-semibold text-gray-900">{title}</h3>
-        {badge && (
-          <span className="px-2 py-1 bg-blue-100 text-blue-600 text-xs font-medium rounded-full">
-            {badge}
-          </span>
-        )}
-      </div>
-      <div className="flex items-center space-x-2">
-        {editMode[section] ? (
-          <>
+  const SectionHeader = ({ title, section, badge = null }) => {
+    const isSaveDisabled = editMode[section] && !validateSection(section);
+
+    return (
+      <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+        <div
+          className="flex items-center space-x-2 cursor-pointer flex-1"
+          onClick={() => toggleSection(section)}
+        >
+          <h3 className="text-lg font-semibold text-gray-900">{title}</h3>
+          {badge !== null && badge !== undefined && (
+            <span className="px-2 py-1 bg-blue-100 text-blue-600 text-xs font-medium rounded-full">
+              {badge}
+            </span>
+          )}
+        </div>
+        <div className="flex items-center space-x-2">
+          {editMode[section] ? (
+            <>
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleCancelSection(section);
+                }}
+                className="px-3 py-1 text-sm border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors flex items-center space-x-1"
+              >
+                <X className="w-4 h-4" />
+                <span>Cancel</span>
+              </button>
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleSaveSection(section);
+                }}
+                disabled={updateAboutUs.isPending || isSaveDisabled}
+                className="px-3 py-1 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-1 disabled:opacity-50 disabled:cursor-not-allowed"
+                title={isSaveDisabled ? 'Please fill all required fields' : ''}
+              >
+                <Save className="w-4 h-4" />
+                <span>Save</span>
+              </button>
+            </>
+          ) : (
             <button
               type="button"
               onClick={(e) => {
                 e.stopPropagation();
-                handleCancelSection(section);
+                handleEditSection(section);
               }}
               className="px-3 py-1 text-sm border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors flex items-center space-x-1"
             >
-              <X className="w-4 h-4" />
-              <span>Cancel</span>
+              <Edit2 className="w-4 h-4" />
+              <span>Edit</span>
             </button>
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                handleSaveSection(section);
-              }}
-              disabled={updateAboutUs.isPending}
-              className="px-3 py-1 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-1 disabled:opacity-50"
-            >
-              <Save className="w-4 h-4" />
-              <span>Save</span>
-            </button>
-          </>
-        ) : (
-          <button
-            type="button"
-            onClick={(e) => {
-              e.stopPropagation();
-              handleEditSection(section);
-            }}
-            className="px-3 py-1 text-sm border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors flex items-center space-x-1"
-          >
-            <Edit2 className="w-4 h-4" />
-            <span>Edit</span>
-          </button>
-        )}
-        <div className="cursor-pointer" onClick={() => toggleSection(section)}>
-          {expandedSections[section] ? (
-            <ChevronUp className="w-5 h-5 text-gray-500" />
-          ) : (
-            <ChevronDown className="w-5 h-5 text-gray-500" />
           )}
+          <div className="cursor-pointer" onClick={() => toggleSection(section)}>
+            {expandedSections[section] ? (
+              <ChevronUp className="w-5 h-5 text-gray-500" />
+            ) : (
+              <ChevronDown className="w-5 h-5 text-gray-500" />
+            )}
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  };
 
-  const ImageUploadField = ({ label, imageSrc, onUpload, required = false }) => (
-    <div>
-      <label className="block text-sm font-medium text-gray-700 mb-2">
-        {label} {required && <span className="text-red-500">*</span>}
-      </label>
-      <div className="flex items-start space-x-4">
-        {imageSrc && (
-          <img
-            src={imageSrc.startsWith('data:') ? imageSrc : assetUrl(imageSrc)}
-            alt={label}
-            className="w-24 h-24 object-cover rounded-lg border border-gray-300"
-          />
-        )}
-        <div className="flex-1">
-          <input
-            type="file"
-            accept="image/*"
-            onChange={onUpload}
-            className="hidden"
-            id={`upload-${label.replace(/\s/g, '-')}`}
-          />
-          <label
-            htmlFor={`upload-${label.replace(/\s/g, '-')}`}
-            className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 cursor-pointer"
-          >
-            <Upload className="w-4 h-4 mr-2" />
-            {imageSrc ? 'Change Image' : 'Upload Image'}
-          </label>
-          <p className="text-xs text-gray-500 mt-1">Max 5MB</p>
+  const ImageUploadField = ({ label, imageSrc, onUpload, required = false, uniqueId }) => {
+    // Generate a truly unique ID using timestamp and random number if uniqueId not provided
+    const inputId = uniqueId || `upload-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+
+    return (
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-2">
+          {label} {required && <span className="text-red-500">*</span>}
+        </label>
+        <div className="flex items-start space-x-4">
+          {imageSrc && (
+            <img
+              src={imageSrc.startsWith('data:') ? imageSrc : assetUrl(imageSrc)}
+              alt={label}
+              className="w-24 h-24 object-cover rounded-lg border border-gray-300"
+            />
+          )}
+          <div className="flex-1">
+            <input
+              type="file"
+              accept="image/*"
+              onChange={onUpload}
+              className="hidden"
+              id={inputId}
+            />
+            <label
+              htmlFor={inputId}
+              className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 cursor-pointer"
+            >
+              <Upload className="w-4 h-4 mr-2" />
+              {imageSrc ? 'Change Image' : 'Upload Image'}
+            </label>
+            <p className="text-xs text-gray-500 mt-1">Max 5MB</p>
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  };
+
+  const tabs = [
+    { id: 'basic', name: 'Basic & Mission/Vision', count: null },
+    { id: 'values', name: 'Values', count: formData.values?.length || 0 },
+    { id: 'milestones', name: 'Milestones', count: formData.milestones?.length || 0 },
+    { id: 'leadership', name: 'Leadership', count: null },
+    { id: 'team', name: 'Team', count: formData.team?.length || 0 },
+    { id: 'achievements', name: 'Certifications & Awards', count: (formData.certifications?.length || 0) + (formData.awards?.length || 0) }
+  ];
 
   return (
     <div>
@@ -353,10 +440,43 @@ const AboutUsAdmin = () => {
         <p className="text-gray-600 mt-1">Manage all About Us page content</p>
       </div>
 
+      {/* Tab Navigation */}
+      <div className="mb-6">
+        <div className="border-b border-gray-200">
+          <nav className="-mb-px flex space-x-8 overflow-x-auto" aria-label="Tabs">
+            {tabs.map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`
+                  whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors
+                  ${activeTab === tab.id
+                    ? 'border-blue-500 text-blue-600'
+                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  }
+                `}
+              >
+                {tab.name}
+                {tab.count !== null && (
+                  <span className={`ml-2 py-0.5 px-2 rounded-full text-xs ${
+                    activeTab === tab.id ? 'bg-blue-100 text-blue-600' : 'bg-gray-100 text-gray-600'
+                  }`}>
+                    {tab.count}
+                  </span>
+                )}
+              </button>
+            ))}
+          </nav>
+        </div>
+      </div>
+
       <div className="space-y-6">
-        {/* Basic Information */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-          <SectionHeader title="Basic Information" section="basic" />
+        {/* Basic & Mission/Vision Tab */}
+        {activeTab === 'basic' && (
+          <>
+            {/* Basic Information */}
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+              <SectionHeader title="Basic Information" section="basic" />
           {expandedSections.basic && (
             <div className="p-6 space-y-6">
               <div>
@@ -395,6 +515,7 @@ const AboutUsAdmin = () => {
                   imageSrc={formData.image}
                   onUpload={(e) => handleImageUpload(e, 'image')}
                   required
+                  uniqueId="upload-basic-image"
                 />
               )}
               {!editMode.basic && formData.image && (
@@ -419,22 +540,28 @@ const AboutUsAdmin = () => {
           {expandedSections.mission && (
             <div className="p-6 space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Title</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Title <span className="text-red-500">*</span>
+                </label>
                 <input
                   type="text"
                   value={formData.mission.title}
                   onChange={(e) => handleNestedChange('mission', 'title', e.target.value)}
                   disabled={!editMode.mission}
+                  required
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Content</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Content <span className="text-red-500">*</span>
+                </label>
                 <textarea
                   value={formData.mission.content}
                   onChange={(e) => handleNestedChange('mission', 'content', e.target.value)}
                   disabled={!editMode.mission}
                   rows="4"
+                  required
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed"
                 />
               </div>
@@ -448,30 +575,39 @@ const AboutUsAdmin = () => {
           {expandedSections.vision && (
             <div className="p-6 space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Title</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Title <span className="text-red-500">*</span>
+                </label>
                 <input
                   type="text"
                   value={formData.vision.title}
                   onChange={(e) => handleNestedChange('vision', 'title', e.target.value)}
                   disabled={!editMode.vision}
+                  required
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Content</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Content <span className="text-red-500">*</span>
+                </label>
                 <textarea
                   value={formData.vision.content}
                   onChange={(e) => handleNestedChange('vision', 'content', e.target.value)}
                   disabled={!editMode.vision}
                   rows="4"
+                  required
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed"
                 />
               </div>
             </div>
           )}
         </div>
+          </>
+        )}
 
-        {/* Values */}
+        {/* Values Tab */}
+        {activeTab === 'values' && (
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
           <SectionHeader title="Values" section="values" badge={formData.values.length} />
           {expandedSections.values && (
@@ -488,7 +624,7 @@ const AboutUsAdmin = () => {
               )}
 
               {formData.values.map((value, index) => (
-                <div key={index} className="border border-gray-200 rounded-lg p-4 space-y-3">
+                <div key={value.valueId || index} className="border border-gray-200 rounded-lg p-4 space-y-3">
                   <div className="flex justify-between items-start">
                     <h4 className="font-medium text-gray-900">Value {index + 1}</h4>
                     {editMode.values && (
@@ -501,29 +637,43 @@ const AboutUsAdmin = () => {
                       </button>
                     )}
                   </div>
-                  <input
-                    type="text"
-                    placeholder="Title"
-                    value={value.title}
-                    onChange={(e) => handleArrayItemChange('values', index, 'title', e.target.value)}
-                    disabled={!editMode.values}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg disabled:bg-gray-100 disabled:cursor-not-allowed"
-                  />
-                  <textarea
-                    placeholder="Description"
-                    value={value.description}
-                    onChange={(e) => handleArrayItemChange('values', index, 'description', e.target.value)}
-                    disabled={!editMode.values}
-                    rows="2"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg disabled:bg-gray-100 disabled:cursor-not-allowed"
-                  />
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Title <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="Title"
+                      value={value.title}
+                      onChange={(e) => handleArrayItemChange('values', index, 'title', e.target.value)}
+                      disabled={!editMode.values}
+                      required
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg disabled:bg-gray-100 disabled:cursor-not-allowed"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Description <span className="text-red-500">*</span>
+                    </label>
+                    <textarea
+                      placeholder="Description"
+                      value={value.description}
+                      onChange={(e) => handleArrayItemChange('values', index, 'description', e.target.value)}
+                      disabled={!editMode.values}
+                      rows="2"
+                      required
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg disabled:bg-gray-100 disabled:cursor-not-allowed"
+                    />
+                  </div>
                 </div>
               ))}
             </div>
           )}
         </div>
+        )}
 
-        {/* Milestones */}
+        {/* Milestones Tab */}
+        {activeTab === 'milestones' && (
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
           <SectionHeader title="Milestones" section="milestones" badge={formData.milestones.length} />
           {expandedSections.milestones && (
@@ -531,7 +681,7 @@ const AboutUsAdmin = () => {
               {editMode.milestones && (
                 <button
                   type="button"
-                  onClick={() => handleAddArrayItem('milestones', { year: '', title: '', description: '', image: '' })}
+                  onClick={() => handleAddArrayItem('milestones', { id: Date.now(), year: '', title: '', description: '', image: '' })}
                   className="flex items-center space-x-2 text-blue-600 hover:text-blue-700 text-sm font-medium"
                 >
                   <Plus className="w-4 h-4" />
@@ -540,7 +690,7 @@ const AboutUsAdmin = () => {
               )}
 
               {formData.milestones.map((milestone, index) => (
-                <div key={index} className="border border-gray-200 rounded-lg p-4 space-y-3">
+                <div key={milestone.id || index} className="border border-gray-200 rounded-lg p-4 space-y-3">
                   <div className="flex justify-between items-start">
                     <h4 className="font-medium text-gray-900">Milestone {index + 1}</h4>
                     {editMode.milestones && (
@@ -582,6 +732,7 @@ const AboutUsAdmin = () => {
                       label={`Milestone ${index + 1} Image`}
                       imageSrc={milestone.image}
                       onUpload={(e) => handleImageUpload(e, 'milestones', 'image', index)}
+                      uniqueId={`upload-milestone-${index}`}
                     />
                   )}
                   {!editMode.milestones && milestone.image && (
@@ -599,7 +750,11 @@ const AboutUsAdmin = () => {
             </div>
           )}
         </div>
+        )}
 
+        {/* Leadership Tab (Chairman & MD) */}
+        {activeTab === 'leadership' && (
+          <>
         {/* Chairman Message */}
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
           <SectionHeader title="Chairman's Message" section="chairman" />
@@ -642,6 +797,7 @@ const AboutUsAdmin = () => {
                   label="Chairman Photo"
                   imageSrc={formData.chairman_message.image}
                   onUpload={(e) => handleImageUpload(e, 'chairman_message', 'image')}
+                  uniqueId="upload-chairman-image"
                 />
               )}
               {!editMode.chairman && formData.chairman_message.image && (
@@ -700,6 +856,7 @@ const AboutUsAdmin = () => {
                   label="MD Photo"
                   imageSrc={formData.md_message.image}
                   onUpload={(e) => handleImageUpload(e, 'md_message', 'image')}
+                  uniqueId="upload-md-image"
                 />
               )}
               {!editMode.md && formData.md_message.image && (
@@ -715,8 +872,11 @@ const AboutUsAdmin = () => {
             </div>
           )}
         </div>
+          </>
+        )}
 
-        {/* Team Members */}
+        {/* Team Tab */}
+        {activeTab === 'team' && (
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
           <SectionHeader title="Team Members" section="team" badge={formData.team.length} />
           {expandedSections.team && (
@@ -742,7 +902,7 @@ const AboutUsAdmin = () => {
               )}
 
               {formData.team.map((member, index) => (
-                <div key={index} className="border border-gray-200 rounded-lg p-4 space-y-3">
+                <div key={member.id || index} className="border border-gray-200 rounded-lg p-4 space-y-3">
                   <div className="flex justify-between items-start">
                     <h4 className="font-medium text-gray-900">{member.name || `Team Member ${index + 1}`}</h4>
                     {editMode.team && (
@@ -756,60 +916,94 @@ const AboutUsAdmin = () => {
                     )}
                   </div>
                   <div className="grid grid-cols-2 gap-3">
-                    <input
-                      type="text"
-                      placeholder="Name"
-                      value={member.name}
-                      onChange={(e) => handleArrayItemChange('team', index, 'name', e.target.value)}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Name <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="Name"
+                        value={member.name}
+                        onChange={(e) => handleArrayItemChange('team', index, 'name', e.target.value)}
+                        disabled={!editMode.team}
+                        required
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg disabled:bg-gray-100 disabled:cursor-not-allowed"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Position <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="Position"
+                        value={member.position}
+                        onChange={(e) => handleArrayItemChange('team', index, 'position', e.target.value)}
+                        disabled={!editMode.team}
+                        required
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg disabled:bg-gray-100 disabled:cursor-not-allowed"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Department <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="Department"
+                        value={member.department}
+                        onChange={(e) => handleArrayItemChange('team', index, 'department', e.target.value)}
+                        disabled={!editMode.team}
+                        required
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg disabled:bg-gray-100 disabled:cursor-not-allowed"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Email (Optional)
+                      </label>
+                      <input
+                        type="email"
+                        placeholder="Email"
+                        value={member.email}
+                        onChange={(e) => handleArrayItemChange('team', index, 'email', e.target.value)}
+                        disabled={!editMode.team}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg disabled:bg-gray-100 disabled:cursor-not-allowed"
+                      />
+                    </div>
+                    <div className="col-span-2">
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Phone (Optional)
+                      </label>
+                      <input
+                        type="tel"
+                        placeholder="Phone"
+                        value={member.phone}
+                        onChange={(e) => handleArrayItemChange('team', index, 'phone', e.target.value)}
+                        disabled={!editMode.team}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg disabled:bg-gray-100 disabled:cursor-not-allowed"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Bio (Optional)
+                    </label>
+                    <textarea
+                      placeholder="Bio"
+                      value={member.bio}
+                      onChange={(e) => handleArrayItemChange('team', index, 'bio', e.target.value)}
                       disabled={!editMode.team}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg disabled:bg-gray-100 disabled:cursor-not-allowed"
-                    />
-                    <input
-                      type="text"
-                      placeholder="Position"
-                      value={member.position}
-                      onChange={(e) => handleArrayItemChange('team', index, 'position', e.target.value)}
-                      disabled={!editMode.team}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg disabled:bg-gray-100 disabled:cursor-not-allowed"
-                    />
-                    <input
-                      type="text"
-                      placeholder="Department"
-                      value={member.department}
-                      onChange={(e) => handleArrayItemChange('team', index, 'department', e.target.value)}
-                      disabled={!editMode.team}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg disabled:bg-gray-100 disabled:cursor-not-allowed"
-                    />
-                    <input
-                      type="email"
-                      placeholder="Email"
-                      value={member.email}
-                      onChange={(e) => handleArrayItemChange('team', index, 'email', e.target.value)}
-                      disabled={!editMode.team}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg disabled:bg-gray-100 disabled:cursor-not-allowed"
-                    />
-                    <input
-                      type="tel"
-                      placeholder="Phone"
-                      value={member.phone}
-                      onChange={(e) => handleArrayItemChange('team', index, 'phone', e.target.value)}
-                      disabled={!editMode.team}
+                      rows="2"
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg disabled:bg-gray-100 disabled:cursor-not-allowed"
                     />
                   </div>
-                  <textarea
-                    placeholder="Bio"
-                    value={member.bio}
-                    onChange={(e) => handleArrayItemChange('team', index, 'bio', e.target.value)}
-                    disabled={!editMode.team}
-                    rows="2"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg disabled:bg-gray-100 disabled:cursor-not-allowed"
-                  />
                   {editMode.team && (
                     <ImageUploadField
                       label={`${member.name || 'Member'} Photo`}
                       imageSrc={member.image}
                       onUpload={(e) => handleImageUpload(e, 'team', 'image', index)}
+                      uniqueId={`upload-team-${index}`}
                     />
                   )}
                   {!editMode.team && member.image && (
@@ -827,7 +1021,11 @@ const AboutUsAdmin = () => {
             </div>
           )}
         </div>
+        )}
 
+        {/* Achievements Tab (Certifications & Awards) */}
+        {activeTab === 'achievements' && (
+          <>
         {/* Certifications */}
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
           <SectionHeader title="Certifications" section="certifications" badge={formData.certifications.length} />
@@ -852,7 +1050,7 @@ const AboutUsAdmin = () => {
               )}
 
               {formData.certifications.map((cert, index) => (
-                <div key={index} className="border border-gray-200 rounded-lg p-4 space-y-3">
+                <div key={cert.id || index} className="border border-gray-200 rounded-lg p-4 space-y-3">
                   <div className="flex justify-between items-start">
                     <h4 className="font-medium text-gray-900">{cert.name || `Certification ${index + 1}`}</h4>
                     {editMode.certifications && (
@@ -904,6 +1102,7 @@ const AboutUsAdmin = () => {
                       label={`${cert.name || 'Certification'} Image`}
                       imageSrc={cert.image}
                       onUpload={(e) => handleImageUpload(e, 'certifications', 'image', index)}
+                      uniqueId={`upload-certification-${index}`}
                     />
                   )}
                   {!editMode.certifications && cert.image && (
@@ -946,7 +1145,7 @@ const AboutUsAdmin = () => {
               )}
 
               {formData.awards.map((award, index) => (
-                <div key={index} className="border border-gray-200 rounded-lg p-4 space-y-3">
+                <div key={award.id || index} className="border border-gray-200 rounded-lg p-4 space-y-3">
                   <div className="flex justify-between items-start">
                     <h4 className="font-medium text-gray-900">{award.title || `Award ${index + 1}`}</h4>
                     {editMode.awards && (
@@ -998,6 +1197,7 @@ const AboutUsAdmin = () => {
                       label={`${award.title || 'Award'} Image`}
                       imageSrc={award.image}
                       onUpload={(e) => handleImageUpload(e, 'awards', 'image', index)}
+                      uniqueId={`upload-award-${index}`}
                     />
                   )}
                   {!editMode.awards && award.image && (
@@ -1015,6 +1215,8 @@ const AboutUsAdmin = () => {
             </div>
           )}
         </div>
+          </>
+        )}
 
       </div>
     </div>

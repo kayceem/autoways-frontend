@@ -392,10 +392,10 @@ const AboutUs = () => {
       <section className="py-20 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12 animate-fade-in-up">
-            <h2 className="font-bold text-4xl text-secondary mb-4">{team.title}</h2>
+            <h2 className="font-bold text-4xl text-secondary mb-4">Leadership</h2>
             <div className="w-24 h-1 bg-accent mx-auto mb-6" />
             <p className="text-secondary opacity-80 max-w-3xl mx-auto">
-              {team.description}
+                Our dedicated team driving innovation and excellence
             </p>
           </div>
           <div className="grid lg:grid-cols-2 lg:grid-cols-4 gap-8">
