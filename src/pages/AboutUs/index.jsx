@@ -406,17 +406,17 @@ const AboutUs = () => {
                 className="bg-primary rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 animate-fade-in-up w-full max-w-sm"
                 style={{ animationDelay: '0s' }}
               >
-                <div className="h-48 bg-gradient-to-br from-accent to-primary flex items-center justify-center">
+                <div className="relative aspect-square overflow-hidden bg-gradient-to-br from-accent/10 to-primary">
                     <img
                       src={assetUrl(team[0].image)}
                       alt={team[0].name}
-                      className="object-cover h-48 w-48"
+                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 hover:scale-110"
                     />
                 </div>
                 <div className="p-6 pt-4">
                   <h3 className="text-xl font-bold text-secondary mb-2">{team[0].name}</h3>
-                  <div className="text-accent-2 font-semibold mb-3">{team[0].position}</div>
-                  <div className="text-secondary mb-3">{team[0].department}</div>
+                  <div className="text-accent font-semibold mb-3">{team[0].position}</div>
+                  <div className="text-secondary opacity-80 mb-3">{team[0].department}</div>
                 </div>
               </div>
             </div>
@@ -431,17 +431,17 @@ const AboutUs = () => {
                   className="bg-primary rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 animate-fade-in-up"
                   style={{ animationDelay: `${(index + 1) * 0.1}s` }}
                 >
-                <div className="h-48 bg-gradient-to-br from-accent to-primary flex items-center justify-center">
+                <div className="relative aspect-square overflow-hidden bg-gradient-to-br from-accent/10 to-primary">
                     <img
                       src={assetUrl(member.image)}
                       alt={member.name}
-                      className="object-cover h-48 w-48"
+                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 hover:scale-110"
                     />
                 </div>
                 <div className="p-6 pt-4">
                   <h3 className="text-xl font-bold text-secondary mb-2">{member.name}</h3>
-                  <div className="text-accent-2 font-semibold mb-3">{member.position}</div>
-                  <div className="text-secondary mb-3">{member.department}</div>
+                  <div className="text-accent font-semibold mb-3">{member.position}</div>
+                  <div className="text-secondary opacity-80 mb-3">{member.department}</div>
                 </div>
             </div>
               ))}
