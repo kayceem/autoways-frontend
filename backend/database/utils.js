@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const { promisify } = require('util');
+const logger = require('../utils/logger');
 
 const writeFile = promisify(fs.writeFile);
 const mkdir = promisify(fs.mkdir);

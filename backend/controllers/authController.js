@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const logger = require('../utils/logger');
 
 /**
  * Login controller - validates credentials against environment variables
@@ -24,7 +25,7 @@ const login = async (req, res) => {
 
     // Validate environment variables are set
     if (!adminUsername || !adminPassword) {
-      console.error('ADMIN_USERNAME or ADMIN_PASSWORD not set in environment variables');
+      logger.error('ADMIN_USERNAME or ADMIN_PASSWORD not set in environment variables');
       return res.status(500).json({
         success: false,
         error: 'Server configuration error'
@@ -57,7 +58,7 @@ const login = async (req, res) => {
     });
 
   } catch (error) {
-    console.error('Login error:', error);
+    logger.error('Login error:', error);
     res.status(500).json({
       success: false,
       error: 'Internal server error'

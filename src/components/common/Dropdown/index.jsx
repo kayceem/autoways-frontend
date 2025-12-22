@@ -64,7 +64,7 @@ const Dropdown = ({
         }`}
         style={{
           top: dropdownRef.current?.getBoundingClientRect().bottom || 0,
-          height: '60vh',
+          maxHeight: '60vh',
           overflow: 'auto'
         }}
       >

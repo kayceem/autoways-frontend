@@ -1,5 +1,7 @@
 const fs = require('fs/promises');
 const path = require('path');
+const logger = require('../utils/logger');
+
 const {
     HeroImage,
     AboutUs,
@@ -1681,7 +1683,7 @@ const refreshCacheInBackground = async () => {
         const data = await fetchAllDataFromDB();
         await writeDataFile(data);
     } catch (error) {
-        console.error('Error refreshing cache:', error);
+        logger.error('Error refreshing cache:', error);
     }
 };
 

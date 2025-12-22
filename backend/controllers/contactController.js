@@ -1,4 +1,5 @@
 const nodemailer = require('nodemailer');
+const logger = require('../utils/logger');
 
 /**
  * Submit contact form - sends email using environment variables
@@ -35,8 +36,8 @@ const submitContactForm = async (req, res) => {
 
     // Validate environment variables are set
     if (!senderEmail || !senderPassword || !destinationEmail) {
-      console.error('Email environment variables not properly configured');
-      console.error({
+      logger.error('Email environment variables not properly configured');
+      logger.error({
         senderEmail: !!senderEmail,
         senderPassword: !!senderPassword,
         destinationEmail: !!destinationEmail
@@ -116,7 +117,7 @@ Time: ${new Date().toLocaleString()}
     });
 
   } catch (error) {
-    console.error('Contact form submission error:', error);
+    logger.error('Contact form submission error:', error);
 
     // Handle specific nodemailer errors
     if (error.code === 'EAUTH') {
