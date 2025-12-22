@@ -1,4 +1,3 @@
-const { SiGeneralelectric } = require('@icons-pack/react-simple-icons');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
