@@ -44,10 +44,36 @@ const BrandLanding = () => {
             <section className="relative h-[300px] lg:h-[600px] flex items-center justify-center overflow-hidden">
                 {/* Background Image */}
                 <div className={`absolute inset-0 bg-secondary`}>
-                    {/* Loading Skeleton */}
+                    {/* Loading Skeleton - Enhanced with realistic blurred gradient */}
                     {!heroImageLoaded && brandData?.heroImage && (
-                        <div className="absolute inset-0 bg-gradient-to-br from-gray-200 via-gray-300 to-gray-200 animate-pulse">
-                            <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/10 to-black/30" />
+                        <div className="absolute inset-0 overflow-hidden">
+                            {/* Base gradient simulating blurred banner */}
+                            <div
+                                className="absolute inset-0 animate-pulse"
+                                style={{
+                                    background: "linear-gradient(135deg, #ebecefff 0%rgba(212, 192, 232, 1)a2 25%, #d2b8d5ff 50%, #cae0f3ff 75%, #d1f3f5ff 100%)",
+                                    filter: 'blur(60px)',
+                                    transform: 'scale(1.2)',
+                                }}
+                                />
+                            {/* Colorful overlay for depth */}
+                            <div className="absolute inset-0 pointer-events-none">
+                                <div
+                                    className="absolute inset-0"
+                                    style={{
+                                        background: "linear-gradient(135deg, #ebecefff 0%rgba(212, 192, 232, 1)a2 25%, #d2b8d5ff 50%, #cae0f3ff 75%, #d1f3f5ff 100%)",
+                                        mixBlendMode: 'overlay',
+                                        backdropFilter: 'saturate(1.05) blur(6px)',
+                                    }}
+                                />
+                            </div>
+                            <div
+                                className="absolute inset-0 opacity-30"
+                                style={{
+                                    background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%)',
+                                    animation: 'shimmer 3s infinite',
+                                }}
+                            />
                         </div>
                     )}
 
@@ -56,9 +82,11 @@ const BrandLanding = () => {
                         <img
                             src={assetUrl(brandData.heroImage)}
                             alt={brandData.name}
-                            className={`w-full h-full object-cover opacity-90 animate-hero-image transition-opacity duration-500 ${
-                                heroImageLoaded ? 'opacity-90' : 'opacity-0'
-                            }`}
+                            className="w-full h-full object-cover animate-hero-image transition-opacity duration-500"
+                            style={{
+                                opacity: heroImageLoaded ? 0.9 : 0,
+                                visibility: heroImageLoaded ? 'visible' : 'hidden'
+                            }}
                             onLoad={() => setHeroImageLoaded(true)}
                             loading="eager"
                             fetchPriority="high"
