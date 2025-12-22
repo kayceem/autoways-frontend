@@ -55,7 +55,7 @@ const SparesParts = () => {
                             <div
                                 className="absolute inset-0 animate-pulse"
                                 style={{
-                                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #4facfe 75%, #00f2fe 100%)',
+                                    background: "linear-gradient(135deg, #ebecefff 0%rgba(212, 192, 232, 1)a2 25%, #d2b8d5ff 50%, #cae0f3ff 75%, #d1f3f5ff 100%)",
                                     filter: 'blur(60px)',
                                     transform: 'scale(1.2)',
                                 }}

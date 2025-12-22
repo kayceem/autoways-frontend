@@ -10,7 +10,10 @@ const SisterCompaniesLanding = () => {
     const { content, isLoading, error } = useContent();
     const [heroImageLoaded, setHeroImageLoaded] = useState(false);
 
-    const companyData = !isLoading && !error ? getSisterCompanyData(content?.sisterCompanies, companySlug) : null;
+    const companyData =
+        !isLoading && !error
+            ? getSisterCompanyData(content?.sisterCompanies, companySlug)
+            : null;
 
     // Preload hero image for instant display on navigation
     useEffect(() => {
@@ -50,9 +53,9 @@ const SisterCompaniesLanding = () => {
                             <div
                                 className="absolute inset-0 animate-pulse"
                                 style={{
-                                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #4facfe 75%, #00f2fe 100%)',
-                                    filter: 'blur(60px)',
-                                    transform: 'scale(1.2)',
+                                    background: "linear-gradient(135deg, #ebecefff 0%rgba(212, 192, 232, 1)a2 25%, #d2b8d5ff 50%, #cae0f3ff 75%, #d1f3f5ff 100%)",
+                                    filter: "blur(60px)",
+                                    transform: "scale(1.2)",
                                 }}
                             />
                             {/* Overlay for depth */}
@@ -61,8 +64,9 @@ const SisterCompaniesLanding = () => {
                             <div
                                 className="absolute inset-0 opacity-30"
                                 style={{
-                                    background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%)',
-                                    animation: 'shimmer 2s infinite',
+                                    background:
+                                        "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%)",
+                                    animation: "shimmer 2s infinite",
                                 }}
                             />
                         </div>
@@ -74,7 +78,7 @@ const SisterCompaniesLanding = () => {
                             src={assetUrl(companyData.image)}
                             alt={companyData.name}
                             className={`w-full h-full object-cover opacity-90 animate-hero-image transition-opacity duration-500 ${
-                                heroImageLoaded ? 'opacity-90' : 'opacity-0'
+                                heroImageLoaded ? "opacity-90" : "opacity-0"
                             }`}
                             onLoad={() => setHeroImageLoaded(true)}
                             loading="eager"
@@ -140,7 +144,9 @@ const SisterCompaniesLanding = () => {
                                 <div
                                     key={index}
                                     className="bg-dark rounded-xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 animate-fade-in-up"
-                                    style={{ animationDelay: `${index * 0.1}s` }}
+                                    style={{
+                                        animationDelay: `${index * 0.1}s`,
+                                    }}
                                 >
                                     <div className="flex items-start gap-3">
                                         <svg
@@ -156,7 +162,9 @@ const SisterCompaniesLanding = () => {
                                                 d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
                                             />
                                         </svg>
-                                        <span className="text-secondary text-lg">{service}</span>
+                                        <span className="text-secondary text-lg">
+                                            {service}
+                                        </span>
                                     </div>
                                 </div>
                             ))}
@@ -187,7 +195,9 @@ const SisterCompaniesLanding = () => {
                                         <Mail className="w-10 h-10 text-accent-2 group-hover:text-accent-2 transition-colors" />
                                         <div className="text-center">
                                             {/* <p className="text-secondary group-hover:text-dark font-semibold mb-1">Email</p> */}
-                                            <p className="text-secondary group-hover:text-dark text-sm">{companyData.contact.email}</p>
+                                            <p className="text-secondary group-hover:text-dark text-sm">
+                                                {companyData.contact.email}
+                                            </p>
                                         </div>
                                     </a>
                                 )}
@@ -201,7 +211,9 @@ const SisterCompaniesLanding = () => {
                                         <Phone className="w-10 h-10 text-accent-2 group-hover:text-accent-2 transition-colors" />
                                         <div className="text-center">
                                             {/* <p className="text-secondary group-hover:text-dark font-semibold mb-1">Phone</p> */}
-                                            <p className="text-secondary group-hover:text-dark text-sm">{companyData.contact.phone}</p>
+                                            <p className="text-secondary group-hover:text-dark text-sm">
+                                                {companyData.contact.phone}
+                                            </p>
                                         </div>
                                     </a>
                                 )}
@@ -217,7 +229,9 @@ const SisterCompaniesLanding = () => {
                                         <Globe className="w-10 h-10 text-accent-2 group-hover:text-accent-2 transition-colors" />
                                         <div className="text-center">
                                             {/* <p className="text-secondary group-hover:text-dark font-semibold mb-1">Website</p> */}
-                                            <p className="text-secondary group-hover:text-dark text-sm">{companyData.contact.website}</p>
+                                            <p className="text-secondary group-hover:text-dark text-sm">
+                                                {companyData.contact.website}
+                                            </p>
                                         </div>
                                     </a>
                                 )}
@@ -231,7 +245,7 @@ const SisterCompaniesLanding = () => {
             <section className="py-10 px-4 lg:px-6">
                 <div className="max-w-4xl mx-auto text-center">
                     <button
-                        onClick={() => navigate('/sister-companies')}
+                        onClick={() => navigate("/sister-companies")}
                         className="inline-flex items-center gap-2 px-8 py-4 bg-accent text-dark font-bold rounded-lg hover:bg-opacity-90 transition-all duration-300 hover:scale-105 shadow-lg"
                     >
                         All Sister Companies
