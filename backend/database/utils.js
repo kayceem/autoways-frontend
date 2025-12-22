@@ -226,45 +226,53 @@ const saveVideoGeneric = async (base64Video, dirPath, fileName) => {
 
 /**
  * Process product data and save files
+ * Only processes fields that are present in productData to support partial updates
  */
 const processProductFiles = async (productData) => {
-  const { name: productName, brand: brandName, images, brochureUrl, specSheetUrl } = productData;
-
   try {
-    // Process images
-    const savedImagePaths = [];
-    if (images && images.length > 0) {
-      for (let i = 0; i < images.length; i++) {
-        const image = images[i];
-        // Check if it's base64 data
-        if (image.startsWith('data:')) {
-          const savedPath = await saveImage(image, brandName, productName, i);
-          savedImagePaths.push(savedPath);
-        } else {
-          // Already a path, keep it
-          savedImagePaths.push(image);
+    const result = { ...productData };
+
+    // Get required fields for file paths
+    const productName = productData.name;
+    const brandName = productData.brand;
+    if (!productName || !brandName) {
+      throw new Error('Product name and brand are required for processing files');
+    }
+
+    // Process images only if present
+    if (productData.images !== undefined) {
+      const savedImagePaths = [];
+      if (productData.images && productData.images.length > 0) {
+        for (let i = 0; i < productData.images.length; i++) {
+          const image = productData.images[i];
+          // Check if it's base64 data
+          if (image.startsWith('data:')) {
+            const savedPath = await saveImage(image, brandName, productName, i);
+            savedImagePaths.push(savedPath);
+          } else {
+            // Already a path, keep it
+            savedImagePaths.push(image);
+          }
         }
+      }
+      result.images = savedImagePaths;
+    }
+
+    // Process brochure only if present
+    if (productData.brochureUrl !== undefined) {
+      if (productData.brochureUrl && productData.brochureUrl.startsWith('data:')) {
+        result.brochureUrl = await savePDF(productData.brochureUrl, brandName, productName, 'brochure');
       }
     }
 
-    // Process brochure
-    let savedBrochurePath = brochureUrl;
-    if (brochureUrl && brochureUrl.startsWith('data:')) {
-      savedBrochurePath = await savePDF(brochureUrl, brandName, productName, 'brochure');
+    // Process spec sheet only if present
+    if (productData.specSheetUrl !== undefined) {
+      if (productData.specSheetUrl && productData.specSheetUrl.startsWith('data:')) {
+        result.specSheetUrl = await savePDF(productData.specSheetUrl, brandName, productName, 'specs');
+      }
     }
 
-    // Process spec sheet
-    let savedSpecSheetPath = specSheetUrl;
-    if (specSheetUrl && specSheetUrl.startsWith('data:')) {
-      savedSpecSheetPath = await savePDF(specSheetUrl, brandName, productName, 'specs');
-    }
-
-    return {
-      ...productData,
-      images: savedImagePaths,
-      brochureUrl: savedBrochurePath,
-      specSheetUrl: savedSpecSheetPath
-    };
+    return result;
   } catch (error) {
     console.error('Error processing product files:', error);
     throw error;
@@ -331,60 +339,58 @@ const processProductTypeFiles = async (productTypeData, brandName) => {
 
 /**
  * Process brand files
+ * Only processes fields that are present in brandData to support partial updates
  */
 const processBrandFiles = async (brandData) => {
   try {
-    const { name: brandName, heroImage, logo, images, video } = brandData;
+    const result = { ...brandData };
+
+    // Get brand name for file paths (required field)
+    const brandName = brandData.name;
+    if (!brandName) {
+      throw new Error('Brand name is required for processing files');
+    }
     const cleanBrand = cleanFileName(brandName);
 
-    // Process hero image
-    let savedHeroImagePath = heroImage;
-    if (heroImage && heroImage.startsWith('data:')) {
-      savedHeroImagePath = await saveImageGeneric(heroImage, `brands/${cleanBrand}`, 'hero');
-    }
-
-    // Process logo
-    let savedLogoPath = logo;
-    if (logo && logo.startsWith('data:')) {
-      savedLogoPath = await saveImageGeneric(logo, `brands/${cleanBrand}`, 'logo');
-    }
-
-    let savedVideoPath = video;
-    if (video && video.startsWith('data:')) {
-      // Assuming video saving function is similar to image
-      savedVideoPath = await saveVideoGeneric(video, `brands/${cleanBrand}`, 'video');
-    }
-    // Process additional images
-    const savedImagePaths = [];
-    if (images && images.length > 0) {
-      for (let i = 0; i < images.length; i++) {
-        const image = images[i];
-        if (image.startsWith('data:')) {
-          const savedPath = await saveImageGeneric(image, `brands/${cleanBrand}`, `image_${i}`);
-          savedImagePaths.push(savedPath);
-        } else {
-          savedImagePaths.push(image);
-        }
+    // Process hero image only if present
+    if (brandData.heroImage !== undefined) {
+      if (brandData.heroImage && brandData.heroImage.startsWith('data:')) {
+        result.heroImage = await saveImageGeneric(brandData.heroImage, `brands/${cleanBrand}`, 'hero');
       }
     }
 
-    // Process product types
-    // const processedProductTypes = [];
-    // if (productTypes && productTypes.length > 0) {
-    //   for (const productType of productTypes) {
-    //     const processed = await processProductTypeFiles(productType, brandName);
-    //     processedProductTypes.push(processed);
-    //   }
-    // }
+    // Process logo only if present
+    if (brandData.logo !== undefined) {
+      if (brandData.logo && brandData.logo.startsWith('data:')) {
+        result.logo = await saveImageGeneric(brandData.logo, `brands/${cleanBrand}`, 'logo');
+      }
+    }
 
-    return {
-      ...brandData,
-      heroImage: savedHeroImagePath,
-      logo: savedLogoPath,
-      images: savedImagePaths,
-      video: savedVideoPath
-    //   productTypes: processedProductTypes
-    };
+    // Process video only if present
+    if (brandData.video !== undefined) {
+      if (brandData.video && brandData.video.startsWith('data:')) {
+        result.video = await saveVideoGeneric(brandData.video, `brands/${cleanBrand}`, 'video');
+      }
+    }
+
+    // Process additional images only if present
+    if (brandData.images !== undefined) {
+      const savedImagePaths = [];
+      if (brandData.images && brandData.images.length > 0) {
+        for (let i = 0; i < brandData.images.length; i++) {
+          const image = brandData.images[i];
+          if (image.startsWith('data:')) {
+            const savedPath = await saveImageGeneric(image, `brands/${cleanBrand}`, `image_${i}`);
+            savedImagePaths.push(savedPath);
+          } else {
+            savedImagePaths.push(image);
+          }
+        }
+      }
+      result.images = savedImagePaths;
+    }
+
+    return result;
   } catch (error) {
     console.error('Error processing brand files:', error);
     throw error;
@@ -684,29 +690,34 @@ const deleteCSRHeroFiles = async (imagePath) => {
 
 /**
  * Process sister company files
+ * Only processes fields that are present in sisterCompanyData to support partial updates
  */
 const processSisterCompanyFiles = async (sisterCompanyData) => {
   try {
-    const { logo, image, name } = sisterCompanyData;
+    const result = { ...sisterCompanyData };
+
+    // Get name for file paths (required field)
+    const name = sisterCompanyData.name;
+    if (!name) {
+      throw new Error('Sister company name is required for processing files');
+    }
     const cleanName = cleanFileName(name);
 
-    // Process logo
-    let savedLogoPath = logo;
-    if (logo && logo.startsWith('data:')) {
-      savedLogoPath = await saveImageGeneric(logo, 'sister-companies', `${cleanName}_logo`);
+    // Process logo only if present
+    if (sisterCompanyData.logo !== undefined) {
+      if (sisterCompanyData.logo && sisterCompanyData.logo.startsWith('data:')) {
+        result.logo = await saveImageGeneric(sisterCompanyData.logo, 'sister-companies', `${cleanName}_logo`);
+      }
     }
 
-    // Process image
-    let savedImagePath = image;
-    if (image && image.startsWith('data:')) {
-      savedImagePath = await saveImageGeneric(image, 'sister-companies', `${cleanName}_image`);
+    // Process image only if present
+    if (sisterCompanyData.image !== undefined) {
+      if (sisterCompanyData.image && sisterCompanyData.image.startsWith('data:')) {
+        result.image = await saveImageGeneric(sisterCompanyData.image, 'sister-companies', `${cleanName}_image`);
+      }
     }
 
-    return {
-      ...sisterCompanyData,
-      logo: savedLogoPath,
-      image: savedImagePath
-    };
+    return result;
   } catch (error) {
     console.error('Error processing sister company files:', error);
     throw error;
@@ -727,34 +738,35 @@ const deleteSisterCompanyFiles = async (logo, image) => {
 
 /**
  * Process spare part files
+ * Only processes fields that are present in sparePartData to support partial updates
  */
 const processSparePartFiles = async (sparePartData) => {
   try {
-    const { image, parts } = sparePartData;
+    const result = { ...sparePartData };
 
-    // Process main image
-    let savedImagePath = image;
-    if (image && image.startsWith('data:')) {
-      savedImagePath = await saveImageGeneric(image, 'spare-parts', `spare_main_${Date.now()}`);
-    }
-
-    // Process parts images
-    const processedParts = [];
-    if (parts && parts.length > 0) {
-      for (const part of parts) {
-        let partImage = part.image;
-        if (partImage && partImage.startsWith('data:')) {
-          partImage = await saveImageGeneric(partImage, 'spare-parts/parts', `part_${part.partId}`);
-        }
-        processedParts.push({ ...part, image: partImage });
+    // Process main image only if present
+    if (sparePartData.image !== undefined) {
+      if (sparePartData.image && sparePartData.image.startsWith('data:')) {
+        result.image = await saveImageGeneric(sparePartData.image, 'spare-parts', `spare_main_${Date.now()}`);
       }
     }
 
-    return {
-      ...sparePartData,
-      image: savedImagePath,
-      parts: processedParts
-    };
+    // Process parts images only if present
+    if (sparePartData.parts !== undefined) {
+      const processedParts = [];
+      if (sparePartData.parts && sparePartData.parts.length > 0) {
+        for (const part of sparePartData.parts) {
+          let partImage = part.image;
+          if (partImage && partImage.startsWith('data:')) {
+            partImage = await saveImageGeneric(partImage, 'spare-parts/parts', `part_${part.partId}`);
+          }
+          processedParts.push({ ...part, image: partImage });
+        }
+      }
+      result.parts = processedParts;
+    }
+
+    return result;
   } catch (error) {
     console.error('Error processing spare part files:', error);
     throw error;
