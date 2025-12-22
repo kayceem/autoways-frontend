@@ -674,7 +674,15 @@ const deleteHeroImage = asyncHandler(async (req, res) => {
 
 // ==================== ABOUT US ROUTES ====================
 const createAboutUs = asyncHandler(async (req, res) => {
-    const processedData = await processAboutUsFiles(req.body);
+    let processedData;
+    try {
+        processedData = await processAboutUsFiles(req.body);
+    } catch (error) {
+        return res.status(400).json({ 
+            success: false, 
+            error: `Error processing files`
+        });
+    }
     const aboutUs = await AboutUs.create(processedData);
     await refreshCacheInBackground();
     res.status(201).json({
@@ -690,7 +698,15 @@ const updateAboutUs = asyncHandler(async (req, res) => {
     }
 
     const oldData = aboutUs.toObject();
-    const processedData = await processAboutUsFiles(req.body);
+    let processedData;
+    try {
+        processedData = await processAboutUsFiles(req.body);
+    } catch (error) {
+        return res.status(400).json({ 
+            success: false, 
+            error: `Error processing files`
+        });
+    }
 
     aboutUs = await AboutUs.findByIdAndUpdate(
         req.params.id,
@@ -801,7 +817,15 @@ const deleteLocation = asyncHandler(async (req, res) => {
 // ==================== PRODUCT ROUTES ====================
 const createProduct = asyncHandler(async (req, res) => {
   // Process and save files
-  const processedData = await processProductFiles(req.body);
+    let processedData;
+    try {
+        processedData = await processProductFiles(req.body);
+    } catch (error) {
+        return res.status(400).json({ 
+            success: false, 
+            error: `Error processing files`
+        });
+    }
   
   // Create product with file paths
   const product = await Product.create(processedData);
@@ -828,7 +852,15 @@ const updateProduct = asyncHandler(async (req, res) => {
   const oldSpecSheet = product.specSheetUrl;
   
   // Process new files
-  const processedData = await processProductFiles(req.body);
+    let processedData;
+    try {
+        processedData = await processProductFiles(req.body);
+    } catch (error) {
+        return res.status(400).json({ 
+            success: false, 
+            error: `Error processing files`
+        });
+    }
   
   // Update product
   product = await Product.findByIdAndUpdate(
@@ -892,7 +924,15 @@ const deleteProduct = asyncHandler(async (req, res) => {
 
 // ==================== BRAND ROUTES ====================
 const createBrand = asyncHandler(async (req, res) => {
-    const processedData = await processBrandFiles(req.body);
+    let processedData;
+    try {
+        processedData = await processBrandFiles(req.body);
+    } catch (error) {
+        return res.status(400).json({ 
+            success: false, 
+            error: `Error processing files`
+        });
+    }
     const brand = await Brand.create(processedData);
     await refreshCacheInBackground();
     res.status(201).json({
@@ -912,7 +952,15 @@ const updateBrand = asyncHandler(async (req, res) => {
     const oldVideo = brand.video || null;
     const oldImages = brand.images || [];
 
-    const processedData = await processBrandFiles(req.body);
+    let processedData;
+    try {
+        processedData = await processBrandFiles(req.body);
+    } catch (error) {
+        return res.status(400).json({ 
+            success: false, 
+            error: `Error processing files`
+        });
+    }
 
     brand = await Brand.findByIdAndUpdate(
         req.params.id,
@@ -1014,7 +1062,16 @@ const createProductType = asyncHandler(async (req, res) => {
         });
     }
 
-    const processedData = await processProductTypeFiles({ name, type, image }, brand.name);
+    let processedData;
+    try {
+        processedData = await processProductTypeFiles({ name, type, image }, brand.name);
+    } catch (error) {
+        return res.status(400).json({ 
+            success: false, 
+            error: `Error processing files`
+        });
+    }
+    
     brand.productTypes.push(processedData);
     await brand.save();
     await refreshCacheInBackground();
@@ -1061,11 +1118,19 @@ const updateProductType = asyncHandler(async (req, res) => {
         }
     }
 
-    const processedData = await processProductTypeFiles({
+    let processedData;
+    try {
+        processedData = await processProductTypeFiles({
         name: name || brand.productTypes[typeIndex].name,
         type: type || brand.productTypes[typeIndex].type,
         image: image || brand.productTypes[typeIndex].image
     }, brand.name);
+    } catch (error) {
+        return res.status(400).json({ 
+            success: false, 
+            error: `Error processing files`
+        });
+    }
 
     if (name) brand.productTypes[typeIndex].name = processedData.name;
     if (type) brand.productTypes[typeIndex].type = processedData.type;
@@ -1109,7 +1174,6 @@ const deleteProductType = asyncHandler(async (req, res) => {
     if (productType) {
         await deleteBrandFiles(null, null, [], productType, null);
     }
-    await delete(brand.name, productType.image);
     brand.productTypes.splice(typeIndex, 1);
     
     await brand.save();
@@ -1199,7 +1263,16 @@ const deleteClient = asyncHandler(async (req, res) => {
 
 // ==================== NEWS ARTICLE ROUTES ====================
 const createNewsArticle = asyncHandler(async (req, res) => {
-    const processedData = await processNewsArticleFiles(req.body);
+    let processedData;
+    try {
+        processedData = await processNewsArticleFiles(req.body);
+    } catch (error) {
+        return res.status(400).json({ 
+            success: false, 
+            error: `Error processing files`
+        });
+    }
+
     const newsArticle = await NewsArticle.create(processedData);
     await refreshCacheInBackground();
     res.status(201).json({
@@ -1215,7 +1288,16 @@ const updateNewsArticle = asyncHandler(async (req, res) => {
     }
 
     const oldImage = newsArticle.image;
-    const processedData = await processNewsArticleFiles(req.body);
+
+    let processedData;
+    try {
+        processedData = await processNewsArticleFiles(req.body);
+    } catch (error) {
+        return res.status(400).json({ 
+            success: false, 
+            error: `Error processing files`
+        });
+    }
 
     newsArticle = await NewsArticle.findByIdAndUpdate(
         req.params.id,
@@ -1250,7 +1332,15 @@ const deleteNewsArticle = asyncHandler(async (req, res) => {
 
 // ==================== TESTIMONIAL ROUTES ====================
 const createTestimonial = asyncHandler(async (req, res) => {
-    const processedData = await processTestimonialFiles(req.body);
+    try {
+        processedData = await processTestimonialFiles(req.body);
+    } catch (error) {
+        return res.status(400).json({ 
+            success: false, 
+            error: `Error processing files`
+        });
+    }
+
     const testimonial = await Testimonial.create(processedData);
     await refreshCacheInBackground();
     res.status(201).json({
@@ -1266,7 +1356,16 @@ const updateTestimonial = asyncHandler(async (req, res) => {
     }
 
     const oldImage = testimonial.image;
-    const processedData = await processTestimonialFiles(req.body);
+    let processedData;
+    try {
+        processedData = await processTestimonialFiles(req.body);
+    } catch (error) {
+        return res.status(400).json({ 
+            success: false, 
+            error: `Error processing files`
+        });
+    }
+
 
     testimonial = await Testimonial.findByIdAndUpdate(
         req.params.id,
@@ -1301,7 +1400,16 @@ const deleteTestimonial = asyncHandler(async (req, res) => {
 
 // ==================== CSR INITIATIVE ROUTES ====================
 const createCSRInitiative = asyncHandler(async (req, res) => {
-    const processedData = await processCSRInitiativeFiles(req.body);
+    let processedData;
+    try {
+        processedData = await processCSRInitiativeFiles(req.body);
+    } catch (error) {
+        return res.status(400).json({ 
+            success: false, 
+            error: `Error processing files`
+        });
+    }
+
     const csrInitiative = await CSRInitiative.create(processedData);
     await refreshCacheInBackground();
     res.status(201).json({
@@ -1317,7 +1425,16 @@ const updateCSRInitiative = asyncHandler(async (req, res) => {
     }
 
     const oldImage = csrInitiative.image;
-    const processedData = await processCSRInitiativeFiles(req.body);
+
+    let processedData;
+    try {
+        processedData = await processCSRInitiativeFiles(req.body);
+    } catch (error) {
+        return res.status(400).json({ 
+            success: false, 
+            error: `Error processing files`
+        });
+    }
 
     csrInitiative = await CSRInitiative.findByIdAndUpdate(
         req.params.id,
@@ -1352,7 +1469,15 @@ const deleteCSRInitiative = asyncHandler(async (req, res) => {
 
 // ==================== CSR HERO ROUTES ====================
 const createCSRHero = asyncHandler(async (req, res) => {
-    const processedData = await processCSRHeroFiles(req.body);
+    let processedData;
+    try {
+        processedData = await processCSRHeroFiles(req.body);
+    } catch (error) {
+        return res.status(400).json({ 
+            success: false, 
+            error: `Error processing files`
+        });
+    }
     const csrHero = await CSRHero.create(processedData);
     await refreshCacheInBackground();
     res.status(201).json({
@@ -1368,7 +1493,15 @@ const updateCSRHero = asyncHandler(async (req, res) => {
     }
 
     const oldImage = csrHero.image;
-    const processedData = await processCSRHeroFiles(req.body);
+    let processedData;
+    try {
+        processedData = await processCSRHeroFiles(req.body);
+    } catch (error) {
+        return res.status(400).json({ 
+            success: false, 
+            error: `Error processing files`
+        });
+    }
 
     csrHero = await CSRHero.findByIdAndUpdate(
         req.params.id,
@@ -1403,7 +1536,15 @@ const deleteCSRHero = asyncHandler(async (req, res) => {
 
 // ==================== SISTER COMPANY ROUTES ====================
 const createSisterCompany = asyncHandler(async (req, res) => {
-    const processedData = await processSisterCompanyFiles(req.body);
+    let processedData;
+    try {
+        processedData = await processSisterCompanyFiles(req.body);
+    } catch (error) {
+        return res.status(400).json({ 
+            success: false, 
+            error: `Error processing files`
+        });
+    }
     const sisterCompany = await SisterCompany.create(processedData);
     await refreshCacheInBackground();
     res.status(201).json({
@@ -1420,7 +1561,15 @@ const updateSisterCompany = asyncHandler(async (req, res) => {
 
     const oldLogo = sisterCompany.logo;
     const oldImage = sisterCompany.image;
-    const processedData = await processSisterCompanyFiles(req.body);
+    let processedData;
+    try {
+        processedData = await processSisterCompanyFiles(req.body);
+    } catch (error) {
+        return res.status(400).json({ 
+            success: false, 
+            error: `Error processing files`
+        });
+    }
 
     sisterCompany = await SisterCompany.findByIdAndUpdate(
         req.params.id,
@@ -1458,7 +1607,15 @@ const deleteSisterCompany = asyncHandler(async (req, res) => {
 
 // ==================== SPARE PART ROUTES ====================
 const createSparePart = asyncHandler(async (req, res) => {
-    const processedData = await processSparePartFiles(req.body);
+    let processedData;
+    try {
+        processedData = await processSparePartFiles(req.body);
+    } catch (error) {
+        return res.status(400).json({ 
+            success: false, 
+            error: `Error processing files`
+        });
+    }
     const sparePart = await SparePart.create(processedData);
     await refreshCacheInBackground();
     res.status(201).json({
@@ -1475,7 +1632,15 @@ const updateSparePart = asyncHandler(async (req, res) => {
 
     const oldImage = sparePart.image;
     const oldParts = sparePart.parts || [];
-    const processedData = await processSparePartFiles(req.body);
+    let processedData;
+    try {
+        processedData = await processSparePartFiles(req.body);
+    } catch (error) {
+        return res.status(400).json({ 
+            success: false, 
+            error: `Error processing files`
+        });
+    }
 
     sparePart = await SparePart.findByIdAndUpdate(
         req.params.id,

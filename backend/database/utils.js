@@ -64,7 +64,7 @@ const saveImage = async (base64Image, brandName, productName, index) => {
     // Return relative path for database
     return `/assets/images/brand/${cleanBrand}/${fileName}`;
   } catch (error) {
-    console.error('Error saving image:', error);
+    logger.error('Error saving image:', error);
     throw new Error(`Failed to save image: ${error.message}`);
   }
 };
@@ -96,7 +96,7 @@ const savePDF = async (base64PDF, brandName, productName, type) => {
     // Return relative path for database
     return `/assets/pdf/brand/${cleanBrand}/${cleanProduct}/${fileName}`;
   } catch (error) {
-    console.error('Error saving PDF:', error);
+    logger.error('Error saving PDF:', error);
     throw new Error(`Failed to save PDF: ${error.message}`);
   }
 };
@@ -114,7 +114,7 @@ const deleteImage = async (imagePath) => {
       await unlink(fullPath);
     }
   } catch (error) {
-    console.error('Error deleting image:', error);
+    logger.error('Error deleting image:', error);
     // Don't throw error for cleanup operations
   }
 };
@@ -132,7 +132,7 @@ const deletePDF = async (pdfPath) => {
       await unlink(fullPath);
     }
   } catch (error) {
-    console.error('Error deleting PDF:', error);
+    logger.error('Error deleting PDF:', error);
     // Don't throw error for cleanup operations
   }
 };
@@ -170,7 +170,7 @@ const deleteProductFiles = async (brandName, productName, images, brochureUrl, s
       // Directory not empty or doesn't exist
     }
   } catch (error) {
-    console.error('Error deleting product files:', error);
+    logger.error('Error deleting product files:', error);
   }
 };
 
@@ -196,7 +196,7 @@ const saveImageGeneric = async (base64Image, dirPath, fileName) => {
     // Return relative path for database
     return `/assets/images/${dirPath}/${fullFileName}`;
   } catch (error) {
-    console.error('Error saving image:', error);
+    logger.error('Error saving image:', error);
     throw new Error(`Failed to save image: ${error.message}`);
   }
 };
@@ -219,7 +219,7 @@ const saveVideoGeneric = async (base64Video, dirPath, fileName) => {
     // Return relative path for database
     return `/assets/videos/${dirPath}/${fullFileName}`;
   } catch (error) {
-    console.error('Error saving video:', error);
+    logger.error('Error saving video:', error);
     throw new Error(`Failed to save video: ${error.message}`);
   }
 };
@@ -274,7 +274,7 @@ const processProductFiles = async (productData) => {
 
     return result;
   } catch (error) {
-    console.error('Error processing product files:', error);
+    logger.error('Error processing product files:', error);
     throw error;
   }
 };
@@ -297,7 +297,7 @@ const processHeroImageFiles = async (heroImageData) => {
       image: savedImagePath
     };
   } catch (error) {
-    console.error('Error processing hero image files:', error);
+    logger.error('Error processing hero image files:', error);
     throw error;
   }
 };
@@ -309,7 +309,7 @@ const deleteHeroImageFiles = async (imagePath) => {
   try {
     if (imagePath) await deleteImage(imagePath);
   } catch (error) {
-    console.error('Error deleting hero image files:', error);
+    logger.error('Error deleting hero image files:', error);
   }
 };
 
@@ -332,7 +332,7 @@ const processProductTypeFiles = async (productTypeData, brandName) => {
       image: savedImagePath
     };
   } catch (error) {
-    console.error('Error processing product type files:', error);
+    logger.error('Error processing product type files:', error);
     throw error;
   }
 };
@@ -392,7 +392,7 @@ const processBrandFiles = async (brandData) => {
 
     return result;
   } catch (error) {
-    console.error('Error processing brand files:', error);
+    logger.error('Error processing brand files:', error);
     throw error;
   }
 };
@@ -414,7 +414,7 @@ const deleteBrandFiles = async (heroImage, logo, images, productType, video) => 
     if (video) await deleteVideo(video);
 
   } catch (error) {
-    console.error('Error deleting brand files:', error);
+    logger.error('Error deleting brand files:', error);
   }
 };
 
@@ -436,7 +436,7 @@ const processNewsArticleFiles = async (newsArticleData) => {
       image: savedImagePath
     };
   } catch (error) {
-    console.error('Error processing news article files:', error);
+    logger.error('Error processing news article files:', error);
     throw error;
   }
 };
@@ -448,7 +448,7 @@ const deleteNewsArticleFiles = async (imagePath) => {
   try {
     if (imagePath) await deleteImage(imagePath);
   } catch (error) {
-    console.error('Error deleting news article files:', error);
+    logger.error('Error deleting news article files:', error);
   }
 };
 
@@ -470,7 +470,7 @@ const processTestimonialFiles = async (testimonialData) => {
       image: savedImagePath
     };
   } catch (error) {
-    console.error('Error processing testimonial files:', error);
+    logger.error('Error processing testimonial files:', error);
     throw error;
   }
 };
@@ -482,7 +482,7 @@ const deleteTestimonialFiles = async (imagePath) => {
   try {
     if (imagePath) await deleteImage(imagePath);
   } catch (error) {
-    console.error('Error deleting testimonial files:', error);
+    logger.error('Error deleting testimonial files:', error);
   }
 };
 
@@ -583,7 +583,7 @@ const processAboutUsFiles = async (aboutUsData) => {
 
     return result;
   } catch (error) {
-    console.error('Error processing about us files:', error);
+    logger.error('Error processing about us files:', error);
     throw error;
   }
 };
@@ -616,7 +616,7 @@ const deleteAboutUsFiles = async (aboutUsData) => {
       await Promise.all(awards.map(a => a.image ? deleteImage(a.image) : Promise.resolve()));
     }
   } catch (error) {
-    console.error('Error deleting about us files:', error);
+    logger.error('Error deleting about us files:', error);
   }
 };
 
@@ -638,7 +638,7 @@ const processCSRInitiativeFiles = async (csrInitiativeData) => {
       image: savedImagePath
     };
   } catch (error) {
-    console.error('Error processing CSR initiative files:', error);
+    logger.error('Error processing CSR initiative files:', error);
     throw error;
   }
 };
@@ -650,7 +650,7 @@ const deleteCSRInitiativeFiles = async (imagePath) => {
   try {
     if (imagePath) await deleteImage(imagePath);
   } catch (error) {
-    console.error('Error deleting CSR initiative files:', error);
+    logger.error('Error deleting CSR initiative files:', error);
   }
 };
 
@@ -672,7 +672,7 @@ const processCSRHeroFiles = async (csrHeroData) => {
       image: savedImagePath
     };
   } catch (error) {
-    console.error('Error processing CSR hero files:', error);
+    logger.error('Error processing CSR hero files:', error);
     throw error;
   }
 };
@@ -684,7 +684,7 @@ const deleteCSRHeroFiles = async (imagePath) => {
   try {
     if (imagePath) await deleteImage(imagePath);
   } catch (error) {
-    console.error('Error deleting CSR hero files:', error);
+    logger.error('Error deleting CSR hero files:', error);
   }
 };
 
@@ -719,7 +719,7 @@ const processSisterCompanyFiles = async (sisterCompanyData) => {
 
     return result;
   } catch (error) {
-    console.error('Error processing sister company files:', error);
+    logger.error('Error processing sister company files:', error);
     throw error;
   }
 };
@@ -732,7 +732,7 @@ const deleteSisterCompanyFiles = async (logo, image) => {
     if (logo) await deleteImage(logo);
     if (image) await deleteImage(image);
   } catch (error) {
-    console.error('Error deleting sister company files:', error);
+    logger.error('Error deleting sister company files:', error);
   }
 };
 
@@ -768,7 +768,7 @@ const processSparePartFiles = async (sparePartData) => {
 
     return result;
   } catch (error) {
-    console.error('Error processing spare part files:', error);
+    logger.error('Error processing spare part files:', error);
     throw error;
   }
 };
@@ -784,7 +784,7 @@ const deleteSparePartFiles = async (image, parts) => {
       await Promise.all(parts.map(p => p.image ? deleteImage(p.image) : Promise.resolve()));
     }
   } catch (error) {
-    console.error('Error deleting spare part files:', error);
+    logger.error('Error deleting spare part files:', error);
   }
 };
 
