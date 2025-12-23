@@ -3,7 +3,7 @@ import { ArrowRight } from "lucide-react";
 import { assetUrl } from '../../../utils';
 import { useState, useEffect } from "react";
 
-const ProductTypeCard = ({ type, image, link, state, brandName, className = "" }) => {
+const ProductTypeCard = ({ type, image, link, brandName, className = "" }) => {
     const [imageLoaded, setImageLoaded] = useState(false);
 
     // Reset loading state when image changes
@@ -75,7 +75,9 @@ const ProductTypeCard = ({ type, image, link, state, brandName, className = "" }
                 </h3>
 
                 {/* Explore Button */}
-                <div className="flex items-center gap-2 text-accent opacity-0 group-hover:opacity-100 transform translate-x-4 group-hover:translate-x-0 transition-all duration-500 delay-100">
+                <Link className="flex items-center gap-2 text-accent opacity-0 group-hover:opacity-100 transform translate-x-4 group-hover:translate-x-0 transition-all duration-500 delay-100"
+                    to={link}
+                >
                     <span
                         className={`text-xs lg:text-sm text-primary uppercase tracking-wider`}
                     >
@@ -85,7 +87,7 @@ const ProductTypeCard = ({ type, image, link, state, brandName, className = "" }
                         size={20}
                         className={`transform text-primary group-hover:translate-x-2 transition-transform duration-300`}
                     />
-                </div>
+                </Link>
             </div>
         </div>
     );
