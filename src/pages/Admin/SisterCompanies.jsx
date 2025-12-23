@@ -153,9 +153,6 @@ const filteredCompanies = useMemo(() => {
                   src={assetUrl(company.image)}
                   alt={company.name}
                   className="w-full h-full object-cover"
-                  onError={(e) => {
-                    e.target.src = 'https://via.placeholder.com/400x300';
-                  }}
                 />
               </div>
             )}
@@ -168,9 +165,6 @@ const filteredCompanies = useMemo(() => {
                     src={assetUrl(company.logo)}
                     alt={`${company.name} logo`}
                     className="w-16 h-16 object-contain rounded-lg border border-gray-200"
-                    onError={(e) => {
-                      e.target.src = 'https://via.placeholder.com/64';
-                    }}
                   />
                 )}
                 <div className="flex-1 min-w-0">

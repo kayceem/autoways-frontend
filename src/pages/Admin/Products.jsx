@@ -161,9 +161,6 @@ const ProductsAdmin = () => {
                         src={product.images[0]}
                         alt={product.name}
                         className="w-12 h-12 rounded-lg object-cover mr-3"
-                        onError={(e) => {
-                          e.target.src = 'https://via.placeholder.com/48';
-                        }}
                       />
                     )}
                     <div>
