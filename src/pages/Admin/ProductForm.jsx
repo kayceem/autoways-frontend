@@ -69,7 +69,7 @@ const ProductForm = ({
   const toCamelCase = (str) => {
     return str
       .trim()
-      .replace(/[^a-zA-Z\s]/g, '') // Remove non-letter, non-space characters
+      .replace(/[^a-zA-Z0-9\s]/g, '') // Remove non-letter, non-digit, non-space characters
       .split(/\s+/) // Split by whitespace
       .map((word, index) => {
         if (index === 0) {

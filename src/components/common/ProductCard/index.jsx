@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Eye, Tag, ArrowRight } from "lucide-react";
 import { assetUrl } from '../../../utils';
@@ -22,14 +22,23 @@ const ProductCard = ({ product, typeSlug, brandName, className = "" }) => {
         setIsHovered(false);
         setMousePosition({ x: 0.5, y: 0.5 });
     };
-
+    const primaryImage = product.images?.[0] || product.defaultImage;
+    const hoverImage = product.images?.[1] || primaryImage;
+    
+    const [imageLoaded, setImageLoaded] = useState(false);
+    
+    useEffect(() => {
+        setImageLoaded(false);
+    }, [primaryImage]);
+    // Reset loading state when image changes
+    
     // Calculate 3D transform based on mouse position
     const rotateX = (mousePosition.y - 0.5) * -15;
     const rotateY = (mousePosition.x - 0.5) * 15;
-
+    
     return (
-    <Link
-            to={`/shop/${brandName}/${typeSlug}/${product._id}`}
+        <Link
+        to={`/shop/${brandName}/${typeSlug}/${product._id}`}
         >
         <div
             className={`group relative bg-transparent rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 ${className}`}
@@ -47,9 +56,29 @@ const ProductCard = ({ product, typeSlug, brandName, className = "" }) => {
             <div
                 className={`relative h-48 lg:h-72 overflow-hidden bg-seondary`}
             >
+                {/* Loading Shimmer */}
+                {!imageLoaded && (
+                    <div className="absolute inset-0 overflow-hidden bg-gray-200">
+                        <div
+                            className="absolute inset-0 animate-pulse"
+                            style={{
+                                background: "linear-gradient(135deg, #e0e0e0 0%, #f0f0f0 25%, #e8e8e8 50%, #f5f5f5 75%, #eeeeee 100%)",
+                                filter: 'blur(30px)',
+                                transform: 'scale(1.2)',
+                            }}
+                        />
+                        <div
+                            className="absolute inset-0 opacity-30"
+                            style={{
+                                background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.6) 50%, transparent 100%)',
+                                animation: 'shimmer 2s infinite',
+                            }}
+                        />
+                    </div>
+                )}
                 {/* Default Image */}
                 <img
-                    src={assetUrl(product.images?.[0] || product.defaultImage)}
+                    src={assetUrl(primaryImage)}
                     alt={product.name}
                     className={`w-full h-full object-contain transition-all duration-700 ${
                         isHovered
@@ -61,12 +90,16 @@ const ProductCard = ({ product, typeSlug, brandName, className = "" }) => {
                             ? `translateZ(50px) scale(1.1)`
                             : "translateZ(0px) scale(1)",
                         filter: isHovered ? "brightness(1.1)" : "brightness(1)",
+                        opacity: imageLoaded ? 1 : 0,
+                        visibility: imageLoaded ? 'visible' : 'hidden'
                     }}
+                    onLoad={() => setImageLoaded(true)}
+                    loading="lazy"
                 />
                 {/* Hover Image */}
-                {product.images?.[1] && (
+                {hoverImage && (
                     <img
-                        src={assetUrl(product.images[1])}
+                        src={assetUrl(hoverImage)}
                         alt={`${product.name} alternate view`}
                         className={`absolute inset-0 w-full h-full object-contain transition-all duration-700 ${
                             isHovered

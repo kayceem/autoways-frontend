@@ -13,6 +13,11 @@ const BrandLanding = () => {
 
     const brandData = !isLoading && !error ? getBrandData(content?.brands, brand) : null;
 
+    // Reset loading state when brand changes
+    useEffect(() => {
+        setHeroImageLoaded(false);
+    }, [brand]);
+
     // Preload hero image for instant display on navigation
     useEffect(() => {
         if (brandData?.heroImage) {
