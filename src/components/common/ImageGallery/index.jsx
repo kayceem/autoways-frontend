@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { ChevronLeft, ChevronRight, X, ZoomIn, ZoomOut, Maximize2 } from 'lucide-react';
 import { assetUrl } from '../../../utils';
 
@@ -194,11 +195,11 @@ const ImageGallery = ({ images = [], productName = '' }) => {
             )}
 
             {/* Fullscreen Modal */}
-            {isFullscreen && (
-                <div className="fixed inset-0 bg-black/97 z-[100000] flex items-center justify-center animate-fadeIn" onClick={closeFullscreen}>
+            {isFullscreen && createPortal(
+                <div className="fixed inset-0 bg-black/97 z-[9999] flex items-center justify-center animate-fadeIn" onClick={closeFullscreen}>
                     <button
                         onClick={closeFullscreen}
-                        className="absolute top-6 right-6 bg-white/90 hover:bg-accent border-0 w-14 h-14 rounded-full flex items-center justify-center cursor-pointer transition-all duration-300 text-black hover:text-secondary z-[100001] shadow-xl hover:rotate-90 hover:scale-110"
+                        className="absolute top-6 right-6 bg-white/90 hover:bg-accent border-0 w-14 h-14 rounded-full flex items-center justify-center cursor-pointer transition-all duration-300 text-black hover:text-secondary z-50 shadow-xl hover:rotate-90 hover:scale-110"
                         aria-label="Close fullscreen"
                     >
                         <X size={32} />
@@ -234,7 +235,7 @@ const ImageGallery = ({ images = [], productName = '' }) => {
                                         e.stopPropagation();
                                         goToPrevious();
                                     }}
-                                    className="absolute top-1/2 left-4 lg:left-8 -translate-y-1/2 bg-white/85 hover:bg-accent border-0 w-12 h-12 lg:w-16 lg:h-16 rounded-full flex items-center justify-center cursor-pointer transition-all duration-300 text-black hover:text-secondary z-[100001] shadow-xl hover:scale-110"
+                                    className="absolute top-1/2 left-4 lg:left-8 -translate-y-1/2 bg-white/85 hover:bg-accent border-0 w-12 h-12 lg:w-16 lg:h-16 rounded-full flex items-center justify-center cursor-pointer transition-all duration-300 text-black hover:text-secondary z-50 shadow-xl hover:scale-110"
                                     aria-label="Previous image"
                                 >
                                     <ChevronLeft className="w-8 h-8 lg:w-10 lg:h-10" />
@@ -244,7 +245,7 @@ const ImageGallery = ({ images = [], productName = '' }) => {
                                         e.stopPropagation();
                                         goToNext();
                                     }}
-                                    className="absolute top-1/2 right-4 lg:right-8 -translate-y-1/2 bg-white/85 hover:bg-accent border-0 w-12 h-12 lg:w-16 lg:h-16 rounded-full flex items-center justify-center cursor-pointer transition-all duration-300 text-black hover:text-secondary z-[100001] shadow-xl hover:scale-110"
+                                    className="absolute top-1/2 right-4 lg:right-8 -translate-y-1/2 bg-white/85 hover:bg-accent border-0 w-12 h-12 lg:w-16 lg:h-16 rounded-full flex items-center justify-center cursor-pointer transition-all duration-300 text-black hover:text-secondary z-50 shadow-xl hover:scale-110"
                                     aria-label="Next image"
                                 >
                                     <ChevronRight className="w-8 h-8 lg:w-10 lg:h-10" />
@@ -254,14 +255,14 @@ const ImageGallery = ({ images = [], productName = '' }) => {
 
                         {/* Fullscreen Counter */}
                         {images?.length > 1 && (
-                            <div className="absolute top-8 left-1/2 -translate-x-1/2 bg-white/85 text-black px-6 py-3 rounded-full text-base font-semibold z-[100001] backdrop-blur-md shadow-xl">
+                            <div className="absolute top-8 left-1/2 -translate-x-1/2 bg-white/85 text-black px-6 py-3 rounded-full text-base font-semibold z-50 backdrop-blur-md shadow-xl">
                                 {currentImageIndex + 1} / {images?.length}
                             </div>
                         )}
 
                         {/* Fullscreen Thumbnails */}
                         {images?.length > 1 && (
-                            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-2 lg:gap-4 px-3 lg:px-4 py-3 lg:py-4 bg-white/15 rounded-2xl backdrop-blur-md max-w-[90%] overflow-x-auto z-[100001] shadow-xl [&::-webkit-scrollbar]:h-1 [&::-webkit-scrollbar-track]:bg-white/10 [&::-webkit-scrollbar-track]:rounded-sm [&::-webkit-scrollbar-thumb]:bg-accent [&::-webkit-scrollbar-thumb]:rounded-sm">
+                            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-2 lg:gap-4 px-3 lg:px-4 py-3 lg:py-4 bg-white/15 rounded-2xl backdrop-blur-md max-w-[90%] overflow-x-auto z-50 shadow-xl [&::-webkit-scrollbar]:h-1 [&::-webkit-scrollbar-track]:bg-white/10 [&::-webkit-scrollbar-track]:rounded-sm [&::-webkit-scrollbar-thumb]:bg-accent [&::-webkit-scrollbar-thumb]:rounded-sm">
                                 {images.map((image, index) => (
                                     <button
                                         key={index}
@@ -281,7 +282,7 @@ const ImageGallery = ({ images = [], productName = '' }) => {
                         )}
 
                         {/* Zoom Controls */}
-                        <div className="absolute bottom-8 right-4 lg:right-8 flex flex-col gap-2 z-[100001]">
+                        <div className="absolute bottom-8 right-4 lg:right-8 flex flex-col gap-2 z-50">
                             <button
                                 onClick={(e) => {
                                     e.stopPropagation();
@@ -324,7 +325,8 @@ const ImageGallery = ({ images = [], productName = '' }) => {
                             )}
                         </div>
                     </div>
-                </div>
+                </div>,
+                document.body
             )}
         </div>
     );
