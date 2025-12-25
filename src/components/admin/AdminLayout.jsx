@@ -53,9 +53,9 @@ const AdminLayout = () => {
       <aside
         className={`${
           isSidebarOpen ? 'w-56 lg:w-64' : 'w-0'
-        } bg-gray-900 text-white transition-all duration-300 overflow-hidden fixed h-full z-20`}
+        } bg-gray-900 text-white transition-all duration-300 overflow-hidden fixed h-full z-20 flex flex-col`}
       >
-        <div className="p-4 lg:p-6">
+        <div className="p-4 lg:p-6 flex-shrink-0">
           <div className="flex items-center justify-between mb-6 lg:mb-8">
             <h1 className="text-xl lg:text-2xl font-bold">Admin Panel</h1>
             <button
@@ -65,7 +65,9 @@ const AdminLayout = () => {
               <X className="w-6 h-6" />
             </button>
           </div>
+        </div>
 
+        <div className="flex-1 overflow-y-auto px-4 lg:px-6 pb-4">
           <nav className="space-y-2">
             {menuItems.map((item, index) => {
               const Icon = item.icon;
