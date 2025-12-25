@@ -212,3 +212,7 @@ body.image-viewer-open .sticky {
   visibility: hidden !important;
   pointer-events: none !important;
 }
+
+@utility no-scrollbar {
+  @apply [scrollbar-width:none] [&::-webkit-scrollbar]:hidden;
+}

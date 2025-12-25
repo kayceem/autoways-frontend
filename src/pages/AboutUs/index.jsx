@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 const AboutUs = () => {
   const { content, isLoading } = useContent();
   const [activeTimelineIndex, setActiveTimelineIndex] = useState(0);
+  const milestoneContainerRef = useRef(null);
   const timelineContainerRef = useRef(null);
 
   if (isLoading) return <LoadingSpinner />;
@@ -21,6 +22,17 @@ const AboutUs = () => {
   // Handlers for timeline navigation
   const scrollToMilestone = (index) => {
     setActiveTimelineIndex(index);
+    if (milestoneContainerRef.current) {
+      const container = milestoneContainerRef.current;
+      const cardWidth = container.scrollWidth / milestones.length;
+      container.scrollTo({
+        left: cardWidth * index,
+        behavior: 'smooth'
+      });
+     }
+    };
+
+  const scrollToTimeline = (index) => {
     if (timelineContainerRef.current) {
       const container = timelineContainerRef.current;
       const cardWidth = container.scrollWidth / milestones.length;
@@ -34,11 +46,13 @@ const AboutUs = () => {
   const handlePrevious = () => {
     const newIndex = activeTimelineIndex > 0 ? activeTimelineIndex - 1 : milestones.length - 1;
     scrollToMilestone(newIndex);
-  };
+    scrollToTimeline(newIndex);
+};
 
-  const handleNext = () => {
+const handleNext = () => {
     const newIndex = activeTimelineIndex < milestones.length - 1 ? activeTimelineIndex + 1 : 0;
     scrollToMilestone(newIndex);
+    scrollToTimeline(newIndex);
   };
 
   return (
@@ -276,7 +290,10 @@ const AboutUs = () => {
 
           {/* Timeline Years Bar (Swipeable) */}
           <div className="relative mb-12 px-6">
-            <div className="overflow-x-auto scrollbar-hide">
+            <div 
+                className="overflow-x-auto no-scrollbar"
+                ref={timelineContainerRef}
+                >
               <div className="flex gap-4 pb-4 min-w-max justify-center mx-auto">
                 {milestones.map((milestone, index) => (
                   <button
@@ -321,7 +338,7 @@ const AboutUs = () => {
 
             {/* Milestones Container */}
             <div
-              ref={timelineContainerRef}
+              ref={milestoneContainerRef}
               className="overflow-x-auto scrollbar-hide scroll-smooth px-16"
               style={{ scrollSnapType: 'x mandatory' }}
             >
