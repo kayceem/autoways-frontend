@@ -12,7 +12,6 @@ const BrandAdmin = () => {
   const [editingBrand, setEditingBrand] = useState(null);
 
   const { data: brands = [], isLoading } = useBrandsQuery();
-  console.log('Brands data:', brands);
   const updateBrand = useUpdateBrand();
 
   const filteredBrands = useMemo(() => {
