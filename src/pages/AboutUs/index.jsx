@@ -16,7 +16,6 @@ const AboutUs = () => {
   }
 
   const { mission, vision, values, milestones, team, stats, chairman_message, md_message} = content.aboutUs[0] || [];
-  console.log('About Us Content:', team);
   const aboutUs = content.aboutUs[0];
 
   // Handlers for timeline navigation
