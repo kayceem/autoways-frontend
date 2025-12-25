@@ -4,7 +4,7 @@ import handleError from '../../utils/handleError';
  
 const useProductsQuery = (filters = {}) => {
   return useQuery({
-    queryKey: filters.brand ? ['products', filters.brand] : ['products'],
+    queryKey: ['products', filters.brand, filters.type, filters.category, filters.id].filter(Boolean),
     queryFn: async () => {
       const params = {};
       if (filters.brand) params.brand = filters.brand;
