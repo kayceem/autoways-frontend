@@ -149,38 +149,45 @@ const Navbar = ({ className = "" }) => {
                                 />
                             </div>
 
-                            <Link
-                                to="/spares-parts"
-                                className="nav-link-underline block text-secondary hover:text-accent transition-colors duration-200 font-medium py-2"
-                                onClick={() => setIsMobileMenuOpen(false)}
-                            >
-                                Spares & Parts
-                            </Link>
+                            <div className="py-2">
+                                <Link
+                                    to="/spares-parts"
+                                    className="nav-link-underline block text-secondary hover:text-accent transition-colors duration-200 font-medium py-2"
+                                    onClick={() => setIsMobileMenuOpen(false)}
+                                    >
+                                    Spares & Parts
+                                </Link>
+                            </div>
 
-                            <Link
-                                to="/news"
-                                className="nav-link-underline block text-secondary hover:text-accent transition-colors duration-200 font-medium py-2"
-                                onClick={() => setIsMobileMenuOpen(false)}
-                            >
-                                News & Media
-                            </Link>
+                            <div className="py-2">
+                                <Link
+                                    to="/news"
+                                    className="nav-link-underline block text-secondary hover:text-accent transition-colors duration-200 font-medium py-2"
+                                    onClick={() => setIsMobileMenuOpen(false)}
+                                >
+                                    News & Media
+                                </Link>
+                            </div>
 
-                            <Link
-                                to="/testimonials"
-                                className="nav-link-underline block text-secondary hover:text-accent transition-colors duration-200 font-medium py-2"
-                                onClick={() => setIsMobileMenuOpen(false)}
-                            >
-                                Testimonials
-                            </Link>
+                            <div className="py-2">
+                                <Link
+                                    to="/testimonials"
+                                    className="nav-link-underline block text-secondary hover:text-accent transition-colors duration-200 font-medium py-2"
+                                    onClick={() => setIsMobileMenuOpen(false)}
+                                >
+                                    Testimonials
+                                </Link>
+                            </div>
 
-                            <Link
-                                to="/csr"
-                                className="nav-link-underline block text-secondary hover:text-accent transition-colors duration-200 font-medium py-2"
-                                onClick={() => setIsMobileMenuOpen(false)}
-                            >
-                                CSR
-                            </Link>
-
+                            <div className="py-2">
+                                <Link
+                                    to="/csr"
+                                    className="nav-link-underline block text-secondary hover:text-accent transition-colors duration-200 font-medium py-2"
+                                    onClick={() => setIsMobileMenuOpen(false)}
+                                >
+                                    CSR
+                                </Link>
+                            </div>
                             <div className="py-2">
                                 <Dropdown
                                     label="Sister Companies"
