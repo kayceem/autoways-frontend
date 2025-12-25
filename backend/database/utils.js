@@ -334,7 +334,7 @@ const processProductTypeFiles = async (productTypeData, brandName) => {
     if (image && image.startsWith('data:')) {
       const cleanBrand = cleanFileName(brandName);
       const cleanType = cleanFileName(type);
-      savedImagePath = await saveImageGeneric(image, `brands/${cleanBrand}/product-types`, cleanType);
+      savedImagePath = await saveImageGeneric(image, `brand/${cleanBrand}/product-types`, cleanType);
     }
 
     return {
@@ -365,21 +365,21 @@ const processBrandFiles = async (brandData) => {
     // Process hero image only if present
     if (brandData.heroImage !== undefined) {
       if (brandData.heroImage && brandData.heroImage.startsWith('data:')) {
-        result.heroImage = await saveImageGeneric(brandData.heroImage, `brands/${cleanBrand}`, 'hero');
+        result.heroImage = await saveImageGeneric(brandData.heroImage, `brand/${cleanBrand}`, 'hero');
       }
     }
 
     // Process logo only if present
     if (brandData.logo !== undefined) {
       if (brandData.logo && brandData.logo.startsWith('data:')) {
-        result.logo = await saveImageGeneric(brandData.logo, `brands/${cleanBrand}`, 'logo');
+        result.logo = await saveImageGeneric(brandData.logo, `brand/${cleanBrand}`, 'logo');
       }
     }
 
     // Process video only if present
     if (brandData.video !== undefined) {
       if (brandData.video && brandData.video.startsWith('data:')) {
-        result.video = await saveVideoGeneric(brandData.video, `brands/${cleanBrand}`, 'video');
+        result.video = await saveVideoGeneric(brandData.video, `brand/${cleanBrand}`, 'video');
       }
     }
 
@@ -390,7 +390,7 @@ const processBrandFiles = async (brandData) => {
         for (let i = 0; i < brandData.images.length; i++) {
           const image = brandData.images[i];
           if (image.startsWith('data:')) {
-            const savedPath = await saveImageGeneric(image, `brands/${cleanBrand}`, `image_${i}`);
+            const savedPath = await saveImageGeneric(image, `brand/${cleanBrand}`, `image_${i}`);
             savedImagePaths.push(savedPath);
           } else {
             savedImagePaths.push(image);
