@@ -1,14 +1,21 @@
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { Package, Layers, Image, TrendingUp, Award, Newspaper } from 'lucide-react';
+import { Package, Layers, Image, TrendingUp, Award, Newspaper, RefreshCw } from 'lucide-react';
 import { ContentContext } from '../../context/globalContext';
 import LoadingSpinner from '../../components/common/Loading';
+import { useRefreshCache } from '../../hooks/useRefreshCacheMutation';
 
 const AdminDashboard = () => {
   const { content, isLoading } = useContext(ContentContext);
+  const { mutate: refreshCache, isPending: isRefreshing } = useRefreshCache();
+
   if (isLoading) {
     return <LoadingSpinner />;
     }
+
+  const handleRefreshCache = () => {
+    refreshCache();
+  };
 
 const brandsArray = content?.brands ? content.brands : [];
 const heroImagesArray = content?.heroImages ? content.heroImages : [];
@@ -51,9 +58,19 @@ const stats = [
 
   return (
     <div>
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
-        <p className="text-gray-600 mt-2">Overview of your website content</p>
+      <div className="mb-8 flex justify-between items-start">
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
+          <p className="text-gray-600 mt-2">Overview of your website content</p>
+        </div>
+        <button
+          onClick={handleRefreshCache}
+          disabled={isRefreshing}
+          className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          <RefreshCw className={`w-5 h-5 ${isRefreshing ? 'animate-spin' : ''}`} />
+          <span>{isRefreshing ? 'Refreshing...' : 'Refresh Cache'}</span>
+        </button>
       </div>
 
       {/* Stats Grid */}
