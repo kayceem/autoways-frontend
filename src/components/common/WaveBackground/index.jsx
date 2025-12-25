@@ -19,7 +19,7 @@ const WaveBackground = ({
       <svg
         className={`absolute w-full ${isTop ? 'top-0' : 'bottom-0'} ${animate ? 'animate-wave-slow' : ''}`}
         style={{
-          height: '40%',
+          height: '18%',
           transform: isBottom ? 'rotate(180deg)' : 'none',
         }}
         viewBox="0 0 1440 320"
@@ -37,7 +37,7 @@ const WaveBackground = ({
       <svg
         className={`absolute w-full ${isTop ? 'top-0' : 'bottom-0'} ${animate ? 'animate-wave-medium' : ''}`}
         style={{
-          height: '35%',
+          height: '15%',
           transform: isBottom ? 'rotate(180deg)' : 'none',
         }}
         viewBox="0 0 1440 320"
@@ -55,7 +55,7 @@ const WaveBackground = ({
       <svg
         className={`absolute w-full ${isTop ? 'top-0' : 'bottom-0'} ${animate ? 'animate-wave-fast' : ''}`}
         style={{
-          height: '30%',
+          height: '10%',
           transform: isBottom ? 'rotate(180deg)' : 'none',
         }}
         viewBox="0 0 1440 320"

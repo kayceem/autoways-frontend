@@ -66,7 +66,7 @@ const CSR = () => {
               <div className="text-secondary opacity-70 text-xs lg:text-sm">Partners</div>
             </div>
             <div className="text-center p-4 lg:p-6 bg-primary rounded-lg shadow-lg animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
-              <div className="text-2xl lg:text-4xl font-bold text-accent mb-2">{hero.stats.investment}</div>
+              <div className="text-2xl lg:text-3xl font-bold text-accent mb-2">{hero.stats.investment}</div>
               <div className="text-secondary opacity-70 text-xs lg:text-sm">CSR Investment</div>
             </div>
           </div>
@@ -74,7 +74,7 @@ const CSR = () => {
       </section>
 
       {/* Initiatives Section */}
-      <section className="py-8 lg:py-20 px-4 lg:px-6">
+      <section className="py-8 lg:py-12 px-4 lg:px-6">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-8 lg:mb-12 animate-fade-in-up">
             <h2 className="font-bold text-2xl lg:text-4xl text-secondary mb-3 lg:mb-4">Our CSR Initiatives</h2>

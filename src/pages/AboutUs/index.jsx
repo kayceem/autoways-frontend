@@ -60,7 +60,7 @@ const handleNext = () => {
       <WaveBackground />
 
       {/* Hero Section */}
-      <section className="relative py-20 px-6">
+      <section className="relative py-8 lg:py-20 px-4 lg:px-6">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16 animate-fade-in-up">
             <h1 className="font-bold text-6xl text-secondary mb-4">About Autoways</h1>
@@ -73,7 +73,7 @@ const handleNext = () => {
       </section>
 
       {/* Stats Section */}
-      <section className="py-12 px-6">
+      <section className="py-8 lg:py-12 px-4 lg:px-6">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-2 lg:grid-cols-3 lg:grid-cols-6 gap-6">
             <div className="text-center p-6 bg-primary rounded-lg shadow-lg animate-fade-in-up">
@@ -105,7 +105,7 @@ const handleNext = () => {
       </section>
 
       {/* Company Story */}
-      <section className="py-20 px-6">
+      <section className="py-8 lg:py-12 px-4 lg:px-6">
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="animate-fade-in-up">
@@ -467,7 +467,7 @@ const handleNext = () => {
       </section>
     )}
       {/* CTA Section */}
-      <section className="py-20 px-6">
+      <section className="py-8 lg:py-20 px-4 lg:px-6">
         <div className="max-w-4xl mx-auto">
           <div className="bg-gradient-to-r from-primary to-accent rounded-2xl p-12 text-center shadow-2xl">
             <h3 className="text-3xl font-bold text-secondary mb-4">
