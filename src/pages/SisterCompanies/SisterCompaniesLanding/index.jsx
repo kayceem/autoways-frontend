@@ -232,7 +232,9 @@ const SisterCompaniesLanding = () => {
                                 {/* Website */}
                                 {companyData.contact.website && (
                                     <a
-                                        href={`https://${companyData.contact.website}`}
+                                        href={companyData?.contact?.website.startsWith('http')
+                                            ? companyData.contact.website
+                                            : `https://${companyData.contact.website}`}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="flex flex-col items-center gap-3 p-6 bg-dark rounded-xl hover:bg-accent hover:text-dark transition-all duration-300 group"
