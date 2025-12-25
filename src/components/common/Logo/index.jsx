@@ -34,21 +34,6 @@ const Logo = ({
                         style={{ width: size, height: size }}
                         />
                 </>
-                // <>
-                // {name && (
-                //     <div className={`text-xl flex inline-flex items-center gap-0`}>
-                //         <img
-                //             src={textLogo}
-                //             alt={altText || "Logo"}
-                //             className={`h-15 w-auto object-contain ${className}`}
-                //             style={{ width: size, height: size }}
-                //         />
-                //         <span className={`text-xl ${className}`}>
-                //             {name}
-                //         </span>
-                //     </div>
-                // )}
-                // </>
             )}
         </Link>
     );

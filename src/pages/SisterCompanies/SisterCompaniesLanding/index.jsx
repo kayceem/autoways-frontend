@@ -119,7 +119,7 @@ const SisterCompaniesLanding = () => {
 
                     {/* Tagline */}
                     {companyData?.tagline && (
-                        <p className="text-xl lg:text-3xl text-white font-semibold italic mb-4 animate-fade-in-up-delay">
+                        <p className="text-xl lg:text-3xl text-white font-semibold drop-shadow-[0_0_4px_black] italic mb-4 animate-fade-in-up-delay ">
                             {companyData.tagline}
                         </p>
                     )}

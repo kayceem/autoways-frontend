@@ -1,20 +1,32 @@
-const logoMap = {
+import { useMemo } from "react";
+import { useContent } from "../context/globalContext";
+
+const useLogoMap = () => {
+  const { content, isLoading } = useContent();
+
+  const logoMap = useMemo(() => ({
     default: "/autoways-logo.svg",
-    toyota: "/assets/images/brands/toyota/toyota-logo.png",
-    eicher: "/assets/images/brands/eicher/eicher-logo.png",
-    bull: "/assets/images/brands/bull/bull-machine-logo.png",
-    dongfeng: "/assets/images/brands/dongfeng/dongfeng-logo.png",
-    komatsu: "/assets/images/brands/xcmg/xcmg-logo.png",
-    xcmg: "/assets/images/brands/komatsu/komatsu-logo.png",
-    ather: "/assetsLogos.AtherLogo",
-    infomax: "/assets/images/sister-companies/infomax-logo.png",
-    manipal: "/assets/images/sister-companies/manipal-logo.webp",
-    prativa: "/assets/images/sister-companies/prativa-logo.webp",
-    swift: "/assets/images/sister-companies/evergreen-logo.webp",
-    evergreen: "/assets/images/sister-companies/swift-logo.png",
+
+    toyota: content?.logos?.toyota || "/assets/images/brands/toyota/toyota-logo.png",
+    eicher: content?.logos?.eicher || "/assets/images/brands/eicher/eicher-logo.png",
+    bull: content?.logos?.bull || "/assets/images/brands/bull/bull-machine-logo.png",
+    dongfeng: content?.logos?.dongfeng || "/assets/images/brands/dongfeng/dongfeng-logo.png",
+    komatsu: content?.logos?.komatsu || "/assets/images/brands/xcmg/xcmg-logo.png",
+    xcmg: content?.logos?.xcmg || "/assets/images/brands/komatsu/komatsu-logo.png",
+    ather: content?.logos?.ather || "/assetsLogos.AtherLogo",
+
+    infomax: content?.logos?.infomax || "/assets/images/sister-companies/infomax-logo.png",
+    manipal: content?.logos?.manipal || "/assets/images/sister-companies/manipal-logo.webp",
+    prativa: content?.logos?.prativa || "/assets/images/sister-companies/prativa-logo.webp",
+    swift: content?.logos?.swift || "/assets/images/sister-companies/swift-logo.png",
+    evergreen: content?.logos?.evergreen || "/assets/images/sister-companies/evergreen-logo.webp",
+
     autoways: "/assets/images/autoways-logo.png",
     autowaysA: "/assetsimages/autoways-a.png",
     autowaysTextLogo: "/assets/images/autoways-text-logo.png",
-};
+  }), [content]);
 
-export default logoMap;
+  return { logoMap, isLoading };
+}
+
+export default useLogoMap;

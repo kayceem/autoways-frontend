@@ -1,5 +1,7 @@
-import logoMap from './logoMap';
+import useLogoMap from './logoMap';
 
+const useNavBarItems = () => {
+  const { logoMap } = useLogoMap();
   const shopItems = [
     { name: "Toyota", link: "/shop/toyota", image: logoMap.toyota },
     { name: "Eicher", link: "/shop/eicher", image: logoMap.eicher },
@@ -14,8 +16,11 @@ import logoMap from './logoMap';
     { name: "Manipal Teaching Hospital", link: "/sister-companies/manipal", image: logoMap.manipal },
     { name: "Prativa Secondary School", link: "/sister-companies/prativa", image: logoMap.prativa },
     { name: "Swift Holidays", link: "/sister-companies/swift", image: logoMap.swift },
-    { name: "Info Max College", link: "/sister-companies/info-max",  image: logoMap.infomax },
+    { name: "Info Max College", link: "/sister-companies/infomax",  image: logoMap.infomax },
     { name: "Evergreen Academy", link: "/sister-companies/evergreen", image: logoMap.evergreen },
   ];
 
-  export default {shopItems, partnersItems};
+  return {shopItems, partnersItems};
+};
+
+export default useNavBarItems;

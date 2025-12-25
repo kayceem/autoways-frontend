@@ -3,13 +3,15 @@ import { Mail, MapPin, Menu, X } from "lucide-react";
 import Logo from "../Logo";
 import Dropdown from "../Dropdown";
 import Header from "../Header";
-import navBarItems from "../../../config/navBar";
+import useNavBarItems from "../../../config/navBar";
 import { useState, useEffect, useRef } from "react";
-import logoMap from "../../../config/logoMap";
+import useLogoMap from "../../../config/logoMap";
 
 const Navbar = ({ className = "" }) => {
     // State to manage the navbar's visibility
     const [isVisible, setIsVisible] = useState(true);
+    const navBarItems = useNavBarItems();
+    const { logoMap } = useLogoMap(); 
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const lastScrollY = useRef(0);
 

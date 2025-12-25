@@ -3,10 +3,11 @@ import { SiFacebook, SiInstagram, SiX } from "@icons-pack/react-simple-icons";
 import { useContent } from "../../../context/globalContext";
 import LoadingSpinner from "../Loading";
 import Logo from '../Logo';
-import logoMap from "../../../config/logoMap";
+import useLogoMap from "../../../config/logoMap";
 
 const Header = ({ className = "", isVisible }) => {
     const { content, isLoading } = useContent();
+    const { logoMap } = useLogoMap();
 
     if (isLoading) return <LoadingSpinner className={className} size={64} />;
     return (

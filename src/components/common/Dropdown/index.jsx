@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Logo from '../Logo';
-import logoMap from '../../../config/logoMap';
+import useLogoMap from '../../../config/logoMap';
 import { assetUrl } from '../../../utils';
 
 const Dropdown = ({ 
@@ -10,6 +10,7 @@ const Dropdown = ({
   items = [],
   className = ""
 }) => {
+  const { logoMap } = useLogoMap();
   const [isOpen, setIsOpen] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState(-1);
   const dropdownRef = useRef(null);

@@ -2,12 +2,14 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "./index.css";
-import logoMap from "../../../config/logoMap";
+import useLogoMap from "../../../config/logoMap";
 import { useContent } from "../../../context/globalContext";
 import LoadingSpinner from "../../common/Loading";
 import { assetUrl } from "../../../utils";
 
 const createCustomIcon = () => {
+    const { logoMap } = useLogoMap();
+    
     return L.icon({
         iconUrl: assetUrl(logoMap.autoways),
         iconSize: [40, 40],
