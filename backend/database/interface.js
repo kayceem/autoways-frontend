@@ -128,7 +128,19 @@ const fetchAllDataFromDB = async () => {
         initiatives : csrInitiatives,
         hero : csrHero,
     }
+    let logos = {};
+    try {
+        logos = [...brands, ...sisterCompanies].reduce((acc, item) => {
+            if (item.slug && item.logo) {
+                acc[item.slug] = item.logo;
+            }
+            return acc;
+        }, {});
+    } catch (error) {
+        logger.error('Error processing logos:', error);
+    }
     return {
+        logos,
         heroImages,
         aboutUs,
         contactInfo,
