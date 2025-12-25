@@ -243,7 +243,7 @@ const SisterCompaniesLanding = () => {
                                         <div className="text-center">
                                             {/* <p className="text-secondary group-hover:text-dark font-semibold mb-1">Website</p> */}
                                             <p className="text-secondary group-hover:text-dark text-sm">
-                                                {companyData.contact.website}
+                                                {companyData?.contact?.website.replace(/^https?:\/\//, '')}
                                             </p>
                                         </div>
                                     </a>

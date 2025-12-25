@@ -521,7 +521,7 @@ const SisterCompanyForm = ({
                   Website
                 </label>
                 <input
-                  type="url"
+                  type="text"
                   name="website"
                   value={formData.contact.website}
                   onChange={handleContactChange}
