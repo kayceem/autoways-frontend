@@ -9,33 +9,33 @@ const SpecificationsDisplay = ({ specifications = {}, fuelType = 'normal' }) => 
         return null;
     }
 
-    const formatKey = (key) => {
-        return key
-            .replace(/([A-Z])/g, ' $1')
-            .replace(/^./, (str) => str.toUpperCase())
-            .trim();
-    };
+    // const formatKey = (key) => {
+    //     return key
+    //         .replace(/([A-Z])/g, ' $1')
+    //         .replace(/^./, (str) => str.toUpperCase())
+    //         .trim();
+    // };
 
-    const renderSpecValue = (value) => {
-        if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
-            return (
-                <div className="flex flex-col gap-3 pl-4 border-l-2 border-accent/20">
-                    {Object.entries(value).map(([subKey, subValue]) => (
-                        <div key={subKey} className="flex flex-col gap-10 sm:flex-row sm:items-center sm:gap-3">
-                            <span className="text-xs font-semibold opacity-50 text-secondary uppercase tracking-wider min-w-[140px]">{formatKey(subKey)}</span>
-                            <span className="text-sm lg:text-base font-bold text-secondary">
-                                {typeof subValue === 'object' ? JSON.stringify(subValue) : subValue}
-                            </span>
-                        </div>
-                    ))}
-                </div>
-            );
-        }
-        if (Array.isArray(value)) {
-            return value.join(', ');
-        }
-        return value?.toString() || 'N/A';
-    };
+    // const renderSpecValue = (value) => {
+    //     if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
+    //         return (
+    //             <div className="flex flex-col gap-3 pl-4 border-l-2 border-accent/20">
+    //                 {Object.entries(value).map(([subKey, subValue]) => (
+    //                     <div key={subKey} className="flex flex-col gap-10 sm:flex-row sm:items-center sm:gap-3">
+    //                         <span className="text-xs font-semibold opacity-50 text-secondary uppercase tracking-wider min-w-[140px]">{formatKey(subKey)}</span>
+    //                         <span className="text-sm lg:text-base font-bold text-secondary">
+    //                             {typeof subValue === 'object' ? JSON.stringify(subValue) : subValue}
+    //                         </span>
+    //                     </div>
+    //                 ))}
+    //             </div>
+    //         );
+    //     }
+    //     if (Array.isArray(value)) {
+    //         return value.join(', ');
+    //     }
+    //     return value?.toString() || 'N/A';
+    // };
 
     const toggleSection = (sectionId) => {
         setOpenSections(prev => ({
@@ -44,8 +44,8 @@ const SpecificationsDisplay = ({ specifications = {}, fuelType = 'normal' }) => 
         }));
     };
 
-    const renderSpecSection = (title, data, sectionId) => {
-        if (!data || Object.keys(data).length === 0) return null;
+    const renderSpecSection = (title, data=[], sectionId) => {
+        if (!data || data.length === 0) return null;
 
         const isOpen = openSections[sectionId];
 
@@ -68,17 +68,17 @@ const SpecificationsDisplay = ({ specifications = {}, fuelType = 'normal' }) => 
                 <div className={`accordion-content ${isOpen ? 'open' : 'closed'}`}>
                     <div className="px-5 lg:px-7 pb-6 lg:pb-8 pt-2">
                         <div className="space-y-4 lg:space-y-5">
-                            {Object.entries(data).map(([key, value], index) => (
+                            {data.map((item, index) => (
                                 <div
-                                    key={key}
+                                    key={index}
                                     className="flex flex-col sm:flex-row sm:items-start gap-2 sm:gap-80 py-3 border-b border-neutral-100 last:border-b-0 hover:bg-accent/5 px-3 rounded transition-all duration-200 animate-slide-up"
                                     style={{animationDelay: `${index * 30}ms`}}
                                 >
                                     <div className="text-xs lg:text-sm font-bold opacity-60 text-secondary uppercase tracking-wider min-w-[160px] sm:w-[160px] flex-shrink-0">
-                                        {formatKey(key)}
+                                        {item.name}
                                     </div>
                                     <div className="text-sm lg:text-base font-semibold leading-relaxed text-secondary flex-1">
-                                        {renderSpecValue(value)}
+                                        {item.value}
                                     </div>
                                 </div>
                             ))}

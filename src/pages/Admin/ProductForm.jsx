@@ -72,19 +72,19 @@ const ProductForm = ({
   ];
 
   // Utility function to convert string to camelCase
-  const toCamelCase = (str) => {
-    return str
-      .trim()
-      .replace(/[^a-zA-Z0-9\s]/g, '') // Remove non-letter, non-digit, non-space characters
-      .split(/\s+/) // Split by whitespace
-      .map((word, index) => {
-        if (index === 0) {
-          return word.toLowerCase();
-        }
-        return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
-      })
-      .join('');
-  };
+//   const toCamelCase = (str) => {
+//     return str
+//       .trim()
+//       .replace(/[^a-zA-Z0-9\s]/g, '') // Remove non-letter, non-digit, non-space characters
+//       .split(/\s+/) // Split by whitespace
+//       .map((word, index) => {
+//         if (index === 0) {
+//           return word.toLowerCase();
+//         }
+//         return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+//       })
+//       .join('');
+//   };
 
   useEffect(() => {
     if (editingProduct) {
@@ -107,16 +107,24 @@ const ProductForm = ({
         connectivity: []
       };
 
-      if (editingProduct.specifications) {
+    //   if (editingProduct.specifications) {
+    //     Object.keys(loadedSpecs).forEach(category => {
+    //       if (editingProduct.specifications[category] && typeof editingProduct.specifications[category] === 'object') {
+    //         loadedSpecs[category] = Object.entries(editingProduct.specifications[category]).map(([key, value]) => ({
+    //           key: key.replace(/([A-Z])/g, ' $1').trim(), // Convert camelCase back to readable format
+    //           value: value
+    //         }));
+    //       }
+    //     });
+    //   }
+
+    if (editingProduct.specifications) {
         Object.keys(loadedSpecs).forEach(category => {
-          if (editingProduct.specifications[category] && typeof editingProduct.specifications[category] === 'object') {
-            loadedSpecs[category] = Object.entries(editingProduct.specifications[category]).map(([key, value]) => ({
-              key: key.replace(/([A-Z])/g, ' $1').trim(), // Convert camelCase back to readable format
-              value: value
-            }));
-          }
-        });
-      }
+            if (!Array.isArray(editingProduct.specifications[category])) {
+                editingProduct.specifications[category] = [];
+            }
+        }
+    );}
 
       setFormData({
         name: editingProduct.name || '',
@@ -130,7 +138,7 @@ const ProductForm = ({
         features: editingProduct.features?.length > 0 ? editingProduct.features : [''],
         brochureUrl: editingProduct.brochureUrl || '',
         specSheetUrl: editingProduct.specSheetUrl || '',
-        specifications: loadedSpecs
+        specifications: editingProduct.specifications || loadedSpecs
       });
       setImagePreviews(editingProduct.images.map(img => assetUrl(img)) || []);
     }
@@ -272,7 +280,7 @@ const ProductForm = ({
       ...prev,
       specifications: {
         ...prev.specifications,
-        [category]: [...prev.specifications[category], { key: '', value: '' }]
+        [category]: [...prev.specifications[category], { name: '', value: '' }]
       }
     }));
   };
@@ -289,8 +297,8 @@ const ProductForm = ({
 
   const handleSpecFieldChange = (category, index, field, value) => {
     setFormData(prev => {
-      const newSpecs = [...prev.specifications[category]];
-      newSpecs[index] = { ...newSpecs[index], [field]: value };
+      const newSpecs = prev.specifications[category];
+      newSpecs[index][field] = value;
       return {
         ...prev,
         specifications: {
@@ -342,12 +350,15 @@ const ProductForm = ({
     Object.keys(formData.specifications).forEach(category => {
       const fields = formData.specifications[category];
       if (fields.length > 0) {
-        processedSpecs[category] = {};
+        processedSpecs[category] = [];
         fields.forEach(field => {
-          if (field.key.trim() && field.value.trim()) {
-            const camelKey = toCamelCase(field.key);
-            processedSpecs[category][camelKey] = field.value.trim();
-          }
+          if (field.name.trim() && field.value.trim()) {
+            const data = {
+                name: field.name.trim(),
+                value: field.value.trim()
+            }
+            processedSpecs[category].push(data);
+        }
         });
         // Remove empty categories
         if (Object.keys(processedSpecs[category]).length === 0) {
@@ -643,7 +654,7 @@ const ProductForm = ({
                     >
                       <div className="flex items-center space-x-2">
                         <span className="font-medium text-gray-900">{category.label}</span>
-                        {formData.specifications[category.key].length > 0 && (
+                        {formData.specifications[category.key]?.length > 0 && (
                           <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full">
                             {formData.specifications[category.key].length} field{formData.specifications[category.key].length !== 1 ? 's' : ''}
                           </span>
@@ -665,8 +676,8 @@ const ProductForm = ({
                               <div>
                                 <input
                                   type="text"
-                                  value={field.key}
-                                  onChange={(e) => handleSpecFieldChange(category.key, index, 'key', e.target.value)}
+                                  value={field.name}
+                                  onChange={(e) => handleSpecFieldChange(category.key, index, 'name', e.target.value)}
                                   placeholder="Field name (e.g., Max Power)"
                                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                                 />
