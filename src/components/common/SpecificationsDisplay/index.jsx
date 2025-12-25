@@ -166,7 +166,18 @@ const SpecificationsDisplay = ({ specifications = {}, fuelType = 'normal' }) => 
             {specifications.technology && (
                 renderSpecSection('Technology', specifications.technology, 'technology')
             )}
-            
+            {/* Connectivity */}
+            {specifications.connectivity && (
+                renderSpecSection('Connectivity', specifications.connectivity, 'connectivity')
+            )}
+            {/* Range */}
+            {specifications.range && (
+                renderSpecSection('Range', specifications.range, 'range')
+            )}  
+            {/* Ride Assist */}
+            {specifications.rideAssist && (
+                renderSpecSection('Ride Assist', specifications.rideAssist, 'rideAssist')
+            )}
             {/* Electronics */}
             {specifications.electronics && (
                 renderSpecSection('Electronics', specifications.electronics, 'electronics')

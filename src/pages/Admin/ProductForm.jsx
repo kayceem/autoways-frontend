@@ -35,7 +35,10 @@ const ProductForm = ({
       capacities: [],
       safety: [],
       offroad: [],
-      electronics: []
+      electronics: [],
+      range: [],
+      rideAssist: [],
+      connectivity: []
     }
   });
 
@@ -62,7 +65,10 @@ const ProductForm = ({
     { key: 'capacities', label: 'Capacities' },
     { key: 'safety', label: 'Safety' },
     { key: 'offroad', label: 'Off-Road' },
-    { key: 'electronics', label: 'Electronics' }
+    { key: 'electronics', label: 'Electronics' },
+    { key: 'range', label: 'Range' },
+    { key: 'rideAssist', label: 'Ride Assist' },
+    { key: 'connectivity', label: 'Connectivity' }
   ];
 
   // Utility function to convert string to camelCase
@@ -95,7 +101,10 @@ const ProductForm = ({
         capacities: [],
         safety: [],
         offroad: [],
-        electronics: []
+        electronics: [],
+        range: [],  
+        rideAssist: [],
+        connectivity: []
       };
 
       if (editingProduct.specifications) {
