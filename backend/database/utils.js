@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const { promisify } = require('util');
+const sharp = require('sharp');
 const logger = require('../utils/logger');
 
 const writeFile = promisify(fs.writeFile);
@@ -45,23 +46,27 @@ const parseBase64 = (dataUri) => {
  */
 const saveImage = async (base64Image, brandName, productName, index) => {
   try {
-    const { base64Data, ext } = parseBase64(base64Image);
-    
+    const { base64Data } = parseBase64(base64Image);
+
     const cleanBrand = cleanFileName(brandName);
     const cleanProduct = cleanFileName(productName);
-    
+
     // Create directory path
     const imageDir = path.join(ASSETS_DIR, 'images', 'brand', cleanBrand);
     await mkdir(imageDir, { recursive: true });
-    
-    // Create filename
-    const fileName = `${cleanProduct}_${index}.${ext}`;
+
+    // Create filename with .webp extension
+    const fileName = `${cleanProduct}_${index}.webp`;
     const filePath = path.join(imageDir, fileName);
-    
-    // Write file
+
+    // Convert buffer to WebP with lossless compression
     const buffer = Buffer.from(base64Data, 'base64');
-    await writeFile(filePath, buffer);
-    
+    const compressedBuffer = await sharp(buffer)
+      .webp({ lossless: true })
+      .toBuffer();
+
+    await writeFile(filePath, compressedBuffer);
+
     // Return relative path for database
     return `/assets/images/brand/${cleanBrand}/${fileName}`;
   } catch (error) {
@@ -180,19 +185,23 @@ const deleteProductFiles = async (brandName, productName, images, brochureUrl, s
  */
 const saveImageGeneric = async (base64Image, dirPath, fileName) => {
   try {
-    const { base64Data, ext } = parseBase64(base64Image);
+    const { base64Data } = parseBase64(base64Image);
 
     // Create directory path
     const imageDir = path.join(ASSETS_DIR, 'images', dirPath);
     await mkdir(imageDir, { recursive: true });
 
-    // Create filename
-    const fullFileName = `${fileName}.${ext}`;
+    // Create filename with .webp extension
+    const fullFileName = `${fileName}.webp`;
     const filePath = path.join(imageDir, fullFileName);
 
-    // Write file
+    // Convert buffer to WebP with lossless compression
     const buffer = Buffer.from(base64Data, 'base64');
-    await writeFile(filePath, buffer);
+    const compressedBuffer = await sharp(buffer)
+      .webp({ lossless: true })
+      .toBuffer();
+
+    await writeFile(filePath, compressedBuffer);
 
     // Return relative path for database
     return `/assets/images/${dirPath}/${fullFileName}`;
@@ -325,7 +334,7 @@ const processProductTypeFiles = async (productTypeData, brandName) => {
     if (image && image.startsWith('data:')) {
       const cleanBrand = cleanFileName(brandName);
       const cleanType = cleanFileName(type);
-      savedImagePath = await saveImageGeneric(image, `brands/${cleanBrand}/product-types`, cleanType);
+      savedImagePath = await saveImageGeneric(image, `brand/${cleanBrand}/product-types`, cleanType);
     }
 
     return {
@@ -356,21 +365,21 @@ const processBrandFiles = async (brandData) => {
     // Process hero image only if present
     if (brandData.heroImage !== undefined) {
       if (brandData.heroImage && brandData.heroImage.startsWith('data:')) {
-        result.heroImage = await saveImageGeneric(brandData.heroImage, `brands/${cleanBrand}`, 'hero');
+        result.heroImage = await saveImageGeneric(brandData.heroImage, `brand/${cleanBrand}`, 'hero');
       }
     }
 
     // Process logo only if present
     if (brandData.logo !== undefined) {
       if (brandData.logo && brandData.logo.startsWith('data:')) {
-        result.logo = await saveImageGeneric(brandData.logo, `brands/${cleanBrand}`, 'logo');
+        result.logo = await saveImageGeneric(brandData.logo, `brand/${cleanBrand}`, 'logo');
       }
     }
 
     // Process video only if present
     if (brandData.video !== undefined) {
       if (brandData.video && brandData.video.startsWith('data:')) {
-        result.video = await saveVideoGeneric(brandData.video, `brands/${cleanBrand}`, 'video');
+        result.video = await saveVideoGeneric(brandData.video, `brand/${cleanBrand}`, 'video');
       }
     }
 
@@ -381,7 +390,7 @@ const processBrandFiles = async (brandData) => {
         for (let i = 0; i < brandData.images.length; i++) {
           const image = brandData.images[i];
           if (image.startsWith('data:')) {
-            const savedPath = await saveImageGeneric(image, `brands/${cleanBrand}`, `image_${i}`);
+            const savedPath = await saveImageGeneric(image, `brand/${cleanBrand}`, `image_${i}`);
             savedImagePaths.push(savedPath);
           } else {
             savedImagePaths.push(image);
