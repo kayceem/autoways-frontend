@@ -20,7 +20,8 @@ const AboutUsAdmin = () => {
     md: false,
     team: false,
     certifications: false,
-    awards: false
+    awards: false,
+    stats: false
   });
 
   const [editMode, setEditMode] = useState({
@@ -33,7 +34,8 @@ const AboutUsAdmin = () => {
     md: false,
     team: false,
     certifications: false,
-    awards: false
+    awards: false,
+    stats: false
   });
 
   const [sectionSnapshots, setSectionSnapshots] = useState({});
@@ -50,7 +52,15 @@ const AboutUsAdmin = () => {
     md_message: { title: '', name: '', position: '', image: '', message: '' },
     team: [],
     certifications: [],
-    awards: []
+    awards: [],
+    stats: {
+      yearsOfExperience: '',
+      employees: '',
+      brands: '',
+      serviceCenters: '',
+      happyCustomers: '',
+      vehiclesSold: ''
+    }
   });
 
   useEffect(() => {
@@ -69,7 +79,15 @@ const AboutUsAdmin = () => {
         md_message: about.md_message || { title: '', name: '', position: '', image: '', message: '' },
         team: about.team || [],
         certifications: about.certifications || [],
-        awards: about.awards || []
+        awards: about.awards || [],
+        stats: about.stats || {
+          yearsOfExperience: '',
+          employees: '',
+          brands: '',
+          serviceCenters: '',
+          happyCustomers: '',
+          vehiclesSold: ''
+        }
       });
     }
   }, [content]);
@@ -146,6 +164,10 @@ const AboutUsAdmin = () => {
           a.title?.trim() && a.year?.trim() && a.issuedBy?.trim() && a.description?.trim() && a.image
         );
 
+      case 'stats':
+        // Stats are all optional, so always return true
+        return true;
+
       default:
         return true;
     }
@@ -163,7 +185,8 @@ const AboutUsAdmin = () => {
       md: deepClone(formData.md_message),
       team: deepClone(formData.team),
       certifications: deepClone(formData.certifications),
-      awards: deepClone(formData.awards)
+      awards: deepClone(formData.awards),
+      stats: deepClone(formData.stats)
     };
 
     setSectionSnapshots(prev => ({ ...prev, [section]: snapshot[section] }));
@@ -430,7 +453,8 @@ const AboutUsAdmin = () => {
     { id: 'milestones', name: 'Milestones', count: formData.milestones?.length || 0 },
     { id: 'leadership', name: 'Leadership', count: null },
     { id: 'team', name: 'Team', count: formData.team?.length || 0 },
-    { id: 'achievements', name: 'Certifications & Awards', count: (formData.certifications?.length || 0) + (formData.awards?.length || 0) }
+    { id: 'achievements', name: 'Certifications & Awards', count: (formData.certifications?.length || 0) + (formData.awards?.length || 0) },
+    { id: 'stats', name: 'Statistics', count: null }
   ];
 
   return (
@@ -1216,6 +1240,102 @@ const AboutUsAdmin = () => {
           )}
         </div>
           </>
+        )}
+
+        {/* Stats Tab */}
+        {activeTab === 'stats' && (
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+          <SectionHeader title="Statistics" section="stats" />
+          {expandedSections.stats && (
+            <div className="p-6 space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Years of Experience
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="e.g., 25+"
+                    value={formData.stats.yearsOfExperience}
+                    onChange={(e) => handleNestedChange('stats', 'yearsOfExperience', e.target.value)}
+                    disabled={!editMode.stats}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Employees
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="e.g., 500+"
+                    value={formData.stats.employees}
+                    onChange={(e) => handleNestedChange('stats', 'employees', e.target.value)}
+                    disabled={!editMode.stats}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Brands
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="e.g., 15+"
+                    value={formData.stats.brands}
+                    onChange={(e) => handleNestedChange('stats', 'brands', e.target.value)}
+                    disabled={!editMode.stats}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Service Centers
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="e.g., 10+"
+                    value={formData.stats.serviceCenters}
+                    onChange={(e) => handleNestedChange('stats', 'serviceCenters', e.target.value)}
+                    disabled={!editMode.stats}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Happy Customers
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="e.g., 10,000+"
+                    value={formData.stats.happyCustomers}
+                    onChange={(e) => handleNestedChange('stats', 'happyCustomers', e.target.value)}
+                    disabled={!editMode.stats}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Vehicles Sold
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="e.g., 5,000+"
+                    value={formData.stats.vehiclesSold}
+                    onChange={(e) => handleNestedChange('stats', 'vehiclesSold', e.target.value)}
+                    disabled={!editMode.stats}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
+                  />
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
         )}
 
       </div>
