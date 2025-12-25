@@ -98,6 +98,9 @@ const ProductSpecificationsSchema = new Schema({
     safety: Schema.Types.Mixed,
     offroad: Schema.Types.Mixed,
     electronics: Schema.Types.Mixed,
+    range: Schema.Types.Mixed,
+    rideAssist: Schema.Types.Mixed,
+    connectivity: Schema.Types.Mixed
 }, { _id: false });
 
 // ==================== Product Schema ====================

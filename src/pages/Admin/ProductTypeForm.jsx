@@ -58,7 +58,7 @@ const ProductTypeForm = ({
     const { name, value } = e.target;
 
     // Auto-generate slug when name changes (only when creating new, not editing)
-    if (name === 'name' && !editingType) {
+    if (name === 'name') {
       const slug = generateSlug(value);
       setFormData(prev => ({ ...prev, name: value, type: slug }));
     } else if (name === 'name' && editingType) {
