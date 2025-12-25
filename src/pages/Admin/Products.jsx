@@ -5,6 +5,7 @@ import { useCreateProduct, useUpdateProduct, useDeleteProduct } from '../../hook
 import useBrandsQuery from '../../hooks/useBrandsQuery';
 import useProductTypesQuery from '../../hooks/useProductTypesQuery';
 import ProductForm from './ProductForm';
+import { assetUrl } from '../../utils';
 
 const ProductsAdmin = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -158,7 +159,7 @@ const ProductsAdmin = () => {
                   <div className="flex items-center">
                     {product.images?.[0] && (
                       <img
-                        src={product.images[0]}
+                        src={assetUrl(product.images[0])}
                         alt={product.name}
                         className="w-12 h-12 rounded-lg object-cover mr-3"
                       />
