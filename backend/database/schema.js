@@ -532,7 +532,16 @@ const AboutUsSchema = new Schema({
         issuedBy: String,
         image: String,
         description: String
-    }]
+    }],
+    stats: {
+        yearsOfExperience: String,
+        employees: String,
+        brands: String,
+        serviceCenters: String,
+        happyCustomers: String,
+        vehiclesSold: String,
+
+    }
 }, { timestamps: true });
 
 // ==================== Export Models ====================
