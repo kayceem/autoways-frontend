@@ -100,7 +100,8 @@ const ProductSpecificationsSchema = new Schema({
     electronics: Schema.Types.Mixed,
     range: Schema.Types.Mixed,
     rideAssist: Schema.Types.Mixed,
-    connectivity: Schema.Types.Mixed
+    connectivity: Schema.Types.Mixed,
+    interior: Schema.Types.Mixed,
 }, { _id: false });
 
 // ==================== Product Schema ====================

@@ -38,7 +38,8 @@ const ProductForm = ({
       electronics: [],
       range: [],
       rideAssist: [],
-      connectivity: []
+      connectivity: [],
+      interior: []
     }
   });
 
@@ -68,7 +69,8 @@ const ProductForm = ({
     { key: 'electronics', label: 'Electronics' },
     { key: 'range', label: 'Range' },
     { key: 'rideAssist', label: 'Ride Assist' },
-    { key: 'connectivity', label: 'Connectivity' }
+    { key: 'connectivity', label: 'Connectivity' },
+    { key: 'interior', label: 'Interior' }
   ];
 
   // Utility function to convert string to camelCase
@@ -104,7 +106,8 @@ const ProductForm = ({
         electronics: [],
         range: [],  
         rideAssist: [],
-        connectivity: []
+        connectivity: [],
+        interior: []
       };
 
     //   if (editingProduct.specifications) {

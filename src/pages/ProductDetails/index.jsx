@@ -136,13 +136,13 @@ const ProductDetails = () => {
                                     <span>Download Specs</span>
                                 </button>
 
-                                <button
+                                {/* <button
                                     onClick={handleViewBrochure}
                                     className="group flex items-center justify-center gap-2 px-6 py-3.5 rounded-lg font-semibold text-sm lg:text-base bg-primary text-secondary border-2 border-neutral-300 hover:border-accent hover:bg-accent/10 transition-all duration-300 cursor-pointer hover:-translate-y-0.5"
                                 >
                                     <FileText size={18} className="group-hover:scale-110 transition-transform duration-300" />
                                     <span>View Brochure</span>
-                                </button>
+                                </button> */}
                             </div>
                         </div>
                     </div>
