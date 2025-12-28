@@ -18,7 +18,6 @@ export const useCreateProduct = () => {
     },
     onError: (error) => {
       handleError(error);
-      toast.error(error.response?.data?.error || 'Failed to create product');
     }
   });
 };
@@ -38,7 +37,6 @@ export const useUpdateProduct = () => {
     },
     onError: (error) => {
       handleError(error);
-      toast.error(error.response?.data?.error || 'Failed to update product');
     }
   });
 };
@@ -58,7 +56,6 @@ export const useDeleteProduct = () => {
     },
     onError: (error) => {
       handleError(error);
-      toast.error(error.response?.data?.error || 'Failed to delete product');
     }
   });
 };

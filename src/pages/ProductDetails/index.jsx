@@ -2,14 +2,13 @@ import { Link, Navigate, useParams } from 'react-router-dom';
 import {
     ChevronDown,
     Download,
-    FileText,
     Phone,
     Mail,
     MapPin,
     Check,
     Fuel,
     Battery,
-    Zap
+    Zap,
 } from 'lucide-react';
 import useProductsQuery from '../../hooks/useProductsQuery';
 import ImageGallery from '../../components/common/ImageGallery';
@@ -17,20 +16,25 @@ import SpecificationsDisplay from '../../components/common/SpecificationsDisplay
 import LoadingSpinner from '../../components/common/Loading';
 import useContentQuery from '../../hooks/useContentQuery';
 import WaveBackground from '../../components/common/WaveBackground';
-import { assetUrl } from '../../utils';
+import { assetUrl, capitalizeWords } from '../../utils';
+import { useState } from 'react';
+import DownloadSpecsInquiryModal from '../../components/common/Inquiry';
 
 const ProductDetails = () => {
     const { brand, typeSlug, id } = useParams();
     const typeName = typeSlug.replace(/[-_]/g, ' ');
     const { data: siteContent, isLoading, error } = useContentQuery();
     const { data: productData, isLoading: productLoading, error: productError } = useProductsQuery({id: id});
+    const [isSpecsModalOpen, setIsSpecsModalOpen] = useState(false);
+    const [pendingSpecsUrl, setPendingSpecsUrl] = useState('');
+    const LS_KEY = 'specs_inquiry_contact_v1';
 
     if (isLoading || productLoading) {
         return <LoadingSpinner name={brand} />;
     }
     
     if (error || productError) {
-        return <div className="error-message">Error loading product details: {error?.message || productError?.message}</div>;
+        return <Navigate to="/not-found" replace />;
     }
 
     if (productData.length === 0) {
@@ -38,6 +42,43 @@ const ProductDetails = () => {
     }
     const product = productData[0];
 
+
+    const getSavedContact = () => {
+    try {
+        if (typeof window === 'undefined') return null;
+        const raw = localStorage.getItem(LS_KEY);
+        return raw ? JSON.parse(raw) : null;
+    } catch {
+        return null;
+    }
+    };
+
+    const isValidSavedContact = (c) => {
+    if (!c) return false;
+    const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(c.email || ''));
+    const phoneOk = /^\+?[0-9\s\-()]{10,14}$/.test(String(c.phone || ''));
+    const nameOk = String(c.name || '').trim().length > 0;
+    return nameOk && emailOk && phoneOk;
+    };
+
+    const saveContact = (contact) => {
+    try {
+        localStorage.setItem(
+        LS_KEY,
+        JSON.stringify({
+            name: contact.name,
+            email: contact.email,
+            phone: contact.phone,
+            savedAt: Date.now(),
+        })
+        );
+    } catch {}
+    };
+
+    const openSpecsPdf = (url) => {
+    if (!url) return;
+    const w = window.open(url, '_blank', 'noopener,noreferrer');
+    };
     const getFuelTypeIcon = (fuelType) => {
         switch(fuelType) {
             case 'electric':
@@ -65,14 +106,24 @@ const ProductDetails = () => {
     };
 
     const handleDownloadSpecs = () => {
-        window.open(assetUrl(product?.specSheetUrl), '_blank');
+        if (!product?.specSheetUrl) {
+            toast.error('Spec sheet not available for this product');
+            return;
+        }
+
+        const url = assetUrl(product?.specSheetUrl);
+
+        const saved = getSavedContact();
+        if (isValidSavedContact(saved)) {
+            openSpecsPdf(url);
+            return;
+        }
+
+        setPendingSpecsUrl(url);
+        setIsSpecsModalOpen(true);
     };
 
     
-    const handleViewBrochure = () => {
-        window.open(assetUrl(product?.brochureUrl), '_blank');
-    };
-
     return (
         <div className="min-h-screen bg-primary">
             {/* Breadcrumb */}
@@ -135,14 +186,6 @@ const ProductDetails = () => {
                                     <Download size={18} className="group-hover:scale-110 transition-transform duration-300" />
                                     <span>Download Specs</span>
                                 </button>
-
-                                {/* <button
-                                    onClick={handleViewBrochure}
-                                    className="group flex items-center justify-center gap-2 px-6 py-3.5 rounded-lg font-semibold text-sm lg:text-base bg-primary text-secondary border-2 border-neutral-300 hover:border-accent hover:bg-accent/10 transition-all duration-300 cursor-pointer hover:-translate-y-0.5"
-                                >
-                                    <FileText size={18} className="group-hover:scale-110 transition-transform duration-300" />
-                                    <span>View Brochure</span>
-                                </button> */}
                             </div>
                         </div>
                     </div>
@@ -223,11 +266,26 @@ const ProductDetails = () => {
                             </div>
                         </Link>
                     </div>
+                    <DownloadSpecsInquiryModal
+                        isOpen={isSpecsModalOpen}
+                        onClose={() => {
+                            setIsSpecsModalOpen(false);
+                            setPendingSpecsUrl('');
+                        }}
+                        productName={product?.name}
+                        onSuccess={(contact) => {
+                            saveContact(contact);
+                            setIsSpecsModalOpen(false);
 
+                            // open PDF ONLY after successful submit
+                            openSpecsPdf(pendingSpecsUrl);
+                            setPendingSpecsUrl('');
+                        }}
+                        />
                     <div className="text-center animate-fade-in-up flex align-center justify-center gap-2">
                         <Link to="/contact" 
                         className="inline-block px-8 py-3.5 rounded-lg font-semibold text-base bg-accent text-secondary hover:bg-accent-2 transition-all duration-300 shadow-sm hover:shadow-lg cursor-pointer hover:-translate-y-0.5"
-                        state={{subject: `${product?.name} - ${brand} Inquiry`}}
+                        state={{subject: `${product?.name} - ${capitalizeWords(brand)} Inquiry`}}
                         >
                             Send Inquiry
                         </Link>

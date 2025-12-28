@@ -4,6 +4,8 @@ import LoadingSpinner from "../../../components/common/Loading";
 import { getSisterCompanyData, assetUrl } from "../../../utils";
 import { useContent } from "../../../context/globalContext";
 import { Mail, Phone, Globe } from "lucide-react";
+import { Navigate } from "react-router-dom";
+
 const SisterCompaniesLanding = () => {
     const { companySlug } = useParams();
     const navigate = useNavigate();
@@ -31,13 +33,11 @@ const SisterCompaniesLanding = () => {
     }
 
     if (error) {
-        window.location.href = "/not-found";
-        return null;
+        return <Navigate to="/not-found" replace />;
     }
 
     if (!companyData) {
-        window.location.href = "/not-found";
-        return null;
+        return <Navigate to="/not-found" replace />;
     }
 
     return (

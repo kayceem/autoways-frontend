@@ -7,6 +7,7 @@ import {
   CompaniesGrid,
   CTASection,
 } from './components';
+import { Navigate } from 'react-router-dom';
 
 const SisterCompanies = () => {
   const { content, isLoading } = useContent();
@@ -14,8 +15,7 @@ const SisterCompanies = () => {
 
   if (isLoading) return <LoadingSpinner />;
   if (!content || !content.sisterCompanies) {
-        window.location.href = "/not-found";
-        return null;
+    return <Navigate to="/not-found" replace />;
   }
 
 // Get unique categories

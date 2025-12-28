@@ -18,7 +18,6 @@ export const useCreateNewsArticle = () => {
     },
     onError: (error) => {
       handleError(error);
-      toast.error(error.response?.data?.error || 'Failed to create news article');
     }
   });
 };
@@ -38,7 +37,6 @@ export const useUpdateNewsArticle = () => {
     },
     onError: (error) => {
       handleError(error);
-      toast.error(error.response?.data?.error || 'Failed to update news article');
     }
   });
 };
@@ -58,7 +56,6 @@ export const useDeleteNewsArticle = () => {
     },
     onError: (error) => {
       handleError(error);
-      toast.error(error.response?.data?.error || 'Failed to delete news article');
     }
   });
 };

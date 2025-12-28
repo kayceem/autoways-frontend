@@ -18,7 +18,6 @@ export const useCreateSisterCompany = () => {
     },
     onError: (error) => {
       handleError(error);
-      toast.error(error.response?.data?.error || 'Failed to create sister company');
     }
   });
 };
@@ -38,7 +37,6 @@ export const useUpdateSisterCompany = () => {
     },
     onError: (error) => {
       handleError(error);
-      toast.error(error.response?.data?.error || 'Failed to update sister company');
     }
   });
 };
@@ -58,7 +56,6 @@ export const useDeleteSisterCompany = () => {
     },
     onError: (error) => {
       handleError(error);
-      toast.error(error.response?.data?.error || 'Failed to delete sister company');
     }
   });
 };

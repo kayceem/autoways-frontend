@@ -4,16 +4,17 @@ import toast from 'react-hot-toast';
 import { useSubmitContactForm } from '../../../hooks/useContactMutation';
 
 const ContactForm = ( { info = {} } ) => {
-    const { subject: defaultSubject = '', isParts } = info;
+  const { subject: defaultSubject = '', isParts, isInquiry } = info;
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     phone: '',
     subject: defaultSubject,
     message: '',
-    isParts: isParts || false
+    isParts: isParts || false,
+    isInquiry: isInquiry || false
   });
-const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState({});
   const { mutate: submitContact, isPending } = useSubmitContactForm();
 
   const validateForm = () => {
@@ -78,7 +79,8 @@ const [errors, setErrors] = useState({});
           phone: '',
           subject: '',
           message: '',
-          isParts: false
+          isParts: false,
+          isInquiry: false
         });
         setErrors({});
       }
@@ -89,7 +91,7 @@ const isFormValid =
     formData.name.trim() &&
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email) &&
     formData.subject.trim() &&
-    /^\+?[0-9\s\-()]{10,15}$/.test(formData.phone);
+    /^\+?[0-9\s\-()]{10,14}$/.test(formData.phone);
 
 return (
     <div className="w-full max-w-2xl mx-auto p-4 lg:p-8">

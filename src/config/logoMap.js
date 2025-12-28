@@ -5,7 +5,10 @@ const useLogoMap = () => {
   const { content, isLoading } = useContent();
 
   const logoMap = useMemo(() => ({
-    default: "/autoways-logo.svg",
+    default: "/autoways-logo.webp",
+    autoways: "/autoways-logo.webp",
+    autowaysA: "/autoways-a.webp",
+    autowaysTextLogo: "/autoways-text-logo.webp",
 
     toyota: content?.logos?.toyota || "/assets/images/brands/toyota/toyota-logo.png",
     eicher: content?.logos?.eicher || "/assets/images/brands/eicher/eicher-logo.png",
@@ -21,9 +24,6 @@ const useLogoMap = () => {
     swift: content?.logos?.swift || "/assets/images/sister-companies/swift-logo.png",
     evergreen: content?.logos?.evergreen || "/assets/images/sister-companies/evergreen-logo.webp",
 
-    autoways: "/assets/images/autoways-logo.png",
-    autowaysA: "/assetsimages/autoways-a.png",
-    autowaysTextLogo: "/assets/images/autoways-text-logo.png",
   }), [content]);
 
   return { logoMap, isLoading };

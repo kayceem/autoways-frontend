@@ -14,7 +14,6 @@ export const useRefreshCache = () => {
     },
     onError: (error) => {
       handleError(error);
-      toast.error(error.response?.data?.error || 'Failed to refresh cache. Please try again.');
     }
   });
 };

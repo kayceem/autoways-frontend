@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, Navigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import LoadingSpinner from "../../components/common/Loading";
 import ProductTypeCard from "../../components/common/ProductTypeCard";
@@ -34,13 +34,11 @@ const BrandLanding = () => {
     }
 
     if (error) {
-        window.location.href = "/not-found";
-        return null;
+        return <Navigate to="/not-found" replace />;
     }
 
     if (!brandData) {
-        window.location.href = "/not-found";
-        return null;
+        return <Navigate to="/not-found" replace />;
     }
 
     return (

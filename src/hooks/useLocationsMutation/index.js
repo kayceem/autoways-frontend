@@ -18,7 +18,6 @@ export const useCreateLocation = () => {
     },
     onError: (error) => {
       handleError(error);
-      toast.error(error.response?.data?.error || 'Failed to create location');
     }
   });
 };
@@ -38,7 +37,6 @@ export const useUpdateLocation = () => {
     },
     onError: (error) => {
       handleError(error);
-      toast.error(error.response?.data?.error || 'Failed to update location');
     }
   });
 };
@@ -58,7 +56,6 @@ export const useDeleteLocation = () => {
     },
     onError: (error) => {
       handleError(error);
-      toast.error(error.response?.data?.error || 'Failed to delete location');
     }
   });
 };

@@ -10,6 +10,8 @@ import {
 } from "lucide-react";
 import useProductsQuery from "../../hooks/useProductsQuery";
 import LoadingSpinner from "../../components/common/Loading";
+import { capitalizeWords } from "../../utils";
+import { Navigate } from "react-router-dom";
 
 const ProductTypePage = () => {
     const { brand, typeSlug } = useParams();
@@ -22,8 +24,7 @@ const ProductTypePage = () => {
         return <LoadingSpinner name={brand} />;
     }
     if (error) {
-        window.location.href = "/not-found";
-        return null;
+        return <Navigate to="/not-found" replace />;
     }
 
     return (
@@ -206,7 +207,7 @@ const ProductTypePage = () => {
                     <Link
                         to="/contact"
                         className={`inline-block px-8 py-3.5 rounded-lg font-semibold text-base bg-accent text-secondary hover:bg-accent-2 transition-all duration-300 shadow-sm hover:shadow-lg cursor-pointer hover:-translate-y-0.5`}
-                        state={{subject: `${brand} ${typeName} Inquiry`}}
+                        state={{subject: `${capitalizeWords(brand)} ${capitalizeWords(typeName)} Inquiry`}}
                     >
                         Contact Our Experts
                     </Link>

@@ -25,10 +25,15 @@ export const getProductData = (brands, brand, typeSlug, id) => {
 export const assetUrl = (path) => {
     if (!path) return "";
     if (path.startsWith("http")) return path;
+    if (!path.startsWith("/assets/")) return path;
     return `${config.assetUrl}${path}`;
 }
 
 export const getSisterCompanyData = (sisterCompanies, companySlug) => {
     const company = sisterCompanies?.find(c => c.slug === companySlug);
     return company ? company : null;
+}
+
+export const capitalizeWords = (str) => {
+  return str.replace(/\b\w/g, char => char.toUpperCase());
 }

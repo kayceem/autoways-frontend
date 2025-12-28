@@ -2,14 +2,14 @@ import { useContent } from '../../context/globalContext';
 import LoadingSpinner from '../../components/common/Loading';
 import WaveBackground from '../../components/common/WaveBackground';
 import { assetUrl } from '../../utils';
+import { Navigate } from 'react-router-dom';
 
 const NewsMedia = () => {
   const { content, isLoading } = useContent();
 
   if (isLoading) return <LoadingSpinner />;
   if (!content || !content.newsArticles) {
-    window.location.href = "/not-found";
-    return null;
+    return <Navigate to="/not-found" replace />;
   }
 
   const articles = content.newsArticles.filter((article => article.isFeatured === false)); 

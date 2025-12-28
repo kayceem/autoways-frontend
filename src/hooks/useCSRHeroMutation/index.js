@@ -18,7 +18,6 @@ export const useCreateCSRHero = () => {
     },
     onError: (error) => {
       handleError(error);
-      toast.error(error.response?.data?.error || 'Failed to create CSR Hero');
     }
   });
 };
@@ -38,7 +37,6 @@ export const useUpdateCSRHero = () => {
     },
     onError: (error) => {
       handleError(error);
-      toast.error(error.response?.data?.error || 'Failed to update CSR Hero');
     }
   });
 };
@@ -58,7 +56,6 @@ export const useDeleteCSRHero = () => {
     },
     onError: (error) => {
       handleError(error);
-      toast.error(error.response?.data?.error || 'Failed to delete CSR Hero');
     }
   });
 };

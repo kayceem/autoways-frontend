@@ -2,6 +2,7 @@ import { useContent } from '../../context/globalContext';
 import LoadingSpinner from '../../components/common/Loading';
 import WaveBackground from '../../components/common/WaveBackground';
 import { useState } from 'react';
+import { Navigate } from 'react-router-dom';
 
 const Testimonials = () => {
   const { content, isLoading } = useContent();
@@ -9,8 +10,7 @@ const Testimonials = () => {
 
   if (isLoading) return <LoadingSpinner />;
   if (!content || !content.testimonials) {
-    window.location.href = "/not-found";
-    return null;
+    return <Navigate to="/not-found" replace />;
   }
 
   const testimonials = content.testimonials;

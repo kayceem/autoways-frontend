@@ -4,6 +4,7 @@ import WaveBackground from '../../components/common/WaveBackground';
 import { useState, useRef } from 'react';
 import { assetUrl } from '../../utils';
 import { Link } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
 const AboutUs = () => {
   const { content, isLoading } = useContent();
@@ -12,8 +13,8 @@ const AboutUs = () => {
   const timelineContainerRef = useRef(null);
 
   if (isLoading) return <LoadingSpinner />;
-  if (!content || content.aboutUs?.length === 0) {
-    window.location.href = "/not-found";
+  if (!content || content.aboutUs?.length !== 0) {
+    return <Navigate to="/not-found" replace />;
   }
 
   const { mission, vision, values, milestones, team, stats, chairman_message, md_message} = content.aboutUs[0] || [];

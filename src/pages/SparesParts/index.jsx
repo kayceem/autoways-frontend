@@ -38,8 +38,7 @@ const SparesParts = () => {
     }
 
     if (error) {
-        window.location.href = "/not-found";
-        return null;
+        return <Navigate to="/not-found" replace />;
     }
 
     return (

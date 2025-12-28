@@ -14,7 +14,6 @@ export const useSubmitContactForm = () => {
     },
     onError: (error) => {
       handleError(error);
-      toast.error(error.response?.data?.error || 'Something went wrong. Please try again later.');
     }
   });
 };

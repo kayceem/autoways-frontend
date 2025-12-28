@@ -18,7 +18,6 @@ export const useCreateSparePart = () => {
     },
     onError: (error) => {
       handleError(error);
-      toast.error(error.response?.data?.error || 'Failed to create spare part');
     }
   });
 };
@@ -38,7 +37,6 @@ export const useUpdateSparePart = () => {
     },
     onError: (error) => {
       handleError(error);
-      toast.error(error.response?.data?.error || 'Failed to update spare part');
     }
   });
 };
@@ -58,7 +56,6 @@ export const useDeleteSparePart = () => {
     },
     onError: (error) => {
       handleError(error);
-      toast.error(error.response?.data?.error || 'Failed to delete spare part');
     }
   });
 };

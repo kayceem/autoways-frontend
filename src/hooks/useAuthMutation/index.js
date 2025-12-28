@@ -18,7 +18,6 @@ export const useLogin = () => {
     },
     onError: (error) => {
       handleError(error);
-      toast.error(error.response?.data?.error || 'Invalid credentials. Please try again.');
     }
   });
 };

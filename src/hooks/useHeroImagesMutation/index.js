@@ -18,7 +18,6 @@ export const useCreateHeroImage = () => {
     },
     onError: (error) => {
       handleError(error);
-      toast.error(error.response?.data?.error || 'Failed to create hero image');
     }
   });
 };
@@ -38,7 +37,6 @@ export const useUpdateHeroImage = () => {
     },
     onError: (error) => {
       handleError(error);
-      toast.error(error.response?.data?.error || 'Failed to update hero image');
     }
   });
 };
@@ -58,7 +56,6 @@ export const useDeleteHeroImage = () => {
     },
     onError: (error) => {
       handleError(error);
-      toast.error(error.response?.data?.error || 'Failed to delete hero image');
     }
   });
 };

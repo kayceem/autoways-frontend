@@ -18,7 +18,6 @@ export const useCreateCSRInitiative = () => {
     },
     onError: (error) => {
       handleError(error);
-      toast.error(error.response?.data?.error || 'Failed to create CSR initiative');
     }
   });
 };
@@ -38,7 +37,6 @@ export const useUpdateCSRInitiative = () => {
     },
     onError: (error) => {
       handleError(error);
-      toast.error(error.response?.data?.error || 'Failed to update CSR initiative');
     }
   });
 };
@@ -58,7 +56,6 @@ export const useDeleteCSRInitiative = () => {
     },
     onError: (error) => {
       handleError(error);
-      toast.error(error.response?.data?.error || 'Failed to delete CSR initiative');
     }
   });
 };

@@ -13,7 +13,7 @@ const NotFound = () => {
           Page Not Found
         </h2>
 
-        <p className="text-sm lg:text-lg text-gray-300 mb-6 lg:mb-8 max-w-md mx-auto">
+        <p className="text-sm lg:text-lg text-gray-600 mb-6 lg:mb-8 max-w-md mx-auto">
           Sorry, the page you are looking for doesn't exist or has been moved.
         </p>
 
@@ -21,7 +21,7 @@ const NotFound = () => {
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
           <Link
             to="/"
-            className="flex items-center gap-2 bg-accent text-primary px-6 py-3 rounded-lg font-semibold hover:bg-opacity-90 transition-all duration-300 shadow-lg hover:shadow-xl"
+            className="flex items-center gap-2 bg-accent text-primary px-6 py-3 rounded-lg font-semibold hover:bg-opacity-90 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105"
           >
             <Home size={20} />
             Go to Homepage
@@ -29,9 +29,8 @@ const NotFound = () => {
 
           <button
             onClick={() => window.history.back()}
-            className="flex items-center gap-2 border-2 border-secondary text-secondary px-6 py-3 rounded-lg font-semibold hover:bg-secondary hover:text-primary transition-all duration-300"
+            className="flex items-center gap-2 border-1 border-secondary text-secondary px-6 py-3 rounded-lg font-semibold hover:bg-secondary hover:text-primary transition-all duration-300 hover:scale-105"
           >
-            <ArrowLeft size={20} />
             Go Back
           </button>
         </div>

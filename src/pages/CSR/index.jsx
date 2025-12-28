@@ -3,14 +3,14 @@ import LoadingSpinner from '../../components/common/Loading';
 import WaveBackground from '../../components/common/WaveBackground';
 import { assetUrl } from '../../utils';
 import { Link} from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
 const CSR = () => {
   const { content, isLoading } = useContent();
 
   if (isLoading) return <LoadingSpinner />;
   if (!content || !content.csr) {
-    window.location.href = "/not-found";
-    return null;
+    return <Navigate to="/not-found" replace />;
   }
 
   const { hero: heroData, initiatives} = content.csr;

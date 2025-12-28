@@ -18,7 +18,6 @@ export const useUpdateContactInfo = () => {
     },
     onError: (error) => {
       handleError(error);
-      toast.error(error.response?.data?.error || 'Failed to update contact information');
     }
   });
 };
