@@ -88,6 +88,7 @@ const {
   createSparePart,
   updateSparePart,
   deleteSparePart,
+  getCustomers
 } = require("./database/interface.js");
 
 let dbConnected = false;
@@ -336,6 +337,9 @@ async function startServer() {
   router.patch("/spare-parts/:id", updateSparePart);
   router.delete("/spare-parts/:id", deleteSparePart);
 
+  // Customer routes
+  router.get("/customers", getCustomers);
+  
   // Mount router
   app.use("/api", router);
 

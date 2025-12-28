@@ -1,5 +1,6 @@
 const nodemailer = require('nodemailer');
 const logger = require('../utils/logger');
+const createCustomer = require('../database/interface').createCustomerUtil;
 
 const toBool = (v) => v === true || v === 'true' || v === '1';
 
@@ -104,13 +105,14 @@ Subject: ${subject}
 ${message ? `Message:\n${message}\n\n` : ''}---\nTime: ${new Date().toLocaleString()}`
     };
 
-    // Respond immediately (frontend doesn't wait for SMTP)
     res.status(202).json({
       success: true,
       message: 'Contact form received.'
     });
+    // Save to database
+    createCustomer({name: name, email: email, phone: phone, receivedAt: new Date()});
 
-    // Send after response (fire-and-forget)
+    // Send email in background
     setImmediate(async () => {
       try {
         await transporter.sendMail(mail);

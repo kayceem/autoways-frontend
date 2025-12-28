@@ -548,6 +548,24 @@ const AboutUsSchema = new Schema({
     }
 }, { timestamps: true });
 
+const CustomerSchema = new Schema({
+    email: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    name: {
+        type: String,
+        required: true
+    },
+    phone: String,
+    address: String,
+    registeredAt: {
+        type: Date,
+        default: Date.now
+    }
+}, { timestamps: true });
+
 // ==================== Export Models ====================
 const HeroImage = mongoose.model('HeroImage', HeroImageSchema);
 const AboutUs = mongoose.model('AboutUs', AboutUsSchema);
@@ -563,6 +581,7 @@ const CSRInitiative = mongoose.model('CSRInitiative', CSRInitiativeSchema);
 const CSRHero = mongoose.model('CSRHero', CSRHeroSchema);
 const SisterCompany = mongoose.model('SisterCompany', SisterCompanySchema);
 const SparePart = mongoose.model('SparePart', SparePartSchema);
+const Customer = mongoose.model('Customer', CustomerSchema);
 
 module.exports = {
     HeroImage,
@@ -579,4 +598,5 @@ module.exports = {
     CSRHero,
     SisterCompany,
     SparePart,
+    Customer
 };

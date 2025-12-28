@@ -17,6 +17,7 @@ const {
     CSRHero,
     SisterCompany,
     SparePart,
+    Customer
 } = require('./schema.js');
 
 const {
@@ -1705,6 +1706,22 @@ const deleteSparePart = asyncHandler(async (req, res) => {
     });
 });
 
+const getCustomers = asyncHandler(async (req, res) => {
+    const customer = await Customer.findAll();
+    res.json({
+        success: true,
+        data: customer
+    });
+});
+
+const createCustomerUtil = async (customerData) => {
+    try {
+        await Customer.create(customerData);
+    } catch (error) {
+        logger.error('Error creating customer:', error);
+    }
+};
+
 
 // ==================== HELPER FUNCTION ====================
 const refreshCacheInBackground = async () => {
@@ -1793,5 +1810,7 @@ module.exports = {
     deleteSisterCompany,
     createSparePart,
     updateSparePart,
-    deleteSparePart
+    deleteSparePart,
+    getCustomers,
+    createCustomerUtil
 };
