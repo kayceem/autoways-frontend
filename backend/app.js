@@ -349,7 +349,22 @@ async function startServer() {
   // Contact routes - no database dependency
   app.use("/api/contact", contactRoutes);
 
-  app.use("/api/assets", express.static(path.join(__dirname, "assets")));
+  // Static assets with cache headers for images
+  const assetsPath = path.join(__dirname, "assets");
+  app.use("/api/assets", (req, res, next) => {
+    const isImage = /\.(jpg|jpeg|png|gif|webp|svg|ico)$/i.test(req.path);
+    if (isImage) {
+      res.set({
+        'Cache-Control': 'public, max-age=14400, immutable',
+        'ETag': false
+      });
+    }
+    next();
+  }, express.static(assetsPath, {
+    etag: true,
+    lastModified: true,
+    maxAge: '4h'
+  }));
 
   // ---------- ERROR HANDLING ----------
 
