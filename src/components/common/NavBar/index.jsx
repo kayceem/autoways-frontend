@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
-import { Mail, MapPin, Menu, X } from "lucide-react";
+import { Mail, MapPin, Menu, X, ChevronLeft } from "lucide-react";
 import Logo from "../Logo";
 import Dropdown from "../Dropdown";
 import useNavBarItems from "../../../config/navBar";
 import { useState, useEffect, useRef } from "react";
 import useLogoMap from "../../../config/logoMap";
+import { assetUrl } from "../../../utils";
 
 const Navbar = ({ className = "" }) => {
     // State to manage the navbar's visibility
@@ -12,6 +13,7 @@ const Navbar = ({ className = "" }) => {
     const navBarItems = useNavBarItems();
     const { logoMap } = useLogoMap(); 
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [activeSubMenu, setActiveSubMenu] = useState(null); // 'dealerships' or 'sister-companies'
     const lastScrollY = useRef(0);
     const mobileMenuRef = useRef(null);
     const menuButtonRef = useRef(null);
@@ -65,6 +67,7 @@ const Navbar = ({ className = "" }) => {
                 !menuButtonRef.current.contains(event.target)
             ) {
                 setIsMobileMenuOpen(false);
+                setActiveSubMenu(null);
             }
         };
 
@@ -78,6 +81,12 @@ const Navbar = ({ className = "" }) => {
             document.removeEventListener('touchstart', handleClickOutside);
         };
     }, [isMobileMenuOpen]);
+
+    // Close menu and reset submenu when link is clicked
+    const handleLinkClick = () => {
+        setIsMobileMenuOpen(false);
+        setActiveSubMenu(null);
+    };
 
     return (
         <div
@@ -169,110 +178,185 @@ const Navbar = ({ className = "" }) => {
                         {/* Mobile Menu Button */}
                         <button
                             ref={menuButtonRef}
-                            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                            onClick={() => {
+                                setIsMobileMenuOpen(!isMobileMenuOpen);
+                                if (isMobileMenuOpen) {
+                                    setActiveSubMenu(null);
+                                }
+                            }}
                             className="lg:hidden text-secondary hover:text-accent transition-colors duration-200 p-2"
                             aria-label="Toggle menu"
                         >
-                            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+                             <Menu size={24} />
                         </button>
                     </div>
                 </div>
 
-                {/* Mobile Menu */}
-                {isMobileMenuOpen && (
-                    <div ref={mobileMenuRef} className="lg:hidden bg-primary border-secondary/20">
-                        <div className="px-4 py-4 space-y-3">
-                            <Link
-                                to="/shop/bull"
-                                className="nav-link-underline block text-secondary hover:text-accent transition-colors duration-200 font-medium py-2"
-                                onClick={() => setIsMobileMenuOpen(false)}
-                            >
-                                Bull
-                            </Link>
-
-                            <div className="py-2">
-                                <Dropdown
-                                    label="Dealerships"
-                                    items={navBarItems.shopItems}
-                                />
-                            </div>
-
-                            <div className="py-2">
-                                <Link
-                                    to="/spares-parts"
-                                    className="nav-link-underline block text-secondary hover:text-accent transition-colors duration-200 font-medium py-2"
-                                    onClick={() => setIsMobileMenuOpen(false)}
-                                    >
-                                    Spares & Parts
-                                </Link>
-                            </div>
-
-                            <div className="py-2">
-                                <Link
-                                    to="/news"
-                                    className="nav-link-underline block text-secondary hover:text-accent transition-colors duration-200 font-medium py-2"
-                                    onClick={() => setIsMobileMenuOpen(false)}
+                {/* Mobile Side Panel */}
+                <div
+                    className={`fixed inset-0 z-50 lg:hidden transition-opacity duration-300 ${
+                        isMobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+                    }`}
+                    onClick={(e) => {
+                        if (e.target === e.currentTarget) {
+                            setIsMobileMenuOpen(false);
+                            setActiveSubMenu(null);
+                        }
+                    }}
+                >
+                    {/* Backdrop */}
+                    <div className="absolute inset-0 bg-black/50" />
+                    
+                    {/* Side Panel */}
+                    <div
+                        ref={mobileMenuRef}
+                        className={`absolute right-0 top-0 bottom-0 w-80 max-w-[85vw] bg-primary shadow-2xl transform transition-transform duration-300 ease-in-out ${
+                            isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
+                        }`}
+                    >
+                        <div className="flex flex-col h-full">
+                            {/* Header */}
+                            <div className="flex items-center justify-between px-4 py-4 border-secondary/20">
+                                <button
+                                onClick={() => {
+                                    if (!activeSubMenu) {
+                                    setIsMobileMenuOpen(false);
+                                    }
+                                    setActiveSubMenu(null);
+                                }}
+                                    className="p-2 text-secondary hover:text-accent transition-colors"
+                                    aria-label="Close menu"
                                 >
-                                    News & Media
-                                </Link>
+                                    { activeSubMenu ? <ChevronLeft size={24} /> :  <Menu size={24} />}
+                                </button>
                             </div>
 
-                            <div className="py-2">
-                                <Link
-                                    to="/testimonials"
-                                    className="nav-link-underline block text-secondary hover:text-accent transition-colors duration-200 font-medium py-2"
-                                    onClick={() => setIsMobileMenuOpen(false)}
+                            {/* Menu Content */}
+                            <div className="flex-1 relative overflow-hidden">
+                                {/* Main Menu */}
+                                <div 
+                                    className={`absolute inset-0 overflow-y-auto px-4 py-4 space-y-1 transition-all duration-300 ease-in-out ${
+                                        !activeSubMenu 
+                                            ? 'opacity-100 translate-x-0' 
+                                            : 'opacity-0 -translate-x-full pointer-events-none'
+                                    }`}
                                 >
-                                    Testimonials
-                                </Link>
-                            </div>
+                                        <Link
+                                            to="/about"
+                                            className="block px-4 py-3 text-secondary hover:bg-accent/20 hover:text-accent transition-colors duration-200 font-medium rounded-lg"
+                                            onClick={handleLinkClick}
+                                        >
+                                            About Us
+                                        </Link>
 
-                            <div className="py-2">
-                                <Link
-                                    to="/csr"
-                                    className="nav-link-underline block text-secondary hover:text-accent transition-colors duration-200 font-medium py-2"
-                                    onClick={() => setIsMobileMenuOpen(false)}
-                                >
-                                    CSR
-                                </Link>
-                            </div>
-                            <div className="py-2">
-                                <Dropdown
-                                    label="Sister Companies"
-                                    items={navBarItems.partnersItems}
-                                />
-                            </div>
+                                        <Link
+                                            to="/shop/bull"
+                                            className="block px-4 py-3 text-secondary hover:bg-accent/20 hover:text-accent transition-colors duration-200 font-medium rounded-lg"
+                                            onClick={handleLinkClick}
+                                        >
+                                            Bull
+                                        </Link>
 
-                            <Link
-                                to="/about"
-                                className="nav-link-underline block text-secondary hover:text-accent transition-colors duration-200 font-medium py-2"
-                                onClick={() => setIsMobileMenuOpen(false)}
-                            >
-                                About Us
-                            </Link>
+                                        <button
+                                            onClick={() => setActiveSubMenu('dealerships')}
+                                            className="w-full text-left block px-4 py-3 text-secondary hover:bg-accent/20 hover:text-accent transition-colors duration-200 font-medium rounded-lg"
+                                        >
+                                            Dealerships
+                                        </button>
 
-                            {/* Mobile Contact Links */}
-                            <div className="flex items-center gap-6 pt-4 border-secondary/20">
-                                <Link
-                                    to="/contact"
-                                    className="flex items-center gap-2 text-secondary hover:text-accent transition-colors duration-200 font-medium"
-                                    onClick={() => setIsMobileMenuOpen(false)}
+                                        <Link
+                                            to="/spares-parts"
+                                            className="block px-4 py-3 text-secondary hover:bg-accent/20 hover:text-accent transition-colors duration-200 font-medium rounded-lg"
+                                            onClick={handleLinkClick}
+                                        >
+                                            Spares & Parts
+                                        </Link>
+
+                                        <Link
+                                            to="/news"
+                                            className="block px-4 py-3 text-secondary hover:bg-accent/20 hover:text-accent transition-colors duration-200 font-medium rounded-lg"
+                                            onClick={handleLinkClick}
+                                        >
+                                            News & Media
+                                        </Link>
+
+                                        <Link
+                                            to="/testimonials"
+                                            className="block px-4 py-3 text-secondary hover:bg-accent/20 hover:text-accent transition-colors duration-200 font-medium rounded-lg"
+                                            onClick={handleLinkClick}
+                                        >
+                                            Testimonials
+                                        </Link>
+
+                                        <Link
+                                            to="/csr"
+                                            className="block px-4 py-3 text-secondary hover:bg-accent/20 hover:text-accent transition-colors duration-200 font-medium rounded-lg"
+                                            onClick={handleLinkClick}
+                                        >
+                                            CSR
+                                        </Link>
+
+                                        <button
+                                            onClick={() => setActiveSubMenu('sister-companies')}
+                                            className="w-full text-left block px-4 py-3 text-secondary hover:bg-accent/20 hover:text-accent transition-colors duration-200 font-medium rounded-lg"
+                                        >
+                                            Sister Companies
+                                        </button>
+
+                                        {/* Contact Links */}
+                                        <div className="pt-4 mt-4 space-y-1">
+                                            <Link
+                                                to="/contact"
+                                                className="flex items-center gap-3 px-4 py-3 text-secondary hover:bg-accent/20 hover:text-accent transition-colors duration-200 font-medium rounded-lg"
+                                                onClick={handleLinkClick}
+                                            >
+                                                <Mail size={20} />
+                                                <span>Contact</span>
+                                            </Link>
+                                            <Link
+                                                to="/locations"
+                                                className="flex items-center gap-3 px-4 py-3 text-secondary hover:bg-accent/20 hover:text-accent transition-colors duration-200 font-medium rounded-lg"
+                                                onClick={handleLinkClick}
+                                            >
+                                                <MapPin size={20} />
+                                                <span>Locations</span>
+                                            </Link>
+                                        </div>
+                                </div>
+
+                                {/* Sub Menu (Dealerships or Sister Companies) */}
+                                <div 
+                                    className={`absolute inset-0 overflow-y-auto px-4 py-4 transition-all duration-300 ease-in-out ${
+                                        activeSubMenu 
+                                            ? 'opacity-100 translate-x-0' 
+                                            : 'opacity-0 translate-x-full pointer-events-none'
+                                    }`}
                                 >
-                                    <Mail size={20} />
-                                    <span>Contact</span>
-                                </Link>
-                                <Link
-                                    to="/locations"
-                                    className="flex items-center gap-2 text-secondary hover:text-accent transition-colors duration-200 font-medium"
-                                    onClick={() => setIsMobileMenuOpen(false)}
-                                >
-                                    <MapPin size={20} />
-                                    <span>Locations</span>
-                                </Link>
+                                        {/* Sub Menu Items */}
+                                        <div className="space-y-1">
+                                            {(activeSubMenu === 'dealerships' ? navBarItems.shopItems : navBarItems.partnersItems).map((item, index) => (
+                                                <Link
+                                                    key={index}
+                                                    to={item.link}
+                                                    className="flex items-center gap-3 px-4 py-3 text-secondary hover:bg-accent/20 hover:text-accent transition-colors duration-200 font-medium rounded-lg group"
+                                                    onClick={handleLinkClick}
+                                                >
+                                                    {item.image && (
+                                                        <img
+                                                            src={assetUrl(item.image)}
+                                                            alt={item.name}
+                                                            className="w-8 h-8 object-contain"
+                                                        />
+                                                    )}
+                                                    <span>{item.name}</span>
+                                                </Link>
+                                            ))}
+                                        </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                )}
+                </div>
             </nav>
         </div>
     );
