@@ -71,7 +71,7 @@ const SpecificationsDisplay = ({ specifications = {}, fuelType = 'normal' }) => 
                             {data.map((item, index) => (
                                 <div
                                     key={index}
-                                    className="flex flex-col sm:flex-row sm:items-start gap-2 sm:gap-80 py-3 border-b border-neutral-100 last:border-b-0 hover:bg-accent/5 px-3 rounded transition-all duration-200 animate-slide-up"
+                                    className="flex flex-col sm:flex-row sm:items-start gap-2 lg:gap-80 py-3 border-b border-neutral-100 last:border-b-0 hover:bg-accent/5 px-3 rounded transition-all duration-200 animate-slide-up"
                                     style={{animationDelay: `${index * 30}ms`}}
                                 >
                                     <div className="text-xs lg:text-sm font-bold opacity-60 text-secondary uppercase tracking-wider min-w-[160px] sm:w-[160px] flex-shrink-0">

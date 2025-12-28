@@ -180,7 +180,7 @@ const Navbar = ({ className = "" }) => {
 
                 {/* Mobile Menu */}
                 {isMobileMenuOpen && (
-                    <div className="lg:hidden bg-primary border-secondary/20">
+                    <div ref={mobileMenuRef} className="lg:hidden bg-primary border-secondary/20">
                         <div className="px-4 py-4 space-y-3">
                             <Link
                                 to="/shop/bull"
