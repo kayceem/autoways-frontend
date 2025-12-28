@@ -1,4 +1,4 @@
 User-agent: *
-Disallow: 
+Allow: /
 Disallow: /cgi-bin/
 Sitemap: https://autoways.com.np/sitemap.txt
