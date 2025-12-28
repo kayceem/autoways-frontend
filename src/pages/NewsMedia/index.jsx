@@ -102,7 +102,7 @@ const NewsMedia = () => {
                     className="w-full h-full object-cover transform hover:scale-110 transition-transform duration-500"
                   />
                   <div className="absolute top-3 left-3">
-                    <span className="bg-dark text-accent px-3 py-1 rounded-full text-xs font-semibold">
+                    <span className="bg-primary text-accent px-2 py-1 rounded-full text-xs font-semibold opacity-80">
                       {article.category}
                     </span>
                   </div>
@@ -153,9 +153,9 @@ const NewsMedia = () => {
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="flex-1 px-6 py-3 rounded-lg bg-accent text-dark focus:outline-none focus:ring-2 focus:ring-accent"
+                className="flex-1 px-6 py-3 rounded-lg bg-accent text-dark focus:outline-none focus:ring-accent"
               />
-              <button className="px-8 py-3 bg-dark text-secondary rounded-lg font-semibold hover:bg-opacity-90 transition-colors">
+              <button className="px-8 py-3 bg-primary text-secondary rounded-lg font-semibold hover:scale-105 duration-200">
                 Subscribe
               </button>
             </div>

@@ -57,7 +57,7 @@ const ProductTypeCard = ({ type, image, link, brandName, className = "" }) => {
                     <div className="absolute inset-0 bg-gradient-to-t from-primary via-primary/50 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
 
                     {/* Animated Border */}
-                    <div className={`absolute inset-0 border-2 border-accent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl`} />
+                    <div className={`absolute inset-0 border-1 border-accent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl`} />
                 </div>
 
                 {/* Shine Effect */}

@@ -30,8 +30,12 @@ const Locations = () => {
                                 <h3 className="text-lg lg:text-xl font-bold text-primary mb-2 lg:mb-3">{location.name}</h3>
                                 <p className="text-sm lg:text-base text-primary mb-2">{location.address}</p>
                                 <p className="text-xs lg:text-sm text-primary opacity-80 mb-2 lg:mb-3">{location.info}</p>
-                                <p className="text-xs lg:text-sm text-accent font-semibold">{content.contactInfo?.[0].email}</p>
-                                <p className="text-xs lg:text-sm text-accent font-semibold">{location.phone}</p>
+                                <p>
+                                    <a className="text-xs lg:text-sm text-accent font-semibold hover:opacity-80"  href={`mailto:${content.contactInfo?.[0].email}`}>{content.contactInfo?.[0].email}</a>
+                                </p>
+                                <p>
+                                    <a className="text-xs lg:text-sm text-accent font-semibold hover:opacity-80" href={`tel:${location.phone}`}>{location.phone}</a>
+                                </p>
                             </div>
                         ))}
                     </div>

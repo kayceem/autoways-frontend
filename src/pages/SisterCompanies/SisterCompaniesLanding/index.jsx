@@ -11,12 +11,17 @@ const SisterCompaniesLanding = () => {
     const navigate = useNavigate();
     const { content, isLoading, error } = useContent();
     const [heroImageLoaded, setHeroImageLoaded] = useState(false);
+    const [logoImageLoaded, setLogoImageLoaded] = useState(false);
 
-    const companyData =
-        !isLoading && !error
-            ? getSisterCompanyData(content?.sisterCompanies, companySlug)
-            : null;
+    const companyData = !isLoading && !error ? getSisterCompanyData(content?.sisterCompanies, companySlug) : null;
 
+    useEffect(() => {
+        setHeroImageLoaded(false);
+        setLogoImageLoaded(false);
+    }, [companySlug]);
+
+
+    
     // Preload hero image for instant display on navigation
     useEffect(() => {
         if (companyData?.image) {
@@ -27,6 +32,15 @@ const SisterCompaniesLanding = () => {
             };
         }
     }, [companyData?.image]);
+    useEffect(() => {
+        if (companyData?.logo) {
+            const img = new Image();
+            img.src = assetUrl(companyData.logo);
+            img.onload = () => {
+                setLogoImageLoaded(true);
+            };
+        }
+    }, [companyData?.logo]);
 
     if (isLoading) {
         return <LoadingSpinner />;
@@ -108,9 +122,18 @@ const SisterCompaniesLanding = () => {
                                 src={assetUrl(companyData.logo)}
                                 alt={`${companyData.name} logo`}
                                 className="h-24 lg:h-32 w-auto bg-white p-4 rounded-2xl shadow-2xl"
+                                style={{
+                                    opacity: logoImageLoaded ? 1 : 0,
+                                    visibility: logoImageLoaded ? 'visible' : 'hidden',
+                                    transition: 'opacity 0.5s ease-in-out',
+                                }}
+                                onLoad={() => setLogoImageLoaded(true)}
+                                loading="eager"
+                                fetchPriority="high"
                             />
                         </div>
                     )}
+                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/50 to-primary" />
 
                     {/* Company Name */}
                     {/* <h1 className="text-4xl lg:text-6xl font-bold text-secondary bg-primary rounded-2xl animate-fade-in-up">

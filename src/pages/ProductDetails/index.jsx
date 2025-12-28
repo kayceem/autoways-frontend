@@ -166,13 +166,13 @@ const ProductDetails = () => {
                             </div>
 
                             {product?.shortDescription && (
-                                <p className="text-lg lg:text-xl font-semibold text-secondary leading-relaxed">
+                                <p className="text-lg lg:text-xl font-semibold text-secondary leading-relaxed text-justify">
                                     {product?.shortDescription}
                                 </p>
                             )}
 
                             {product?.fullDescription && (
-                                <p className="text-sm lg:text-base text-secondary/70 leading-relaxed">
+                                <p className="text-sm lg:text-base text-secondary/70 leading-relaxed text-justify">
                                     {product?.fullDescription}
                                 </p>
                             )}
