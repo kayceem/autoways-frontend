@@ -17,7 +17,8 @@ const {
     CSRHero,
     SisterCompany,
     SparePart,
-    Customer
+    Customer,
+    CustomerTicket
 } = require('./schema.js');
 
 const {
@@ -1714,9 +1715,19 @@ const getCustomers = asyncHandler(async (req, res) => {
     });
 });
 
-const createCustomerUtil = async (customerData) => {
+const createCustomerUtil = async (customerData, ticketData) => {
     try {
-        await Customer.create(customerData);
+        const customer = await Customer.findOneAndUpdate(
+            { email: customerData.email },
+            customerData,
+            { upsert: true, new: true, setDefaultsOnInsert: true }
+        );
+        if (ticketData) {
+            await CustomerTicket.create({
+                customerId: customer._id,
+                ...ticketData
+            });
+        }
     } catch (error) {
         logger.error('Error creating customer:', error);
     }

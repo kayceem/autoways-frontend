@@ -110,7 +110,7 @@ ${message ? `Message:\n${message}\n\n` : ''}---\nTime: ${new Date().toLocaleStri
       message: 'Contact form received.'
     });
     // Save to database
-    createCustomer({name: name, email: email, phone: phone, receivedAt: new Date()});
+    createCustomer({name: name, email: email, phone: phone, receivedAt: new Date()}, {subject: subject, message: message});
 
     // Send email in background
     setImmediate(async () => {

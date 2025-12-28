@@ -566,7 +566,22 @@ const CustomerSchema = new Schema({
     }
 }, { timestamps: true });
 
-// ==================== Export Models ====================
+const CustomerTicketSchema = new Schema({
+    customerId: {
+        type: Schema.Types.ObjectId,
+        ref: 'Customer',
+        required: true
+    },
+    subject: {
+        type: String,
+        required: true
+    },
+    message: {
+        type: String,
+    },
+}, { timestamps: true });
+
+// ==================== Model Exports ====================
 const HeroImage = mongoose.model('HeroImage', HeroImageSchema);
 const AboutUs = mongoose.model('AboutUs', AboutUsSchema);
 const ContactInfo = mongoose.model('ContactInfo', ContactInfoSchema);
@@ -582,6 +597,7 @@ const CSRHero = mongoose.model('CSRHero', CSRHeroSchema);
 const SisterCompany = mongoose.model('SisterCompany', SisterCompanySchema);
 const SparePart = mongoose.model('SparePart', SparePartSchema);
 const Customer = mongoose.model('Customer', CustomerSchema);
+const CustomerTicket = mongoose.model('CustomerTicket', CustomerTicketSchema);
 
 module.exports = {
     HeroImage,
@@ -598,5 +614,6 @@ module.exports = {
     CSRHero,
     SisterCompany,
     SparePart,
-    Customer
+    Customer,
+    CustomerTicket
 };
