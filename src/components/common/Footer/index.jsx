@@ -131,7 +131,7 @@ const Footer = ({ className = "" }) => {
                                 <li>
                                     <Link
                                         to="/shop"
-                                        className="text-accent-2 hover:text-accent/80 transition-colors duration-300 font-semibold"
+                                        className="text-accent hover:text-accent/80 transition-colors duration-300 font-semibold"
                                     >
                                         View All Brands →
                                     </Link>

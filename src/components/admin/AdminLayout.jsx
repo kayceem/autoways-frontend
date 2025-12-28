@@ -114,7 +114,7 @@ const AdminLayout = () => {
             >
               <Menu className="w-6 h-6" />
             </button>
-            <Link to="/" className="text-lg font-semibold text-accent-2">
+            <Link to="/" className="text-lg font-semibold text-accent">
                 Autoways
             </Link>
             <div className="text-sm text-gray-600">

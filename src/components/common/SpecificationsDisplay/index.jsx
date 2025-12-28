@@ -55,13 +55,13 @@ const SpecificationsDisplay = ({ specifications = {}, fuelType = 'normal' }) => 
                     onClick={() => toggleSection(sectionId)}
                     className={`w-full px-5 lg:px-7 py-4 lg:py-5 flex items-center justify-between gap-4 text-left hover:bg-accent/5 ${!isOpen ? 'transition-all duration-300 group' : ''}`}
                 >
-                    <h3 className="text-base lg:text-xl font-bold text-secondary flex items-center gap-3 group-hover:text-accent-2 transition-colors duration-300">
+                    <h3 className="text-base lg:text-xl font-bold text-secondary flex items-center gap-3 group-hover:text-accent transition-colors duration-300">
                         <span className="w-1 h-6 bg-accent-2 rounded group-hover:h-8 transition-all duration-300"></span>
                         {title}
                     </h3>
                     <ChevronDown
                         size={22}
-                        className={`flex-shrink-0 text-secondary accordion-chevron ${isOpen ? 'open' : ''} group-hover:text-accent-2 transition-colors duration-300`}
+                        className={`flex-shrink-0 text-secondary accordion-chevron ${isOpen ? 'open' : ''} group-hover:text-accent transition-colors duration-300`}
                     />
                 </button>
 

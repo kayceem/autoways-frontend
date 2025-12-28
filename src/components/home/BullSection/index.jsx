@@ -168,8 +168,8 @@ const BullSection = ({ className = "" }) => {
                                 >
                                     Bull
                                     <svg
-                                        className="absolute -bottom-2 left-0 w-full"
-                                        viewBox="0 0 100 12"
+                                        className="absolute -bottom-3 left-0 w-full"
+                                        viewBox="0 0 100 20"
                                         preserveAspectRatio="none"
                                     >
                                         <path
@@ -263,19 +263,6 @@ const BullSection = ({ className = "" }) => {
                                 className={`group inline-flex items-center gap-2 lg:gap-3 bg-accent text-primary px-6 py-3 lg:px-8 lg:py-4 rounded-full text-sm lg:text-base font-semibold hover:bg-accent/90 transition-all duration-300 hover:shadow-lg hover:shadow-accent/25`}
                             >
                                 <span>Explore Products</span>
-                                <svg
-                                    className="w-4 h-4 lg:w-5 lg:h-5 transform group-hover:translate-x-1 transition-transform"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M17 8l4 4m0 0l-4 4m4-4H3"
-                                    />
-                                </svg>
                             </Link>
                         </div>
                     </div>
