@@ -13,7 +13,7 @@ const AboutUs = () => {
   const timelineContainerRef = useRef(null);
 
   if (isLoading) return <LoadingSpinner />;
-  if (!content || content.aboutUs?.length !== 0) {
+  if (!content || content.aboutUs?.length === 0) {
     return <Navigate to="/not-found" replace />;
   }
 
@@ -295,7 +295,7 @@ const handleNext = () => {
                 className="overflow-x-auto no-scrollbar"
                 ref={timelineContainerRef}
                 >
-              <div className="flex gap-4 pb-4 min-w-max justify-center mx-auto">
+              <div className="flex gap-4 p-4 min-w-max justify-center mx-auto">
                 {milestones.map((milestone, index) => (
                   <button
                     key={index}

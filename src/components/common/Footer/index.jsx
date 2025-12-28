@@ -11,10 +11,7 @@ const Footer = ({ className = "" }) => {
     const { email = "", phone = "", address = "", corporate_address = "",socialLinks = {} } = info;
 
     // Convert brands object to array (limit to 6 for footer)
-    const brandArray = Object.entries(brands)
-        .map(([key, brand]) => ({ id: key, ...brand }))
-        .slice(0, 6);
-
+    const brandArray = brands;
     const currentYear = new Date().getFullYear();
 
     return (
@@ -120,23 +117,13 @@ const Footer = ({ className = "" }) => {
                             {brandArray.map((brand, index) => (
                                 <li key={index}>
                                     <Link
-                                        to={`/shop/${brand.id}`}
+                                        to={`/shop/${brand.slug}`}
                                         className="text-primary-autoways  hover:text-accent transition-colors duration-300"
                                     >
                                         {brand.name}
                                     </Link>
                                 </li>
                             ))}
-                            {Object.keys(brands).length > 6 && (
-                                <li>
-                                    <Link
-                                        to="/shop"
-                                        className="text-accent hover:text-accent/80 transition-colors duration-300 font-semibold"
-                                    >
-                                        View All Brands →
-                                    </Link>
-                                </li>
-                            )}
                         </ul>
                     </div>
 
