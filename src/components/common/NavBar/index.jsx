@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import { Mail, MapPin, Menu, X } from "lucide-react";
 import Logo from "../Logo";
 import Dropdown from "../Dropdown";
-import Header from "../Header";
 import useNavBarItems from "../../../config/navBar";
 import { useState, useEffect, useRef } from "react";
 import useLogoMap from "../../../config/logoMap";
@@ -14,6 +13,8 @@ const Navbar = ({ className = "" }) => {
     const { logoMap } = useLogoMap(); 
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const lastScrollY = useRef(0);
+    const mobileMenuRef = useRef(null);
+    const menuButtonRef = useRef(null);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -31,6 +32,52 @@ const Navbar = ({ className = "" }) => {
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
+
+    // Prevent body scroll when mobile menu is open
+    useEffect(() => {
+        if (isMobileMenuOpen) {
+            // Save current scroll position
+            const scrollY = window.scrollY;
+            document.body.style.position = 'fixed';
+            document.body.style.top = `-${scrollY}px`;
+            document.body.style.width = '100%';
+            document.body.style.overflow = 'hidden';
+            
+            return () => {
+                // Restore scroll position
+                document.body.style.position = '';
+                document.body.style.top = '';
+                document.body.style.width = '';
+                document.body.style.overflow = '';
+                window.scrollTo(0, scrollY);
+            };
+        }
+    }, [isMobileMenuOpen]);
+
+    // Close mobile menu when clicking outside
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (
+                isMobileMenuOpen &&
+                mobileMenuRef.current &&
+                !mobileMenuRef.current.contains(event.target) &&
+                menuButtonRef.current &&
+                !menuButtonRef.current.contains(event.target)
+            ) {
+                setIsMobileMenuOpen(false);
+            }
+        };
+
+        if (isMobileMenuOpen) {
+            document.addEventListener('mousedown', handleClickOutside);
+            document.addEventListener('touchstart', handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+            document.removeEventListener('touchstart', handleClickOutside);
+        };
+    }, [isMobileMenuOpen]);
 
     return (
         <div
@@ -121,6 +168,7 @@ const Navbar = ({ className = "" }) => {
 
                         {/* Mobile Menu Button */}
                         <button
+                            ref={menuButtonRef}
                             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                             className="lg:hidden text-secondary hover:text-accent transition-colors duration-200 p-2"
                             aria-label="Toggle menu"

@@ -1,0 +1,36 @@
+/* Global custom scrollbar styling for all scrollbars (horizontal and vertical) */
+* {
+  /* Firefox */
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}
+
+/* Show scrollbar on hover for any scrollable element */
+*:hover {
+  scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+}
+
+/* Webkit browsers (Chrome, Safari, Edge) - Global */
+*::-webkit-scrollbar {
+  width: 6px; /* Vertical scrollbar width */
+  height: 6px; /* Horizontal scrollbar height */
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 3px;
+  transition: background 0.3s ease;
+}
+
+/* Show scrollbar thumb on hover */
+*:hover::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
