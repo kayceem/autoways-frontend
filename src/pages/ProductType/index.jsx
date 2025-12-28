@@ -2,23 +2,22 @@ import { Link, useParams } from "react-router-dom";
 import { useState } from "react";
 import ProductCard from "../../components/common/ProductCard";
 import {
-    Filter,
     Grid3x3,
     List,
-    SlidersHorizontal,
     ChevronDown,
 } from "lucide-react";
-import useProductsQuery from "../../hooks/useProductsQuery";
 import LoadingSpinner from "../../components/common/Loading";
-import { capitalizeWords } from "../../utils";
+import { capitalizeWords, getTypeNameFromSlug, getProductsBrandType } from "../../utils";
 import { Navigate } from "react-router-dom";
+import { useContent } from "../../context/globalContext";
 
 const ProductTypePage = () => {
     const { brand, typeSlug } = useParams();
-    const typeName = typeSlug.replace(/[-_]/g, ' ');
+    const { content, isLoading, error } = useContent();
     const [viewMode, setViewMode] = useState("grid");
     const [sortBy, setSortBy] = useState("name");
-    const { data = [], isLoading, error } = useProductsQuery({ brand: brand, type: typeSlug});
+    const typeName = getTypeNameFromSlug(content?.brands, brand, typeSlug);
+    const data = getProductsBrandType(content?.products, brand, typeSlug);
 
     if (isLoading) {
         return <LoadingSpinner name={brand} />;

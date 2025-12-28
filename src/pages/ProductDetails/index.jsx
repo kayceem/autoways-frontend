@@ -10,37 +10,33 @@ import {
     Battery,
     Zap,
 } from 'lucide-react';
-import useProductsQuery from '../../hooks/useProductsQuery';
 import ImageGallery from '../../components/common/ImageGallery';
 import SpecificationsDisplay from '../../components/common/SpecificationsDisplay';
 import LoadingSpinner from '../../components/common/Loading';
-import useContentQuery from '../../hooks/useContentQuery';
 import WaveBackground from '../../components/common/WaveBackground';
-import { assetUrl, capitalizeWords } from '../../utils';
+import { assetUrl, capitalizeWords, getTypeNameFromSlug, getProductData } from '../../utils';
 import { useState } from 'react';
 import DownloadSpecsInquiryModal from '../../components/common/Inquiry';
+import { useContent } from '../../context/globalContext';
 
 const ProductDetails = () => {
     const { brand, typeSlug, id } = useParams();
-    const typeName = typeSlug.replace(/[-_]/g, ' ');
-    const { data: siteContent, isLoading, error } = useContentQuery();
-    const { data: productData, isLoading: productLoading, error: productError } = useProductsQuery({id: id});
+    const { content: siteContent, isLoading, error } = useContent();
     const [isSpecsModalOpen, setIsSpecsModalOpen] = useState(false);
     const [pendingSpecsUrl, setPendingSpecsUrl] = useState('');
+    const typeName = getTypeNameFromSlug(siteContent?.brands, brand, typeSlug);
+    const product = getProductData(siteContent?.products, id);
+
+    
     const LS_KEY = 'specs_inquiry_contact_v1';
 
-    if (isLoading || productLoading) {
+    if (isLoading) {
         return <LoadingSpinner name={brand} />;
     }
     
-    if (error || productError) {
+    if (error) {
         return <Navigate to="/not-found" replace />;
     }
-
-    if (productData.length === 0) {
-        return <Navigate to="/not-found" replace />;
-    }
-    const product = productData[0];
 
 
     const getSavedContact = () => {

@@ -5,20 +5,28 @@ export const getBrandData = (brands, brandName) => {
     return brand ? brand : null;
 }
 
+export const getTypeNameFromSlug = (brands, brandName, typeSlug) => {
+    const brandData = getBrandData(brands, brandName);
+    if (!brandData) return null;
+    const type = brandData.productTypes?.find(t => t.type.toLowerCase() === typeSlug.toLowerCase());
+    return type ? type.name : null;
+}
+export const getProductsBrandType = (products, brandName, typeSlug) => {
+    const filteredProducts = products?.filter(p =>
+        p.brand.toLowerCase() === brandName.toLowerCase() &&
+        p.type.toLowerCase() === typeSlug.toLowerCase()
+    );
+    return filteredProducts ? filteredProducts : [];
+}
+
 export const getBrandTypeData = (brands, brand, type) => {
     const brandData = getBrandData(brands, brand);  
     const typeProducts = brandData
     return typeProducts ? typeProducts : null;
 }
 
-export const getProductData = (brands, brand, typeSlug, id) => {
-    const type = typeSlug.replace(/-/g, '_');
-    console.log("Looking for Brand:", brand, "Type:", type, "ID:", id);
-    const typeData = getBrandTypeData(brands, brand, type);
-    if (!typeData) return null;
-    console.log("Type Data:", typeData);
-    console.log("Searching for Product ID:", id);   
-    const product = typeData.find(product => product.id === id);
+export const getProductData = (products, id) => {
+    const product = products?.find(p => p._id === id);
     return product ? product : null;
 }
 
