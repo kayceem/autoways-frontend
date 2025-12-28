@@ -191,7 +191,24 @@ const ProductDetails = () => {
                     </div>
                 </div>
             </section>
+            
+            {/* Inquiry Modal for Downloading Specs */}
+            <DownloadSpecsInquiryModal
+                        isOpen={isSpecsModalOpen}
+                        onClose={() => {
+                            setIsSpecsModalOpen(false);
+                            setPendingSpecsUrl('');
+                        }}
+                        productName={product?.name}
+                        onSuccess={(contact) => {
+                            saveContact(contact);
+                            setIsSpecsModalOpen(false);
 
+                            // open PDF ONLY after successful submit
+                            openSpecsPdf(pendingSpecsUrl);
+                            setPendingSpecsUrl('');
+                        }}
+            />
             {/* Features Section */}
             {product?.features && product?.features.length > 0 && (
                 <section className="bg-accent/30 border-neutral-200 relative overflow-hidden">
@@ -266,22 +283,6 @@ const ProductDetails = () => {
                             </div>
                         </Link>
                     </div>
-                    <DownloadSpecsInquiryModal
-                        isOpen={isSpecsModalOpen}
-                        onClose={() => {
-                            setIsSpecsModalOpen(false);
-                            setPendingSpecsUrl('');
-                        }}
-                        productName={product?.name}
-                        onSuccess={(contact) => {
-                            saveContact(contact);
-                            setIsSpecsModalOpen(false);
-
-                            // open PDF ONLY after successful submit
-                            openSpecsPdf(pendingSpecsUrl);
-                            setPendingSpecsUrl('');
-                        }}
-                        />
                     <div className="text-center animate-fade-in-up flex align-center justify-center gap-2">
                         <Link to="/contact" 
                         className="inline-block px-8 py-3.5 rounded-lg font-semibold text-base bg-accent text-secondary hover:bg-accent-2 transition-all duration-300 shadow-sm hover:shadow-lg cursor-pointer hover:-translate-y-0.5"

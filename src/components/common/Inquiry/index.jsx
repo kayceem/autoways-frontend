@@ -39,6 +39,27 @@ const DownloadSpecsInquiryModal = ({
     setErrors({});
   }, [isOpen, productName]);
 
+//   Prevent body scroll when modal is open
+  useEffect(() => {
+    if (isOpen) {
+      // Save current scroll position
+      const scrollY = window.scrollY;
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.width = '100%';
+      document.body.style.overflow = 'hidden';
+      
+      return () => {
+        // Restore scroll position
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.width = '';
+        document.body.style.overflow = '';
+        window.scrollTo(0, scrollY);
+      };
+    }
+  }, [isOpen]);
+
   const validateForm = () => {
     const nextErrors = {};
 
@@ -92,16 +113,21 @@ const DownloadSpecsInquiryModal = ({
 
   return (
     <div
-      className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center px-4"
+      className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center px-4 overflow-y-auto"
       onClick={() => (!isPending ? onClose?.() : null)}
       aria-modal="true"
       role="dialog"
       style={{
         animation: 'fadeIn 0.2s ease-out',
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
       }}
     >
       <div
-        className="w-full max-w-lg rounded-xl bg-primary border border-neutral-200 shadow-xl p-2"
+        className="w-full max-w-lg rounded-xl bg-primary border border-neutral-200 shadow-xl p-2 my-auto"
         onClick={(e) => e.stopPropagation()}
         style={{
           animation: 'slideUp 0.2s ease-out',
