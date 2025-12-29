@@ -5,7 +5,9 @@ const WaveBackground = ({
   opacity = 0.1,
   waveColor = 'currentColor',
   animate = true,
-  className = ''
+  className = '',
+  height = 30,
+
 }) => {
   const isTop = position === 'top';
   const isBottom = position === 'bottom';
@@ -19,7 +21,7 @@ const WaveBackground = ({
       <svg
         className={`absolute w-full ${isTop ? 'top-0' : 'bottom-0'} ${animate ? 'animate-wave-slow' : ''}`}
         style={{
-          height: '18%',
+          height: `${height}%`,
           transform: isBottom ? 'rotate(180deg)' : 'none',
         }}
         viewBox="0 0 1440 320"
@@ -37,7 +39,7 @@ const WaveBackground = ({
       <svg
         className={`absolute w-full ${isTop ? 'top-0' : 'bottom-0'} ${animate ? 'animate-wave-medium' : ''}`}
         style={{
-          height: '15%',
+          height: `${height/1.2}%`,
           transform: isBottom ? 'rotate(180deg)' : 'none',
         }}
         viewBox="0 0 1440 320"
@@ -55,7 +57,7 @@ const WaveBackground = ({
       <svg
         className={`absolute w-full ${isTop ? 'top-0' : 'bottom-0'} ${animate ? 'animate-wave-fast' : ''}`}
         style={{
-          height: '10%',
+          height: `${height/1.5}%`,
           transform: isBottom ? 'rotate(180deg)' : 'none',
         }}
         viewBox="0 0 1440 320"

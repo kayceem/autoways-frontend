@@ -67,7 +67,7 @@ const handleNext = () => {
 
   return (
     <main className="min-h-screen bg-dark relative">
-      <WaveBackground />
+      <WaveBackground height={10}/>
 
       {/* Hero Section */}
       <section className="relative py-8 lg:py-20 px-4 lg:px-6">

@@ -130,7 +130,15 @@ const BullSection = ({ className = "" }) => {
                             <div className="absolute -bottom-8 -right-8 w-16 h-16 border-2 border-accent/20 rounded-full" />
                         </div>
                     </div>
-
+                    {/* CTA Button (mobile only, after video) */}
+                    <div className="lg:hidden order-3 flex mt-2 justify-center">
+                        <Link
+                            to="/shop/bull"
+                            className="group inline-flex items-center gap-2 bg-accent text-primary px-6 py-3 rounded-full text-sm font-semibold hover:bg-accent/90 transition-all duration-300 hover:shadow-lg hover:shadow-accent/25"
+                        >
+                            <span>Explore Bull</span>
+                        </Link>
+                    </div>
                     {/* Right Side - Promotional Content */}
                     <div className="relative text-center lg:text-left order-1 lg:order-2">
                         {/* Decorative Line */}
@@ -249,7 +257,7 @@ const BullSection = ({ className = "" }) => {
                             {/* CTA Button */}
                             <Link
                                 to="/shop/bull"
-                                className={`group inline-flex items-center gap-2 lg:gap-3 bg-accent text-primary px-6 py-3 lg:px-8 lg:py-4 rounded-full text-sm lg:text-base font-semibold hover:bg-accent/90 transition-all duration-300 hover:shadow-lg hover:shadow-accent/25`}
+                                className="hidden lg:inline-flex group items-center gap-2 lg:gap-3 bg-accent text-primary px-6 py-3 lg:px-8 lg:py-4 rounded-full text-sm lg:text-base font-semibold hover:bg-accent/90 transition-all duration-300 hover:shadow-lg hover:shadow-accent/55"
                             >
                                 <span>Explore Products</span>
                             </Link>

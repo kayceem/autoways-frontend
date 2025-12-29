@@ -23,7 +23,7 @@ const AboutSection = ({ aboutData = {}, className = "" }) => {
                 opacity={0.45}
                 waveColor="#ccc7c7ff"
                 animate={true}
-            />
+                />
 
             {/* Wave Background - Bottom */}
             <WaveBackground

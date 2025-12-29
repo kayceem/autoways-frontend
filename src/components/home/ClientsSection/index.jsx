@@ -28,6 +28,7 @@ const ClientsSection = ({ clients = {}, className = "" }) => {
                 opacity={0.15}
                 waveColor="#b9b3b3ff"
                 animate={true}
+                className="hidden lg:block"
             />
 
             <div className="max-w-7xl mx-auto relative z-10">
@@ -43,13 +44,13 @@ const ClientsSection = ({ clients = {}, className = "" }) => {
                 </div>
 
                 {/* Auto-Scrolling Horizontal Logos */}
-                <div className="relative overflow-hidden mb-12 lg:mb-24">
+                <div className="relative overflow-hidden mb-6 lg:mb-16">
                     {/* Gradient Fade on Edges */}
                     <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-secondary to-transparent z-10 pointer-events-none" />
                     <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-secondary to-transparent z-10 pointer-events-none" />
 
                     {/* Scrolling Container */}
-                    <div className="flex gap-6 lg:gap-12 animate-scroll">
+                    <div className="flex gap-6 mb-1 lg:gap-12 animate-scroll">
                         {duplicatedClients.map((client, index) => (
                             <div
                                 key={index}
