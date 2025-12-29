@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
 import { X } from 'lucide-react';
-import { toast } from 'react-hot-toast';
 import { useSubmitContactForm } from '../../../hooks/useContactMutation';
 import './index.css';
+import handleError from '../../../utils/handleError';
 
 
 const DownloadSpecsInquiryModal = ({
@@ -85,7 +85,7 @@ const DownloadSpecsInquiryModal = ({
     e.preventDefault();
 
     if (!validateForm()) {
-      toast.error('Please fill in all required fields correctly');
+      handleError('Please fill in all required fields correctly');
       return;
     }
 

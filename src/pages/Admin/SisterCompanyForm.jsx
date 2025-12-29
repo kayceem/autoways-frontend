@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { X, Upload, Plus, Trash2, ArrowLeft } from 'lucide-react';
 import { assetUrl } from '../../utils';
+import handleError from '../../utils/handleError';
 
 const SisterCompanyForm = ({
   editingCompany = null,
@@ -113,7 +114,7 @@ const SisterCompanyForm = ({
         setImagePreview(base64);
       }
     } catch (error) {
-      console.error('Error converting image:', error);
+        handleError(error);
       setUploadErrors(prev => ({
         ...prev,
         [imageType]: 'Error uploading image'
@@ -213,7 +214,7 @@ const SisterCompanyForm = ({
 
       await onSubmit(cleanedData, editingCompany?._id);
     } catch (error) {
-      console.error('Form submission error:', error);
+        handleError(error);
     } finally {
       setIsSubmitting(false);
     }

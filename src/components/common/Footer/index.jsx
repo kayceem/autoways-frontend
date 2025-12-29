@@ -5,13 +5,11 @@ import { useContent } from "../../../context/globalContext";
 
 const Footer = ({ className = "" }) => {
     const { content, isLoading } = useContent();
-    const { contactInfo = [], brands = {} } = content;
+    const { contactInfo = [], brands = [] } = content;
     if (isLoading) return null;
     const info = contactInfo?.length > 0 ? contactInfo[0] : {};
     const { email = "", phone = "", address = "", corporate_address = "",socialLinks = {} } = info;
 
-    // Convert brands object to array (limit to 6 for footer)
-    const brandArray = brands;
     const currentYear = new Date().getFullYear();
 
     return (
@@ -114,7 +112,7 @@ const Footer = ({ className = "" }) => {
                             Shop by Brand
                         </h4>
                         <ul className="space-y-2 lg:space-y-3 text-sm lg:text-base">
-                            {brandArray.map((brand, index) => (
+                            {brands.length > 0 && brands.map((brand, index) => (
                                 <li key={index}>
                                     <Link
                                         to={`/shop/${brand.slug}`}

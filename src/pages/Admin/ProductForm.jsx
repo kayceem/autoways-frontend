@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { X, Upload, FileText, Plus, Trash2, ArrowLeft, ChevronDown, ChevronUp } from 'lucide-react';
 import { assetUrl } from '../../utils';
+import handleError from '../../utils/handleError';
 
 const ProductForm = ({ 
   editingProduct = null, 
@@ -195,7 +196,7 @@ const ProductForm = ({
       }));
       setImagePreviews(prev => [...prev, ...base64Images]);
     } catch (error) {
-      console.error('Error converting images:', error);
+        handleError(error);
       setUploadErrors({ images: 'Error uploading images' });
     }
   };
@@ -232,7 +233,7 @@ const ProductForm = ({
       const urlField = fileType === 'brochure' ? 'brochureUrl' : 'specSheetUrl';
       setFormData(prev => ({ ...prev, [urlField]: base64 }));
     } catch (error) {
-      console.error('Error uploading file:', error);
+        handleError(error);
       setUploadErrors(prev => ({
         ...prev,
         [fileType]: 'Error uploading file'
@@ -380,7 +381,7 @@ const ProductForm = ({
     try {
       await onSubmit(submitData, editingProduct?._id);
     } catch (error) {
-      console.error('Submission error:', error);
+        handleError(error);
     } finally {
       setIsSubmitting(false);
     }

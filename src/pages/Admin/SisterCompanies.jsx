@@ -4,6 +4,7 @@ import useSisterCompaniesQuery from '../../hooks/useSisterCompaniesQuery';
 import { useCreateSisterCompany, useUpdateSisterCompany, useDeleteSisterCompany } from '../../hooks/useSisterCompaniesMutation';
 import SisterCompanyForm from './SisterCompanyForm';
 import { assetUrl } from '../../utils';
+import handleError from '../../utils/handleError';
 
 const SisterCompaniesAdmin = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -60,7 +61,7 @@ const filteredCompanies = useMemo(() => {
       }
       handleCloseForm();
     } catch (error) {
-      console.error('Submission error:', error);
+        handleError(error);
       throw error;
     }
   };
@@ -73,7 +74,7 @@ const filteredCompanies = useMemo(() => {
     try {
       await deleteCompany.mutateAsync(id);
     } catch (error) {
-      console.error('Delete error:', error);
+        handleError(error);
     }
   };
 

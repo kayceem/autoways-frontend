@@ -26,7 +26,26 @@ createRoot(document.getElementById("root")).render(
             <ContentProvider>
                 <App />
             </ContentProvider>
-            <Toaster />
+            <Toaster
+                position="bottom-right"
+                toastOptions={{
+                icon: null,
+                style: {
+                    background: 'var(--color-text-accent)',
+                    color: 'var(--color-primary)',
+                },
+                success: {
+                    icon: null,
+                },
+                error: {
+                    icon: null,
+                    style: {
+                    background: 'var(--color-error)',
+                    color: 'var(--color-primary)',
+                    },
+                },
+                }}
+      />
         </QueryClientProvider>
     </BrowserRouter>
 );

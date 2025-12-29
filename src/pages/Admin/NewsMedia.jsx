@@ -4,6 +4,7 @@ import toast from 'react-hot-toast';
 import { ContentContext } from '../../context/globalContext';
 import { useCreateNewsArticle, useUpdateNewsArticle, useDeleteNewsArticle } from '../../hooks/useNewsMediaMutation';
 import { assetUrl } from '../../utils';
+import handleError from '../../utils/handleError';
 
 const NewsMediaAdmin = () => {
   const { content, isLoading, refetch } = useContext(ContentContext);
@@ -60,12 +61,12 @@ const NewsMediaAdmin = () => {
     const file = e.target.files[0];
     if (file) {
       if (!file.type.startsWith('image/')) {
-        toast.error('Please select a valid image file');
+        handleError('Please select a valid image file');
         return;
       }
 
       if (file.size > 5 * 1024 * 1024) {
-        toast.error('Image size must be less than 5MB');
+        handleError('Image size must be less than 5MB');
         return;
       }
         const convertToBase64 = (file) => {
@@ -128,12 +129,12 @@ const NewsMediaAdmin = () => {
   const handleSave = async () => {
     // Validate required fields
     if (!formData.title || !formData.category || !formData.date || !formData.excerpt || !formData.content) {
-      toast.error('All fields except Featured status are required');
+      handleError('All fields except Featured status are required');
       return;
     }
 
     if (isCreating && !imageFile) {
-      toast.error('Please select an image');
+      handleError('Please select an image');
       return;
     }
 
@@ -173,7 +174,7 @@ const NewsMediaAdmin = () => {
       await refetch();
       resetForm();
     } catch (error) {
-      console.error('Save failed:', error);
+        handleError(error);
     }
   };
 
@@ -186,7 +187,7 @@ const NewsMediaAdmin = () => {
           resetForm();
         }
       } catch (error) {
-        console.error('Delete failed:', error);
+        handleError(error);
       }
     }
   };

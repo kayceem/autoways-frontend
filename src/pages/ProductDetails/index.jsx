@@ -18,6 +18,7 @@ import { assetUrl, capitalizeWords, getTypeNameFromSlug, getProductData } from '
 import { useState } from 'react';
 import DownloadSpecsInquiryModal from '../../components/common/Inquiry';
 import { useContent } from '../../context/globalContext';
+import toast from 'react-hot-toast';
 
 const ProductDetails = () => {
     const { brand, typeSlug, id } = useParams();
@@ -72,17 +73,17 @@ const ProductDetails = () => {
     };
 
     const openSpecsPdf = (url) => {
-    if (!url) return;
+    if (!url) return toast.success("We will email you the specs shortly.");
     const w = window.open(url, '_blank', 'noopener,noreferrer');
     };
     const getFuelTypeIcon = (fuelType) => {
         switch(fuelType) {
             case 'electric':
-                return <Zap size={20} />;
+                return <Zap size={12} />;
             case 'hybrid':
-                return <Battery size={20} />;
+                return <Battery size={12} />;
             default:
-                return <Fuel size={20} />;
+                return <Fuel size={12} />;
         }
     };
 
@@ -102,11 +103,6 @@ const ProductDetails = () => {
     };
 
     const handleDownloadSpecs = () => {
-        if (!product?.specSheetUrl) {
-            toast.error('Spec sheet not available for this product');
-            return;
-        }
-
         const url = assetUrl(product?.specSheetUrl);
 
         const saved = getSavedContact();
@@ -155,7 +151,7 @@ const ProductDetails = () => {
                             <div>
                                 <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-secondary mb-4 leading-tight tracking-tight">{product?.name}</h1>
 
-                                <div className="inline-flex items-center gap-2 px-4 py-2 bg-accent/50 border border-accent rounded-full text-sm font-semibold text-secondary">
+                                <div className="inline-flex items-center gap-2 px-3 py-1 bg-accent/50 border border-accent rounded-full text-sm font-semibold text-secondary">
                                     {getFuelTypeIcon(product?.fuelType)}
                                     <span>{getFuelTypeLabel(product?.fuelType)}</span>
                                 </div>

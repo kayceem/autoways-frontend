@@ -4,6 +4,7 @@ import toast from 'react-hot-toast';
 import useSparepartsQuery from '../../hooks/useSparepartsQuery';
 import { useUpdateSparePart, useCreateSparePart, useDeleteSparePart } from '../../hooks/useSparePartsMutation';
 import { assetUrl } from '../../utils';
+import handleError from '../../utils/handleError';
 
 const SparePartsAdmin = () => {
   const { data: sparePartsData, isLoading, refetch } = useSparepartsQuery();
@@ -100,7 +101,7 @@ const SparePartsAdmin = () => {
       setEditMode(prev => ({ ...prev, [section]: false }));
       await refetch();
     } catch (error) {
-      console.error('Update failed:', error);
+        handleError(error);
     }
   };
 
@@ -118,12 +119,12 @@ const SparePartsAdmin = () => {
     if (!file) return;
 
     if (file.size > 5 * 1024 * 1024) {
-      toast.error('Image must be less than 5MB');
+      handleError('Image must be less than 5MB');
       return;
     }
 
     if (!file.type.startsWith('image/')) {
-      toast.error('Only image files are allowed');
+      handleError('Only image files are allowed');
       return;
     }
 
@@ -142,8 +143,7 @@ const SparePartsAdmin = () => {
 
       toast.success('Image uploaded successfully');
     } catch (error) {
-      console.error('Error uploading image:', error);
-      toast.error('Error uploading image');
+        handleError(error);
     }
   };
 

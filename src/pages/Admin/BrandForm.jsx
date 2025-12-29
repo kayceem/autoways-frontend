@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { X, Upload } from 'lucide-react';
 import { assetUrl } from '../../utils';
+import handleError from '../../utils/handleError';
 
 const BrandForm = ({
   editingBrand = null,
@@ -93,7 +94,7 @@ const BrandForm = ({
       setFormData(prev => ({ ...prev, [fieldName]: base64 }));
       setImagePreviews(prev => ({ ...prev, [fieldName]: base64 }));
     } catch (error) {
-      console.error('Error converting image:', error);
+      handleError(error);
       setUploadErrors(prev => ({
         ...prev,
         [fieldName]: 'Error uploading image'
@@ -135,7 +136,7 @@ const BrandForm = ({
         images: [...prev.images, ...base64Images]
       }));
     } catch (error) {
-      console.error('Error converting images:', error);
+      handleError(error);
       setUploadErrors(prev => ({ ...prev, images: 'Error uploading images' }));
     }
   };
@@ -187,7 +188,7 @@ const BrandForm = ({
     try {
       await onSubmit(formData, editingBrand?._id);
     } catch (error) {
-      console.error('Submission error:', error);
+      handleError(error);
     } finally {
       setIsSubmitting(false);
     }

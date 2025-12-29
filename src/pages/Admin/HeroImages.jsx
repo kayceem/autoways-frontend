@@ -4,6 +4,7 @@ import toast from 'react-hot-toast';
 import { ContentContext } from '../../context/globalContext';
 import { useCreateHeroImage, useUpdateHeroImage, useDeleteHeroImage } from '../../hooks/useHeroImagesMutation';
 import { assetUrl } from '../../utils';
+import handleError from '../../utils/handleError';
 
 const HeroImagesAdmin = () => {
   const { content, isLoading, refetch } = useContext(ContentContext);
@@ -55,13 +56,13 @@ const HeroImagesAdmin = () => {
     if (file) {
       // Validate file type
       if (!file.type.startsWith('image/')) {
-        toast.error('Please select a valid image file');
+        handleError('Please select a valid image file');
         return;
       }
 
       // Validate file size (max 5MB)
       if (file.size > 5 * 1024 * 1024) {
-        toast.error('Image size must be less than 5MB');
+        handleError('Image size must be less than 5MB');
         return;
       }
         const convertToBase64 = (file) => {
@@ -87,7 +88,7 @@ const HeroImagesAdmin = () => {
 
   const handleCreate = () => {
     if (heroImages?.length >= MAX_HERO_IMAGES) {
-      toast.error(`Maximum ${MAX_HERO_IMAGES} hero images allowed`);
+      handleError(`Maximum ${MAX_HERO_IMAGES} hero images allowed`);
       return;
     }
 
@@ -119,12 +120,12 @@ const HeroImagesAdmin = () => {
   const handleSave = async () => {
     // Validate required fields
     if (!formData.title) {
-      toast.error('Title is required');
+      handleError('Title is required');
       return;
     }
 
     if (isCreating && !imageFile) {
-      toast.error('Please select an image');
+      handleError('Please select an image');
       return;
     }
 
@@ -158,13 +159,13 @@ const HeroImagesAdmin = () => {
       await refetch();
       resetForm();
     } catch (error) {
-      console.error('Save failed:', error);
+        handleError(error);
     }
   };
 
   const handleDelete = async (id) => {
     if (heroImages?.length <= MIN_HERO_IMAGES) {
-      toast.error(`At least ${MIN_HERO_IMAGES} hero image must remain`);
+      handleError(`At least ${MIN_HERO_IMAGES} hero image must remain`);
       return;
     }
 
@@ -176,7 +177,7 @@ const HeroImagesAdmin = () => {
           resetForm();
         }
       } catch (error) {
-        console.error('Delete failed:', error);
+        handleError(error);
       }
     }
   };

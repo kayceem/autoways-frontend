@@ -9,6 +9,7 @@ import {
 } from '../../hooks/useProductTypesMutation';
 import { assetUrl } from '../../utils';
 import ProductTypeForm from './ProductTypeForm';
+import handleError from '../../utils/handleError';
 
 const ProductTypesAdmin = () => {
   const { data: productTypes = [], isLoading: isLoadingTypes } = useProductTypesQuery();
@@ -62,7 +63,7 @@ const ProductTypesAdmin = () => {
       }
       handleCloseForm();
     } catch (error) {
-      console.error('Error submitting form:', error);
+        handleError(error);
       throw error;
     }
   };
@@ -78,7 +79,7 @@ const ProductTypesAdmin = () => {
         type: type.type
       });
     } catch (error) {
-      console.error('Error deleting product type:', error);
+        handleError(error);
     }
   };
 

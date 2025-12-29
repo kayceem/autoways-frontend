@@ -1,8 +1,8 @@
 import { useState, useContext, useEffect } from 'react';
-import { Save, X, Plus, Trash2, Edit2, ChevronDown, ChevronUp } from 'lucide-react';
-import toast from 'react-hot-toast';
+import { Save, X, Edit2, ChevronDown, ChevronUp } from 'lucide-react';
 import { ContentContext } from '../../context/globalContext';
 import { useUpdateContactInfo } from '../../hooks/useContactInfoMutation';
+import handleError from '../../utils/handleError';
 
 const ContactInfoAdmin = () => {
   const { content, isLoading, refetch } = useContext(ContentContext);
@@ -119,7 +119,7 @@ const ContactInfoAdmin = () => {
       setEditMode(prev => ({ ...prev, [section]: false }));
       await refetch();
     } catch (error) {
-      console.error('Update failed:', error);
+      handleError(error);
     }
   };
 

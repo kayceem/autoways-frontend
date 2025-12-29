@@ -13,12 +13,21 @@ const AboutUs = () => {
   const timelineContainerRef = useRef(null);
 
   if (isLoading) return <LoadingSpinner />;
-  if (!content || content.aboutUs?.length === 0) {
+  if (!Array.isArray(content.aboutUs) || content.aboutUs.length === 0) {
     return <Navigate to="/not-found" replace />;
   }
 
-  const { mission, vision, values, milestones, team, stats, chairman_message, md_message} = content.aboutUs[0] || [];
-  const aboutUs = content.aboutUs[0];
+  const aboutUs = content?.aboutUs?.[0] || {};
+  const {
+    mission = { title: '', content: '' },
+    vision = { title: '', content: '' },
+    values = [],
+    milestones = [],
+    team = [],
+    stats = { yearsOfExperience: 0, happyCustomers: 0, vehiclesSold: 0, serviceCenters: 0, brands: 0, employees: 0 },
+    chairman_message = null,
+    md_message = null
+  } = aboutUs;
 
   // Handlers for timeline navigation
   const scrollToMilestone = (index) => {

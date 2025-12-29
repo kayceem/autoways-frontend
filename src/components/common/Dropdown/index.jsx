@@ -84,7 +84,7 @@ const Dropdown = ({
                 >
                     <div className="flex flex-col">
                     <span>{item.name}</span>
-                    <span className="mt-2 h-1 bg-neutral-400 rounded-full w-0 group-hover:w-30 transition-all duration-300 ease-in-out" />
+                    <span className="mt-2 h-0.5 bg-neutral-400 rounded-full w-0 group-hover:w-40 transition-all duration-300 ease-in-out" />
                     </div>
                 </Link>
                 ))}

@@ -91,7 +91,7 @@ const BullSection = ({ className = "" }) => {
                                 {/* Play/Pause Button */}
                                 <button
                                     onClick={togglePlayPause}
-                                    className="absolute bottom-4 right-4 w-12 h-12 bg-black/50 backdrop-blur-sm rounded-full flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-black/70 hover:scale-110 z-10"
+                                    className="absolute bottom-4 right-4 w-12 h-12 lg:bg-black/50 lg:backdrop-blur-sm rounded-full flex items-center justify-center text-white lg:opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-black/70 hover:scale-110 z-10"
                                     aria-label={
                                         isPlaying ? "Pause video" : "Play video"
                                     }
@@ -124,17 +124,6 @@ const BullSection = ({ className = "" }) => {
                                 )}
                             </div>
 
-                            {/* Stats Badge */}
-                            {/* <div
-                                className={`absolute -bottom-4 -right-4 bg-secondary text-primary px-6 py-4 rounded-2xl shadow-xl z-10`}
-                            >
-                                <div className="text-3xl font-bold text-accent">
-                                    100%
-                                </div>
-                                <div className="text-sm font-medium opacity-80">
-                                    Reliability
-                                </div>
-                            </div> */}
 
                             {/* Decorative Elements */}
                             <div className="absolute -top-6 -left-6 w-12 h-12 border-2 border-accent/30 rounded-full" />
@@ -192,7 +181,7 @@ const BullSection = ({ className = "" }) => {
                             </p>
 
                             {/* Feature Cards */}
-                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 lg:gap-4 mb-6 lg:mb-10">
+                            <div className="hidden sm:grid sm:grid-cols-3 gap-3 lg:gap-4 mb-6 lg:mb-10">
                                 <div className="group p-4 bg-secondary/5 rounded-xl hover:bg-accent/10 transition-colors duration-300 cursor-default">
                                     <div className="w-10 h-10 text-accent rounded-lg flex items-center justify-center mb-3 mx-auto lg:mx-0 group-hover:bg-accent/30 transition-colors">
                                         <svg

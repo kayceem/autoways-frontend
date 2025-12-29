@@ -6,6 +6,7 @@ import useBrandsQuery from '../../hooks/useBrandsQuery';
 import useProductTypesQuery from '../../hooks/useProductTypesQuery';
 import ProductForm from './ProductForm';
 import { assetUrl } from '../../utils';
+import handleError from '../../utils/handleError';
 
 const ProductsAdmin = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -49,7 +50,7 @@ const ProductsAdmin = () => {
       }
       handleCloseForm();
     } catch (error) {
-      console.error('Submission error:', error);
+        handleError(error);
       throw error;
     }
   };
@@ -62,7 +63,7 @@ const ProductsAdmin = () => {
     try {
       await deleteProduct.mutateAsync(id);
     } catch (error) {
-      console.error('Delete error:', error);
+        handleError(error);
     }
   };
 

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { X, Upload, ArrowLeft } from 'lucide-react';
 import { assetUrl } from '../../utils';
+import handleError from '../../utils/handleError';
 
 const ProductTypeForm = ({
   editingType = null,
@@ -102,7 +103,7 @@ const ProductTypeForm = ({
         setErrors(prev => ({ ...prev, image: '' }));
       }
     } catch (error) {
-      console.error('Error converting image:', error);
+        handleError(error);
       setUploadErrors({ image: 'Error uploading image' });
     }
   };
@@ -146,7 +147,7 @@ const ProductTypeForm = ({
     try {
       await onSubmit(formData, editingType);
     } catch (error) {
-      console.error('Submission error:', error);
+        handleError(error);
     } finally {
       setIsSubmitting(false);
     }

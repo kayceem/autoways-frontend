@@ -4,6 +4,7 @@ import toast from 'react-hot-toast';
 import { ContentContext } from '../../context/globalContext';
 import { useUpdateAboutUs } from '../../hooks/useAboutUsMutation';
 import { assetUrl } from '../../utils';
+import handleError from '../../utils/handleError';
 
 const AboutUsAdmin = () => {
   const { content, isLoading, refetch } = useContext(ContentContext);
@@ -240,7 +241,7 @@ const AboutUsAdmin = () => {
       setEditMode(prev => ({ ...prev, [section]: false }));
       await refetch();
     } catch (error) {
-      console.error('Update failed:', error);
+        handleError(error);
     }
   };
 
@@ -258,12 +259,12 @@ const AboutUsAdmin = () => {
     if (!file) return;
 
     if (file.size > 5 * 1024 * 1024) {
-      toast.error('Image must be less than 5MB');
+      handleError('Image must be less than 5MB');
       return;
     }
 
     if (!file.type.startsWith('image/')) {
-      toast.error('Only image files are allowed');
+      handleError('Only image files are allowed');
       return;
     }
 
@@ -286,8 +287,7 @@ const AboutUsAdmin = () => {
       }
       toast.success('Image uploaded successfully');
     } catch (error) {
-      console.error('Error uploading image:', error);
-      toast.error('Error uploading image');
+        handleError('Failed to upload image. Please try again.');
     }
   };
 

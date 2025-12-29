@@ -3,6 +3,7 @@ import { Save, X, Plus, Trash2, Edit2, MapPin } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { ContentContext } from '../../context/globalContext';
 import { useCreateLocation, useUpdateLocation, useDeleteLocation } from '../../hooks/useLocationsMutation';
+import handleError from '../../utils/handleError';
 
 const LocationsAdmin = () => {
   const { content, isLoading, refetch } = useContext(ContentContext);
@@ -87,7 +88,7 @@ const LocationsAdmin = () => {
   const handleSave = async () => {
     // Validate required fields
     if (!formData.name || !formData.address || !formData.info || !formData.phone) {
-      toast.error('Please fill in all required fields');
+      handleError('Please fill in all required fields');
       return;
     }
 
@@ -96,17 +97,17 @@ const LocationsAdmin = () => {
     const lng = parseFloat(formData.position[1]);
 
     if (isNaN(lat) || isNaN(lng)) {
-      toast.error('Please enter valid latitude and longitude');
+      handleError('Please enter valid latitude and longitude');
       return;
     }
 
     if (lat < -90 || lat > 90) {
-      toast.error('Latitude must be between -90 and 90');
+      handleError('Latitude must be between -90 and 90');
       return;
     }
 
     if (lng < -180 || lng > 180) {
-      toast.error('Longitude must be between -180 and 180');
+      handleError('Longitude must be between -180 and 180');
       return;
     }
 
@@ -127,7 +128,7 @@ const LocationsAdmin = () => {
       await refetch();
       resetForm();
     } catch (error) {
-      console.error('Save failed:', error);
+        handleError(error);
     }
   };
 
@@ -140,7 +141,7 @@ const LocationsAdmin = () => {
           resetForm();
         }
       } catch (error) {
-        console.error('Delete failed:', error);
+        handleError(error);
       }
     }
   };

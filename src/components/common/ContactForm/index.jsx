@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Mail, Phone, User, MessageSquare, Send } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { useSubmitContactForm } from '../../../hooks/useContactMutation';
+import handleError from '../../../utils/handleError';
 
 const ContactForm = ( { info = {} } ) => {
   const { subject: defaultSubject = '', isParts, isInquiry } = info;
@@ -67,7 +68,7 @@ const ContactForm = ( { info = {} } ) => {
     e.preventDefault();
 
     if (!validateForm()) {
-      toast.error('Please fill in all required fields correctly');
+      handleError('Please fill in all required fields correctly');
       return;
     }
 

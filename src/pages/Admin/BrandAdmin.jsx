@@ -4,6 +4,7 @@ import useBrandsQuery from '../../hooks/useBrandsQuery';
 import { useUpdateBrand } from '../../hooks/useBrandsMutation';
 import BrandForm from './BrandForm';
 import { assetUrl } from '../../utils';
+import handleError from '../../utils/handleError';
 
 const BrandAdmin = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -51,8 +52,7 @@ const BrandAdmin = () => {
       await updateBrand.mutateAsync({ id, data });
       handleCloseForm();
     } catch (error) {
-      console.error('Submission error:', error);
-      throw error;
+      handleError(error);
     }
   };
 
