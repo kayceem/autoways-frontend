@@ -3,6 +3,7 @@ import LoadingSpinner from '../../components/common/Loading';
 import WaveBackground from '../../components/common/WaveBackground';
 import { useState } from 'react';
 import { Navigate } from 'react-router-dom';
+import { capitalizeWords } from '../../utils';
 
 const Testimonials = () => {
   const { content, isLoading } = useContent();
@@ -97,7 +98,7 @@ const Testimonials = () => {
                     : 'bg-primary text-secondary hover:bg-opacity-80'
                 }`}
               >
-                {category}
+                {capitalizeWords(category)}
               </button>
             ))}
           </div>
@@ -133,7 +134,7 @@ const Testimonials = () => {
                 {/* Category Badge */}
                 <div className="mb-4">
                   <span className="bg-dark text-accent px-3 py-1 rounded-full text-sm font-semibold">
-                    {testimonial.category}
+                    {capitalizeWords(testimonial.category)}
                   </span>
                 </div>
 
