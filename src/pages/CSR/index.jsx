@@ -25,16 +25,11 @@ const CSR = () => {
     const image = hero?.image;
     if (!image) return;
 
-    let cancelled = false;
     const img = new Image();
     img.src = assetUrl(image);
 
     img.onload = () => {
-      if (!cancelled) setHeroImageLoaded(true);
-    };
-
-    return () => {
-      cancelled = true;
+      setHeroImageLoaded(true);
     };
   }, [hero?.image]);
 
@@ -59,10 +54,10 @@ const CSR = () => {
                 {hero.description}
               </p>
             </div>
-            <div className="relative">
+            <div className="relative inset-0 rounded-lg shadow-2xl bg-secondary overflow-hidden">
             {!heroImageLoaded && hero?.image && (
-                <div className="absolute inset-0 overflow-hidden bg-secondary opacity-50 rounded-lg shadow-2xl">
-                    {/* Base gradient simulating blurred banner */}
+                <div
+                className={`absolute inset-0 transition-opacity duration-200`}>
                     <div
                         className="absolute inset-0 animate-pulse"
                         style={{
@@ -80,31 +75,31 @@ const CSR = () => {
                                 mixBlendMode: 'overlay',
                                 backdropFilter: 'saturate(1.05) blur(6px)',
                             }}
-                            />
+                        />
                     </div>
                     <div
                         className="absolute inset-0 opacity-30"
                         style={{
                             background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%)',
-                            animation: 'shimmer 3s infinite',
+                            animation: 'shimmer 2s infinite',
                         }}
-                        />
+                    />
                 </div>
             )}
               <img
                 src={assetUrl(hero.image)}
                 alt="CSR Hero"
-                className="rounded-lg shadow-2xl w-full"
+                className="w-full h-full object-cover animate-hero-image transition-opacity duration-300"
                 style={{
-                    visibility: heroImageLoaded ? 'visible' : 'hidden'
+                  visibility: heroImageLoaded ? "visible" : "hidden",
                 }}
                 onLoad={() => setHeroImageLoaded(true)}
                 loading="eager"
                 fetchPriority="high"
-                />
-              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/50 to-primary" />
-                </div>
+              />
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/50 to-primary" />
             </div>
+          </div>
         </div>
       </section>
 
@@ -207,67 +202,6 @@ const CSR = () => {
           </div>
         </div>
       </section>
-
-      {/* Commitment Section */}
-      {/* <section className="py-20 px-6 bg-primary bg-opacity-50">
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-12 animate-fade-in-up">
-            <h2 className="font-bold text-4xl text-secondary mb-4">{commitment.title}</h2>
-            <div className="w-24 h-1 bg-accent mx-auto mb-6" />
-          </div>
-
-          <div className="bg-primary rounded-2xl p-8 md:p-12 shadow-2xl animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-            <p className="text-secondary opacity-80 leading-relaxed text-lg mb-8">
-              {commitment.content}
-            </p>
-
-            <div className="bg-dark/50 rounded-xl p-8 border-l-4 border-accent">
-              <p className="text-secondary text-xl italic mb-4">
-                "{commitment.quote}"
-              </p>
-              <p className="text-accent font-semibold">
-                - {commitment.author}
-              </p>
-            </div>
-          </div>
-        </div>
-      </section> */}
-
-      {/* Partners Section */}
-      {/* <section className="py-20 px-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-12 animate-fade-in-up">
-            <h2 className="font-bold text-4xl text-secondary mb-4">Our CSR Partners</h2>
-            <div className="w-24 h-1 bg-accent mx-auto mb-6" />
-            <p className="text-secondary opacity-80 max-w-2xl mx-auto">
-              Collaborating with organizations to amplify our social impact
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {partners.map((partner, index) => (
-              <div
-                key={partner.id}
-                className="bg-primary rounded-lg p-6 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 animate-fade-in-up"
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                <div className="h-32 flex items-center justify-center mb-4 bg-secondary rounded-lg p-4">
-                  <img
-                    src={assetUrl(partner.logo)}
-                    alt={partner.name}
-                    className="max-h-full max-w-full object-contain"
-                  />
-                </div>
-                <h3 className="text-xl font-bold text-secondary mb-2">{partner.name}</h3>
-                <div className="text-accent font-semibold text-sm mb-3">{partner.type}</div>
-                <p className="text-secondary opacity-80 text-sm leading-relaxed">
-                  {partner.description}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section> */}
 
       {/* CTA Section */}
       <section className="py-8 lg:py-20 px-4 lg:px-6">

@@ -16,14 +16,16 @@ const Footer = ({ className = "" }) => {
         <footer className={`bg-primary-autoways border-t border-primary ${className}`}>
             {/* Main Footer Content */}
             <div className="max-w-7xl mx-auto px-4 lg:px-6 py-8 lg:py-12">
-                <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 lg:gap-12 mb-8 lg:mb-12">
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 lg:gap-12 mb-8 lg:mb-12">
                     {/* Company Info */}
                     <div>
                         <h3 className="text-xl lg:text-2xl font-bold text-primary-autoways mb-4 lg:mb-6">
                             Autoways
                         </h3>
-                        <p className="text-sm lg:text-base text-primary-autoways mb-4 lg:mb-6 leading-relaxed">
+                        <p className="text-sm lg:text-base text-primary-autoways mb-4 lg:mb-0 leading-relaxed">
                             Your trusted partner in finding the perfect vehicle.
+                        </p>
+                        <p className="hidden mb-6 lg:block text-base text-primary-autoways leading-relaxed">
                             Quality, service, and satisfaction guaranteed.
                         </p>
 

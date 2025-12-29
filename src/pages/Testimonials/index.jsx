@@ -7,7 +7,7 @@ import { capitalizeWords } from '../../utils';
 
 const Testimonials = () => {
   const { content, isLoading } = useContent();
-  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [selectedCategory, setSelectedCategory] = useState('video');
 
   if (isLoading) return <LoadingSpinner />;
   if (!content || !content.testimonials) {
@@ -15,14 +15,16 @@ const Testimonials = () => {
   }
 
   const testimonials = content.testimonials;
+  const aboutUs = content?.aboutUs?.[0] || {};
+  const { stats = { yearsOfExperience: 0, happyCustomers: 0, vehiclesSold: 0, serviceCenters: 0, brands: 0, employees: 0 }} = aboutUs;
 
-  // Get unique categories
-  const categories = ['All', ...new Set(testimonials.map(t => t.category))];
+  const categories = [...new Set(testimonials.map(t => t.category))];
 
-  // Filter testimonials by category
-  const filteredTestimonials = selectedCategory === 'All'
-    ? testimonials
-    : testimonials.filter(t => t.category === selectedCategory);
+  const categoryMap = {
+    video: 'Videos',
+    text: 'Reviews',
+  };
+  const filteredTestimonials = testimonials.filter(t => t.category === selectedCategory);
 
   const formatDate = (dateString) => {
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -65,11 +67,11 @@ const Testimonials = () => {
           {/* Stats Section */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mt-8 lg:mt-12">
             <div className="text-center p-4 lg:p-6 bg-primary rounded-lg shadow-lg">
-              <div className="text-2xl lg:text-4xl font-bold text-accent mb-2">10,000+</div>
+              <div className="text-2xl lg:text-4xl font-bold text-accent mb-2">{stats.happyCustomers}</div>
               <div className="text-secondary opacity-70 text-xs lg:text-base">Happy Customers</div>
             </div>
             <div className="text-center p-4 lg:p-6 bg-primary rounded-lg shadow-lg">
-              <div className="text-2xl lg:text-4xl font-bold text-accent mb-2">15,000+</div>
+              <div className="text-2xl lg:text-4xl font-bold text-accent mb-2">{stats.vehiclesSold}</div>
               <div className="text-secondary opacity-70 text-xs lg:text-base">Vehicles Sold</div>
             </div>
             <div className="text-center p-4 lg:p-6 bg-primary rounded-lg shadow-lg">
@@ -77,7 +79,7 @@ const Testimonials = () => {
               <div className="text-secondary opacity-70 text-xs lg:text-base">Average Rating</div>
             </div>
             <div className="text-center p-4 lg:p-6 bg-primary rounded-lg shadow-lg">
-              <div className="text-2xl lg:text-4xl font-bold text-accent mb-2">20+</div>
+              <div className="text-2xl lg:text-4xl font-bold text-accent mb-2">{stats.yearsOfExperience}</div>
               <div className="text-secondary opacity-70 text-xs lg:text-base">Years Experience</div>
             </div>
           </div>
@@ -98,7 +100,7 @@ const Testimonials = () => {
                     : 'bg-primary text-secondary hover:bg-opacity-80'
                 }`}
               >
-                {capitalizeWords(category)}
+                {categoryMap[category] || capitalizeWords(category)}
               </button>
             ))}
           </div>
@@ -134,12 +136,12 @@ const Testimonials = () => {
                 {/* Category Badge */}
                 <div className="mb-4">
                   <span className="bg-dark text-accent px-3 py-1 rounded-full text-sm font-semibold">
-                    {capitalizeWords(testimonial.category)}
+                    {categoryMap[testimonial.category] || capitalizeWords(testimonial.category)}
                   </span>
                 </div>
 
                 {/* Testimonial Text */}
-                <p className="text-secondary opacity-90 leading-relaxed mb-6 relative z-10">
+                <p className="text-secondary opacity-90 leading-relaxed text-justify mb-6 relative z-10 h-48 lg:h-56 overflow-hidden">
                   "{testimonial.text}"
                 </p>
 
@@ -176,9 +178,6 @@ const Testimonials = () => {
             <p className="text-secondary opacity-90 mb-6 lg:mb-8 text-base lg:text-lg">
               We'd love to hear about your journey with Autoways. Your feedback helps us serve you better.
             </p>
-            {/* <button className="px-8 py-4 bg-dark text-secondary rounded-lg font-semibold hover:bg-opacity-90 transition-all transform hover:scale-105 shadow-lg">
-              Write a Review
-            </button> */}
           </div>
         </div>
       </section>
