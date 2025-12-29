@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { Mail, Phone, User, MessageSquare, Send } from 'lucide-react';
-import toast from 'react-hot-toast';
 import { useSubmitContactForm } from '../../../hooks/useContactMutation';
 import handleError from '../../../utils/handleError';
 
@@ -39,12 +38,6 @@ const ContactForm = ( { info = {} } ) => {
     } else if (!/^\+?[0-9\s\-()]{10,15}$/.test(formData.phone)) {
       newErrors.phone = 'Please enter a valid phone number';
     }
-    // if (!formData.message.trim()) {
-    //   newErrors.message = 'Message is required';
-    // } else if (formData.message.trim().length < 10) {
-    //   newErrors.message = 'Message must be at least 10 characters';
-    // }
-
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -97,9 +90,13 @@ const isFormValid =
 return (
     <div className="w-full max-w-2xl mx-auto p-4 lg:p-8">
         <div className="bg-white rounded-lg shadow-lg p-4 lg:p-8">
-            <div className="mb-6 lg:mb-8 text-center">
+            <div className="mb-6 lg:mb-3 text-center">
                 <h2 className="text-2xl lg:text-3xl font-bold text-secondary mb-2">Get in Touch</h2>
-                <p className="text-sm lg:text-base text-neutral-600">Have a question? We'd love to hear from you. Send us a message and we'll respond as soon as possible.</p>
+                <p className="text-sm lg:text-base text-neutral-600">Have a question? We'd love to hear from you.</p>
+                {info.phone && <a className="text-sm lg:text-base text-neutral-400" href={`tel:${info.phone}`}>Call us at {info.phone}</a>}
+            </div>
+
+            <div className="mb-0.2 lg:mb-4">
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-4 lg:space-y-6">
