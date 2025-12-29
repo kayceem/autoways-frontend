@@ -272,21 +272,14 @@ const NewsArticleSchema = new Schema({
 
 // ==================== Testimonial Schema ====================
 const TestimonialSchema = new Schema({
-    testimonialId: {
-        type: Number,
-        required: true,
-        unique: true
-    },
     name: {
         type: String,
         required: true
     },
-    position: {
-        type: String,
-        required: true
-    },
+    position: String,
     company: String,
     image: String,
+    video: String,
     rating: {
         type: Number,
         required: true,
@@ -303,8 +296,9 @@ const TestimonialSchema = new Schema({
     },
     category: {
         type: String,
+        enum: ['text', 'video'],
         required: true
-    }
+    },
 }, { timestamps: true });
 
 // ==================== About Us Section Schemas ====================
