@@ -64,7 +64,6 @@ const AboutSection = ({ aboutData = {}, className = "" }) => {
                                 className="inline-flex items-center gap-2 lg:gap-3 bg-accent text-secondary px-6 py-3 lg:px-10 lg:py-4 rounded-full font-semibold text-sm lg:text-lg hover:bg-accent/90 transition-all duration-300 transform hover:scale-105 hover:gap-4 group"
                             >
                                 Learn More About Us
-                                <ArrowRight className="w-4 h-4 lg:w-5 lg:h-5 group-hover:translate-x-1 transition-transform duration-300" />
                             </Link>
                         </div>
                     </div>

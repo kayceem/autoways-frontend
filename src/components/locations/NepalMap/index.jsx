@@ -24,7 +24,7 @@ const NepalMap = () => {
     if (isLoading) return <LoadingSpinner size={64} />;
     
     const locations = content?.locations || [];
-    const center = locations?.[0].position;
+    const center = locations?.[1]?.position || [28.3949, 84.1240];
     return (
         <div className="w-full h-[400px] lg:h-[600px] relative rounded-lg overflow-hidden shadow-lg">
             <MapContainer
