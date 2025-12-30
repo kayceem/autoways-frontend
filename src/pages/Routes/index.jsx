@@ -34,6 +34,7 @@ import NewsMediaAdmin from "../Admin/NewsMedia";
 import SparePartsAdmin from "../Admin/SpareParts";
 import SisterCompaniesAdmin from "../Admin/SisterCompanies";
 import CustomerAdmin from "../Admin/Customer";
+import TestimonialsAdmin from "../Admin/Testimonials";
 import ProtectedRoute from "../../components/common/ProtectedRoute";
 
 const PageRoutes = () => {
@@ -58,6 +59,7 @@ const PageRoutes = () => {
                 <Route path="about-us" element={<AboutUsAdmin />} />
                 <Route path="contact-info" element={<ContactInfoAdmin />} />
                 <Route path="locations" element={<LocationsAdmin />} />
+                <Route path="testimonials" element={<TestimonialsAdmin />} />
                 <Route path="csr-initiatives" element={<CSRInitiativesAdmin />} />
                 <Route path="csr-hero" element={<CSRHeroAdmin />} />
                 <Route path="news-media" element={<NewsMediaAdmin />} />

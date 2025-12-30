@@ -36,6 +36,7 @@ const AdminLayout = () => {
     { path: '/admin/about-us', label: 'About Us', icon: Info },
     { path: '/admin/contact-info', label: 'Contact Info', icon: Phone },
     { path: '/admin/locations', label: 'Locations', icon: MapPin },
+    { path: '/admin/testimonials', label: 'Testimonials', icon: User },
     { path: '/admin/csr-initiatives', label: 'CSR Initiatives', icon: Award },
     { path: '/admin/csr-hero', label: 'CSR Hero', icon: Heart },
     { path: '/admin/news-media', label: 'News & Media', icon: Newspaper },
