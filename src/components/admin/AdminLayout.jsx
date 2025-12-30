@@ -16,6 +16,7 @@ import {
   Newspaper,
   Wrench,
   Building2,
+  User
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 
@@ -26,6 +27,7 @@ const AdminLayout = () => {
 
   const menuItems = [
     { path: '/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+    { path: '/admin/customers', label: 'Customers', icon: User },
     { path: '/admin/brands', label: 'Brands', icon: Building2 },
     { path: '/admin/products', label: 'Products', icon: Package },
     { path: '/admin/sister-companies', label: 'Sister Companies', icon: Building2 },

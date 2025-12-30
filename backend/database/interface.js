@@ -54,6 +54,9 @@ try {
     fs.mkdir(BASE_CHANGES_DIR, { recursive: true }).catch((err) => {
         logger.error('Error creating data changes directory:', err);
     });
+    fs.mkdir(path.dirname(DATA_FILE_PATH), { recursive: true }).catch((err) => {
+        logger.error('Error creating data changes directory:', err);
+    });
 } catch (error) {
     logger.error('Error creating data changes directory:', error);
 }
@@ -109,6 +112,7 @@ const fetchAllDataFromDB = async () => {
         csrHero,
         sisterCompanies,
         spareParts,
+        customers,
     ] = await Promise.all([
         HeroImage.find(),
         AboutUs.find(),
@@ -124,6 +128,7 @@ const fetchAllDataFromDB = async () => {
         CSRHero.find(),
         SisterCompany.find(),
         SparePart.find(),
+        Customer.find().populate('tickets')
     ]);
 
     const csr = {
@@ -156,6 +161,7 @@ const fetchAllDataFromDB = async () => {
         csr,
         sisterCompanies,
         spareParts,
+        customers
     };
 };
 
@@ -1719,7 +1725,7 @@ const createCustomerUtil = async (customerData, ticketData) => {
     try {
         const customer = await Customer.findOneAndUpdate(
             { email: customerData.email },
-            customerData,
+            { $set: customerData },
             { upsert: true, new: true, setDefaultsOnInsert: true }
         );
         if (ticketData) {

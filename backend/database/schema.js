@@ -575,6 +575,15 @@ const CustomerTicketSchema = new Schema({
     },
 }, { timestamps: true });
 
+CustomerSchema.virtual('tickets', {
+    ref: 'CustomerTicket',
+    localField: '_id',
+    foreignField: 'customerId'
+});
+
+CustomerSchema.set('toJSON', { virtuals: true });
+CustomerSchema.set('toObject', { virtuals: true });
+
 // ==================== Model Exports ====================
 const HeroImage = mongoose.model('HeroImage', HeroImageSchema);
 const AboutUs = mongoose.model('AboutUs', AboutUsSchema);

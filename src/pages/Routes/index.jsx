@@ -33,6 +33,7 @@ import CSRHeroAdmin from "../Admin/CSRHero";
 import NewsMediaAdmin from "../Admin/NewsMedia";
 import SparePartsAdmin from "../Admin/SpareParts";
 import SisterCompaniesAdmin from "../Admin/SisterCompanies";
+import CustomerAdmin from "../Admin/Customer";
 import ProtectedRoute from "../../components/common/ProtectedRoute";
 
 const PageRoutes = () => {
@@ -48,7 +49,8 @@ const PageRoutes = () => {
                     </ProtectedRoute>
                 }
             >
-                <Route path="dashboard" element={<AdminDashboard />} />
+                <Route path="" element={<AdminDashboard />} />
+                <Route path="customers" element={<CustomerAdmin />} />
                 <Route path="brands" element={<BrandAdmin />} />
                 <Route path="products" element={<ProductsAdmin />} />
                 <Route path="product-types" element={<ProductTypesAdmin />} />
