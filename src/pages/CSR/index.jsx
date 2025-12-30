@@ -54,7 +54,7 @@ const CSR = () => {
                 {hero.description}
               </p>
             </div>
-            <div className="relative inset-0 rounded-lg shadow-2xl bg-secondary overflow-hidden">
+            <div className="relative h-48 lg:h-auto lg:min-h-92 inset-0 rounded-lg shadow-2xl bg-secondary overflow-hidden">
             {!heroImageLoaded && hero?.image && (
                 <div
                 className={`absolute inset-0 transition-opacity duration-200`}>

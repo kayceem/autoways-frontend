@@ -22,20 +22,17 @@ const NewsMedia = () => {
   useEffect(() => {
     setFeatureImageLoaded(false);
 
-    if (!featured?.image) return;
+    const image = featured?.image;
+    if (!image) return;
 
-    let cancelled = false;
     const img = new Image();
-    img.src = assetUrl(featured.image);
+    img.src = assetUrl(image);
 
     img.onload = () => {
-      if (!cancelled) setFeatureImageLoaded(true);
-    };
-
-    return () => {
-      cancelled = true;
+      setFeatureImageLoaded(true);
     };
   }, [featured?.image]);
+
 
   if (isLoading) return <LoadingSpinner />;
   if (!content || !content.newsArticles) return <Navigate to="/not-found" replace />;
@@ -69,7 +66,7 @@ const NewsMedia = () => {
           <div className="max-w-7xl mx-auto">
             <div className="bg-primary rounded-lg overflow-hidden shadow-2xl animate-fade-in-up">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
-                <div className="relative h-48 lg:h-auto">
+                <div className="relative h-48 lg:h-auto inset-0 rounded-lg shadow-2xl bg-secondary">
                     {/* Loading Skeleton - Enhanced with realistic blurred gradient */}
                     {!featureImageLoaded && featured?.image && (
                         <div className="absolute inset-0 overflow-hidden">
@@ -105,7 +102,7 @@ const NewsMedia = () => {
                     <img
                         src={assetUrl(featured.image)}
                         alt={featured.title}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full animate-hero-image object-cover"
                         style={{
                             visibility: featureImageLoaded ? 'visible' : 'hidden'
                         }}
