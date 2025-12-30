@@ -40,6 +40,7 @@ const AdminLayout = () => {
     { path: '/admin/csr-initiatives', label: 'CSR Initiatives', icon: Award },
     { path: '/admin/csr-hero', label: 'CSR Hero', icon: Heart },
     { path: '/admin/news-media', label: 'News & Media', icon: Newspaper },
+    { path: '/admin/gallery', label: 'Gallery', icon: Image },
     { path: '/admin/spare-parts', label: 'Spare Parts', icon: Wrench },
   ];
 

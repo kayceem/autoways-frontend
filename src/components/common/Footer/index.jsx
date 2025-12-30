@@ -105,6 +105,22 @@ const Footer = ({ className = "" }) => {
                                     Sister Companies
                                 </Link>
                             </li>
+                            <li>
+                                <Link
+                                    to="/gallery"
+                                    className="text-primary-autoways  hover:text-accent transition-colors duration-300"
+                                >
+                                    Gallery
+                                </Link>
+                            </li>
+                            <li>
+                                <Link
+                                    to="/careers"
+                                    className="text-primary-autoways  hover:text-accent transition-colors duration-300"
+                                >
+                                    Careers
+                                </Link>
+                            </li>
                         </ul>
                     </div>
 

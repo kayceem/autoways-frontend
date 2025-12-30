@@ -5,6 +5,7 @@ import useSparepartsQuery from '../../hooks/useSparepartsQuery';
 import { useUpdateSparePart, useCreateSparePart, useDeleteSparePart } from '../../hooks/useSparePartsMutation';
 import { assetUrl } from '../../utils';
 import handleError from '../../utils/handleError';
+import LoadingSpinner from '../../components/common/Loading';
 
 const SparePartsAdmin = () => {
   const { data: sparePartsData, isLoading, refetch } = useSparepartsQuery();
@@ -192,7 +193,7 @@ const SparePartsAdmin = () => {
   };
 
   if (isLoading) {
-    return <div className="flex items-center justify-center h-64">Loading...</div>;
+    return <LoadingSpinner/>
   }
 
   const SectionHeader = ({ title, section, badge = null }) => (

@@ -5,6 +5,7 @@ import useCSRHeroQuery from '../../hooks/useCSRHeroQuery';
 import { useUpdateCSRHero, useCreateCSRHero } from '../../hooks/useCSRHeroMutation';
 import { assetUrl } from '../../utils';
 import handleError from '../../utils/handleError';
+import LoadingSpinner from '../../components/common/Loading';
 
 const CSRHeroAdmin = () => {
   const { data: csrHeroData, isLoading, refetch } = useCSRHeroQuery();
@@ -169,7 +170,7 @@ const CSRHeroAdmin = () => {
   };
 
   if (isLoading) {
-    return <div className="flex items-center justify-center h-64">Loading...</div>;
+    return <LoadingSpinner/>
   }
 
   const SectionHeader = ({ title, section, icon: Icon }) => (

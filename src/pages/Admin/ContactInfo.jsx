@@ -3,6 +3,7 @@ import { Save, Trash, Edit2, ChevronDown, ChevronUp } from 'lucide-react';
 import { ContentContext } from '../../context/globalContext';
 import { useUpdateContactInfo } from '../../hooks/useContactInfoMutation';
 import handleError from '../../utils/handleError';
+import LoadingSpinner from '../../components/common/Loading';
 
 const ContactInfoAdmin = () => {
   const { content, isLoading, refetch } = useContext(ContentContext);
@@ -139,7 +140,7 @@ const ContactInfoAdmin = () => {
   };
 
   if (isLoading) {
-    return <div className="flex items-center justify-center h-64">Loading...</div>;
+    return <LoadingSpinner/>
   }
 
   if (!contactData) {

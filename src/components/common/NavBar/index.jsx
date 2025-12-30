@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Mail, MapPin, Menu, X, ChevronLeft } from "lucide-react";
+import { Mail, MapPin, Menu, X, ChevronLeft, Image } from "lucide-react";
 import Logo from "../Logo";
 import Dropdown from "../Dropdown";
 import useNavBarItems from "../../../config/navBar";
@@ -172,6 +172,12 @@ const Navbar = ({ className = "" }) => {
                                 className="flex items-center gap-2 text-secondary hover:text-accent transition-colors duration-200 font-medium"
                             >
                                 <MapPin size={20} />
+                            </Link>
+                            <Link
+                                to="/gallery"
+                                className="flex items-center gap-2 text-secondary hover:text-accent transition-colors duration-200 font-medium"
+                            >
+                                <Image size={20} />
                             </Link>
                         </div>
 

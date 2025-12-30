@@ -4,6 +4,7 @@ import { ContentContext } from '../../context/globalContext';
 import { useCreateCSRInitiative, useUpdateCSRInitiative, useDeleteCSRInitiative } from '../../hooks/useCSRMutation';
 import { assetUrl } from '../../utils';
 import handleError from '../../utils/handleError';
+import LoadingSpinner from '../../components/common/Loading';
 
 const CSRInitiativesAdmin = () => {
   const { content, isLoading, refetch } = useContext(ContentContext);
@@ -215,7 +216,7 @@ const CSRInitiativesAdmin = () => {
   };
 
   if (isLoading) {
-    return <div className="flex items-center justify-center h-64">Loading...</div>;
+    return <LoadingSpinner/>
   }
 
   const isFormActive = isCreating || editingId !== null;

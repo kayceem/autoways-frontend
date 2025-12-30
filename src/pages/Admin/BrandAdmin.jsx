@@ -5,6 +5,7 @@ import { useUpdateBrand } from '../../hooks/useBrandsMutation';
 import BrandForm from './BrandForm';
 import { assetUrl } from '../../utils';
 import handleError from '../../utils/handleError';
+import LoadingSpinner from '../../components/common/Loading';
 
 const BrandAdmin = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -67,11 +68,7 @@ const BrandAdmin = () => {
   }
 
   if (isLoading) {
-    return (
-      <div className="flex items-center justify-center h-64">
-        <div className="text-lg text-gray-600">Loading brands...</div>
-      </div>
-    );
+    return <LoadingSpinner/>;
   }
 
   return (

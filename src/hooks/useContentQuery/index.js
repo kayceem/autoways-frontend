@@ -17,7 +17,7 @@ const useContentQuery = () => {
         return siteData;
       }
     },
-    staleTime: 60 * 60 * 1000,
+    staleTime: 4 * 60 * 60 * 1000,
     retry: 1, // Only retry once before falling back
   });
 };

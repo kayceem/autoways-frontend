@@ -5,6 +5,7 @@ import { ContentContext } from '../../context/globalContext';
 import { useCreateHeroImage, useUpdateHeroImage, useDeleteHeroImage } from '../../hooks/useHeroImagesMutation';
 import { assetUrl } from '../../utils';
 import handleError from '../../utils/handleError';
+import LoadingSpinner from '../../components/common/Loading';
 
 const HeroImagesAdmin = () => {
   const { content, isLoading, refetch } = useContext(ContentContext);
@@ -187,7 +188,7 @@ const HeroImagesAdmin = () => {
   };
 
   if (isLoading) {
-    return <div className="flex items-center justify-center h-64">Loading...</div>;
+    return <LoadingSpinner/>
   }
 
   const isFormActive = isCreating || editingId !== null;

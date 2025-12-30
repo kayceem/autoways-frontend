@@ -5,6 +5,7 @@ import { useCreateSisterCompany, useUpdateSisterCompany, useDeleteSisterCompany 
 import SisterCompanyForm from './SisterCompanyForm';
 import { assetUrl } from '../../utils';
 import handleError from '../../utils/handleError';
+import LoadingSpinner from '../../components/common/Loading';
 
 const SisterCompaniesAdmin = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -89,11 +90,7 @@ const filteredCompanies = useMemo(() => {
   }
 
   if (isLoading) {
-    return (
-      <div className="flex items-center justify-center h-64">
-        <div className="text-lg text-gray-600">Loading sister companies...</div>
-      </div>
-    );
+    return <LoadingSpinner />
   }
 
   return (

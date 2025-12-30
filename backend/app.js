@@ -348,9 +348,9 @@ async function startServer() {
   router.get("/customers", getCustomers);
 
   // Gallery routes
-  router.get("/galleries", getGalleries);
-  router.post("/galleries", createGallery);
-  router.delete("/galleries/:id", deleteGallery);
+  router.get("/gallery", getGalleries);
+  router.post("/gallery", createGallery);
+  router.delete("/gallery/:id", deleteGallery);
   
   // Career routes
   router.get("/careers", getCareers);

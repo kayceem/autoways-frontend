@@ -5,6 +5,7 @@ import { ContentContext } from '../../context/globalContext';
 import { useUpdateAboutUs } from '../../hooks/useAboutUsMutation';
 import { assetUrl } from '../../utils';
 import handleError from '../../utils/handleError';
+import LoadingSpinner from '../../components/common/Loading';
 
 const AboutUsAdmin = () => {
   const { content, isLoading, refetch } = useContext(ContentContext);
@@ -327,7 +328,7 @@ const AboutUsAdmin = () => {
 
 
   if (isLoading) {
-    return <div className="flex items-center justify-center h-64">Loading...</div>;
+    return <LoadingSpinner/>
   }
 
   if (!aboutData) {

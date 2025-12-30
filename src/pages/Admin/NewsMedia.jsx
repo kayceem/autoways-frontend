@@ -5,6 +5,7 @@ import { ContentContext } from '../../context/globalContext';
 import { useCreateNewsArticle, useUpdateNewsArticle, useDeleteNewsArticle } from '../../hooks/useNewsMediaMutation';
 import { assetUrl } from '../../utils';
 import handleError from '../../utils/handleError';
+import LoadingSpinner from '../../components/common/Loading';
 
 const NewsMediaAdmin = () => {
   const { content, isLoading, refetch } = useContext(ContentContext);
@@ -203,7 +204,7 @@ const NewsMediaAdmin = () => {
   };
 
   if (isLoading) {
-    return <div className="flex items-center justify-center h-64">Loading...</div>;
+    return <LoadingSpinner/>
   }
 
   const isFormActive = isCreating || editingId !== null;

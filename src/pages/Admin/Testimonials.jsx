@@ -4,6 +4,7 @@ import { ContentContext } from '../../context/globalContext';
 import { useCreateTestimonial, useUpdateTestimonial, useDeleteTestimonial } from '../../hooks/useTestimonialsMutation';
 import { assetUrl } from '../../utils';
 import handleError from '../../utils/handleError';
+import LoadingSpinner from '../../components/common/Loading';
 
 const TestimonialsAdmin = () => {
   const { content, isLoading, refetch } = useContext(ContentContext);
@@ -214,7 +215,7 @@ const TestimonialsAdmin = () => {
   };
 
   if (isLoading) {
-    return <div className="flex items-center justify-center h-64">Loading...</div>;
+    return <LoadingSpinner/>
   }
 
   const isFormActive = isCreating || editingId !== null;

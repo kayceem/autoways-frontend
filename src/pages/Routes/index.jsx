@@ -12,6 +12,7 @@ import CSR from "../CSR";
 import SisterCompanies from "../SisterCompanies";
 import SisterCompaniesLanding from "../SisterCompanies/SisterCompaniesLanding";
 import SparesParts from "../SparesParts";
+import Gallery from "../Gallery";
 import NotFound from "../NotFound";
 import Navbar from "../../components/common/NavBar";
 import Footer from "../../components/common/Footer";
@@ -35,6 +36,7 @@ import SparePartsAdmin from "../Admin/SpareParts";
 import SisterCompaniesAdmin from "../Admin/SisterCompanies";
 import CustomerAdmin from "../Admin/Customer";
 import TestimonialsAdmin from "../Admin/Testimonials";
+import GalleryAdmin from "../Admin/Gallery";
 import ProtectedRoute from "../../components/common/ProtectedRoute";
 
 const PageRoutes = () => {
@@ -65,6 +67,7 @@ const PageRoutes = () => {
                 <Route path="news-media" element={<NewsMediaAdmin />} />
                 <Route path="spare-parts" element={<SparePartsAdmin />} />
                 <Route path="sister-companies" element={<SisterCompaniesAdmin />} />
+                <Route path="gallery" element={<GalleryAdmin />} />
             </Route>
 
             {/* Public Routes */}
@@ -85,6 +88,7 @@ const PageRoutes = () => {
                             <Route path="/sister-companies" element={<SisterCompanies />} />
                             <Route path="/sister-companies/:companySlug" element={<SisterCompaniesLanding />} />
                             <Route path="/spares-parts" element={<SparesParts />} />
+                            <Route path="/gallery" element={<Gallery />} />
                             <Route path="/shop/:brand" element={<BrandLanding />} />
                             <Route path="/shop/:brand/:typeSlug" element={<ProductType />} />
                             <Route path="/shop/:brand/:typeSlug/:id" element={<ProductDetails />} />

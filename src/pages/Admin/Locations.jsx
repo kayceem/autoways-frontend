@@ -4,6 +4,7 @@ import toast from 'react-hot-toast';
 import { ContentContext } from '../../context/globalContext';
 import { useCreateLocation, useUpdateLocation, useDeleteLocation } from '../../hooks/useLocationsMutation';
 import handleError from '../../utils/handleError';
+import LoadingSpinner from '../../components/common/Loading';
 
 const LocationsAdmin = () => {
   const { content, isLoading, refetch } = useContext(ContentContext);
@@ -151,7 +152,7 @@ const LocationsAdmin = () => {
   };
 
   if (isLoading) {
-    return <div className="flex items-center justify-center h-64">Loading...</div>;
+    return <LoadingSpinner/>
   }
 
   const isFormActive = isCreating || editingId !== null;

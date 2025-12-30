@@ -7,6 +7,7 @@ import useProductTypesQuery from '../../hooks/useProductTypesQuery';
 import ProductForm from './ProductForm';
 import { assetUrl } from '../../utils';
 import handleError from '../../utils/handleError';
+import LoadingSpinner from '../../components/common/Loading';
 
 const ProductsAdmin = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -80,11 +81,7 @@ const ProductsAdmin = () => {
   }
 
   if (isLoading) {
-    return (
-      <div className="flex items-center justify-center h-64">
-        <div className="text-lg text-gray-600">Loading products...</div>
-      </div>
-    );
+    return <LoadingSpinner />
   }
 
   return (

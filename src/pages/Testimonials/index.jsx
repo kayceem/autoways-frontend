@@ -136,7 +136,7 @@ const Testimonials = () => {
                 {/* Category Badge */}
                 <div className="mb-4">
                   <span className="bg-dark text-accent px-3 py-1 rounded-full text-sm font-semibold">
-                    {categoryMap[testimonial.category] || capitalizeWords(testimonial.category)}
+                    Review
                   </span>
                 </div>
 
