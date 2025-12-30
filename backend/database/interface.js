@@ -19,7 +19,8 @@ const {
     SparePart,
     Customer,
     CustomerTicket,
-    Gallery
+    Gallery,
+    Career
 } = require('./schema.js');
 
 const {
@@ -49,6 +50,7 @@ const {
     processGalleryFiles,
     deleteGalleryFiles
 } = require('./utils.js');
+const { create } = require('domain');
 
 const DATA_FILE_PATH = path.join(__dirname, '..', 'assets', 'data.json');
 const BASE_CHANGES_DIR = path.join(__dirname, '..', 'logs', 'data');
@@ -116,7 +118,8 @@ const fetchAllDataFromDB = async () => {
         sisterCompanies,
         spareParts,
         customers,
-        gallery
+        gallery,
+        careers
     ] = await Promise.all([
         HeroImage.find(),
         AboutUs.find(),
@@ -133,7 +136,8 @@ const fetchAllDataFromDB = async () => {
         SisterCompany.find(),
         SparePart.find(),
         Customer.find().populate('tickets'),
-        Gallery.find()
+        Gallery.find(),
+        Career.find()
     ]);
 
     const csr = {
@@ -167,7 +171,8 @@ const fetchAllDataFromDB = async () => {
         sisterCompanies,
         spareParts,
         customers,
-        gallery
+        gallery,
+        careers
     };
 };
 
@@ -1425,6 +1430,46 @@ const deleteGallery = asyncHandler(async (req, res) => {
         message: 'Gallery deleted successfully'
     });
 });
+
+// ==================== CAREER ROUTES ====================
+const createCareer = asyncHandler(async (req, res) => {
+    const career = await Career.create(req.body);
+    await refreshCacheInBackground();
+    res.status(201).json({
+        success: true,
+        data: career
+    });
+});
+
+const updateCareer = asyncHandler(async (req, res) => {
+    const career = await Career.findByIdAndUpdate(
+        req.params.id,
+        req.body,
+        { new: true, runValidators: true }
+    );
+    if (!career) {
+        return res.status(404).json({ success: false, error: 'Career not found' });
+    }
+    await refreshCacheInBackground();
+    res.json({
+        success: true,
+        data: career
+    });
+});
+
+const deleteCareer = asyncHandler(async (req, res) => {
+    const career = await Career.findByIdAndDelete(req.params.id);
+    if (!career) {
+        return res.status(404).json({ success: false, error: 'Career not found' });
+    }
+
+    await refreshCacheInBackground();
+    res.json({
+        success: true,
+        message: 'Career deleted successfully'
+    });
+});
+
 // ==================== TESTIMONIAL ROUTES ====================
 const createTestimonial = asyncHandler(async (req, res) => {
     try {
@@ -1729,7 +1774,7 @@ const updateSparePart = asyncHandler(async (req, res) => {
     if (!sparePart) {
         return res.status(404).json({ success: false, error: 'Spare part not found' });
     }
-
+    
     const oldImage = sparePart.image;
     const oldParts = sparePart.parts || [];
     let processedData;
@@ -1741,18 +1786,18 @@ const updateSparePart = asyncHandler(async (req, res) => {
             error: `Error processing files`
         });
     }
-
+    
     sparePart = await SparePart.findByIdAndUpdate(
         req.params.id,
         processedData,
         { new: true, runValidators: true }
     );
-
+    
     // Clean up old files that are no longer used
     if (oldImage && oldImage !== processedData.image) {
         await deleteSparePartFiles(oldImage, []);
     }
-
+    
     await refreshCacheInBackground();
     res.json({
         success: true,
@@ -1765,7 +1810,7 @@ const deleteSparePart = asyncHandler(async (req, res) => {
     if (!sparePart) {
         return res.status(404).json({ success: false, error: 'Spare part not found' });
     }
-
+    
     await deleteSparePartFiles(sparePart.image, sparePart.parts);
     await refreshCacheInBackground();
     res.json({
@@ -1774,6 +1819,7 @@ const deleteSparePart = asyncHandler(async (req, res) => {
     });
 });
 
+// ==================== CUSTOMER ROUTES ====================
 const getCustomers = asyncHandler(async (req, res) => {
     const customer = await Customer.findAll();
     res.json({
@@ -1799,6 +1845,14 @@ const createCustomerUtil = async (customerData, ticketData) => {
         logger.error('Error creating customer:', error);
     }
 };
+// ==================== CAREER ROUTES ====================
+const getCareers = asyncHandler(async (req, res) => {
+    const careers = await Career.find();
+    res.json({
+        success: true,
+        data: careers
+    });
+});
 
 
 // ==================== HELPER FUNCTION ====================
@@ -1893,5 +1947,9 @@ module.exports = {
     getCustomers,
     createCustomerUtil,
     createGallery,
-    deleteGallery
+    deleteGallery,
+    getCareers,
+    createCareer,
+    updateCareer,
+    deleteCareer
 };

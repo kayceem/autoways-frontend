@@ -91,7 +91,11 @@ const {
   getCustomers,
   getGalleries,
   createGallery,
-  deleteGallery
+  deleteGallery,
+  getCareers,
+  createCareer,
+  updateCareer,
+  deleteCareer
 } = require("./database/interface.js");
 
 let dbConnected = false;
@@ -348,6 +352,12 @@ async function startServer() {
   router.post("/galleries", createGallery);
   router.delete("/galleries/:id", deleteGallery);
   
+  // Career routes
+  router.get("/careers", getCareers);
+  router.post("/careers", createCareer);
+  router.patch("/careers/:id", updateCareer);
+  router.delete("/careers/:id", deleteCareer);
+
   // Mount router
   app.use("/api", router);
 

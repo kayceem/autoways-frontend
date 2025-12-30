@@ -596,6 +596,32 @@ const GallerySchema = new Schema({
     }
 }, { timestamps: true });
 
+// ==================== Career Schema ====================
+const CareerSchema = new Schema({
+    position: {
+        type: String,
+        required: true
+    },
+    department: String,
+    location: String,
+    description: {
+        type: String,
+        required: true
+    },
+    requirements: [String],
+    responsibilities: [String],
+    benefits: [String],
+    deadline: {
+        type: Date,
+    },
+    isActive: {
+        type: Boolean,
+        default: true
+    }
+}, { timestamps: true });
+
+
+
 // ==================== Model Exports ====================
 const HeroImage = mongoose.model('HeroImage', HeroImageSchema);
 const AboutUs = mongoose.model('AboutUs', AboutUsSchema);
@@ -614,6 +640,7 @@ const SparePart = mongoose.model('SparePart', SparePartSchema);
 const Customer = mongoose.model('Customer', CustomerSchema);
 const CustomerTicket = mongoose.model('CustomerTicket', CustomerTicketSchema);
 const Gallery = mongoose.model('Gallery', GallerySchema);
+const Career = mongoose.model('Career', CareerSchema);
 
 module.exports = {
     HeroImage,
@@ -632,5 +659,6 @@ module.exports = {
     SparePart,
     Customer,
     CustomerTicket,
-    Gallery
+    Gallery,
+    Career
 };
