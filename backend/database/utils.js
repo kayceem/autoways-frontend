@@ -3,6 +3,7 @@ const path = require('path');
 const { promisify } = require('util');
 const sharp = require('sharp');
 const logger = require('../utils/logger');
+const { randomUUID } = require('crypto');
 
 const writeFile = promisify(fs.writeFile);
 const mkdir = promisify(fs.mkdir);
@@ -16,6 +17,9 @@ const ASSETS_DIR = path.join(__dirname, '..', 'assets');
  * Clean filename to be filesystem-safe
  */
 const cleanFileName = (name) => {
+  if (!name || typeof name !== 'string') {
+    return randomUUID();
+  }
   return name
     .toLowerCase()
     .replace(/[^a-z0-9]/g, '_')
@@ -495,26 +499,58 @@ const deleteNewsArticleFiles = async (imagePath) => {
 };
 
 /**
- * Process testimonial files
+ * Process gallery files
  */
-const processTestimonialFiles = async (testimonialData) => {
-  try {
-    const { image, name } = testimonialData;
+const processGalleryFiles = async (galleryData) => {
+    try {
+        const { image } = galleryData;
+        let savedImagePath = image;
+        if (image && image.startsWith('data:')) {
+            const cleanTitle = cleanFileName();
+            savedImagePath = await saveImageGeneric(image, 'gallery', `gallery_${cleanTitle}_${Date.now()}`);
+        }
 
-    let savedImagePath = image;
-    if (image && image.startsWith('data:')) {
-      const cleanName = cleanFileName(name);
-      savedImagePath = await saveImageGeneric(image, 'testimonials', `testimonial_${cleanName}_${Date.now()}`);
+        return {
+            ...galleryData,
+            image: savedImagePath
+        };
+    } catch (error) {
+        logger.error('Error processing gallery files:', error);
+        throw error;
     }
+};
+/**
+ * Delete gallery files
+ */
+const deleteGalleryFiles = async (imagePath) => {
+    try {
+        if (imagePath) await deleteImage(imagePath);
+    } catch (error) {
+        logger.error('Error deleting gallery files:', error);
+    }
+};
 
-    return {
-      ...testimonialData,
-      image: savedImagePath
-    };
-  } catch (error) {
-    logger.error('Error processing testimonial files:', error);
-    throw error;
-  }
+/**
+ * Process testimonial files
+*/
+const processTestimonialFiles = async (testimonialData) => {
+    try {
+        const { image, name } = testimonialData;
+        
+        let savedImagePath = image;
+        if (image && image.startsWith('data:')) {
+            const cleanName = cleanFileName(name);
+            savedImagePath = await saveImageGeneric(image, 'testimonials', `testimonial_${cleanName}_${Date.now()}`);
+        }
+        
+        return {
+            ...testimonialData,
+            image: savedImagePath
+        };
+    } catch (error) {
+        logger.error('Error processing testimonial files:', error);
+        throw error;
+    }
 };
 
 /**
@@ -858,5 +894,7 @@ module.exports = {
   processSisterCompanyFiles,
   deleteSisterCompanyFiles,
   processSparePartFiles,
-  deleteSparePartFiles
+  deleteSparePartFiles,
+  processGalleryFiles,
+  deleteGalleryFiles
 };

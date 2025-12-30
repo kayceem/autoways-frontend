@@ -542,6 +542,7 @@ const AboutUsSchema = new Schema({
     }
 }, { timestamps: true });
 
+// ==================== Customer Schema ====================
 const CustomerSchema = new Schema({
     email: {
         type: String,
@@ -584,6 +585,17 @@ CustomerSchema.virtual('tickets', {
 CustomerSchema.set('toJSON', { virtuals: true });
 CustomerSchema.set('toObject', { virtuals: true });
 
+// ==================== Gallery Schema ====================
+const GallerySchema = new Schema({
+    title: {
+        type: String,
+    },
+    image: {
+        type: String,
+        required: true
+    }
+}, { timestamps: true });
+
 // ==================== Model Exports ====================
 const HeroImage = mongoose.model('HeroImage', HeroImageSchema);
 const AboutUs = mongoose.model('AboutUs', AboutUsSchema);
@@ -601,6 +613,7 @@ const SisterCompany = mongoose.model('SisterCompany', SisterCompanySchema);
 const SparePart = mongoose.model('SparePart', SparePartSchema);
 const Customer = mongoose.model('Customer', CustomerSchema);
 const CustomerTicket = mongoose.model('CustomerTicket', CustomerTicketSchema);
+const Gallery = mongoose.model('Gallery', GallerySchema);
 
 module.exports = {
     HeroImage,
@@ -618,5 +631,6 @@ module.exports = {
     SisterCompany,
     SparePart,
     Customer,
-    CustomerTicket
+    CustomerTicket,
+    Gallery
 };

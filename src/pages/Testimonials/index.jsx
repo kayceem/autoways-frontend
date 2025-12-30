@@ -140,22 +140,39 @@ const Testimonials = () => {
                   </span>
                 </div>
 
+                {/* Video Player for video testimonials */}
+                {testimonial.category === 'video' && testimonial.video && (
+                  <div className="mb-4 rounded-lg overflow-hidden">
+                    <video
+                      src={assetUrl(testimonial.video)}
+                      controls
+                      className="w-full h-48 object-cover bg-dark"
+                      preload="metadata"
+                    >
+                      Your browser does not support the video tag.
+                    </video>
+                  </div>
+                )}
+
                 {/* Testimonial Text */}
-                <p className="text-secondary opacity-90 leading-relaxed text-justify mb-6 relative z-10 h-48 lg:h-56 overflow-hidden">
+                {testimonial.category === 'text' && (
+
+                    <p className="text-secondary opacity-90 leading-relaxed text-justify mb-6 relative z-10 h-48 lg:h-56 overflow-hidden">
                   "{testimonial.text}"
                 </p>
+                )}
 
                 {/* Customer Info */}
                 <div className="border-t border-secondary border-opacity-20 pt-4">
                   <div className="font-bold text-secondary flex items-center justify-between text-lg mb-1">
                     {testimonial.name}
-                  {testimonial.image && (
+                    {testimonial.image && (
                       <img
                         src={assetUrl(testimonial.image)}
                         alt={`${testimonial.name}'s photo`}
-                        className="w-12 h-12 rounded-full object-cover"
+                        className="w-12 h-12 rounded-full object-cover border-2 border-accent"
                       />
-                )}
+                    )}
                   </div>
                   <div className="text-accent text-sm font-semibold mb-1">
                     {testimonial.position}
@@ -168,7 +185,6 @@ const Testimonials = () => {
                   <div className="text-secondary opacity-50 text-xs">
                     {formatDate(testimonial.date)}
                   </div>
-                  {/* customer image in circular frame */}
                 </div>
               </div>
             ))}

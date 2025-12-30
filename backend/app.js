@@ -88,7 +88,10 @@ const {
   createSparePart,
   updateSparePart,
   deleteSparePart,
-  getCustomers
+  getCustomers,
+  getGalleries,
+  createGallery,
+  deleteGallery
 } = require("./database/interface.js");
 
 let dbConnected = false;
@@ -339,6 +342,11 @@ async function startServer() {
 
   // Customer routes
   router.get("/customers", getCustomers);
+
+  // Gallery routes
+  router.get("/galleries", getGalleries);
+  router.post("/galleries", createGallery);
+  router.delete("/galleries/:id", deleteGallery);
   
   // Mount router
   app.use("/api", router);

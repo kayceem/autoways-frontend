@@ -18,7 +18,8 @@ const {
     SisterCompany,
     SparePart,
     Customer,
-    CustomerTicket
+    CustomerTicket,
+    Gallery
 } = require('./schema.js');
 
 const {
@@ -45,6 +46,8 @@ const {
     deleteSisterCompanyFiles,
     processSparePartFiles,
     deleteSparePartFiles,
+    processGalleryFiles,
+    deleteGalleryFiles
 } = require('./utils.js');
 
 const DATA_FILE_PATH = path.join(__dirname, '..', 'assets', 'data.json');
@@ -113,6 +116,7 @@ const fetchAllDataFromDB = async () => {
         sisterCompanies,
         spareParts,
         customers,
+        gallery
     ] = await Promise.all([
         HeroImage.find(),
         AboutUs.find(),
@@ -128,7 +132,8 @@ const fetchAllDataFromDB = async () => {
         CSRHero.find(),
         SisterCompany.find(),
         SparePart.find(),
-        Customer.find().populate('tickets')
+        Customer.find().populate('tickets'),
+        Gallery.find()
     ]);
 
     const csr = {
@@ -161,7 +166,8 @@ const fetchAllDataFromDB = async () => {
         csr,
         sisterCompanies,
         spareParts,
-        customers
+        customers,
+        gallery
     };
 };
 
@@ -492,6 +498,23 @@ const getNewsArticleById = asyncHandler(async (req, res) => {
     res.json({
         success: true,
         data: newsArticle
+    });
+});
+
+// ==================== GALLERY GET ROUTES ====================
+const getGalleries = asyncHandler(async (req, res) => {
+    const { limit, skip, sort } = req.query;
+    const query = Gallery.find();
+    if (skip) query.skip(parseInt(skip));
+    if (limit) query.limit(parseInt(limit));
+    if (sort) query.sort(sort);
+    const galleries = await query;
+    const total = await Gallery.countDocuments();
+    res.json({
+        success: true,
+        data: galleries,
+        total,
+        count: galleries.length
     });
 });
 
@@ -1369,6 +1392,39 @@ const deleteNewsArticle = asyncHandler(async (req, res) => {
     });
 });
 
+// ==================== GALLERY ROUTES ====================
+const createGallery = asyncHandler(async (req, res) => {
+    let processedData;
+    try {
+        processedData = await processGalleryFiles(req.body);
+    } catch (error) {
+        return res.status(400).json({ 
+            success: false, 
+            error: `Error processing files`
+        });
+    }
+
+    const gallery = await Gallery.create(processedData);
+    await refreshCacheInBackground();
+    res.status(201).json({
+        success: true,
+        data: gallery
+    });
+});
+
+const deleteGallery = asyncHandler(async (req, res) => {
+    const gallery = await Gallery.findByIdAndDelete(req.params.id);
+    if (!gallery) {
+        return res.status(404).json({ success: false, error: 'Gallery not found' });
+    }
+
+    await deleteGalleryFiles(gallery.image);
+    await refreshCacheInBackground();
+    res.json({
+        success: true,
+        message: 'Gallery deleted successfully'
+    });
+});
 // ==================== TESTIMONIAL ROUTES ====================
 const createTestimonial = asyncHandler(async (req, res) => {
     try {
@@ -1787,6 +1843,7 @@ module.exports = {
     getSisterCompanyById,
     getSpareParts,
     getSparePartById,
+    getGalleries,
     createHeroImage,
     updateHeroImage,
     deleteHeroImage,
@@ -1834,5 +1891,7 @@ module.exports = {
     updateSparePart,
     deleteSparePart,
     getCustomers,
-    createCustomerUtil
+    createCustomerUtil,
+    createGallery,
+    deleteGallery
 };
