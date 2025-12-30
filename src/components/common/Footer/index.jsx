@@ -99,6 +99,14 @@ const Footer = ({ className = "" }) => {
                             </li>
                             <li>
                                 <Link
+                                    to="/spare-parts"
+                                    className="text-primary-autoways  hover:text-accent transition-colors duration-300"
+                                >
+                                    Spare & Parts
+                                </Link>
+                            </li>
+                            <li>
+                                <Link
                                     to="/sister-companies"
                                     className="text-primary-autoways  hover:text-accent transition-colors duration-300"
                                 >

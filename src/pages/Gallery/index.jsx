@@ -130,8 +130,8 @@ const Gallery = () => {
         <div className="max-w-7xl mx-auto">
           {galleryData.length === 0 ? (
             <div className="text-center py-20">
-              <p className="text-secondary opacity-70 text-lg">
-                No images in the gallery yet
+              <p className="text-secondary opacity-20 text-[100px]">
+                :(
               </p>
             </div>
           ) : (

@@ -487,10 +487,10 @@ const handleNext = () => {
               Be part of Nepal's leading automotive company. Explore career opportunities and grow with us.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/contact"
+            <Link to="/careers"
                className="px-8 py-4 bg-accent text-secondary rounded-lg font-semibold hover:bg-opacity-90 transition-all transform hover:scale-105 shadow-lg"
             >
-                Contact Us
+                Careers
             </Link>
             </div>
           </div>

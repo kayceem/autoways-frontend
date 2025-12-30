@@ -18,7 +18,7 @@ const ROUTES = [
 '/testimonials',
 '/csr',
 '/sister-companies',
-'/spares-parts',
+'/spare-parts',
 '/shop/ather',
 '/shop/ather/electric-scooter',
 '/shop/ather/electric-scooter/694cdd255402906a994a2edc',

@@ -37,6 +37,8 @@ import SisterCompaniesAdmin from "../Admin/SisterCompanies";
 import CustomerAdmin from "../Admin/Customer";
 import TestimonialsAdmin from "../Admin/Testimonials";
 import GalleryAdmin from "../Admin/Gallery";
+import CareersAdmin from "../Admin/Careers";
+import Careers from "../Careers";
 import ProtectedRoute from "../../components/common/ProtectedRoute";
 
 const PageRoutes = () => {
@@ -68,6 +70,7 @@ const PageRoutes = () => {
                 <Route path="spare-parts" element={<SparePartsAdmin />} />
                 <Route path="sister-companies" element={<SisterCompaniesAdmin />} />
                 <Route path="gallery" element={<GalleryAdmin />} />
+                <Route path="careers" element={<CareersAdmin />} />
             </Route>
 
             {/* Public Routes */}
@@ -87,8 +90,9 @@ const PageRoutes = () => {
                             <Route path="/csr" element={<CSR />} />
                             <Route path="/sister-companies" element={<SisterCompanies />} />
                             <Route path="/sister-companies/:companySlug" element={<SisterCompaniesLanding />} />
-                            <Route path="/spares-parts" element={<SparesParts />} />
+                            <Route path="/spare-parts" element={<SparesParts />} />
                             <Route path="/gallery" element={<Gallery />} />
+                            <Route path="/careers" element={<Careers />} />
                             <Route path="/shop/:brand" element={<BrandLanding />} />
                             <Route path="/shop/:brand/:typeSlug" element={<ProductType />} />
                             <Route path="/shop/:brand/:typeSlug/:id" element={<ProductDetails />} />

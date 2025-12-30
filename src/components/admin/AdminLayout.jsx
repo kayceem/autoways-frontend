@@ -16,7 +16,8 @@ import {
   Newspaper,
   Wrench,
   Building2,
-  User
+  User,
+  Briefcase
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 
@@ -26,7 +27,7 @@ const AdminLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   const menuItems = [
-    { path: '/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+    { path: '/admin/', label: 'Dashboard', icon: LayoutDashboard },
     { path: '/admin/customers', label: 'Customers', icon: User },
     { path: '/admin/brands', label: 'Brands', icon: Building2 },
     { path: '/admin/products', label: 'Products', icon: Package },
@@ -42,6 +43,7 @@ const AdminLayout = () => {
     { path: '/admin/news-media', label: 'News & Media', icon: Newspaper },
     { path: '/admin/gallery', label: 'Gallery', icon: Image },
     { path: '/admin/spare-parts', label: 'Spare Parts', icon: Wrench },
+    { path: '/admin/careers', label: 'Careers', icon: Briefcase },
   ];
 
   const handleLogout = () => {

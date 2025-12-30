@@ -130,7 +130,7 @@ const Navbar = ({ className = "" }) => {
                             />
 
                             <Link
-                                to="/spares-parts"
+                                to="/spare-parts"
                                 className="nav-link-underline text-secondary hover:text-accent transition-colors duration-200 font-medium py-2"
                             >
                                 Spares & Parts
@@ -271,7 +271,7 @@ const Navbar = ({ className = "" }) => {
                                         </button>
 
                                         <Link
-                                            to="/spares-parts"
+                                            to="/spare-parts"
                                             className="block px-4 py-3 text-secondary hover:bg-accent/20 hover:text-accent transition-colors duration-200 font-medium rounded-lg"
                                             onClick={handleLinkClick}
                                         >
