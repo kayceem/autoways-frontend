@@ -1909,7 +1909,6 @@ const siteData = {
         "__v": 0
       }
     ],
-    "productTypes": [],
     "brands": [
       {
         "_id": "69438f67cdc76acac25289ef",
@@ -2325,7 +2324,7 @@ const siteData = {
         "rating": 5,
         "text": "We have been using BULL machines from Autoways for over 5 years now. The build quality is exceptional and the after-sales service is outstanding. Their team is always ready to help, and spare parts are readily available. Highly recommended for any construction business.",
         "date": "2024-10-15T00:00:00.000Z",
-        "category": "BULL Machines",
+        "category": "text",
         "__v": 0,
         "createdAt": "2025-12-18T05:21:43.724Z",
         "updatedAt": "2025-12-18T05:21:43.724Z"
@@ -2340,7 +2339,7 @@ const siteData = {
         "rating": 5,
         "text": "Our Toyota fleet from Autoways has been incredibly reliable. The fuel efficiency is excellent, and maintenance costs are low. The professional service from the Autoways team makes fleet management so much easier. We have expanded our partnership year after year.",
         "date": "2024-09-22T00:00:00.000Z",
-        "category": "Toyota",
+        "category": "text",
         "__v": 0,
         "createdAt": "2025-12-18T05:21:43.724Z",
         "updatedAt": "2025-12-18T05:21:43.724Z"
@@ -2355,7 +2354,7 @@ const siteData = {
         "rating": 5,
         "text": "Purchasing my first Ather electric scooter from Autoways was the best decision. The riding experience is smooth, the technology is cutting-edge, and I am saving so much on fuel costs. The staff guided me through every feature patiently.",
         "date": "2024-08-30T00:00:00.000Z",
-        "category": "Ather",
+        "category": "text",
         "__v": 0,
         "createdAt": "2025-12-18T05:21:43.724Z",
         "updatedAt": "2025-12-18T05:21:43.724Z"
@@ -2370,7 +2369,7 @@ const siteData = {
         "rating": 5,
         "text": "Komatsu equipment from Autoways has transformed our mining operations. The machines are built for tough conditions and deliver consistent performance. The technical support team is knowledgeable and responsive. Worth every rupee invested.",
         "date": "2024-07-18T00:00:00.000Z",
-        "category": "Komatsu",
+        "category": "text",
         "__v": 0,
         "createdAt": "2025-12-18T05:21:43.724Z",
         "updatedAt": "2025-12-18T05:21:43.724Z"
@@ -2385,7 +2384,7 @@ const siteData = {
         "rating": 5,
         "text": "I recently purchased an Eicher commercial vehicle for my business. Autoways made the entire process seamless - from financing options to delivery. The vehicle performance exceeds expectations and has significantly improved our logistics efficiency.",
         "date": "2024-06-25T00:00:00.000Z",
-        "category": "Eicher",
+        "category": "text",
         "__v": 0,
         "createdAt": "2025-12-18T05:21:43.724Z",
         "updatedAt": "2025-12-18T05:21:43.724Z"
@@ -2400,7 +2399,7 @@ const siteData = {
         "rating": 5,
         "text": "Working with challenging mountain terrain requires reliable equipment. The XCMG machinery from Autoways has proven to be robust and dependable. The service network across Nepal ensures minimal downtime. Excellent value for money.",
         "date": "2024-05-10T00:00:00.000Z",
-        "category": "XCMG",
+        "category": "text",
         "__v": 0,
         "createdAt": "2025-12-18T05:21:43.724Z",
         "updatedAt": "2025-12-18T05:21:43.724Z"
@@ -2415,7 +2414,7 @@ const siteData = {
         "rating": 5,
         "text": "Our Dongfeng vehicles from Autoways have been workhorses for our transport business. Low maintenance, high reliability, and excellent support from the Autoways team. They truly understand the needs of commercial vehicle operators.",
         "date": "2024-04-15T00:00:00.000Z",
-        "category": "Dongfeng",
+        "category": "text",
         "__v": 0,
         "createdAt": "2025-12-18T05:21:43.724Z",
         "updatedAt": "2025-12-18T05:21:43.724Z"
@@ -2430,7 +2429,7 @@ const siteData = {
         "rating": 5,
         "text": "The buying experience at Autoways was exceptional. The team was professional, transparent, and helped me choose the right Toyota model for my family. Post-purchase service has been equally impressive. Will definitely recommend to friends.",
         "date": "2024-03-20T00:00:00.000Z",
-        "category": "Toyota",
+        "category": "text",
         "__v": 0,
         "createdAt": "2025-12-18T05:21:43.724Z",
         "updatedAt": "2025-12-18T05:21:43.724Z"
