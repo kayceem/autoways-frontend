@@ -3,11 +3,11 @@ import LoadingSpinner from '../../components/common/Loading';
 import WaveBackground from '../../components/common/WaveBackground';
 import { useState } from 'react';
 import { Navigate } from 'react-router-dom';
-import { capitalizeWords } from '../../utils';
+import { capitalizeWords, assetUrl } from '../../utils';
 
 const Testimonials = () => {
   const { content, isLoading } = useContent();
-  const [selectedCategory, setSelectedCategory] = useState('video');
+  const [selectedCategory, setSelectedCategory] = useState('text');
 
   if (isLoading) return <LoadingSpinner />;
   if (!content || !content.testimonials) {
@@ -147,8 +147,15 @@ const Testimonials = () => {
 
                 {/* Customer Info */}
                 <div className="border-t border-secondary border-opacity-20 pt-4">
-                  <div className="font-bold text-secondary text-lg mb-1">
+                  <div className="font-bold text-secondary flex items-center justify-between text-lg mb-1">
                     {testimonial.name}
+                  {testimonial.image && (
+                      <img
+                        src={assetUrl(testimonial.image)}
+                        alt={`${testimonial.name}'s photo`}
+                        className="w-12 h-12 rounded-full object-cover"
+                      />
+                )}
                   </div>
                   <div className="text-accent text-sm font-semibold mb-1">
                     {testimonial.position}
@@ -161,6 +168,7 @@ const Testimonials = () => {
                   <div className="text-secondary opacity-50 text-xs">
                     {formatDate(testimonial.date)}
                   </div>
+                  {/* customer image in circular frame */}
                 </div>
               </div>
             ))}
