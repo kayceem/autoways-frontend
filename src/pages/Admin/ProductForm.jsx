@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { X, Upload, FileText, Plus, Trash2, ArrowLeft, ChevronDown, ChevronUp } from 'lucide-react';
+import { Trash, Upload, FileText, Plus, Trash2, ArrowLeft, ChevronDown, ChevronUp } from 'lucide-react';
 import { assetUrl } from '../../utils';
 import handleError from '../../utils/handleError';
 
@@ -405,7 +405,7 @@ const ProductForm = ({
                 onClick={onClose}
                 className="text-gray-400 hover:text-gray-600 transition-colors"
               >
-                <X className="w-6 h-6" />
+                <Trash className="w-6 h-6" />
               </button>
             </div>
           </div>
@@ -595,7 +595,7 @@ const ProductForm = ({
                           onClick={() => handleRemoveImage(index)}
                           className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
                         >
-                          <X className="w-4 h-4" />
+                          <Trash className="w-4 h-4" />
                         </button>
                       </div>
                     ))}
@@ -762,7 +762,7 @@ const ProductForm = ({
                         onClick={() => handleRemoveFile('brochure')}
                         className="text-red-600 hover:text-red-700"
                       >
-                        <X className="w-4 h-4" />
+                        <Trash className="w-4 h-4" />
                       </button>
                     </div>
                   )}
@@ -803,7 +803,7 @@ const ProductForm = ({
                         onClick={() => handleRemoveFile('specSheet')}
                         className="text-red-600 hover:text-red-700"
                       >
-                        <X className="w-4 h-4" />
+                        <Trash className="w-4 h-4" />
                       </button>
                     </div>
                   )}

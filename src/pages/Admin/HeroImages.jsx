@@ -1,5 +1,5 @@
 import { useState, useContext, useEffect } from 'react';
-import { Save, X, Plus, Trash2, Edit2, Upload, Image as ImageIcon } from 'lucide-react';
+import { Save, Trash, Plus, Trash2, Edit2, Upload, Image as ImageIcon } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { ContentContext } from '../../context/globalContext';
 import { useCreateHeroImage, useUpdateHeroImage, useDeleteHeroImage } from '../../hooks/useHeroImagesMutation';
@@ -24,7 +24,7 @@ const HeroImagesAdmin = () => {
     ctaLink: ''
   });
 
-  const MAX_HERO_IMAGES = 10;
+  const MATrash_HERO_IMAGES = 10;
   const MIN_HERO_IMAGES = 1;
 
   useEffect(() => {
@@ -87,8 +87,8 @@ const HeroImagesAdmin = () => {
   };
 
   const handleCreate = () => {
-    if (heroImages?.length >= MAX_HERO_IMAGES) {
-      handleError(`Maximum ${MAX_HERO_IMAGES} hero images allowed`);
+    if (heroImages?.length >= MATrash_HERO_IMAGES) {
+      handleError(`Maximum ${MATrash_HERO_IMAGES} hero images allowed`);
       return;
     }
 
@@ -200,7 +200,7 @@ const HeroImagesAdmin = () => {
             <h1 className="text-3xl font-bold text-gray-900">Hero Images</h1>
             <p className="text-gray-600 mt-1">Manage homepage carousel images</p>
           </div>
-          {!isFormActive && heroImages.length < MAX_HERO_IMAGES && (
+          {!isFormActive && heroImages.length < MATrash_HERO_IMAGES && (
             <button
               onClick={handleCreate}
               className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2"
@@ -212,8 +212,8 @@ const HeroImagesAdmin = () => {
         </div>
         <div className="mt-4 bg-blue-50 border border-blue-200 rounded-lg p-4">
           <p className="text-sm text-blue-800">
-            <strong>Note:</strong> You can have a minimum of {MIN_HERO_IMAGES} and maximum of {MAX_HERO_IMAGES} hero images.
-            Currently: {heroImages.length}/{MAX_HERO_IMAGES}
+            <strong>Note:</strong> You can have a minimum of {MIN_HERO_IMAGES} and maximum of {MATrash_HERO_IMAGES} hero images.
+            Currently: {heroImages.length}/{MATrash_HERO_IMAGES}
           </p>
         </div>
       </div>
@@ -229,7 +229,7 @@ const HeroImagesAdmin = () => {
               onClick={handleCancel}
               className="text-gray-500 hover:text-gray-700"
             >
-              <X className="w-5 h-5" />
+              <Trash className="w-5 h-5" />
             </button>
           </div>
 
@@ -346,7 +346,7 @@ const HeroImagesAdmin = () => {
                 onClick={handleCancel}
                 className="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors flex items-center space-x-2"
               >
-                <X className="w-4 h-4" />
+                <Trash className="w-4 h-4" />
                 <span>Cancel</span>
               </button>
               <button

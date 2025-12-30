@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { X, Upload, Plus, Trash2, ArrowLeft } from 'lucide-react';
+import { Trash, Upload, Plus, Trash2, ArrowLeft } from 'lucide-react';
 import { assetUrl } from '../../utils';
 import handleError from '../../utils/handleError';
 
@@ -242,7 +242,7 @@ const SisterCompanyForm = ({
             className="text-gray-600 hover:text-gray-900 transition-colors"
             type="button"
           >
-            <X className="w-6 h-6" />
+            <Trash className="w-6 h-6" />
           </button>
         </div>
 

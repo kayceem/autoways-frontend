@@ -1,5 +1,5 @@
 import { useState, useContext, useEffect } from 'react';
-import { Save, X, Plus, Trash2, Edit2, Upload, Newspaper } from 'lucide-react';
+import { Save, Trash, Plus, Trash2, Edit2, Upload, Newspaper } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { ContentContext } from '../../context/globalContext';
 import { useCreateNewsArticle, useUpdateNewsArticle, useDeleteNewsArticle } from '../../hooks/useNewsMediaMutation';
@@ -239,7 +239,7 @@ const NewsMediaAdmin = () => {
               onClick={handleCancel}
               className="text-gray-500 hover:text-gray-700"
             >
-              <X className="w-5 h-5" />
+              <Trash className="w-5 h-5" />
             </button>
           </div>
 
@@ -405,7 +405,7 @@ const NewsMediaAdmin = () => {
                 onClick={handleCancel}
                 className="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors flex items-center space-x-2"
               >
-                <X className="w-4 h-4" />
+                <Trash className="w-4 h-4" />
                 <span>Cancel</span>
               </button>
               <button

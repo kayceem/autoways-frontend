@@ -1,5 +1,5 @@
 import { useState, useContext, useEffect } from 'react';
-import { Save, X, Upload, Plus, Trash2, Edit2, ChevronDown, ChevronUp } from 'lucide-react';
+import { Save, Trash, Upload, Plus, Trash2, Edit2, ChevronDown, ChevronUp } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { ContentContext } from '../../context/globalContext';
 import { useUpdateAboutUs } from '../../hooks/useAboutUsMutation';
@@ -366,7 +366,7 @@ const AboutUsAdmin = () => {
                 }}
                 className="px-3 py-1 text-sm border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors flex items-center space-x-1"
               >
-                <X className="w-4 h-4" />
+                <Trash className="w-4 h-4" />
                 <span>Cancel</span>
               </button>
               <button

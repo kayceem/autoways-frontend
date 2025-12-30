@@ -9,9 +9,6 @@ export const useSubmitContactForm = () => {
       const response = await axiosInstance.post('/contact', data);
       return response.data;
     },
-    onSuccess: () => {
-      toast.success('Thank you for your inquiry! We will get back to you soon.');
-    },
     onError: (error) => {
       handleError(error);
     }

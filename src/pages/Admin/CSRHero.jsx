@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Save, X, Upload, Edit2, ChevronDown, ChevronUp, Heart } from 'lucide-react';
+import { Save, Trash, Upload, Edit2, ChevronDown, ChevronUp, Heart } from 'lucide-react';
 import toast from 'react-hot-toast';
 import useCSRHeroQuery from '../../hooks/useCSRHeroQuery';
 import { useUpdateCSRHero, useCreateCSRHero } from '../../hooks/useCSRHeroMutation';
@@ -192,7 +192,7 @@ const CSRHeroAdmin = () => {
               }}
               className="px-3 py-1 text-sm border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors flex items-center space-x-1"
             >
-              <X className="w-4 h-4" />
+              <Trash className="w-4 h-4" />
               <span>Cancel</span>
             </button>
             <button

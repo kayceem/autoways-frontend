@@ -1395,6 +1395,8 @@ const updateTestimonial = asyncHandler(async (req, res) => {
     }
 
     const oldImage = testimonial.image;
+    const oldVideo = testimonial.video;
+
     let processedData;
     try {
         processedData = await processTestimonialFiles(req.body);
@@ -1413,7 +1415,10 @@ const updateTestimonial = asyncHandler(async (req, res) => {
     );
 
     if (oldImage && oldImage !== processedData.image) {
-        await deleteTestimonialFiles(oldImage);
+        await deleteTestimonialFiles(oldImage, null);
+    }
+    if (oldVideo && oldVideo !== processedData.video) {
+        await deleteTestimonialFiles(null, oldVideo);
     }
 
     await refreshCacheInBackground();
@@ -1429,7 +1434,7 @@ const deleteTestimonial = asyncHandler(async (req, res) => {
         return res.status(404).json({ success: false, error: 'Testimonial not found' });
     }
 
-    await deleteTestimonialFiles(testimonial.image);
+    await deleteTestimonialFiles(testimonial.image, testimonial.video);
     await refreshCacheInBackground();
     res.json({
         success: true,

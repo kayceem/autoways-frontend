@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { X, Upload } from 'lucide-react';
+import { Trash, Upload } from 'lucide-react';
 import { assetUrl } from '../../utils';
 import handleError from '../../utils/handleError';
 
@@ -26,6 +26,7 @@ const BrandForm = ({
     logo: '',
     images: []
   });
+  const [videoPreview, setVideoPreview] = useState('');
   const [errors, setErrors] = useState({});
   const [uploadErrors, setUploadErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -47,6 +48,7 @@ const BrandForm = ({
         logo: assetUrl(editingBrand.logo) || '',
         images: editingBrand.images.map(img => assetUrl(img)) || []
       });
+      setVideoPreview(editingBrand.video ? assetUrl(editingBrand.video) : '');
     }
   }, [editingBrand]);
 
@@ -152,6 +154,41 @@ const BrandForm = ({
     }));
   };
 
+  const handleVideoUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    if (file.size > 10 * 1024 * 1024) {
+      setUploadErrors(prev => ({
+        ...prev,
+        video: 'Video must be less than 10MB'
+      }));
+      return;
+    }
+
+    if (!file.type.startsWith('video/')) {
+      setUploadErrors(prev => ({
+        ...prev,
+        video: 'Only video files are allowed'
+      }));
+      return;
+    }
+
+    setUploadErrors(prev => ({ ...prev, video: '' }));
+
+    try {
+      const base64 = await convertToBase64(file);
+      setFormData(prev => ({ ...prev, video: base64 }));
+      setVideoPreview(base64);
+    } catch (error) {
+      handleError(error);
+      setUploadErrors(prev => ({
+        ...prev,
+        video: 'Error uploading video'
+      }));
+    }
+  };
+
   const validateForm = () => {
     const newErrors = {};
 
@@ -212,7 +249,7 @@ const BrandForm = ({
                 onClick={onClose}
                 className="text-gray-400 hover:text-gray-600 transition-colors"
               >
-                <X className="w-6 h-6" />
+                <Trash className="w-6 h-6" />
               </button>
             </div>
           </div>
@@ -266,19 +303,6 @@ const BrandForm = ({
                 <p className="text-xs text-gray-500 mt-1">Slug cannot be changed</p>
                 </div>
 
-                <div className="md:col-span-2">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Video URL (Optional)
-                  </label>
-                  <input
-                    type="text"
-                    name="video"
-                    value={formData.video}
-                    onChange={handleInputChange}
-                    placeholder="e.g., https://youtube.com/embed/..."
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  />
-                </div>
               </div>
             </div>
 
@@ -342,7 +366,7 @@ const BrandForm = ({
                       }}
                       className="absolute -top-2 -right-2 bg-red-500 text-white p-1 rounded-full hover:bg-red-600"
                     >
-                      <X className="w-4 h-4" />
+                      <Trash className="w-4 h-4" />
                     </button>
                   </div>
                 )}
@@ -394,7 +418,7 @@ const BrandForm = ({
                       }}
                       className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full hover:bg-red-600"
                     >
-                      <X className="w-4 h-4" />
+                      <Trash className="w-4 h-4" />
                     </button>
                   </div>
                 )}
@@ -403,6 +427,57 @@ const BrandForm = ({
                 )}
                 {errors.heroImage && (
                   <p className="text-red-500 text-sm">{errors.heroImage}</p>
+                )}
+              </div>
+            </div>
+
+            {/* Video Upload */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Brand Video (Optional)
+              </label>
+              <div className="space-y-4">
+                {!videoPreview ? (
+                  <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-blue-500 transition-colors cursor-pointer">
+                    <input
+                      type="file"
+                      accept="video/*"
+                      onChange={handleVideoUpload}
+                      className="hidden"
+                      id="video-upload"
+                    />
+                    <label htmlFor="video-upload" className="cursor-pointer">
+                      <Upload className="w-12 h-12 text-gray-400 mx-auto mb-2" />
+                      <p className="text-sm text-gray-600">
+                        Click to upload brand video
+                      </p>
+                      <p className="text-xs text-gray-500 mt-1">
+                        MP4, WebM, AVI up to 10MB
+                      </p>
+                    </label>
+                  </div>
+                ) : (
+                  <div className="relative inline-block w-full">
+                    <video
+                      src={videoPreview}
+                      controls
+                      className="w-full max-w-2xl h-64 object-contain border border-gray-200 rounded-lg"
+                    >
+                      Your browser does not support the video tag.
+                    </video>
+                    <button
+                      onClick={() => {
+                        setFormData(prev => ({ ...prev, video: '' }));
+                        setVideoPreview('');
+                      }}
+                      className="absolute top-2 right-2 bg-red-500 text-white p-2 rounded-full hover:bg-red-600"
+                    >
+                      <Trash className="w-5 h-5" />
+                    </button>
+                  </div>
+                )}
+                {uploadErrors.video && (
+                  <p className="text-red-500 text-sm">{uploadErrors.video}</p>
                 )}
               </div>
             </div>
@@ -450,7 +525,7 @@ const BrandForm = ({
                           onClick={() => handleRemoveImage(index)}
                           className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
                         >
-                          <X className="w-4 h-4" />
+                          <Trash className="w-4 h-4" />
                         </button>
                       </div>
                     ))}

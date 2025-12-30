@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { X, Upload, ArrowLeft } from 'lucide-react';
+import { Trash, Upload, ArrowLeft } from 'lucide-react';
 import { assetUrl } from '../../utils';
 import handleError from '../../utils/handleError';
 
@@ -171,7 +171,7 @@ const ProductTypeForm = ({
                 onClick={onClose}
                 className="text-gray-400 hover:text-gray-600 transition-colors"
               >
-                <X className="w-6 h-6" />
+                <Trash className="w-6 h-6" />
               </button>
             </div>
           </div>
@@ -296,7 +296,7 @@ const ProductTypeForm = ({
                       className="absolute top-2 right-2 bg-red-500 text-white p-2 rounded-full hover:bg-red-600 transition-colors shadow-lg"
                       title="Remove image"
                     >
-                      <X className="w-4 h-4" />
+                      <Trash className="w-4 h-4" />
                     </button>
                   </div>
                   <button

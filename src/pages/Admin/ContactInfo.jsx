@@ -1,5 +1,5 @@
 import { useState, useContext, useEffect } from 'react';
-import { Save, X, Edit2, ChevronDown, ChevronUp } from 'lucide-react';
+import { Save, Trash, Edit2, ChevronDown, ChevronUp } from 'lucide-react';
 import { ContentContext } from '../../context/globalContext';
 import { useUpdateContactInfo } from '../../hooks/useContactInfoMutation';
 import handleError from '../../utils/handleError';
@@ -170,7 +170,7 @@ const ContactInfoAdmin = () => {
               }}
               className="px-3 py-1 text-sm border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors flex items-center space-x-1"
             >
-              <X className="w-4 h-4" />
+              <Trash className="w-4 h-4" />
               <span>Cancel</span>
             </button>
             <button

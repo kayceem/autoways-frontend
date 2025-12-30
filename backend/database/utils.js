@@ -27,17 +27,23 @@ const cleanFileName = (name) => {
  * Extract base64 data and extension from data URI
  */
 const parseBase64 = (dataUri) => {
-  const matches = dataUri.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
+  // Updated regex to handle all valid MIME types including video
+  const matches = dataUri.match(/^data:([A-Za-z0-9-+\/\.]+);base64,(.+)$/);
   if (!matches || matches.length !== 3) {
     throw new Error('Invalid base64 data');
   }
 
   const mimeType = matches[1];
   const base64Data = matches[2];
-  
+
   // Get extension from MIME type
-  const ext = mimeType.split('/')[1].split('+')[0];
-  
+  // Handle extensions like 'mp4', 'webp', 'jpeg', etc.
+  const mimeTypeParts = mimeType.split('/');
+  if (mimeTypeParts.length < 2) {
+    throw new Error('Invalid MIME type format');
+  }
+  const ext = mimeTypeParts[1].split('+')[0];
+
   return { base64Data, ext, mimeType };
 };
 
@@ -131,14 +137,32 @@ const deleteImage = async (imagePath) => {
 const deletePDF = async (pdfPath) => {
   try {
     if (!pdfPath) return;
-    
+
     const fullPath = path.join(__dirname, '..', pdfPath);
-    
+
     if (fs.existsSync(fullPath)) {
       await unlink(fullPath);
     }
   } catch (error) {
     logger.error('Error deleting PDF:', error);
+    // Don't throw error for cleanup operations
+  }
+};
+
+/**
+ * Delete video from filesystem
+ */
+const deleteVideo = async (videoPath) => {
+  try {
+    if (!videoPath) return;
+
+    const fullPath = path.join(__dirname, '..', videoPath);
+
+    if (fs.existsSync(fullPath)) {
+      await unlink(fullPath);
+    }
+  } catch (error) {
+    logger.error('Error deleting video:', error);
     // Don't throw error for cleanup operations
   }
 };
@@ -212,6 +236,10 @@ const saveImageGeneric = async (base64Image, dirPath, fileName) => {
 };
 const saveVideoGeneric = async (base64Video, dirPath, fileName) => {
   try {
+    if (!base64Video || typeof base64Video !== 'string') {
+      throw new Error('Invalid video data: must be a non-empty string');
+    }
+
     const { base64Data, ext } = parseBase64(base64Video);
 
     // Create directory path
@@ -378,9 +406,13 @@ const processBrandFiles = async (brandData) => {
 
     // Process video only if present
     if (brandData.video !== undefined) {
-      if (brandData.video && brandData.video.startsWith('data:')) {
+      if (brandData.video && typeof brandData.video === 'string' && brandData.video.startsWith('data:')) {
         result.video = await saveVideoGeneric(brandData.video, `brand/${cleanBrand}`, 'video');
+      } else if (brandData.video === '' || brandData.video === null) {
+        // Handle empty video field
+        result.video = '';
       }
+      // If it's already a path (doesn't start with 'data:'), keep it as is
     }
 
     // Process additional images only if present
@@ -488,9 +520,10 @@ const processTestimonialFiles = async (testimonialData) => {
 /**
  * Delete testimonial files
  */
-const deleteTestimonialFiles = async (imagePath) => {
+const deleteTestimonialFiles = async (imagePath, videoPath) => {
   try {
     if (imagePath) await deleteImage(imagePath);
+    if (videoPath) await deleteVideo(videoPath);
   } catch (error) {
     logger.error('Error deleting testimonial files:', error);
   }
@@ -804,6 +837,7 @@ module.exports = {
   savePDF,
   deleteImage,
   deletePDF,
+  deleteVideo,
   deleteProductFiles,
   processProductFiles,
   processHeroImageFiles,
