@@ -11,10 +11,10 @@ const LoadingSpinner = ({ name = '', size = 128, className = '' }) => {
   
   return (
     <div
-      className={`flex flex-col items-center justify-center min-h-screen min-w-screen ${className}`}
+      className={`flex items-center justify-center h-[80vh] w-full ${className}`}
     >
       {/* Logo Container */}
-      <div className="relative" style={{ width: size, height: size }}>
+      <div className="flex items-center justify-center" style={{ width: size, height: size }}>
         {/* Placeholder/Skeleton while image loads - only for brand logos */}
         <img
           src={ isDefaultLogo ? logoMap['default'] : assetUrl(logoMap[name])}
