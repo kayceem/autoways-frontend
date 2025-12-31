@@ -223,7 +223,7 @@ const saveImageGeneric = async (base64Image, dirPath, fileName, resize = false, 
     const fullFileName = `${fileName}.webp`;
     const filePath = path.join(imageDir, fullFileName);
 
-    // Convert buffer to WebP with lossless compression
+    // Convert buffer to WebP with optimized lossy compression
     const buffer = Buffer.from(base64Data, 'base64');
     const compressedBuffer = await sharp(buffer)
       .resize(resize ? size.width : null, resize ? size.height : null, {
@@ -231,10 +231,12 @@ const saveImageGeneric = async (base64Image, dirPath, fileName, resize = false, 
           position: 'center',
           withoutEnlargement: size.withoutEnlargement !== false // default true, set false to upscale
       })
-      .webp({ lossless: true })
+      .webp({
+        quality: 82,      // 80-85 is visually lossless for most images
+        effort: 6,        // max compression effort (0-6)
+        smartSubsample: true // better color sampling
+      })
       .toBuffer();
-
-    await writeFile(filePath, compressedBuffer);
 
     await writeFile(filePath, compressedBuffer);
 
