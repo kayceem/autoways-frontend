@@ -337,7 +337,7 @@ const processHeroImageFiles = async (heroImageData) => {
     let savedImagePath = image;
     if (image && image.startsWith('data:')) {
       const cleanTitle = cleanFileName(title);
-      savedImagePath = await saveImageGeneric(image, 'hero', `hero_${cleanTitle}_${Date.now()}`, true, { width: 1920, height: 1080 });
+      savedImagePath = await saveImageGeneric(image, 'hero', `hero_${cleanTitle}_${Date.now()}`, true);
     }
 
     return {
@@ -403,7 +403,7 @@ const processBrandFiles = async (brandData) => {
     // Process hero image only if present
     if (brandData.heroImage !== undefined) {
       if (brandData.heroImage && brandData.heroImage.startsWith('data:')) {
-        result.heroImage = await saveImageGeneric(brandData.heroImage, `brand/${cleanBrand}`, 'hero', true, { width: 1920, height: 1080 });
+        result.heroImage = await saveImageGeneric(brandData.heroImage, `brand/${cleanBrand}`, 'hero', true);
       }
     }
 
@@ -513,7 +513,7 @@ const processGalleryFiles = async (galleryData) => {
         let savedImagePath = image;
         if (image && image.startsWith('data:')) {
             const cleanTitle = cleanFileName();
-            savedImagePath = await saveImageGeneric(image, 'gallery', `gallery_${cleanTitle}_${Date.now()}`);
+            savedImagePath = await saveImageGeneric(image, 'gallery', `gallery_${cleanTitle}_${Date.now()}`, true, { width: 1200, height: 800 });
         }
 
         return {
@@ -804,7 +804,7 @@ const processSisterCompanyFiles = async (sisterCompanyData) => {
     // Process image only if present
     if (sisterCompanyData.image !== undefined) {
       if (sisterCompanyData.image && sisterCompanyData.image.startsWith('data:')) {
-        result.image = await saveImageGeneric(sisterCompanyData.image, 'sister-companies', `${cleanName}_image`);
+        result.image = await saveImageGeneric(sisterCompanyData.image, 'sister-companies', `${cleanName}_image`, true);
       }
     }
 
