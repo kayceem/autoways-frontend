@@ -327,6 +327,14 @@ const Navbar = ({ className = "" }) => {
                                                 <MapPin size={20} />
                                                 <span>Locations</span>
                                             </Link>
+                                            <Link
+                                                to="/gallery"
+                                                className="flex items-center gap-3 px-4 py-3 text-secondary hover:bg-accent/20 hover:text-accent transition-colors duration-200 font-medium rounded-lg"
+                                                onClick={handleLinkClick}
+                                            >
+                                                <Image size={20} />
+                                                <span>Gallery</span>
+                                            </Link>
                                         </div>
                                 </div>
 
