@@ -182,9 +182,13 @@ const CSR = () => {
             >
                 Become a Partner
             </Link>
-              <button className="px-8 py-4 bg-accent text-dark rounded-lg font-semibold hover:bg-opacity-90 transition-all transform hover:scale-105 shadow-lg">
+              <Link 
+                    to={"/about"} 
+                    className="px-8 py-4 bg-accent text-dark rounded-lg font-semibold hover:bg-opacity-90 transition-all transform hover:scale-105 shadow-lg"
+                    aria-label="Learn more about Autoways"
+                >
                 Learn More
-              </button>
+              </Link>
             </div>
           </div>
         </div>
