@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Mail, Phone, MessageSquare } from 'lucide-react';
+import { MessageSquare } from 'lucide-react';
 
 const CTASection = ({ contactInfo = {}, className = '' }) => {
   const { email = '', phone = '' } = contactInfo;
@@ -14,7 +14,7 @@ const CTASection = ({ contactInfo = {}, className = '' }) => {
         <div className="text-center">
           {/* Icon */}
           <div className="inline-flex items-center justify-center w-16 h-16 lg:w-20 lg:h-20 bg-white/10 rounded-full mb-4 lg:mb-6 backdrop-blur-sm">
-            <MessageSquare className="w-8 h-8 lg:w-10 lg:h-10 text-white" />
+            <MessageSquare className="w-8 h-8 lg:w-10 lg:h-10 text-primary" />
           </div>
 
           {/* Heading */}
@@ -33,7 +33,6 @@ const CTASection = ({ contactInfo = {}, className = '' }) => {
               to="/contact"
               className="bg-white text-secondary px-6 py-3 lg:px-10 lg:py-4 rounded-full font-semibold text-sm lg:text-lg hover:bg-white/90 transition-all duration-300 transform hover:scale-105 shadow-xl inline-flex items-center justify-center gap-2"
             >
-              <Mail className="w-4 h-4 lg:w-5 lg:h-5" />
               Contact Us
             </Link>
           </div>
