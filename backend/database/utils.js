@@ -211,7 +211,7 @@ const deleteProductFiles = async (brandName, productName, images, brochureUrl, s
 /**
  * Generic save image function with custom directory path
  */
-const saveImageGeneric = async (base64Image, dirPath, fileName, resize = false, size = { width: 1600, height: 900 }) => {
+const saveImageGeneric = async (base64Image, dirPath, fileName, resize = false, size = { width: 1600, height: 900, fit: 'cover' }) => {
   try {
     const { base64Data } = parseBase64(base64Image);
 
@@ -227,8 +227,9 @@ const saveImageGeneric = async (base64Image, dirPath, fileName, resize = false, 
     const buffer = Buffer.from(base64Data, 'base64');
     const compressedBuffer = await sharp(buffer)
       .resize(resize ? size.width : null, resize ? size.height : null, {
-          fit: 'cover',
-          position: 'center'
+          fit: size.fit || 'cover',
+          position: 'center',
+          withoutEnlargement: size.withoutEnlargement !== false // default true, set false to upscale
       })
       .webp({ lossless: true })
       .toBuffer();
@@ -410,7 +411,7 @@ const processBrandFiles = async (brandData) => {
     // Process logo only if present
     if (brandData.logo !== undefined) {
       if (brandData.logo && brandData.logo.startsWith('data:')) {
-        result.logo = await saveImageGeneric(brandData.logo, `brand/${cleanBrand}`, 'logo', true, { width: 600, height: 600 });
+        result.logo = await saveImageGeneric(brandData.logo, `brand/${cleanBrand}`, 'logo', true, { width: 600, height: 600, fit: 'inside', withoutEnlargement: false });
       }
     }
 
@@ -797,7 +798,7 @@ const processSisterCompanyFiles = async (sisterCompanyData) => {
     // Process logo only if present
     if (sisterCompanyData.logo !== undefined) {
       if (sisterCompanyData.logo && sisterCompanyData.logo.startsWith('data:')) {
-        result.logo = await saveImageGeneric(sisterCompanyData.logo, 'sister-companies', `${cleanName}_logo`);
+        result.logo = await saveImageGeneric(sisterCompanyData.logo, 'sister-companies', `${cleanName}_logo`, true, { width: 600, height: 600, fit: 'inside', withoutEnlargement: false });
       }
     }
 
