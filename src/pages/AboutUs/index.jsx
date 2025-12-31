@@ -299,9 +299,9 @@ const handleNext = () => {
       </section>
 
       {/* Timeline - Milestones (Horizontal Swipeable) */}
-      <section className="py-20 bg-primary bg-opacity-50 w-full">
+      <section className="py-10 lg:py-20 bg-primary bg-opacity-50 w-full">
         <div className="w-full">
-          <div className="text-center mb-12 animate-fade-in-up px-6">
+          <div className="text-center mb-6 lg:mb-12 animate-fade-in-up px-6">
             <h2 className="font-bold text-4xl text-secondary mb-4">Our Journey</h2>
             <div className="w-24 h-1 bg-accent mx-auto mb-6" />
             <p className="text-secondary opacity-80 max-w-2xl mx-auto">
@@ -310,12 +310,12 @@ const handleNext = () => {
           </div>
 
           {/* Timeline Years Bar (Swipeable) */}
-          <div className="relative mb-12 px-6">
+          <div className="relative mb-6 lg:mb-12 px-6">
             <div 
                 className="overflow-x-auto no-scrollbar"
                 ref={timelineContainerRef}
                 >
-              <div className="flex gap-4 p-4 min-w-max justify-center mx-auto">
+              <div className="hidden opacity-80 lg:flex gap-4 p-4 min-w-max justify-center mx-auto no-scrollbar">
                 {milestones.map((milestone, index) => (
                   <button
                     key={index}
@@ -338,10 +338,10 @@ const handleNext = () => {
             {/* Previous Button */}
             <button
               onClick={handlePrevious}
-              className="absolute left-2 top-1/2 -translate-y-1/2 z-10 bg-accent text-dark p-4 rounded-full shadow-lg hover:scale-110 transition-transform duration-300"
+              className="hidden lg:block absolute left-2 top-1/2 -translate-y-1/2 z-10 bg-accent text-dark p-4 rounded-full shadow-lg hover:scale-110 transition-transform duration-300"
               aria-label="Previous milestone"
             >
-              <svg className="w-6 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-6 lg:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
             </button>
@@ -349,10 +349,10 @@ const handleNext = () => {
             {/* Next Button */}
             <button
               onClick={handleNext}
-              className="absolute right-2 top-1/2 -translate-y-1/2 z-10 bg-accent text-dark p-4 rounded-full shadow-lg hover:scale-110 transition-transform duration-300"
+              className="hidden lg:block absolute right-2 top-1/2 -translate-y-1/2 z-10 bg-accent text-dark p-4 rounded-full shadow-lg hover:scale-110 transition-transform duration-300"
               aria-label="Next milestone"
             >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-6 lg:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
             </button>
@@ -360,17 +360,17 @@ const handleNext = () => {
             {/* Milestones Container */}
             <div
               ref={milestoneContainerRef}
-              className="overflow-x-auto scrollbar-hide scroll-smooth px-16"
+              className="overflow-x-auto scrollbar-hide scroll-smooth px-6 lg:px-16"
               style={{ scrollSnapType: 'x mandatory' }}
             >
-              <div className="flex gap-6">
+              <div className="flex gap-2 lg:gap-6 mb-1 mt-1 w-full">
                 {milestones.map((milestone, index) => (
                   <div
                     key={index}
                     className="flex-shrink-0 w-full lg:w-[700px] scroll-snap-align-center"
                     style={{ scrollSnapAlign: 'center' }}
                   >
-                    <div className="relative bg-primary rounded-2xl overflow-hidden shadow-2xl h-[450px] group">
+                    <div className="relative bg-primary rounded-2xl overflow-hidden shadow-2xl h-[350px] lg:h-[450px] group">
                       {/* Background Image */}
                       <img
                         src={assetUrl(milestone.image)}
@@ -382,7 +382,7 @@ const handleNext = () => {
                       {/* Content Layout */}
                       <div className="absolute inset-0 flex flex-col p-6">
                         {/* Year Badge at Top */}
-                        <div className="inline-block self-start bg-accent text-dark px-6 py-2 rounded-full font-bold text-xl shadow-lg mb-auto">
+                        <div className="inline-block self-start bg-accent text-dark px-4 py-2 text-xs lg:px-6 lg:py-2 rounded-full font-bold lg:text-xl shadow-lg mb-auto">
                           {milestone.year}
                         </div>
 
