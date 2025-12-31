@@ -1,22 +1,15 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import './index.css';
 import { assetUrl } from '../../../utils';
-import { PulseFallback, preloadImage } from '../../common/SuspenseImage';
+import { PulseFallback } from '../../common/SuspenseImage';
 
 const HeroSection = ({ heroImages = [], className = '' }) => {
   const [loadedImages, setLoadedImages] = useState({});
-
-  // Preload first 3 images
-  useEffect(() => {
-    heroImages.slice(0, 3).forEach((image) => {
-      preloadImage(assetUrl(image.image));
-    });
-  }, [heroImages]);
 
   const handleImageLoad = (index) => {
     setLoadedImages(prev => ({ ...prev, [index]: true }));
@@ -56,7 +49,7 @@ const HeroSection = ({ heroImages = [], className = '' }) => {
                   loadedImages[index] ? 'opacity-100' : 'opacity-0'
                 }`}
                 onLoad={() => handleImageLoad(index)}
-                loading={index < 3 ? 'eager' : 'lazy'}
+                loading={index == 0 ? 'eager' : 'lazy'}
                 fetchPriority={index === 0 ? 'high' : 'auto'}
               />
               

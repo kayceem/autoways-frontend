@@ -359,7 +359,7 @@ const Navbar = ({ className = "" }) => {
                                                     {item.image && (
                                                         <img
                                                             src={assetUrl(item.image)}
-                                                            alt={item.name}
+                                                            alt={`${item.name} logo`}
                                                             className="w-8 h-8 object-contain"
                                                             loading="lazy"
                                                         />

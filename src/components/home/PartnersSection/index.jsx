@@ -50,7 +50,7 @@ const PartnersSection = ({ partnersArray = [], className = '' }) => {
                                         <div className="w-full h-full flex items-center justify-center relative z-10">
                                             <img
                                                 src={assetUrl(partner.logo) || assetUrl(partner.image)}
-                                                alt={partner.name}
+                                                alt={`${partner.name} logo`}
                                                 loading="lazy"
                                                 className="max-w-full max-h-full object-contain group-hover:scale-110 transition-all duration-500"
                                             />

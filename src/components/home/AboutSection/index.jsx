@@ -68,9 +68,8 @@ const AboutSection = ({ aboutData = {}, className = "" }) => {
                         <Link
                             to="/about"
                             className="inline-flex items-center gap-2 lg:gap-3 bg-accent text-dark px-6 py-3 lg:px-10 lg:py-4 rounded-full font-semibold text-sm lg:text-lg transition-all duration-300 hover:scale-105 hover:shadow-lg"
-                            aria-label="Learn more about Autoways"
                         >
-                            Learn More
+                            Learn More<span className="sr-only"> about Autoways</span>
                         </Link>
                     </div>
                 </div>

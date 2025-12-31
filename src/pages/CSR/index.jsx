@@ -182,12 +182,11 @@ const CSR = () => {
             >
                 Become a Partner
             </Link>
-              <Link 
-                    to={"/about"} 
+              <Link
+                    to={"/about"}
                     className="px-8 py-4 bg-accent text-dark rounded-lg font-semibold hover:bg-opacity-90 transition-all transform hover:scale-105 shadow-lg"
-                    aria-label="Learn more about Autoways"
                 >
-                Learn More
+                Learn More<span className="sr-only"> about Autoways CSR initiatives</span>
               </Link>
             </div>
           </div>
