@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Play, Pause } from "lucide-react";
 import { useContent } from "../../../context/globalContext";
@@ -9,16 +9,39 @@ import { assetUrl } from '../../../utils';
 
 const BullSection = ({ className = "" }) => {
     const { content, isLoading } = useContent();
-    const [isPlaying, setIsPlaying] = useState(true);
-    const[pausePlaying, setPaudePlaying] = useState(true);
+    const [isPlaying, setIsPlaying] = useState(false);
+    const [pausePlaying, setPausePlaying] = useState(false);
+    const [hasStarted, setHasStarted] = useState(false);
     const videoRef = useRef(null);
+    const sectionRef = useRef(null);
+
+    // Play video when section is in view
+    useEffect(() => {
+        const section = sectionRef.current;
+        if (!section) return;
+
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting && videoRef.current && !hasStarted) {
+                    videoRef.current.play();
+                    setIsPlaying(true);
+                    setPausePlaying(true);
+                    setHasStarted(true);
+                }
+            },
+            { threshold: 0.3 }
+        );
+
+        observer.observe(section);
+        return () => observer.disconnect();
+    }, [hasStarted]);
 
     if (isLoading) return <LoadingSpinner size={64} />;
 
     const bull = content?.brands?.find((brand) => brand.slug === "bull");
 
     const togglePlayPause = () => {
-        setPaudePlaying(true);
+        setPausePlaying(true);
         if (videoRef.current) {
             if (isPlaying) {
                 videoRef.current.pause();
@@ -35,11 +58,12 @@ const BullSection = ({ className = "" }) => {
 
     const handleVideoEnd = () => {
         setIsPlaying(false);
-        setPaudePlaying(false);
+        setPausePlaying(false);
     };
 
     return (
         <section
+            ref={sectionRef}
             className={`relative py-12 lg:py-24 bg-primary overflow-hidden ${className}`}
         >
             {/* Wave Background - Top */}
@@ -79,7 +103,6 @@ const BullSection = ({ className = "" }) => {
                                     src={
                                         assetUrl(bull?.video) || "/assets/videos/bull-promo.mp4"
                                     }
-                                    autoPlay
                                     muted
                                     playsInline
                                     onEnded={handleVideoEnd}
