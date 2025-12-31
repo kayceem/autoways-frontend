@@ -8,7 +8,8 @@ const Dropdown = ({
   label,
   icon: Icon,
   items = [],
-  className = ""
+  className = "",
+  loading = "lazy"
 }) => {
   const { logoMap } = useLogoMap();
   const [isOpen, setIsOpen] = useState(false);
@@ -97,7 +98,7 @@ const Dropdown = ({
                   src={assetUrl(items[hoveredIndex].image)}
                   alt={items[hoveredIndex].name}
                   className="max-w-full h-50 object-contain transition-opacity duration-300"
-                  loading="eager"
+                  loading={loading}
                 />
               ) : (
               <Logo logo={logoMap.autoways} name="Autoways" className='font-logo' />

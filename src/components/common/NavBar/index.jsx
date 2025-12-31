@@ -127,6 +127,7 @@ const Navbar = ({ className = "" }) => {
                             <Dropdown
                                 label="Dealerships"
                                 items={navBarItems.shopItems}
+                                loading="eager"
                             />
 
                             <Link
@@ -360,6 +361,7 @@ const Navbar = ({ className = "" }) => {
                                                             src={assetUrl(item.image)}
                                                             alt={item.name}
                                                             className="w-8 h-8 object-contain"
+                                                            loading="lazy"
                                                         />
                                                     )}
                                                     <span>{item.name}</span>

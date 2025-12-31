@@ -109,11 +109,9 @@ const BullSection = ({ className = "" }) => {
                                 <div className="absolute -inset-[2px] bg-gradient-to-br from-accent via-accent/50 to-transparent rounded-2xl -z-10" />
 
                                 {/* Video Element */}
-                                <video
+                                <video  
                                     ref={videoRef}
-                                    src={
-                                        assetUrl(bull?.video) || "/assets/videos/bull-promo.mp4"
-                                    }
+                                    src={assetUrl(bull?.video)}
                                     muted
                                     playsInline
                                     onEnded={handleVideoEnd}

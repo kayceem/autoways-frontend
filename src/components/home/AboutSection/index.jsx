@@ -52,6 +52,7 @@ const AboutSection = ({ aboutData = {}, className = "" }) => {
                                 src={assetUrl(image)}
                                 alt={title}
                                 className="w-full h-full object-cover"
+                                loading="lazy"
                             />
                             <div className="absolute inset-0 bg-gradient-to-br from-accent/10 via-transparent to-transparent mix-blend-overlay" />
                         </div>
