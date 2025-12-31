@@ -11,7 +11,7 @@ const Careers = () => {
   const [selectedCareer, setSelectedCareer] = useState(null);
 
   const careers = content?.careers ?? [];
-  const mailtoEmail = content?.contactInfo?.email || 'careers@autoways.com.np';
+  const mailtoEmail = content?.contactInfo?.careerEmail || 'hrd@autoways.com.np';
   const activeCareers = careers.filter(career => career.isActive);
 
   if (isLoading) return <LoadingSpinner />;
