@@ -61,7 +61,7 @@ const BrandsSection = ({ brands = {}, className = "" }) => {
                                                 src={assetUrl(brand.logo) || assetUrl(brand.image)}
                                                 alt={brand.name}
                                                 loading="lazy"
-                                                className="max-w-full max-h-full object-contain group-hover:scale-110 transition-all duration-500"
+                                                className="max-w-full h-25 lg:h-40 object-contain group-hover:scale-110 transition-all duration-500"
                                             />
                                         </div>
                                     </div>

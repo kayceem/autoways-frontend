@@ -96,7 +96,7 @@ const Dropdown = ({
                 <img
                   src={assetUrl(items[hoveredIndex].image)}
                   alt={items[hoveredIndex].name}
-                  className="max-h-128 object-cover transition-opacity duration-300"
+                  className="max-w-full h-50 object-contain transition-opacity duration-300"
                   loading="eager"
                 />
               ) : (
