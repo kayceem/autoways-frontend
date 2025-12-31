@@ -731,6 +731,7 @@ const ProductForm = ({
               <h3 className="text-lg font-semibold text-gray-900 mb-4">Additional Resources</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Brochure */}
+                {/* 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Brochure (Optional)
@@ -770,6 +771,7 @@ const ProductForm = ({
                     <p className="text-red-500 text-sm mt-1">{uploadErrors.brochure}</p>
                   )}
                 </div>
+                */}
 
                 {/* Spec Sheet */}
                 <div>
