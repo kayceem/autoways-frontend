@@ -42,7 +42,7 @@ const seoConfig = {
     name: 'Autoways Pvt. Ltd.',
     alternateName: 'Autoways Nepal',
     url: 'https://autoways.com.np',
-    logo: 'https://autoways.com.np/autoways-text-logo.webp',
+    logo: 'https://autoways.com.np/autoways-logo.webp',
     description: 'Leading distributor of Bull machines and dealer of automotive brands in Nepal',
     address: {
       '@type': 'PostalAddress',

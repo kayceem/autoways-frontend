@@ -1,5 +1,4 @@
 import { Mail, Phone } from "lucide-react";
-import { SiFacebook, SiInstagram, SiX } from "@icons-pack/react-simple-icons";
 import { useContent } from "../../../context/globalContext";
 import LoadingSpinner from "../Loading";
 import Logo from '../Logo';
