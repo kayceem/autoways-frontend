@@ -211,7 +211,7 @@ const deleteProductFiles = async (brandName, productName, images, brochureUrl, s
 /**
  * Generic save image function with custom directory path
  */
-const saveImageGeneric = async (base64Image, dirPath, fileName) => {
+const saveImageGeneric = async (base64Image, dirPath, fileName, resize = false, size = { width: 1600, height: 900 }) => {
   try {
     const { base64Data } = parseBase64(base64Image);
 
@@ -226,8 +226,14 @@ const saveImageGeneric = async (base64Image, dirPath, fileName) => {
     // Convert buffer to WebP with lossless compression
     const buffer = Buffer.from(base64Data, 'base64');
     const compressedBuffer = await sharp(buffer)
+      .resize(resize ? size.width : null, resize ? size.height : null, {
+          fit: 'cover',
+          position: 'center'
+      })
       .webp({ lossless: true })
       .toBuffer();
+
+    await writeFile(filePath, compressedBuffer);
 
     await writeFile(filePath, compressedBuffer);
 
@@ -331,7 +337,7 @@ const processHeroImageFiles = async (heroImageData) => {
     let savedImagePath = image;
     if (image && image.startsWith('data:')) {
       const cleanTitle = cleanFileName(title);
-      savedImagePath = await saveImageGeneric(image, 'hero', `hero_${cleanTitle}_${Date.now()}`);
+      savedImagePath = await saveImageGeneric(image, 'hero', `hero_${cleanTitle}_${Date.now()}`, true, { width: 1920, height: 1080 });
     }
 
     return {
@@ -397,14 +403,14 @@ const processBrandFiles = async (brandData) => {
     // Process hero image only if present
     if (brandData.heroImage !== undefined) {
       if (brandData.heroImage && brandData.heroImage.startsWith('data:')) {
-        result.heroImage = await saveImageGeneric(brandData.heroImage, `brand/${cleanBrand}`, 'hero');
+        result.heroImage = await saveImageGeneric(brandData.heroImage, `brand/${cleanBrand}`, 'hero', true, { width: 1920, height: 1080 });
       }
     }
 
     // Process logo only if present
     if (brandData.logo !== undefined) {
       if (brandData.logo && brandData.logo.startsWith('data:')) {
-        result.logo = await saveImageGeneric(brandData.logo, `brand/${cleanBrand}`, 'logo');
+        result.logo = await saveImageGeneric(brandData.logo, `brand/${cleanBrand}`, 'logo', true, { width: 600, height: 600 });
       }
     }
 
@@ -582,7 +588,7 @@ const processAboutUsFiles = async (aboutUsData) => {
     // Process main image only if present
     if (aboutUsData.image !== undefined) {
       if (aboutUsData.image && aboutUsData.image.startsWith('data:')) {
-        result.image = await saveImageGeneric(aboutUsData.image, 'about', `about_main_${Date.now()}`);
+        result.image = await saveImageGeneric(aboutUsData.image, 'about', `about_main_${Date.now()}`, true, { width: 1280, height: 720 });
       }
     }
 
@@ -594,7 +600,7 @@ const processAboutUsFiles = async (aboutUsData) => {
           const milestone = aboutUsData.milestones[i];
           let milestoneImage = milestone.image;
           if (milestoneImage && milestoneImage.startsWith('data:')) {
-            milestoneImage = await saveImageGeneric(milestoneImage, 'about/milestones', `milestone_${milestone.year}_${i}`);
+            milestoneImage = await saveImageGeneric(milestoneImage, 'about/milestones', `milestone_${milestone.year}_${i}`, true, { width: 800, height: 600 });
           }
           processedMilestones.push({ ...milestone, image: milestoneImage });
         }
@@ -606,7 +612,7 @@ const processAboutUsFiles = async (aboutUsData) => {
     if (aboutUsData.chairman_message !== undefined) {
       let chairmanImage = aboutUsData.chairman_message?.image;
       if (chairmanImage && chairmanImage.startsWith('data:')) {
-        chairmanImage = await saveImageGeneric(chairmanImage, 'about/leadership', 'chairman');
+        chairmanImage = await saveImageGeneric(chairmanImage, 'about/leadership', 'chairman', true, { width: 600, height: 800 });
       }
       result.chairman_message = aboutUsData.chairman_message ? { ...aboutUsData.chairman_message, image: chairmanImage } : aboutUsData.chairman_message;
     }
@@ -615,7 +621,7 @@ const processAboutUsFiles = async (aboutUsData) => {
     if (aboutUsData.md_message !== undefined) {
       let mdImage = aboutUsData.md_message?.image;
       if (mdImage && mdImage.startsWith('data:')) {
-        mdImage = await saveImageGeneric(mdImage, 'about/leadership', 'md');
+        mdImage = await saveImageGeneric(mdImage, 'about/leadership', 'md', true, { width: 600, height: 800 });
       }
       result.md_message = aboutUsData.md_message ? { ...aboutUsData.md_message, image: mdImage } : aboutUsData.md_message;
     }
@@ -749,7 +755,7 @@ const processCSRHeroFiles = async (csrHeroData) => {
     let savedImagePath = image;
     if (image && image.startsWith('data:')) {
       const cleanTitle = cleanFileName(title);
-      savedImagePath = await saveImageGeneric(image, 'csr/hero', `csr_hero_${cleanTitle}_${Date.now()}`);
+      savedImagePath = await saveImageGeneric(image, 'csr/hero', `csr_hero_${cleanTitle}_${Date.now()}`, true);
     }
 
     return {

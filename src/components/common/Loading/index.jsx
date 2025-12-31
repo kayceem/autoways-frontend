@@ -2,7 +2,6 @@ import './index.css';
 import { useState } from 'react';
 import useLogoMap from '../../../config/logoMap';
 import { assetUrl } from '../../../utils';
-import { Loader } from 'lucide-react';
 
 const LoadingSpinner = ({ name = '', size = 128, className = '' }) => {
   const [imageLoaded, setImageLoaded] = useState(false);

@@ -16,7 +16,7 @@ const AdminLogin = () => {
 
     login(credentials, {
       onSuccess: () => {
-        navigate('/admin/dashboard');
+        navigate('/admin/');
       }
     });
   };

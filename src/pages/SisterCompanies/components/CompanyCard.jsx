@@ -1,7 +1,8 @@
+import { memo } from 'react';
 import { Link } from 'react-router-dom';
 import { assetUrl } from '../../../utils';
 
-const CompanyCard = ({ company, index }) => {
+const CompanyCard = memo(({ company, index }) => {
   return (
     <Link
       to={`/sister-companies/${company.slug}`}
@@ -13,6 +14,7 @@ const CompanyCard = ({ company, index }) => {
         <img
           src={assetUrl(company.image)}
           alt={company.name}
+          loading="lazy"
           className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-dark via-dark/50 to-transparent" />
@@ -21,6 +23,7 @@ const CompanyCard = ({ company, index }) => {
             <img
               src={assetUrl(company.logo)}
               alt={`${company.name} logo`}
+              loading="lazy"
               className="h-12 lg:h-16 w-auto bg-white p-2 rounded-lg shadow-lg"
             />
             <div>
@@ -111,6 +114,8 @@ const CompanyCard = ({ company, index }) => {
       </div>
     </Link>
   );
-};
+});
+
+CompanyCard.displayName = 'CompanyCard';
 
 export default CompanyCard;

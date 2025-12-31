@@ -1,10 +1,12 @@
+import { lazy, Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
+
+// Eagerly loaded - all public pages
 import Home from "../Home";
 import Contact from "../Contact";
 import BrandLanding from "../BrandLanding";
 import ProductType from "../ProductType";
 import ProductDetails from "../ProductDetails";
-import Locations from "../Locations";
 import NewsMedia from "../NewsMedia";
 import Testimonials from "../Testimonials";
 import AboutUs from "../AboutUs";
@@ -13,65 +15,38 @@ import SisterCompanies from "../SisterCompanies";
 import SisterCompaniesLanding from "../SisterCompanies/SisterCompaniesLanding";
 import SparesParts from "../SparesParts";
 import Gallery from "../Gallery";
+import Careers from "../Careers";
 import NotFound from "../NotFound";
 import Navbar from "../../components/common/NavBar";
 import Footer from "../../components/common/Footer";
 import ScrollToTop from "../../components/common/ScrollToTop";
-
-// Admin imports
-import AdminLogin from "../Admin/Login";
-import AdminLayout from "../../components/admin/AdminLayout";
-import AdminDashboard from "../Admin/Dashboard";
-import BrandAdmin from "../Admin/BrandAdmin";
-import ProductsAdmin from "../Admin/Products";
-import ProductTypesAdmin from "../Admin/ProductTypes";
-import HeroImagesAdmin from "../Admin/HeroImages";
-import AboutUsAdmin from "../Admin/AboutUs";
-import ContactInfoAdmin from "../Admin/ContactInfo";
-import LocationsAdmin from "../Admin/Locations";
-import CSRInitiativesAdmin from "../Admin/CSRInitiatives";
-import CSRHeroAdmin from "../Admin/CSRHero";
-import NewsMediaAdmin from "../Admin/NewsMedia";
-import SparePartsAdmin from "../Admin/SpareParts";
-import SisterCompaniesAdmin from "../Admin/SisterCompanies";
-import CustomerAdmin from "../Admin/Customer";
-import TestimonialsAdmin from "../Admin/Testimonials";
-import GalleryAdmin from "../Admin/Gallery";
-import CareersAdmin from "../Admin/Careers";
-import Careers from "../Careers";
 import ProtectedRoute from "../../components/common/ProtectedRoute";
+import LoadingSpinner from "../../components/common/Loading";
+
+// Lazy loaded
+const Locations = lazy(() => import("../Locations"));
+const AdminLogin = lazy(() => import("../Admin/Login"));
+const AdminRoutes = lazy(() => import("../Admin/AdminRoutes"));
 
 const PageRoutes = () => {
     return (
         <Routes>
-            {/* Admin Routes */}
-            <Route path="/admin/login" element={<AdminLogin />} />
+            {/* Admin Routes - Lazy loaded as single chunk */}
+            <Route path="/admin/login" element={
+                <Suspense fallback={<LoadingSpinner />}>
+                    <AdminLogin />
+                </Suspense>
+            } />
             <Route
                 path="/admin/*"
                 element={
                     <ProtectedRoute>
-                        <AdminLayout />
+                        <Suspense fallback={<LoadingSpinner />}>
+                            <AdminRoutes />
+                        </Suspense>
                     </ProtectedRoute>
                 }
-            >
-                <Route path="" element={<AdminDashboard />} />
-                <Route path="customers" element={<CustomerAdmin />} />
-                <Route path="brands" element={<BrandAdmin />} />
-                <Route path="products" element={<ProductsAdmin />} />
-                <Route path="product-types" element={<ProductTypesAdmin />} />
-                <Route path="hero-images" element={<HeroImagesAdmin />} />
-                <Route path="about-us" element={<AboutUsAdmin />} />
-                <Route path="contact-info" element={<ContactInfoAdmin />} />
-                <Route path="locations" element={<LocationsAdmin />} />
-                <Route path="testimonials" element={<TestimonialsAdmin />} />
-                <Route path="csr-initiatives" element={<CSRInitiativesAdmin />} />
-                <Route path="csr-hero" element={<CSRHeroAdmin />} />
-                <Route path="news-media" element={<NewsMediaAdmin />} />
-                <Route path="spare-parts" element={<SparePartsAdmin />} />
-                <Route path="sister-companies" element={<SisterCompaniesAdmin />} />
-                <Route path="gallery" element={<GalleryAdmin />} />
-                <Route path="careers" element={<CareersAdmin />} />
-            </Route>
+            />
 
             {/* Public Routes */}
             <Route
@@ -83,7 +58,11 @@ const PageRoutes = () => {
                         <Routes>
                             <Route path="/" element={<Home />} />
                             <Route path="/contact" element={<Contact />} />
-                            <Route path="/locations" element={<Locations />} />
+                            <Route path="/locations" element={
+                                <Suspense fallback={<LoadingSpinner />}>
+                                    <Locations />
+                                </Suspense>
+                            } />
                             <Route path="/news" element={<NewsMedia />} />
                             <Route path="/testimonials" element={<Testimonials />} />
                             <Route path="/about" element={<AboutUs />} />

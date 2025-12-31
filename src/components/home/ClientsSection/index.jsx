@@ -56,6 +56,7 @@ const ClientsSection = ({ clients = [], stats = {}, className = "" }) => {
                                         assetUrl(client.image)
                                     }
                                     alt={client.name || 'Client Logo'}
+                                    loading="lazy"
                                     className="max-w-full max-h-full object-contain grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300"
                                     title={client.name}
                                 />

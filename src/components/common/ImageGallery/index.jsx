@@ -187,6 +187,7 @@ const ImageGallery = ({ images = [], productName = '' }) => {
                             <img
                                 src={assetUrl(image)}
                                 alt={`${productName} thumbnail ${index + 1}`}
+                                loading="lazy"
                                 className="w-full h-full object-cover"
                             />
                         </button>
@@ -275,7 +276,7 @@ const ImageGallery = ({ images = [], productName = '' }) => {
                                             index === currentImageIndex ? 'border-accent shadow-[0_0_0_3px_rgb(var(--accent-rgb)/0.3)]' : 'border-transparent'
                                         }`}
                                     >
-                                        <img src={assetUrl(image)} alt={`Thumbnail ${index + 1}`} className="w-full h-full object-cover" />
+                                        <img src={assetUrl(image)} alt={`Thumbnail ${index + 1}`} loading="lazy" className="w-full h-full object-cover" />
                                     </button>
                                 ))}
                             </div>
