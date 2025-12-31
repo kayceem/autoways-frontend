@@ -15,12 +15,8 @@ const Home = () => {
   const { content, isLoading } = useContent();
   // Show loading spinner while content is being fetched
   if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-primary">
-        <LoadingSpinner />
-      </div>
-    );
-  }
+    return <LoadingSpinner />
+ }
 
   // Handle case where content might not be available
   if (!content) {
