@@ -64,8 +64,9 @@ const BullSection = ({ className = "" }) => {
                     <div className="relative flex justify-center order-2 lg:order-1">
                         <div className="relative w-full max-w-sm">
                             {/* Geometric Frame */}
-                            <div className="absolute -inset-3 border-2 border-accent/30 rounded-3xl transform rotate-2" />
-                            <div className="absolute -inset-3 border-2 border-accent/20 rounded-3xl transform -rotate-2" />
+                            <div className="hidden lg:block absolute -inset-3 border-2 border-accent/30 rounded-3xl transform rotate-2" />
+                            <div className="hidden lg:block absolute -inset-3 border-2 border-accent/20 rounded-3xl transform -rotate-2" />
+                            <div className="lg:hidden absolute -inset-3 border-2 border-accent/30 rounded-3xl" />
 
                             {/* Video Container - Portrait Aspect Ratio */}
                             <div className="relative aspect-[9/16] rounded-2xl overflow-hidden shadow-2xl group">
@@ -126,15 +127,15 @@ const BullSection = ({ className = "" }) => {
 
 
                             {/* Decorative Elements */}
-                            <div className="absolute -top-6 -left-6 w-12 h-12 border-2 border-accent/30 rounded-full" />
-                            <div className="absolute -bottom-8 -right-8 w-16 h-16 border-2 border-accent/20 rounded-full" />
+                            <div className="hidden lg:block absolute -top-6 -left-6 w-12 h-12 border-2 border-accent/30 rounded-full" />
+                            <div className="hidden lg:block absolute -bottom-8 -right-8 w-16 h-16 border-2 border-accent/20 rounded-full" />
                         </div>
                     </div>
                     {/* CTA Button (mobile only, after video) */}
                     <div className="lg:hidden order-3 flex mt-2 justify-center">
                         <Link
                             to="/shop/bull"
-                            className="group inline-flex items-center gap-2 bg-accent text-primary px-6 py-3 rounded-full text-sm font-semibold hover:bg-accent/90 transition-all duration-300 hover:shadow-lg hover:shadow-accent/25"
+                            className="group inline-flex items-center gap-2 bg-accent text-primary px-6 py-3 rounded-full text-sm font-semibold  transition-all duration-300 hover:scale-115  hover:bg-aaccent"
                         >
                             <span>Explore Bull</span>
                         </Link>
@@ -257,7 +258,7 @@ const BullSection = ({ className = "" }) => {
                             {/* CTA Button */}
                             <Link
                                 to="/shop/bull"
-                                className="hidden lg:inline-flex group items-center gap-2 lg:gap-3 bg-accent text-primary px-6 py-3 lg:px-8 lg:py-4 rounded-full text-sm lg:text-base font-semibold hover:bg-accent/90 transition-all duration-300 hover:shadow-lg hover:shadow-accent/55"
+                                className="hidden lg:inline-flex group items-center gap-2 lg:gap-3 bg-accent text-primary px-6 py-3 lg:px-8 lg:py-4 rounded-full text-sm lg:text-base font-semibold transition-all duration-300 hover:shadow-lg hover:shadow-accent/55 hover:scale-105"
                             >
                                 <span>Explore Products</span>
                             </Link>

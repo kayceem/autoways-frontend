@@ -373,7 +373,7 @@ async function startServer() {
     const isImage = /\.(jpg|jpeg|png|gif|webp|svg|ico)$/i.test(req.path);
     if (isImage) {
       res.set({
-        'Cache-Control': 'public, max-age=14400, immutable',
+        'Cache-Control': 'public, max-age=86400, immutable',
         'ETag': false
       });
     }
@@ -381,7 +381,7 @@ async function startServer() {
   }, express.static(assetsPath, {
     etag: true,
     lastModified: true,
-    maxAge: '4h'
+    maxAge: '1d'
   }));
 
   // ---------- ERROR HANDLING ----------
