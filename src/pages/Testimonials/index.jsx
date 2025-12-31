@@ -1,6 +1,7 @@
 import { useContent } from '../../context/globalContext';
 import LoadingSpinner from '../../components/common/Loading';
 import WaveBackground from '../../components/common/WaveBackground';
+import LazyVideoPlayer from '../../components/common/LazyVideoPlayer';
 import { useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { capitalizeWords, assetUrl } from '../../utils';
@@ -154,17 +155,13 @@ const Testimonials = () => {
                   </span>
                 </div>
 
-                {/* Video Player for video testimonials */}
+                {/* Video Player for video testimonials - lazy loads only when play is clicked */}
                 {testimonial.category === 'video' && testimonial.video && (
-                  <div className="mb-4 rounded-lg overflow-hidden">
-                    <video
-                      src={assetUrl(testimonial.video)}
-                      controls
-                      className="w-full h-48 object-cover bg-dark"
-                      preload="metadata"
-                    >
-                      Your browser does not support the video tag.
-                    </video>
+                  <div className="mb-4">
+                    <LazyVideoPlayer
+                      src={testimonial.video}
+                      thumbnail={testimonial.thumbnail || testimonial.image}
+                    />
                   </div>
                 )}
 
