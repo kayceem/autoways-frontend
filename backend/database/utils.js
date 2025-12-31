@@ -591,7 +591,7 @@ const processAboutUsFiles = async (aboutUsData) => {
     // Process main image only if present
     if (aboutUsData.image !== undefined) {
       if (aboutUsData.image && aboutUsData.image.startsWith('data:')) {
-        result.image = await saveImageGeneric(aboutUsData.image, 'about', `about_main_${Date.now()}`, true, { width: 1280, height: 720 });
+        result.image = await saveImageGeneric(aboutUsData.image, 'about', `about_main_${Date.now()}`, true, { width: 1600, height: 900 });
       }
     }
 
