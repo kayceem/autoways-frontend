@@ -1,16 +1,16 @@
+import { Suspense, useMemo } from 'react';
 import { useContent } from '../../context/globalContext';
 import LoadingSpinner from '../../components/common/Loading';
 import WaveBackground from '../../components/common/WaveBackground';
+import { SuspenseImage, ShimmerFallback } from '../../components/common/SuspenseImage';
 import { assetUrl } from '../../utils';
 import { Navigate } from 'react-router-dom';
-import { useState, useEffect, useMemo } from 'react';
 import SEO from '../../components/common/SEO';
 import StructuredData from '../../components/common/StructuredData';
 import { generateArticleSchema } from '../../utils/seoHelpers';
 
 const NewsMedia = () => {
   const { content, isLoading } = useContent();
-  const [featureImageLoaded, setFeatureImageLoaded] = useState(false);
 
   const newsArticles = content?.newsArticles ?? [];
 
@@ -21,21 +21,6 @@ const NewsMedia = () => {
   const articles = useMemo(() => {
     return newsArticles.filter(a => a.isFeatured !== true);
   }, [newsArticles]);
-
-  useEffect(() => {
-    setFeatureImageLoaded(false);
-
-    const image = featured?.image;
-    if (!image) return;
-
-    const img = new Image();
-    img.src = assetUrl(image);
-
-    img.onload = () => {
-      setFeatureImageLoaded(true);
-    };
-  }, [featured?.image]);
-
 
   if (isLoading) return <LoadingSpinner />;
   if (!content || !content.newsArticles) return <Navigate to="/not-found" replace />;
@@ -80,52 +65,17 @@ const NewsMedia = () => {
           <div className="max-w-7xl mx-auto">
             <div className="bg-primary rounded-lg overflow-hidden shadow-2xl animate-fade-in-up">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
-                <div className="relative h-48 lg:h-auto inset-0 rounded-lg shadow-2xl bg-secondary">
-                    {/* Loading Skeleton - Enhanced with realistic blurred gradient */}
-                    {!featureImageLoaded && featured?.image && (
-                        <div className="absolute inset-0 overflow-hidden">
-                            {/* Base gradient simulating blurred banner */}
-                            <div
-                                className="absolute inset-0 animate-pulse"
-                                style={{
-                                    background: "linear-gradient(135deg, #ebecefff 0%rgba(212, 192, 232, 1)a2 25%, #d2b8d5ff 50%, #cae0f3ff 75%, #d1f3f5ff 100%)",
-                                    filter: 'blur(60px)',
-                                    transform: 'scale(1.2)',
-                                }}
-                                />
-                            {/* Colorful overlay for depth */}
-                            <div className="absolute inset-0 pointer-events-none">
-                                <div
-                                    className="absolute inset-0"
-                                    style={{
-                                        background: "linear-gradient(135deg, #ebecefff 0%rgba(212, 192, 232, 1)a2 25%, #d2b8d5ff 50%, #cae0f3ff 75%, #d1f3f5ff 100%)",
-                                        mixBlendMode: 'overlay',
-                                        backdropFilter: 'saturate(1.05) blur(6px)',
-                                    }}
-                                />
-                            </div>
-                            <div
-                                className="absolute inset-0 opacity-30"
-                                style={{
-                                    background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%)',
-                                    animation: 'shimmer 3s infinite',
-                                }}
-                            />
-                        </div>
+                <div className="relative h-48 lg:h-auto inset-0 rounded-lg shadow-2xl bg-secondary overflow-hidden">
+                    {featured?.image && (
+                      <Suspense fallback={<ShimmerFallback />}>
+                        <SuspenseImage
+                          src={assetUrl(featured.image)}
+                          alt={featured.title}
+                          className="w-full h-full object-cover"
+                        />
+                      </Suspense>
                     )}
-                    <img
-                        src={assetUrl(featured.image)}
-                        alt={featured.title}
-                        className="w-full h-full animate-hero-image object-cover"
-                        style={{
-                            visibility: featureImageLoaded ? 'visible' : 'hidden'
-                        }}
-                        onLoad={() => setFeatureImageLoaded(true)}
-                        loading="eager"
-                        fetchPriority="high"
-                    />
                     <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/50 to-primary" />
-
                   <div className="absolute top-3 lg:top-4 left-3 lg:left-4">
                     <span className="bg-accent text-dark px-3 lg:px-4 py-1 lg:py-2 rounded-full text-xs lg:text-sm font-bold">
                       Featured

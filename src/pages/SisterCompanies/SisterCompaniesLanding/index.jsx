@@ -1,10 +1,10 @@
-import { useParams, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { Suspense } from "react";
+import { useParams, useNavigate, Navigate } from "react-router-dom";
 import LoadingSpinner from "../../../components/common/Loading";
+import { SuspenseImage, ShimmerFallback } from "../../../components/common/SuspenseImage";
 import { getSisterCompanyData, assetUrl } from "../../../utils";
 import { useContent } from "../../../context/globalContext";
 import { Mail, Phone, Globe } from "lucide-react";
-import { Navigate } from "react-router-dom";
 import SEO from "../../../components/common/SEO";
 import { sanitizeMetaDescription } from "../../../utils/seoHelpers";
 
@@ -12,37 +12,8 @@ const SisterCompaniesLanding = () => {
     const { companySlug } = useParams();
     const navigate = useNavigate();
     const { content, isLoading, error } = useContent();
-    const [heroImageLoaded, setHeroImageLoaded] = useState(false);
-    const [logoImageLoaded, setLogoImageLoaded] = useState(false);
 
     const companyData = !isLoading && !error ? getSisterCompanyData(content?.sisterCompanies, companySlug) : null;
-
-    useEffect(() => {
-        setHeroImageLoaded(false);
-        setLogoImageLoaded(false);
-    }, [companySlug]);
-
-
-    
-    // Preload hero image for instant display on navigation
-    useEffect(() => {
-        if (companyData?.image) {
-            const img = new Image();
-            img.src = assetUrl(companyData.image);
-            img.onload = () => {
-                setHeroImageLoaded(true);
-            };
-        }
-    }, [companyData?.image]);
-    useEffect(() => {
-        if (companyData?.logo) {
-            const img = new Image();
-            img.src = assetUrl(companyData.logo);
-            img.onload = () => {
-                setLogoImageLoaded(true);
-            };
-        }
-    }, [companyData?.logo]);
 
     if (isLoading) {
         return <LoadingSpinner />;
@@ -71,55 +42,14 @@ const SisterCompaniesLanding = () => {
             <section className="relative h-[300px] lg:h-[600px] flex items-center justify-center overflow-hidden">
                 {/* Background Image */}
                 <div className="absolute inset-0 bg-secondary">
-                    {/* Loading Skeleton - Enhanced with realistic blurred gradient */}
-                    {!heroImageLoaded && companyData?.image && (
-                        <div className="absolute inset-0 overflow-hidden">
-                            {/* Base gradient simulating blurred banner */}
-                            <div
-                                className="absolute inset-0 animate-pulse"
-                                style={{
-                                    background: "linear-gradient(135deg, #ebecefff 0%rgba(212, 192, 232, 1)a2 25%, #d2b8d5ff 50%, #cae0f3ff 75%, #d1f3f5ff 100%)",
-                                    filter: "blur(60px)",
-                                    transform: "scale(1.2)",
-                                }}
-                            />
-                            {/* Colorful overlay for depth */}
-                            <div className="absolute inset-0 pointer-events-none">
-                                <div
-                                    className="absolute inset-0"
-                                    style={{
-                                        background: "linear-gradient(135deg, #ebecefff 0%rgba(212, 192, 232, 1)a2 25%, #d2b8d5ff 50%, #cae0f3ff 75%, #d1f3f5ff 100%)",
-                                        mixBlendMode: 'overlay',
-                                        backdropFilter: 'saturate(1.05) blur(6px)',
-                                    }}
-                                />
-                            </div>
-                            {/* Shimmer effect */}
-                            <div
-                                className="absolute inset-0 opacity-30"
-                                style={{
-                                    background:
-                                        "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%)",
-                                    animation: "shimmer 3s infinite",
-                                }}
-                            />
-                        </div>
-                    )}
-
-                    {/* Hero Image */}
                     {companyData?.image && (
-                        <img
-                            src={assetUrl(companyData.image)}
-                            alt={companyData.name}
-                            className="w-full h-full object-cover animate-hero-image transition-opacity duration-500"
-                            style={{
-                                opacity: heroImageLoaded ? 0.9 : 0,
-                                visibility: heroImageLoaded ? 'visible' : 'hidden'
-                            }}
-                            onLoad={() => setHeroImageLoaded(true)}
-                            loading="eager"
-                            fetchPriority="high"
-                        />
+                        <Suspense key={companySlug} fallback={<ShimmerFallback />}>
+                            <SuspenseImage
+                                src={assetUrl(companyData.image)}
+                                alt={companyData.name}
+                                className="w-full h-full object-cover opacity-90"
+                            />
+                        </Suspense>
                     )}
                     <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/50 to-primary" />
                 </div>
@@ -128,32 +58,19 @@ const SisterCompaniesLanding = () => {
                 <div className="relative z-10 text-center px-4 lg:px-6 max-w-5xl">
                     {/* Company Logo */}
                     {companyData?.logo && (
-                        <div className="flex justify-center mb-6">
-                            <img
-                                src={assetUrl(companyData.logo)}
-                                alt={`${companyData.name} logo`}
-                                className="h-24 lg:h-32 w-auto bg-white p-4 rounded-2xl shadow-2xl"
-                                style={{
-                                    opacity: logoImageLoaded ? 1 : 0,
-                                    visibility: logoImageLoaded ? 'visible' : 'hidden',
-                                    transition: 'opacity 0.5s ease-in-out',
-                                }}
-                                onLoad={() => setLogoImageLoaded(true)}
-                                loading="eager"
-                                fetchPriority="high"
-                            />
+                        <div className="flex justify-center mb-4">
+                            <Suspense key={`logo-${companySlug}`} fallback={<div className="h-24 lg:h-32 w-32 bg-white/50 rounded-2xl animate-pulse" />}>
+                                <SuspenseImage
+                                    src={assetUrl(companyData.logo)}
+                                    alt={`${companyData.name} logo`}
+                                    className="h-24 lg:h-32 w-auto bg-white p-4 rounded-2xl shadow-2xl"
+                                />
+                            </Suspense>
                         </div>
                     )}
-                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/50 to-primary" />
-
-                    {/* Company Name */}
-                    {/* <h1 className="text-4xl lg:text-6xl font-bold text-secondary bg-primary rounded-2xl animate-fade-in-up">
-                        {companyData.name}
-                    </h1> */}
-
                     {/* Tagline */}
                     {companyData?.tagline && (
-                        <p className="text-xl lg:text-3xl text-accent font-semibold drop-shadow-[0_0_4px_black] italic mb-4 animate-fade-in-up-delay ">
+                        <p className="text-xl lg:text-3xl text-accent font-semibold italic bg-primary opacity-70 rounded-2xl px-4 py-2 inline-block animate-fade-in-up-delay">
                             {companyData.tagline}
                         </p>
                     )}
@@ -230,12 +147,12 @@ const SisterCompaniesLanding = () => {
                         </div>
 
                         <div className="bg-primary rounded-2xl p-8 lg:p-12 shadow-2xl">
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-2 lg:gap-8">
                                 {/* Email */}
                                 {companyData.contact.email && (
                                     <a
                                         href={`mailto:${companyData.contact.email}`}
-                                        className="flex flex-col items-center gap-3 p-6 bg-dark rounded-xl hover:bg-accent hover:text-dark transition-all duration-300 group"
+                                        className="flex flex-col items-center gap-3 p-3 lg:p-6 bg-dark rounded-xl hover:bg-accent hover:text-dark transition-all duration-300 group"
                                     >
                                         <Mail size={24} className="text-accent group-hover:text-accent transition-colors" />
                                         <div className="text-center">
@@ -251,7 +168,7 @@ const SisterCompaniesLanding = () => {
                                 {companyData.contact.phone && (
                                     <a
                                         href={`tel:${companyData.contact.phone}`}
-                                        className="flex flex-col items-center gap-3 p-6 bg-dark rounded-xl hover:bg-accent hover:text-dark transition-all duration-300 group"
+                                        className="flex flex-col items-center gap-3 p-3 lg:p-6 bg-dark rounded-xl hover:bg-accent hover:text-dark transition-all duration-300 group"
                                     >
                                         <Phone size={24} className="text-accent group-hover:text-accent transition-colors" />
                                         <div className="text-center">
@@ -271,7 +188,7 @@ const SisterCompaniesLanding = () => {
                                             : `https://${companyData.contact.website}`}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="flex flex-col items-center gap-3 p-6 bg-dark rounded-xl hover:bg-accent hover:text-dark transition-all duration-300 group"
+                                        className="flex flex-col items-center gap-3 p-3 lg:p-6 bg-dark rounded-xl hover:bg-accent hover:text-dark transition-all duration-300 group"
                                     >
                                         <Globe size={24} className="text-accent group-hover:text-accent transition-colors" />
                                         <div className="text-center">

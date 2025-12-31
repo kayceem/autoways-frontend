@@ -1,14 +1,14 @@
+import { Suspense, useMemo } from 'react';
 import { useContent } from '../../context/globalContext';
 import LoadingSpinner from '../../components/common/Loading';
 import WaveBackground from '../../components/common/WaveBackground';
+import { SuspenseImage, ShimmerFallback } from '../../components/common/SuspenseImage';
 import { assetUrl } from '../../utils';
 import { Link, Navigate } from 'react-router-dom';
-import { useState, useEffect, useMemo } from 'react';
 import SEO from '../../components/common/SEO';
 
 const CSR = () => {
   const { content, isLoading } = useContent();
-  const [heroImageLoaded, setHeroImageLoaded] = useState(false);
 
   // Safe access even while loading / content is null
   const csr = content?.csr;
@@ -18,20 +18,6 @@ const CSR = () => {
   }, [csr?.hero]);
 
   const initiatives = csr?.initiatives ?? [];
-
-  useEffect(() => {
-    setHeroImageLoaded(false);
-
-    const image = hero?.image;
-    if (!image) return;
-
-    const img = new Image();
-    img.src = assetUrl(image);
-
-    img.onload = () => {
-      setHeroImageLoaded(true);
-    };
-  }, [hero?.image]);
 
   if (isLoading) return <LoadingSpinner />;
   if (!content || !content.csr) return <Navigate to="/not-found" replace />;
@@ -63,49 +49,16 @@ const CSR = () => {
               </p>
             </div>
             <div className="relative h-48 lg:h-auto lg:min-h-92 inset-0 rounded-lg shadow-2xl bg-secondary overflow-hidden">
-            {!heroImageLoaded && hero?.image && (
-                <div
-                className={`absolute inset-0 transition-opacity duration-200`}>
-                    <div
-                        className="absolute inset-0 animate-pulse"
-                        style={{
-                            background: "linear-gradient(135deg, #ebecefff 0%rgba(212, 192, 232, 1)a2 25%, #d2b8d5ff 50%, #cae0f3ff 75%, #d1f3f5ff 100%)",
-                            filter: 'blur(60px)',
-                            transform: 'scale(1.2)',
-                        }}
-                        />
-                    {/* Colorful overlay for depth */}
-                    <div className="absolute inset-0 pointer-events-none">
-                        <div
-                            className="absolute inset-0"
-                            style={{
-                                background: "linear-gradient(135deg, #ebecefff 0%rgba(212, 192, 232, 1)a2 25%, #d2b8d5ff 50%, #cae0f3ff 75%, #d1f3f5ff 100%)",
-                                mixBlendMode: 'overlay',
-                                backdropFilter: 'saturate(1.05) blur(6px)',
-                            }}
-                        />
-                    </div>
-                    <div
-                        className="absolute inset-0 opacity-30"
-                        style={{
-                            background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%)',
-                            animation: 'shimmer 2s infinite',
-                        }}
-                    />
-                </div>
-            )}
-              <img
-                src={assetUrl(hero.image)}
-                alt="CSR Hero"
-                className="w-full h-full object-cover animate-hero-image transition-opacity duration-300"
-                style={{
-                  visibility: heroImageLoaded ? "visible" : "hidden",
-                }}
-                onLoad={() => setHeroImageLoaded(true)}
-                loading="eager"
-                fetchPriority="high"
-              />
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/50 to-primary" />
+              {hero?.image && (
+                <Suspense fallback={<ShimmerFallback />}>
+                  <SuspenseImage
+                    src={assetUrl(hero.image)}
+                    alt="CSR Hero"
+                    className="w-full h-full object-cover"
+                  />
+                </Suspense>
+              )}
+              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/50 to-primary" />
             </div>
           </div>
         </div>

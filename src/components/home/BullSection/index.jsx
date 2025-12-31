@@ -11,22 +11,31 @@ const BullSection = ({ className = "" }) => {
     const { content, isLoading } = useContent();
     const [isPlaying, setIsPlaying] = useState(false);
     const [pausePlaying, setPausePlaying] = useState(false);
-    const [hasStarted, setHasStarted] = useState(false);
+    const [userPaused, setUserPaused] = useState(false);
     const videoRef = useRef(null);
     const sectionRef = useRef(null);
 
-    // Play video when section is in view
+    // Play/pause video based on visibility
     useEffect(() => {
         const section = sectionRef.current;
-        if (!section) return;
+        const video = videoRef.current;
+        if (!section || !video) return;
 
         const observer = new IntersectionObserver(
             ([entry]) => {
-                if (entry.isIntersecting && videoRef.current && !hasStarted) {
-                    videoRef.current.play();
-                    setIsPlaying(true);
-                    setPausePlaying(true);
-                    setHasStarted(true);
+                if (entry.isIntersecting) {
+                    // Only auto-play if user hasn't manually paused
+                    if (!userPaused && !video.ended) {
+                        video.play();
+                        setIsPlaying(true);
+                        setPausePlaying(true);
+                    }
+                } else {
+                    // Pause when out of view
+                    if (!video.paused) {
+                        video.pause();
+                        setIsPlaying(false);
+                    }
                 }
             },
             { threshold: 0.3 }
@@ -34,7 +43,7 @@ const BullSection = ({ className = "" }) => {
 
         observer.observe(section);
         return () => observer.disconnect();
-    }, [hasStarted]);
+    }, [userPaused]);
 
     if (isLoading) return <LoadingSpinner size={64} />;
 
@@ -45,12 +54,14 @@ const BullSection = ({ className = "" }) => {
         if (videoRef.current) {
             if (isPlaying) {
                 videoRef.current.pause();
+                setUserPaused(true);
             } else {
                 // If video ended, restart from beginning
                 if (videoRef.current.ended) {
                     videoRef.current.currentTime = 0;
                 }
                 videoRef.current.play();
+                setUserPaused(false);
             }
             setIsPlaying(!isPlaying);
         }

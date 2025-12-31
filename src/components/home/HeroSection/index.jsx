@@ -6,21 +6,15 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import './index.css';
 import { assetUrl } from '../../../utils';
-
+import { PulseFallback, preloadImage } from '../../common/SuspenseImage';
 
 const HeroSection = ({ heroImages = [], className = '' }) => {
   const [loadedImages, setLoadedImages] = useState({});
 
-  // Preload first 3 images for instant display and smooth transitions
+  // Preload first 3 images
   useEffect(() => {
-    const imagesToPreload = heroImages.slice(0, 3);
-
-    imagesToPreload.forEach((image, index) => {
-      const img = new Image();
-      img.src = assetUrl(image.image);
-      img.onload = () => {
-        setLoadedImages(prev => ({ ...prev, [index]: true }));
-      };
+    heroImages.slice(0, 3).forEach((image) => {
+      preloadImage(assetUrl(image.image));
     });
   }, [heroImages]);
 
@@ -52,11 +46,7 @@ const HeroSection = ({ heroImages = [], className = '' }) => {
           <SwiperSlide key={index}>
             <div className="relative w-full h-full">
               {/* Loading Skeleton */}
-              {!loadedImages[index] && (
-                <div className="absolute inset-0 bg-gradient-to-br from-gray-200 via-gray-300 to-gray-200 animate-pulse">
-                  <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/10 to-black/30" />
-                </div>
-              )}
+              {!loadedImages[index] && <PulseFallback />}
 
               {/* Hero Image */}
               <img

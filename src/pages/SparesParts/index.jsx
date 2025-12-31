@@ -1,6 +1,7 @@
-import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect } from "react";
+import { Link, Navigate } from "react-router-dom";
 import LoadingSpinner from "../../components/common/Loading";
+import { SuspenseImage, ShimmerFallback, preloadImage } from "../../components/common/SuspenseImage";
 import { useContent } from "../../context/globalContext";
 import { assetUrl } from "../../utils";
 import SEO from "../../components/common/SEO";
@@ -8,32 +9,19 @@ import SEO from "../../components/common/SEO";
 const SparesParts = () => {
     const {content, isLoading, error} = useContent();
     const sparePart = content?.spareParts?.[0];
-    const [heroImageLoaded, setHeroImageLoaded] = useState(false);
 
+    // Preload first 4 part images
     useEffect(() => {
-        if (sparePart) {
-            // Preload hero image for instant display on navigation
-            if (sparePart.image) {
-                const heroImg = new Image();
-                heroImg.src = assetUrl(sparePart.image);
-                heroImg.onload = () => {
-                    setHeroImageLoaded(true);
-                };
-            }
-
-            // Preload first 4 part images
-            if (sparePart.parts) {
-                sparePart.parts.slice(0, 4).forEach((part) => {
-                    if (part.image) {
-                        const partImg = new Image();
-                        partImg.src = assetUrl(part.image);
-                    }
-                });
-            }
+        if (sparePart?.parts) {
+            sparePart.parts.slice(0, 4).forEach((part) => {
+                if (part.image) {
+                    preloadImage(assetUrl(part.image));
+                }
+            });
         }
     }, [sparePart]);
 
-        if (isLoading) {
+    if (isLoading) {
         return <LoadingSpinner />;
     }
 
@@ -55,54 +43,14 @@ const SparesParts = () => {
             <section className="relative h-[300px] lg:h-[600px] flex items-center justify-center overflow-hidden">
                 {/* Background Image */}
                 <div className="absolute inset-0 bg-secondary">
-                    {/* Loading Skeleton - Enhanced with realistic blurred gradient */}
-                    {!heroImageLoaded && sparePart?.image && (
-                        <div className="absolute inset-0 overflow-hidden">
-                            {/* Base gradient simulating blurred banner */}
-                            <div
-                                className="absolute inset-0 animate-pulse"
-                                style={{
-                                    background: "linear-gradient(135deg, #ebecefff 0%rgba(212, 192, 232, 1)a2 25%, #d2b8d5ff 50%, #cae0f3ff 75%, #d1f3f5ff 100%)",
-                                    filter: 'blur(60px)',
-                                    transform: 'scale(1.2)',
-                                }}
-                            />
-                            {/* Colorful overlay for depth */}
-                            <div className="absolute inset-0 pointer-events-none">
-                                <div
-                                    className="absolute inset-0"
-                                    style={{
-                                        background: "linear-gradient(135deg, #ebecefff 0%rgba(212, 192, 232, 1)a2 25%, #d2b8d5ff 50%, #cae0f3ff 75%, #d1f3f5ff 100%)",
-                                        mixBlendMode: 'overlay',
-                                        backdropFilter: 'saturate(1.05) blur(6px)',
-                                    }}
-                                />
-                            </div>
-                            {/* Shimmer effect */}
-                            <div
-                                className="absolute inset-0 opacity-30"
-                                style={{
-                                    background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%)',
-                                    animation: 'shimmer 3s infinite',
-                                }}
-                            />
-                        </div>
-                    )}
-
-                    {/* Hero Image */}
                     {sparePart?.image && (
-                        <img
-                            src={assetUrl(sparePart.image)}
-                            alt="Spares & Parts"
-                            className="w-full h-full object-cover animate-hero-image transition-opacity duration-500"
-                            style={{
-                                opacity: heroImageLoaded ? 0.9 : 0,
-                                visibility: heroImageLoaded ? 'visible' : 'hidden'
-                            }}
-                            onLoad={() => setHeroImageLoaded(true)}
-                            loading="eager"
-                            fetchPriority="high"
-                        />
+                        <Suspense fallback={<ShimmerFallback />}>
+                            <SuspenseImage
+                                src={assetUrl(sparePart.image)}
+                                alt="Spares & Parts"
+                                className="w-full h-full object-cover opacity-90"
+                            />
+                        </Suspense>
                     )}
                     <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/50 to-primary" />
                 </div>
