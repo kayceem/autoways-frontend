@@ -5,6 +5,8 @@ import { getSisterCompanyData, assetUrl } from "../../../utils";
 import { useContent } from "../../../context/globalContext";
 import { Mail, Phone, Globe } from "lucide-react";
 import { Navigate } from "react-router-dom";
+import SEO from "../../../components/common/SEO";
+import { sanitizeMetaDescription } from "../../../utils/seoHelpers";
 
 const SisterCompaniesLanding = () => {
     const { companySlug } = useParams();
@@ -55,6 +57,15 @@ const SisterCompaniesLanding = () => {
     }
 
     return (
+        <>
+        <SEO
+            title={`${companyData.name} | ${companyData.tagline || 'Autoways Sister Company'}`}
+            description={sanitizeMetaDescription(companyData.description)}
+            keywords={`${companyData.name}, autoways sister company, ${companyData.category || ''}, nepal`}
+            image={companyData.logo ? assetUrl(companyData.logo) : undefined}
+            url={`/sister-companies/${companySlug}`}
+            type="website"
+        />
         <div className="min-h-screen bg-primary">
             {/* Hero Section */}
             <section className="relative h-[300px] lg:h-[600px] flex items-center justify-center overflow-hidden">
@@ -289,6 +300,7 @@ const SisterCompaniesLanding = () => {
                 </div>
             </section>
         </div>
+        </>
     );
 };
 

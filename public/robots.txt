@@ -1,4 +1,13 @@
+# Autoways Nepal - robots.txt
+# https://autoways.com.np
+
 User-agent: *
 Allow: /
+
+# Block admin and private routes
+Disallow: /admin
+Disallow: /admin/
 Disallow: /cgi-bin/
+
+# Sitemap location
 Sitemap: https://autoways.com.np/sitemap.txt

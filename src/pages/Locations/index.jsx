@@ -1,12 +1,21 @@
 import NepalMap from '../../components/locations/NepalMap';
 import { useContent } from '../../context/globalContext';
 import LoadingSpinner from '../../components/common/Loading';
+import SEO from '../../components/common/SEO';
 
 const Locations = () => {
     const { content, isLoading } = useContent();
     if (isLoading) return <LoadingSpinner size={64} />;
     const locations = content?.locations ? content.locations : [];
     return (
+        <>
+        <SEO
+            title="Our Locations | Service Centers Across Nepal"
+            description="Find Autoways service centers and showrooms across Nepal. Visit us in Kathmandu, Pokhara, Chitwan, and other locations for Bull machines, Toyota, and automotive services."
+            keywords="autoways locations, autoways nepal branches, bull service center nepal, toyota showroom nepal, autoways pokhara, autoways kathmandu"
+            url="/locations"
+            type="website"
+        />
         <div className="min-h-screen bg-primary">
             <div className="max-w-7xl mx-auto px-4 lg:px-6 py-8 lg:py-12">
                 {/* Header Section */}
@@ -42,6 +51,7 @@ const Locations = () => {
                 </div>
             </div>
         </div>
+        </>
     );
 };
 

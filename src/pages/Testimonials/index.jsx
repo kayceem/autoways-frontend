@@ -4,6 +4,9 @@ import WaveBackground from '../../components/common/WaveBackground';
 import { useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { capitalizeWords, assetUrl } from '../../utils';
+import SEO from '../../components/common/SEO';
+import StructuredData from '../../components/common/StructuredData';
+import { generateAggregateRatingSchema } from '../../utils/seoHelpers';
 
 const Testimonials = () => {
   const { content, isLoading } = useContent();
@@ -49,15 +52,26 @@ const Testimonials = () => {
     );
   };
 
-  return (
-    <main className="min-h-screen bg-dark relative">
-      <WaveBackground height={20}/>
+  const ratingSchema = generateAggregateRatingSchema(testimonials);
 
-      {/* Hero Section */}
-      <section className="relative py-8 lg:py-20 px-4 lg:px-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-8 lg:mb-16 animate-fade-in-up">
-            <h1 className="font-bold text-3xl lg:text-6xl text-secondary mb-3 lg:mb-4">Customer Testimonials</h1>
+  return (
+    <>
+      <SEO
+        title="Customer Testimonials | Reviews & Feedback"
+        description="Read what our customers say about Autoways. Real testimonials from satisfied customers across Nepal who trust us for Bull machines, Toyota vehicles, and automotive services."
+        keywords="autoways reviews, autoways testimonials, bull machines reviews, toyota nepal reviews, customer feedback autoways"
+        url="/testimonials"
+        type="website"
+      />
+      {ratingSchema && <StructuredData schema={ratingSchema} />}
+      <main className="min-h-screen bg-dark relative">
+        <WaveBackground height={20}/>
+
+        {/* Hero Section */}
+        <section className="relative py-8 lg:py-20 px-4 lg:px-6">
+          <div className="max-w-7xl mx-auto">
+            <div className="text-center mb-8 lg:mb-16 animate-fade-in-up">
+              <h1 className="font-bold text-3xl lg:text-6xl text-secondary mb-3 lg:mb-4">Customer Testimonials</h1>
             <div className="w-16 lg:w-24 h-1 bg-accent mx-auto mb-4 lg:mb-6" />
             <p className="text-base lg:text-xl text-secondary opacity-80 max-w-3xl mx-auto">
               Hear what our valued customers have to say about their experience with Autoways
@@ -205,7 +219,8 @@ const Testimonials = () => {
           </div>
         </div>
       </section>
-    </main>
+      </main>
+    </>
   );
 };
 

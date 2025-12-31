@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, Wrench } from "lucide-react";
 import { useEffect, useState } from "react";
 import LoadingSpinner from "../../components/common/Loading";
 import { useContent } from "../../context/globalContext";
 import { assetUrl } from "../../utils";
+import SEO from "../../components/common/SEO";
 
 const SparesParts = () => {
     const {content, isLoading, error} = useContent();
@@ -42,6 +42,14 @@ const SparesParts = () => {
     }
 
     return (
+        <>
+        <SEO
+            title="Spare Parts & Services | Genuine Auto Parts"
+            description="Find genuine spare parts for Bull machines, Toyota, Eicher, Komatsu, and other brands at Autoways Nepal. Quality parts with warranty and expert technical support."
+            keywords="autoways spare parts, genuine auto parts nepal, bull machine parts, toyota parts nepal, truck spare parts, construction equipment parts"
+            url="/spares-parts"
+            type="website"
+        />
         <div className="min-h-screen bg-primary">
             {/* Hero Section */}
             <section className="relative h-[300px] lg:h-[600px] flex items-center justify-center overflow-hidden">
@@ -214,6 +222,7 @@ const SparesParts = () => {
                 </div>
             </section>
         </div>
+        </>
     );
 };
 

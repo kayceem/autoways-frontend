@@ -10,6 +10,7 @@ import LoadingSpinner from "../../components/common/Loading";
 import { capitalizeWords, getTypeNameFromSlug, getProductsBrandType } from "../../utils";
 import { Navigate } from "react-router-dom";
 import { useContent } from "../../context/globalContext";
+import SEO from "../../components/common/SEO";
 
 const ProductTypePage = () => {
     const { brand, typeSlug } = useParams();
@@ -27,6 +28,14 @@ const ProductTypePage = () => {
     }
 
     return (
+        <>
+        <SEO
+            title={`${capitalizeWords(brand)} ${capitalizeWords(typeName)} | Buy in Nepal`}
+            description={`Explore our premium collection of ${capitalizeWords(brand)} ${typeName} vehicles. Find the best ${typeName} for your needs at Autoways Nepal.`}
+            keywords={`${brand} ${typeName}, ${brand} ${typeName} nepal, buy ${brand} ${typeName}, ${typeName} price nepal, autoways ${brand}`}
+            url={`/shop/${brand}/${typeSlug}`}
+            type="website"
+        />
         <div className={`min-h-screen bg-primary`}>
             {/* Hero Header Section */}
             <section
@@ -213,6 +222,7 @@ const ProductTypePage = () => {
                 </div>
             </section>
         </div>
+        </>
     );
 };
 

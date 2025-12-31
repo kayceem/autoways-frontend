@@ -5,6 +5,7 @@ import WaveBackground from '../../components/common/WaveBackground';
 import { Navigate } from 'react-router-dom';
 import { assetUrl } from '../../utils';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
+import SEO from '../../components/common/SEO';
 
 const Gallery = () => {
   const { content, isLoading } = useContent();
@@ -107,8 +108,16 @@ const Gallery = () => {
   }
 
   return (
-    <main className="min-h-screen bg-dark relative">
-      <WaveBackground height={20} />
+    <>
+      <SEO
+        title="Photo Gallery | Events & Achievements"
+        description="Browse through Autoways' photo gallery showcasing our events, achievements, and moments from across Nepal. See our showrooms, service centers, and community activities."
+        keywords="autoways gallery, autoways nepal photos, autoways events, autoways showroom images"
+        url="/gallery"
+        type="website"
+      />
+      <main className="min-h-screen bg-dark relative">
+        <WaveBackground height={20} />
 
       {/* Hero Section */}
       <section className="relative py-6 lg:py-10 px-4 lg:px-6">
@@ -259,6 +268,7 @@ const Gallery = () => {
         </div>
       )}
     </main>
+    </>
   );
 };
 

@@ -3,8 +3,10 @@ import LoadingSpinner from '../../components/common/Loading';
 import WaveBackground from '../../components/common/WaveBackground';
 import { useState, useRef } from 'react';
 import { assetUrl } from '../../utils';
-import { Link } from 'react-router-dom';
-import { Navigate } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
+import SEO from '../../components/common/SEO';
+import StructuredData from '../../components/common/StructuredData';
+import seoConfig from '../../config/seoConfig';
 
 const AboutUs = () => {
   const { content, isLoading } = useContent();
@@ -66,8 +68,17 @@ const handleNext = () => {
   };
 
   return (
-    <main className="min-h-screen bg-dark relative">
-      <WaveBackground height={10}/>
+    <>
+      <SEO
+        title="About Us | Leading Automotive Distributor in Nepal"
+        description="Learn about Autoways - Nepal's premier automotive company since 2002. Discover our mission, vision, values, and the team driving automotive excellence across Nepal."
+        keywords="about autoways, autoways nepal history, automotive company nepal, bull machines distributor"
+        url="/about"
+        type="website"
+      />
+      <StructuredData schema={seoConfig.organization} />
+      <main className="min-h-screen bg-dark relative">
+        <WaveBackground height={10}/>
 
       {/* Hero Section */}
       <section className="relative py-8 lg:py-20 px-4 lg:px-6">
@@ -496,7 +507,8 @@ const handleNext = () => {
           </div>
         </div>
       </section>
-    </main>
+      </main>
+    </>
   );
 };
 

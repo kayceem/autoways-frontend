@@ -2,9 +2,9 @@ import { useContent } from '../../context/globalContext';
 import LoadingSpinner from '../../components/common/Loading';
 import WaveBackground from '../../components/common/WaveBackground';
 import { assetUrl } from '../../utils';
-import { Link} from 'react-router-dom';
-import { Navigate } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { useState, useEffect, useMemo } from 'react';
+import SEO from '../../components/common/SEO';
 
 const CSR = () => {
   const { content, isLoading } = useContent();
@@ -37,8 +37,16 @@ const CSR = () => {
   if (!content || !content.csr) return <Navigate to="/not-found" replace />;
 
   return (
-    <main className="min-h-screen bg-dark relative">
-      <WaveBackground height={20}/>
+    <>
+      <SEO
+        title="Corporate Social Responsibility | CSR Initiatives"
+        description="Discover Autoways' commitment to corporate social responsibility in Nepal. Learn about our community initiatives, environmental programs, and social impact projects."
+        keywords="autoways csr, corporate social responsibility nepal, autoways community, autoways environmental initiatives"
+        url="/csr"
+        type="website"
+      />
+      <main className="min-h-screen bg-dark relative">
+        <WaveBackground height={20}/>
 
       {/* Hero Section */}
       <section className="relative py-8 lg:py-20 px-4 lg:px-6">
@@ -229,6 +237,7 @@ const CSR = () => {
         </div>
       </section>
     </main>
+    </>
   );
 };
 

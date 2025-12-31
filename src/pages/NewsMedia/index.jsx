@@ -4,6 +4,9 @@ import WaveBackground from '../../components/common/WaveBackground';
 import { assetUrl } from '../../utils';
 import { Navigate } from 'react-router-dom';
 import { useState, useEffect, useMemo } from 'react';
+import SEO from '../../components/common/SEO';
+import StructuredData from '../../components/common/StructuredData';
+import { generateArticleSchema } from '../../utils/seoHelpers';
 
 const NewsMedia = () => {
   const { content, isLoading } = useContent();
@@ -43,15 +46,26 @@ const NewsMedia = () => {
     return new Date(dateString).toLocaleDateString('en-US', options);
   };
 
-  return (
-    <main className="min-h-screen bg-dark relative">
-      <WaveBackground height={20}/>
+  const articleSchema = featured ? generateArticleSchema(featured) : null;
 
-      {/* Hero Section */}
-      <section className="relative py-8 lg:py-20 px-4 lg:px-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-8 lg:mb-16 animate-fade-in-up">
-            <h1 className="font-bold text-3xl lg:text-6xl text-secondary mb-3 lg:mb-4">News &amp; Media</h1>
+  return (
+    <>
+      <SEO
+        title="News & Media | Latest Updates"
+        description="Stay updated with the latest news, announcements, and industry insights from Autoways Nepal. Read about our events, new products, and automotive industry updates."
+        keywords="autoways news, automotive news nepal, bull machines news, toyota nepal updates, autoways announcements"
+        url="/news"
+        type="website"
+      />
+      {articleSchema && <StructuredData schema={articleSchema} />}
+      <main className="min-h-screen bg-dark relative">
+        <WaveBackground height={20}/>
+
+        {/* Hero Section */}
+        <section className="relative py-8 lg:py-20 px-4 lg:px-6">
+          <div className="max-w-7xl mx-auto">
+            <div className="text-center mb-8 lg:mb-16 animate-fade-in-up">
+              <h1 className="font-bold text-3xl lg:text-6xl text-secondary mb-3 lg:mb-4">News &amp; Media</h1>
             <div className="w-16 lg:w-24 h-1 bg-accent mx-auto mb-4 lg:mb-6" />
             <p className="text-base lg:text-xl text-secondary opacity-80 max-w-3xl mx-auto">
               Stay updated with the latest news, announcements, and industry insights from Autoways
@@ -225,7 +239,8 @@ const NewsMedia = () => {
           </div>
         </div>
       </section>
-    </main>
+      </main>
+    </>
   );
 };
 

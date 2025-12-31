@@ -19,6 +19,9 @@ import { useState } from 'react';
 import DownloadSpecsInquiryModal from '../../components/common/Inquiry';
 import { useContent } from '../../context/globalContext';
 import toast from 'react-hot-toast';
+import SEO from '../../components/common/SEO';
+import StructuredData from '../../components/common/StructuredData';
+import { generateProductSchema, sanitizeMetaDescription } from '../../utils/seoHelpers';
 
 const ProductDetails = () => {
     const { brand, typeSlug, id } = useParams();
@@ -116,7 +119,25 @@ const ProductDetails = () => {
     };
 
     
+    const productSchema = generateProductSchema({
+        name: product?.name,
+        description: product?.shortDescription || product?.fullDescription,
+        image: product?.images?.[0] ? assetUrl(product.images[0]) : undefined,
+        brand: capitalizeWords(brand),
+        url: `/shop/${brand}/${typeSlug}/${id}`,
+    });
+
     return (
+        <>
+        <SEO
+            title={`${product?.name} | ${capitalizeWords(brand)} - Autoways Nepal`}
+            description={sanitizeMetaDescription(product?.shortDescription || product?.fullDescription || `${product?.name} - Premium ${capitalizeWords(brand)} ${typeName} available at Autoways Nepal.`)}
+            keywords={`${product?.name}, ${brand} ${typeName}, ${brand} nepal, buy ${product?.name}, ${typeName} price nepal`}
+            image={product?.images?.[0] ? assetUrl(product.images[0]) : undefined}
+            url={`/shop/${brand}/${typeSlug}/${id}`}
+            type="product"
+        />
+        <StructuredData schema={productSchema} />
         <div className="min-h-screen bg-primary">
             {/* Breadcrumb */}
             <section className="bg-primary border-b border-neutral-200">
@@ -292,6 +313,7 @@ const ProductDetails = () => {
                 </div>
             </section>
         </div>
+        </>
     );
 };
 

@@ -7,6 +7,9 @@ import AboutSection from '../../components/home/AboutSection';
 import CTASection from '../../components/home/CTA';
 import PartnersSection from '../../components/home/PartnersSection';
 import ClientsSection from '../../components/home/ClientsSection';
+import SEO from '../../components/common/SEO';
+import StructuredData from '../../components/common/StructuredData';
+import seoConfig from '../../config/seoConfig';
 
 const Home = () => {
   const { content, isLoading } = useContent();
@@ -29,51 +32,60 @@ const Home = () => {
   }
 
   return (
-    <main className="min-h-screen">
-      {/* Hero Section - Full-screen carousel */}
-      {content.heroImages && content.heroImages.length > 0 && (
-        <HeroSection heroImages={content.heroImages} />
-      )}
+    <>
+      <SEO
+        title="Premium Automotive Solutions"
+        description="Autoways is the leading distributor of Bull machines in Nepal and dealer for Toyota, Eicher, Komatsu, Dongfeng, XCMG, and Ather. Discover trucks, buses, construction equipment, and electric vehicles."
+        url="/"
+        type="website"
+      />
+      <StructuredData schema={seoConfig.organization} />
+      <main className="min-h-screen">
+        {/* Hero Section - Full-screen carousel */}
+        {content.heroImages && content.heroImages.length > 0 && (
+          <HeroSection heroImages={content.heroImages} />
+        )}
 
-      {/* Bull Section - Power and reliability showcase */}
-      <BullSection />
+        {/* Bull Section - Power and reliability showcase */}
+        <BullSection />
 
-      {/* Brands Section - Featured automotive brands */}
-      {content.brands && Object.keys(content.brands).length > 0 && (
-        <BrandsSection brands={content.brands} />
-      )}
+        {/* Brands Section - Featured automotive brands */}
+        {content.brands && Object.keys(content.brands).length > 0 && (
+          <BrandsSection brands={content.brands} />
+        )}
 
-      {/* About Section - Welcome to Autoways */}
-      {content.aboutUs?.length !== 0 && (
-        <AboutSection 
-          aboutData={{
-            title: content.aboutUs?.[0]?.title || 'Welcome to Autoways',
-            content: content.aboutUs?.[0]?.content || '',
-            image: content.aboutUs?.[0]?.image || ''
-          }} 
-        />
-      )}
+        {/* About Section - Welcome to Autoways */}
+        {content.aboutUs?.length !== 0 && (
+          <AboutSection
+            aboutData={{
+              title: content.aboutUs?.[0]?.title || 'Welcome to Autoways',
+              content: content.aboutUs?.[0]?.content || '',
+              image: content.aboutUs?.[0]?.image || ''
+            }}
+          />
+        )}
 
-      {/* Partners Section - Our trusted partners */}
-      {content.sisterCompanies && Object.keys(content.sisterCompanies).length > 0 && (
-        <PartnersSection partnersArray={content.sisterCompanies} />
-      )}
+        {/* Partners Section - Our trusted partners */}
+        {content.sisterCompanies && Object.keys(content.sisterCompanies).length > 0 && (
+          <PartnersSection partnersArray={content.sisterCompanies} />
+        )}
 
-      {/* Clients Section - Trusted by leading organizations */}
-      {content.clients && Object.keys(content.clients).length > 0 && (
-        <ClientsSection clients={content.clients} />
-      )}
+        {/* Clients Section - Trusted by leading organizations */}
+        {content.clients && Object.keys(content.clients).length > 0 && (
+          <ClientsSection clients={content.clients} />
+        )}
 
-      {/* CTA Section - Get in touch */}
-      {content.contactInfo && (
-        <CTASection 
-          contactInfo={{
-            email: content?.contactInfo?.[0]?.email || '',
-            phone: content?.contactInfo?.[0]?.phone || ''
-          }} 
-        />
-      )}
-    </main>
+        {/* CTA Section - Get in touch */}
+        {content.contactInfo && (
+          <CTASection
+            contactInfo={{
+              email: content?.contactInfo?.[0]?.email || '',
+              phone: content?.contactInfo?.[0]?.phone || ''
+            }}
+          />
+        )}
+      </main>
+    </>
   );
 };
 

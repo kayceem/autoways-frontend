@@ -1,9 +1,16 @@
 import { Link } from 'react-router-dom';
-import { Home, ArrowLeft } from 'lucide-react';
+import { Home } from 'lucide-react';
+import SEO from '../../components/common/SEO';
 
 const NotFound = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-primary px-4">
+    <>
+      <SEO
+        title="Page Not Found"
+        description="The page you are looking for doesn't exist or has been moved."
+        noindex={true}
+      />
+      <div className="min-h-screen flex items-center justify-center bg-primary px-4">
       <div className="text-center">
         {/* 404 Text */}
         <h1 className="text-6xl lg:text-9xl font-bold text-secondary mb-3 lg:mb-4">404</h1>
@@ -36,6 +43,7 @@ const NotFound = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

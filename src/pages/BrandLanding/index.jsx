@@ -5,6 +5,8 @@ import ProductTypeCard from "../../components/common/ProductTypeCard";
 import { getBrandData } from "../../utils";
 import { useContent } from "../../context/globalContext";
 import { assetUrl } from "../../utils";
+import SEO from "../../components/common/SEO";
+import { sanitizeMetaDescription } from "../../utils/seoHelpers";
 
 const BrandLanding = () => {
     const { brand } = useParams();
@@ -42,6 +44,15 @@ const BrandLanding = () => {
     }
 
     return (
+        <>
+        <SEO
+            title={`${brandData.name} Products | Buy in Nepal`}
+            description={brandData.description ? sanitizeMetaDescription(brandData.description) : `Explore ${brandData.name} products available at Autoways Nepal. Browse our collection of trucks, buses, construction equipment, and more.`}
+            keywords={`${brandData.name}, ${brandData.name} nepal, ${brandData.name} products, buy ${brandData.name}, autoways ${brandData.name}`}
+            image={brandData.heroImage ? assetUrl(brandData.heroImage) : undefined}
+            url={`/shop/${brand}`}
+            type="website"
+        />
         <div className={`min-h-screen bg-primary`}>
             {/* Hero Section */}
             <section className="relative h-[300px] lg:h-[600px] flex items-center justify-center overflow-hidden">
@@ -190,6 +201,7 @@ style={{
                 </div>
             </section>
         </div>
+        </>
     );
 };
 

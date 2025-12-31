@@ -8,6 +8,7 @@ import {
   CTASection,
 } from './components';
 import { Navigate } from 'react-router-dom';
+import SEO from '../../components/common/SEO';
 
 const SisterCompanies = () => {
   const { content, isLoading } = useContent();
@@ -26,16 +27,25 @@ const SisterCompanies = () => {
     ? companies
     : companies.filter(company => company.category === selectedCategory);
   return (
-    <main className="min-h-screen bg-dark relative">
-      <WaveBackground />
-      <CategoryFilter
-        categories={categories}
-        selectedCategory={selectedCategory}
-        onCategoryChange={setSelectedCategory}
+    <>
+      <SEO
+        title="Sister Companies | Autoways Group"
+        description="Explore Autoways' sister companies and partner businesses. Discover our diverse portfolio spanning automotive, logistics, construction equipment, and more across Nepal."
+        keywords="autoways sister companies, autoways group, autoways partners, autoways nepal businesses"
+        url="/sister-companies"
+        type="website"
       />
-      <CompaniesGrid companies={filteredCompanies} />
-      <CTASection />
-    </main>
+      <main className="min-h-screen bg-dark relative">
+        <WaveBackground />
+        <CategoryFilter
+          categories={categories}
+          selectedCategory={selectedCategory}
+          onCategoryChange={setSelectedCategory}
+        />
+        <CompaniesGrid companies={filteredCompanies} />
+        <CTASection />
+      </main>
+    </>
   );
 };
 

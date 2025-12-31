@@ -4,7 +4,7 @@ import WaveBackground from '../../components/common/WaveBackground';
 import { Navigate } from 'react-router-dom';
 import { useState } from 'react';
 import { X, MapPin, Calendar, CheckCircle } from 'lucide-react';
-import { Link } from "react-router-dom";
+import SEO from '../../components/common/SEO';
 
 const Careers = () => {
   const { content, isLoading } = useContent();
@@ -34,8 +34,16 @@ const Careers = () => {
   };
 
   return (
-    <main className="min-h-screen bg-dark relative">
-      <WaveBackground height={20}/>
+    <>
+      <SEO
+        title="Careers at Autoways | Join Our Team"
+        description="Explore exciting career opportunities at Autoways Nepal. Join our growing team and build your career in the automotive industry. View current job openings and apply today."
+        keywords="autoways careers, autoways jobs, automotive jobs nepal, autoways vacancies, job openings nepal"
+        url="/careers"
+        type="website"
+      />
+      <main className="min-h-screen bg-dark relative">
+        <WaveBackground height={20}/>
 
       {/* Hero Section */}
       <section className="relative py-8 lg:py-10 px-4 lg:px-6">
@@ -225,6 +233,7 @@ const Careers = () => {
         </div>
       )}
     </main>
+    </>
   );
 };
 
