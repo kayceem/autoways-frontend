@@ -10,4 +10,4 @@ Disallow: /admin/
 Disallow: /cgi-bin/
 
 # Sitemap location
-Sitemap: https://autoways.com.np/sitemap.txt
+Sitemap: https://autoways.com.np/sitemap.xml

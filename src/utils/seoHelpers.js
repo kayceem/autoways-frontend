@@ -205,7 +205,7 @@ export const generateLocalBusinessSchema = (location) => {
   const schema = {
     '@context': 'https://schema.org',
     '@type': 'LocalBusiness',
-    name: location.name || 'Autoways Service Center',
+    name: location.name || 'Autoways Pvt. Ltd.',
     address: {
       '@type': 'PostalAddress',
       streetAddress: location.address,

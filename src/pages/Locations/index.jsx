@@ -2,11 +2,24 @@ import NepalMap from '../../components/locations/NepalMap';
 import { useContent } from '../../context/globalContext';
 import LoadingSpinner from '../../components/common/Loading';
 import SEO from '../../components/common/SEO';
+import StructuredData from '../../components/common/StructuredData';
+import { generateLocalBusinessSchema } from '../../utils/seoHelpers';
 
 const Locations = () => {
     const { content, isLoading } = useContent();
     if (isLoading) return <LoadingSpinner size={64} />;
     const locations = content?.locations ? content.locations : [];
+
+    // Generate LocalBusiness schema for each location
+    const locationSchemas = locations.map(location =>
+        generateLocalBusinessSchema({
+            name: `Autoways - ${location.name}`,
+            address: location.address,
+            phone: location.phone,
+            description: location.info,
+        })
+    ).filter(Boolean);
+
     return (
         <>
         <SEO
@@ -16,6 +29,7 @@ const Locations = () => {
             url="/locations"
             type="website"
         />
+        {locationSchemas.length > 0 && <StructuredData schema={locationSchemas} />}
         <div className="min-h-screen bg-primary">
             <div className="max-w-7xl mx-auto px-4 lg:px-6 py-8 lg:py-12">
                 {/* Header Section */}

@@ -535,17 +535,23 @@ const deleteGalleryFiles = async (imagePath) => {
 */
 const processTestimonialFiles = async (testimonialData) => {
     try {
-        const { image, name } = testimonialData;
+        const { image, video, name } = testimonialData;
         
         let savedImagePath = image;
         if (image && image.startsWith('data:')) {
             const cleanName = cleanFileName(name);
             savedImagePath = await saveImageGeneric(image, 'testimonials', `testimonial_${cleanName}_${Date.now()}`);
         }
-        
+        let savedVideoPath = video;
+        if (video && typeof video === 'string' && video.startsWith('data:')) {
+            const cleanName = cleanFileName(name);
+            savedVideoPath = await saveVideoGeneric(video, 'testimonials', `testimonial_${cleanName}_${Date.now()}`);
+        }
+
         return {
             ...testimonialData,
-            image: savedImagePath
+            image: savedImagePath,
+            video: savedVideoPath
         };
     } catch (error) {
         logger.error('Error processing testimonial files:', error);
