@@ -172,7 +172,7 @@ const ProductDetails = () => {
                             <div>
                                 <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-secondary mb-4 leading-tight tracking-tight">{product?.name}</h1>
 
-                                <div className="inline-flex items-center gap-2 px-3 py-1 bg-accent/50 border border-accent rounded-full text-sm font-semibold text-secondary">
+                                <div className="inline-flex items-center gap-2 px-3 py-1 bg-accent/50 border border-accent rounded-full text-xs font-semibold text-secondary">
                                     {getFuelTypeIcon(product?.fuelType)}
                                     <span>{getFuelTypeLabel(product?.fuelType)}</span>
                                 </div>

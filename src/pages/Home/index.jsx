@@ -71,8 +71,8 @@ const Home = () => {
         )}
 
         {/* Clients Section - Trusted by leading organizations */}
-        {content.clients && Object.keys(content.clients).length > 0 && (
-          <ClientsSection clients={content.clients} />
+        {content.clients && content.brands.length > 0 && (
+          <ClientsSection clients={content.brands} stats={content.aboutUs?.[0]?.stats || {}} />
         )}
 
         {/* CTA Section - Get in touch */}

@@ -13,10 +13,10 @@ const Locations = () => {
     // Generate LocalBusiness schema for each location
     const locationSchemas = locations.map(location =>
         generateLocalBusinessSchema({
-            name: `Autoways - ${location.name}`,
+            name: `Autoways ${location.info} - ${location.name}`,
             address: location.address,
             phone: location.phone,
-            description: location.info,
+            position: location.position,
         })
     ).filter(Boolean);
 

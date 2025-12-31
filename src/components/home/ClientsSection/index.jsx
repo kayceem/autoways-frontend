@@ -2,15 +2,9 @@ import "./index.css";
 import WaveBackground from "../../common/WaveBackground";
 import { assetUrl } from '../../../utils';
 
-const ClientsSection = ({ clients = {}, className = "" }) => {
-    // Convert clients object to array
-    const clientArray = Object.entries(clients).map(([key, client]) => ({
-        id: key,
-        ...client,
-    }));
-
+const ClientsSection = ({ clients = [], stats = {}, className = "" }) => {
     // Duplicate the array for seamless infinite scroll
-    const duplicatedClients = [...clientArray, ...clientArray];
+    const duplicatedClients = [...clients, ...clients];
 
     return (
         <section className={`relative py-12 lg:py-32 px-4 lg:px-6 bg-primary overflow-hidden ${className}`}>
@@ -31,7 +25,7 @@ const ClientsSection = ({ clients = {}, className = "" }) => {
                 className="hidden lg:block"
             />
 
-            <div className="max-w-7xl mx-auto relative z-10">
+            <div className="w-full mx-auto relative z-10">
                 {/* Section Header */}
                 <div className="text-center mb-8 lg:mb-16">
                     <h2 className="text-2xl lg:text-5xl font-bold text-secondary mb-3 lg:mb-4">
@@ -61,7 +55,7 @@ const ClientsSection = ({ clients = {}, className = "" }) => {
                                         assetUrl(client.logo) ||
                                         assetUrl(client.image)
                                     }
-                                    alt={client.name || `Client ${client.id}`}
+                                    alt={client.name || 'Client Logo'}
                                     className="max-w-full max-h-full object-contain grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300"
                                     title={client.name}
                                 />
@@ -75,7 +69,7 @@ const ClientsSection = ({ clients = {}, className = "" }) => {
                     <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-12">
                         <div className="text-center">
                             <div className="text-3xl lg:text-6xl font-bold text-secondary mb-2 lg:mb-3">
-                                1000+
+                                {stats?.happyCustomers || '1000+'}
                             </div>
                             <div className="text-sm lg:text-lg text-secondary font-medium">
                                 Happy Clients
@@ -99,7 +93,7 @@ const ClientsSection = ({ clients = {}, className = "" }) => {
                         </div>
                         <div className="text-center">
                             <div className="text-3xl lg:text-6xl font-bold text-secondary mb-2 lg:mb-3">
-                                20+
+                                {stats?.yearsExperience || '20+'}
                             </div>
                             <div className="text-sm lg:text-lg text-secondary font-medium">
                                 Years Experience
