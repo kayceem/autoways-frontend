@@ -48,13 +48,13 @@ const CSR = () => {
                 {hero.description}
               </p>
             </div>
-            <div className="relative h-48 lg:h-auto lg:min-h-92 inset-0 rounded-lg shadow-2xl bg-secondary overflow-hidden">
+            <div className="relative inset-0 rounded-lg bg-secondary shadow-2xl overflow-hidden">
               {hero?.image && (
-                <Suspense fallback={<ShimmerFallback />}>
+                <Suspense fallback={<ShimmerFallback/>}>
                   <SuspenseImage
                     src={assetUrl(hero.image)}
                     alt="CSR Hero"
-                    className="w-full h-full object-cover"
+                    className="aspect-[16/9] lg:aspect-16/9 w-full h-full object-cover lg:object-fit rounded-lg"
                   />
                 </Suspense>
               )}
