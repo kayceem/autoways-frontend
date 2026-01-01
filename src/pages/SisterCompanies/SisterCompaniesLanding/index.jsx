@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { useParams, useNavigate, Navigate } from "react-router-dom";
+import { useParams, Navigate, Link } from "react-router-dom";
 import LoadingSpinner from "../../../components/common/Loading";
 import { SuspenseImage, ShimmerFallback } from "../../../components/common/SuspenseImage";
 import { getSisterCompanyData, assetUrl } from "../../../utils";
@@ -10,7 +10,6 @@ import { sanitizeMetaDescription } from "../../../utils/seoHelpers";
 
 const SisterCompaniesLanding = () => {
     const { companySlug } = useParams();
-    const navigate = useNavigate();
     const { content, isLoading, error } = useContent();
 
     const companyData = !isLoading && !error ? getSisterCompanyData(content?.sisterCompanies, companySlug) : null;
@@ -208,12 +207,12 @@ const SisterCompaniesLanding = () => {
             {/* Back to Sister Companies */}
             <section className="py-10 px-4 lg:px-6">
                 <div className="max-w-4xl mx-auto text-center">
-                    <button
-                        onClick={() => navigate("/sister-companies")}
+                    <Link
+                        to="/sister-companies"
                         className="inline-flex items-center gap-2 px-8 py-4 bg-accent text-dark font-bold rounded-lg hover:bg-opacity-90 transition-all duration-300 hover:scale-105 shadow-lg"
                     >
                         All Sister Companies
-                    </button>
+                    </Link>
                 </div>
             </section>
         </div>

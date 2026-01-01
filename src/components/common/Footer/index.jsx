@@ -10,7 +10,8 @@ const Footer = ({ className = "" }) => {
     const info = contactInfo?.length > 0 ? contactInfo[0] : {};
     const { email = "", phone = "", address = "", corporate_address = "",socialLinks = {} } = info;
 
-    const currentYear = new Date().getFullYear();
+    // Use fixed year to avoid hydration mismatch between server and client
+    const currentYear = 2026;
 
     return (
         <footer className={`bg-primary-autoways border-t border-primary ${className}`}>
