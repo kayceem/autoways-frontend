@@ -1,7 +1,5 @@
-const fs = require('fs/promises');
-const path = require('path');
 const logger = require('../utils/logger');
-
+const { getData, refreshCacheInBackground} = require('../utils/cacheHandler');
 const {
     HeroImage,
     AboutUs,
@@ -26,8 +24,6 @@ const {
 const {
     processProductFiles,
     deleteProductFiles,
-    deleteImage,
-    deletePDF,
     processHeroImageFiles,
     deleteHeroImageFiles,
     processProductTypeFiles,
@@ -50,177 +46,24 @@ const {
     processGalleryFiles,
     deleteGalleryFiles
 } = require('./utils.js');
-const { create } = require('domain');
-const { log } = require('console');
 
-const DATA_FILE_PATH = path.join(__dirname, '..', 'assets', 'data.json');
-const BASE_CHANGES_DIR = path.join(__dirname, '..', 'logs', 'data');
-
-try {
-    fs.mkdir(BASE_CHANGES_DIR, { recursive: true }).catch((err) => {
-        logger.error('Error creating data changes directory:', err);
-    });
-    fs.mkdir(path.dirname(DATA_FILE_PATH), { recursive: true }).catch((err) => {
-        logger.error('Error creating data changes directory:', err);
-    });
-} catch (error) {
-    logger.error('Error creating data changes directory:', error);
-}
-// ==================== UTILITY FUNCTIONS ====================
 const asyncHandler = (fn) => (req, res, next) => {
     Promise.resolve(fn(req, res, next)).catch(next);
 };
 
-// Check if data.json exists
-const checkDataFileExists = async () => {
-    try {
-        await fs.access(DATA_FILE_PATH);
-        return true;
-    } catch {
-        return false;
-    }
-};
-
-// Read data from data.json
-const readDataFile = async () => {
-    const data = await fs.readFile(DATA_FILE_PATH, 'utf-8');
-    return JSON.parse(data);
-};
-
-// Write data to data.json
-const writeDataFile = async (data) => {
-    try {
-        const oldData = await readDataFile().catch(() => null);
-        if (oldData) {
-            const changesFilePath = path.join(BASE_CHANGES_DIR, `${Date.now()}.json`);
-            await fs.writeFile(changesFilePath, JSON.stringify(oldData, null, 2), 'utf-8');
-
-            try {
-                const existingFiles = await fs.readdir(BASE_CHANGES_DIR);
-                const jsonFiles = existingFiles
-                    .filter(file => file.endsWith('.json'))
-                    .sort((a, b) => b.localeCompare(a));
-
-                if (jsonFiles.length > 5) {
-                    const filesToDelete = jsonFiles.slice(5);
-                    await Promise.all(
-                        filesToDelete.map(file => fs.unlink(path.join(BASE_CHANGES_DIR, file)))
-                    );
-                }
-            } catch (err) {
-                logger.error('Error cleaning up old backup files:', err);
-            }
-        }
-    } catch (error) {
-        logger.error('Error reading old data.json file:', error);
-    }
-    await fs.writeFile(DATA_FILE_PATH, JSON.stringify(data, null, 2), 'utf-8');
-};
-
-// Fetch all data from database
-const fetchAllDataFromDB = async () => {
-    const [
-        heroImages,
-        aboutUs,
-        contactInfo,
-        locations,
-        products,
-        brands,
-        partners,
-        clients,
-        newsArticles,
-        testimonials,
-        csrInitiatives,
-        csrHero,
-        sisterCompanies,
-        spareParts,
-        customers,
-        gallery,
-        careers
-    ] = await Promise.all([
-        HeroImage.find(),
-        AboutUs.find(),
-        ContactInfo.find(),
-        Location.find(),
-        Product.find(),
-        Brand.find(),
-        Partner.find(),
-        Client.find(),
-        NewsArticle.find(),
-        Testimonial.find(),
-        CSRInitiative.find(),
-        CSRHero.find(),
-        SisterCompany.find(),
-        SparePart.find(),
-        Customer.find().populate('tickets'),
-        Gallery.find(),
-        Career.find()
-    ]);
-
-    const csr = {
-        initiatives : csrInitiatives,
-        hero : csrHero,
-    }
-    let logos = {};
-    try {
-        logos = [...brands, ...sisterCompanies].reduce((acc, item) => {
-            if (item.slug && item.logo) {
-                acc[item.slug] = item.logo;
-            }
-            return acc;
-        }, {});
-    } catch (error) {
-        logger.error('Error processing logos:', error);
-    }
-    return {
-        logos,
-        heroImages,
-        aboutUs,
-        contactInfo,
-        locations,
-        products,
-        brands,
-        partners,
-        clients,
-        newsArticles,
-        testimonials,
-        csr,
-        sisterCompanies,
-        spareParts,
-        customers,
-        gallery,
-        careers
-    };
-};
-
 // ==================== GET ALL DATA ====================
 const getAllData = asyncHandler(async (req, res) => {
-    const fileExists = await checkDataFileExists();
-
-    if (fileExists) {
-        const data = await readDataFile();
-        return res.json({
-            success: true,
-            cached: true,
-            data
-        });
-    }
-
-    const data = await fetchAllDataFromDB();
-    await writeDataFile(data);
-
+    const { data, source } = await getData();
     res.json({
         success: true,
-        cached: false,
+        cached: source !== 'database',
         data
     });
 });
 
 // ==================== REFRESH CACHE ====================
 const refreshCache = asyncHandler(async (req, res) => {
-    const data = await fetchAllDataFromDB();
-    await writeDataFile(data);
-
+    const data = await refreshCacheInBackground(true);
     res.json({
         success: true,
         message: 'Cache refreshed successfully',
@@ -781,7 +624,8 @@ const updateAboutUs = asyncHandler(async (req, res) => {
         return res.status(404).json({ success: false, error: 'About us not found' });
     }
 
-    const oldData = aboutUs.toObject();
+    const oldData = aboutUs;
+    
     let processedData;
     try {
         processedData = await processAboutUsFiles(req.body);
@@ -798,8 +642,7 @@ const updateAboutUs = asyncHandler(async (req, res) => {
         { new: true, runValidators: true }
     );
 
-    // Clean up old files that are no longer used
-    // await deleteAboutUsFiles(oldData);
+    await deleteAboutUsFiles(oldData, processedData);
 
     await refreshCacheInBackground();
     res.json({
@@ -955,19 +798,17 @@ const updateProduct = asyncHandler(async (req, res) => {
   
   // Clean up old files that are no longer used
   const newImages = processedData.images || [];
-  const removedImages = oldImages.filter(img => !newImages.includes(img));
-  
-  if (removedImages.length > 0) {
-    await Promise.all(removedImages.map(img => deleteImage(img)));
-  }
+  const filesToDelete = oldImages.filter(img => !newImages.includes(img));
   
   if (oldBrochure && oldBrochure !== processedData.brochureUrl) {
-    await deletePDF(oldBrochure);
+    filesToDelete.push(oldBrochure);
   }
   
   if (oldSpecSheet && oldSpecSheet !== processedData.specSheetUrl) {
-    await deletePDF(oldSpecSheet);
+    filesToDelete.push(oldSpecSheet);
   }
+  
+  await deleteProductFiles(filesToDelete);
   
   await refreshCacheInBackground();
   
@@ -986,13 +827,11 @@ const deleteProduct = asyncHandler(async (req, res) => {
   }
   
   // Delete all associated files
-  await deleteProductFiles(
-    product.brand,
-    product.name,
-    product.images,
+  await deleteProductFiles([
+    ...product.images,
     product.brochureUrl,
     product.specSheetUrl
-  );
+  ]);
   
   // Delete product from database
   await product.deleteOne();
@@ -1026,15 +865,10 @@ const createBrand = asyncHandler(async (req, res) => {
 });
 
 const updateBrand = asyncHandler(async (req, res) => {
-    let brand = await Brand.findById(req.params.id);
-    if (!brand) {
+    let oldData = await Brand.findById(req.params.id);
+    if (!oldData) {
         return res.status(404).json({ success: false, error: 'Brand not found' });
     }
-
-    const oldHeroImage = brand.heroImage;
-    const oldLogo = brand.logo;
-    const oldVideo = brand.video || null;
-    const oldImages = brand.images || [];
 
     let processedData;
     try {
@@ -1046,29 +880,13 @@ const updateBrand = asyncHandler(async (req, res) => {
         });
     }
 
-    brand = await Brand.findByIdAndUpdate(
+    const brand = await Brand.findByIdAndUpdate(
         req.params.id,
         processedData,
         { new: true, runValidators: true }
     );
 
-    // Clean up old files that are no longer used
-    if (oldHeroImage && oldHeroImage !== processedData.heroImage) {
-        await deleteBrandFiles(oldHeroImage, null, [],  null, null);
-    }
-    if (oldLogo && oldLogo !== processedData.logo) {
-        await deleteBrandFiles(null, oldLogo, [], null, null);
-    }
-    if (oldVideo && oldVideo !== processedData.video) {
-        await deleteBrandFiles(null, null, [], null, oldVideo);
-    }
-    if (oldImages.length > 0) {
-        const newImages = processedData.images || [];
-        const removedImages = oldImages.filter(img => !newImages.includes(img));
-        if (removedImages.length > 0) {
-            await deleteBrandFiles(null, null, removedImages, null, null);
-        }
-    }
+    await deleteBrandFiles(oldData, processedData);
 
     await refreshCacheInBackground();
     res.json({
@@ -1082,8 +900,8 @@ const deleteBrand = asyncHandler(async (req, res) => {
     if (!brand) {
         return res.status(404).json({ success: false, error: 'Brand not found' });
     }
-
-    await deleteBrandFiles(brand.heroImage, brand.logo, brand.images, brand.productTypes, brand.video);
+    
+    await deleteBrandFiles(brand);
     await refreshCacheInBackground();
     res.json({
         success: true,
@@ -1254,10 +1072,10 @@ const deleteProductType = asyncHandler(async (req, res) => {
         return res.status(404).json({ success: false, error: 'Product type not found' });
     }
 
-    const productType = brand.productTypes[typeIndex];
-    if (productType) {
-        await deleteBrandFiles(null, null, [], productType, null);
-    }
+    // const productType = brand.productTypes[typeIndex];
+    // if (productType) {
+    //     await deleteBrandFiles();
+    // }
     brand.productTypes.splice(typeIndex, 1);
     
     await brand.save();
@@ -1532,13 +1350,14 @@ const updateTestimonial = asyncHandler(async (req, res) => {
         { new: true, runValidators: true }
     );
 
+    const filesToDelete = [];
     if (oldImage && oldImage !== processedData.image) {
-        await deleteTestimonialFiles(oldImage, null);
+        filesToDelete.push(oldImage);
     }
     if (oldVideo && oldVideo !== processedData.video) {
-        await deleteTestimonialFiles(null, oldVideo);
+        filesToDelete.push(oldVideo);
     }
-
+    await deleteTestimonialFiles(filesToDelete);
     await refreshCacheInBackground();
     res.json({
         success: true,
@@ -1552,7 +1371,9 @@ const deleteTestimonial = asyncHandler(async (req, res) => {
         return res.status(404).json({ success: false, error: 'Testimonial not found' });
     }
 
-    await deleteTestimonialFiles(testimonial.image, testimonial.video);
+
+    const filesToDelete = [testimonial.image, testimonial.video];
+    await deleteTestimonialFiles(filesToDelete);
     await refreshCacheInBackground();
     res.json({
         success: true,
@@ -1739,12 +1560,14 @@ const updateSisterCompany = asyncHandler(async (req, res) => {
         { new: true, runValidators: true }
     );
 
+    const filesToDelete = [];
     if (oldLogo && oldLogo !== processedData.logo) {
-        await deleteSisterCompanyFiles(oldLogo, null);
+        filesToDelete.push(oldLogo);
     }
     if (oldImage && oldImage !== processedData.image) {
-        await deleteSisterCompanyFiles(null, oldImage);
+        filesToDelete.push(oldImage);
     }
+    await deleteSisterCompanyFiles(filesToDelete);
 
     await refreshCacheInBackground();
     res.json({
@@ -1758,8 +1581,8 @@ const deleteSisterCompany = asyncHandler(async (req, res) => {
     if (!sisterCompany) {
         return res.status(404).json({ success: false, error: 'Sister company not found' });
     }
-
-    await deleteSisterCompanyFiles(sisterCompany.logo, sisterCompany.image);
+    const filesToDelete = [sisterCompany.logo, sisterCompany.image];
+    await deleteSisterCompanyFiles(filesToDelete);
     await refreshCacheInBackground();
     res.json({
         success: true,
@@ -1792,8 +1615,6 @@ const updateSparePart = asyncHandler(async (req, res) => {
         return res.status(404).json({ success: false, error: 'Spare part not found' });
     }
     
-    const oldImage = sparePart.image;
-    const oldParts = sparePart.parts || [];
     let processedData;
     try {
         processedData = await processSparePartFiles(req.body);
@@ -1810,10 +1631,7 @@ const updateSparePart = asyncHandler(async (req, res) => {
         { new: true, runValidators: true }
     );
     
-    // Clean up old files that are no longer used
-    if (oldImage && oldImage !== processedData.image) {
-        await deleteSparePartFiles(oldImage, []);
-    }
+    await deleteSparePartFiles(sparePart, processedData);
     
     await refreshCacheInBackground();
     res.json({
@@ -1828,7 +1646,7 @@ const deleteSparePart = asyncHandler(async (req, res) => {
         return res.status(404).json({ success: false, error: 'Spare part not found' });
     }
     
-    await deleteSparePartFiles(sparePart.image, sparePart.parts);
+    await deleteSparePartFiles(sparePart);
     await refreshCacheInBackground();
     res.json({
         success: true,
@@ -1871,16 +1689,6 @@ const getCareers = asyncHandler(async (req, res) => {
     });
 });
 
-
-// ==================== HELPER FUNCTION ====================
-const refreshCacheInBackground = async () => {
-    try {
-        const data = await fetchAllDataFromDB();
-        await writeDataFile(data);
-    } catch (error) {
-        logger.error('Error refreshing cache:', error);
-    }
-};
 
 // ==================== EXPORTS ====================
 module.exports = {
