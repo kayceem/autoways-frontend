@@ -17,7 +17,8 @@ import {
   Wrench,
   Building2,
   User,
-  Briefcase
+  Briefcase,
+  FileText
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 
@@ -44,6 +45,7 @@ const AdminLayout = () => {
     { path: '/admin/gallery', label: 'Gallery', icon: Image },
     { path: '/admin/spare-parts', label: 'Spare Parts', icon: Wrench },
     { path: '/admin/careers', label: 'Careers', icon: Briefcase },
+    { path: '/admin/logs', label: 'System Logs', icon: FileText },
   ];
 
   const handleLogout = () => {

@@ -1,24 +1,35 @@
-const fs = require('fs');
+const fsp = require('fs').promises;
 const path = require('path');
-const { promisify } = require('util');
 const sharp = require('sharp');
 const logger = require('../utils/logger');
-const { randomUUID } = require('crypto');
-
-const writeFile = promisify(fs.writeFile);
-const mkdir = promisify(fs.mkdir);
-const unlink = promisify(fs.unlink);
-const readdir = promisify(fs.readdir);
+const { randomUUID, createHash } = require('crypto');
 
 const ASSETS_DIR = path.join(__dirname, '..', 'assets');
 
+// Default image sizes for different use cases
+const IMAGE_SIZES = {
+  hero: { width: 1600, height: 900, fit: 'cover' },
+  thumbnail: { width: 400, height: 300, fit: 'cover' },
+  logo: { width: 600, height: 600, fit: 'inside', withoutEnlargement: false },
+  portrait: { width: 600, height: 800, fit: 'cover' },
+  gallery: { width: 1200, height: 800, fit: 'cover' },
+  default: { width: 1600, height: 900, fit: 'cover' }
+};
+
+/**
+ * Generate a short fingerprint hash from buffer content
+ * Uses first 8 characters of SHA-256 hash for cache-busting
+ */
+const generateFingerprint = (buffer) => {
+  return createHash('sha256').update(buffer).digest('hex').slice(0, 8);
+};
 
 /**
  * Clean filename to be filesystem-safe
  */
 const cleanFileName = (name) => {
   if (!name || typeof name !== 'string') {
-    return randomUUID();
+    return randomUUID().slice(0, 12);
   }
   return name
     .toLowerCase()
@@ -27,11 +38,42 @@ const cleanFileName = (name) => {
     .replace(/^_|_$/g, '');
 };
 
+
+/**
+ * Check if file was replaced between old and new paths
+ */
+const wasReplaced = (oldPath, newPath) => oldPath && newPath && oldPath !== newPath;
+
+/**
+ * Find images in oldArray that are not present in newArray
+ * Compares by image path - if old image path not in new array, it was replaced/removed
+ * If newArray is undefined, the field wasn't changed - return empty (no deletions)
+ * If newArray is empty array [], all items were removed - return all old images
+ */
+const getReplacedArrayFiles = (oldArray, newArray, isImageArray = false) => {
+  const getImage = isImageArray ? (item) => item : (item) => item?.image;
+  if (!oldArray?.length) return [];
+  if (newArray === undefined) return [];
+
+  const oldImages = oldArray.map(getImage).filter(Boolean);
+  if (!newArray.length) return oldImages;
+
+  const newImagesSet = new Set(newArray.map(getImage).filter(Boolean));
+  const replaced = [];
+
+  for (const oldImage of oldImages) {
+    if (!newImagesSet.has(oldImage)) {
+      replaced.push(oldImage);
+    }
+  }
+
+  return replaced;
+};
+
 /**
  * Extract base64 data and extension from data URI
  */
 const parseBase64 = (dataUri) => {
-  // Updated regex to handle all valid MIME types including video
   const matches = dataUri.match(/^data:([A-Za-z0-9-+\/\.]+);base64,(.+)$/);
   if (!matches || matches.length !== 3) {
     throw new Error('Invalid base64 data');
@@ -39,858 +81,705 @@ const parseBase64 = (dataUri) => {
 
   const mimeType = matches[1];
   const base64Data = matches[2];
+  const ext = mimeType.split('/')[1]?.split('+')[0];
 
-  // Get extension from MIME type
-  // Handle extensions like 'mp4', 'webp', 'jpeg', etc.
-  const mimeTypeParts = mimeType.split('/');
-  if (mimeTypeParts.length < 2) {
+  if (!ext) {
     throw new Error('Invalid MIME type format');
   }
-  const ext = mimeTypeParts[1].split('+')[0];
 
   return { base64Data, ext, mimeType };
 };
 
 /**
- * Save image to filesystem
+ * Check if value is base64 data URI
  */
-const saveImage = async (base64Image, brandName, productName, index) => {
+const isBase64 = (value) => {
+  return typeof value === 'string' && value.startsWith('data:');
+};
+
+/**
+ * Delete file from filesystem (unified delete for images, PDFs, videos)
+ */
+const deleteFile = async (filePath) => {
+  if (!filePath) return;
+
+  try {
+    const fullPath = path.join(__dirname, '..', filePath);
+    await fsp.access(fullPath);
+    await fsp.unlink(fullPath);
+  } catch (error) {
+    if (error.code !== 'ENOENT') {
+      logger.error('Error deleting file:', { filePath, error: error.message });
+    }
+  }
+};
+
+/**
+ * Delete multiple files in parallel
+ */
+const deleteFiles = async (filePaths) => {
+  if (!filePaths || !Array.isArray(filePaths)) return;
+  await Promise.all(filePaths.filter(Boolean).map(deleteFile));
+};
+
+/**
+ * Save image to filesystem with WebP conversion and fingerprinting
+ *
+ * @param {string} base64Image - Base64 encoded image data
+ * @param {string} dirPath - Directory path relative to assets/images/
+ * @param {string} fileName - Base filename (without extension)
+ * @param {object|string} sizeConfig - Size preset name or custom config { width, height, fit, withoutEnlargement }
+ * @returns {string} Relative path for database storage
+ */
+const saveImage = async (base64Image, dirPath, fileName, sizeConfig = null) => {
   try {
     const { base64Data } = parseBase64(base64Image);
-
-    const cleanBrand = cleanFileName(brandName);
-    const cleanProduct = cleanFileName(productName);
-
-    // Create directory path
-    const imageDir = path.join(ASSETS_DIR, 'images', 'brand', cleanBrand);
-    await mkdir(imageDir, { recursive: true });
-
-    // Create filename with .webp extension
-    const fileName = `${cleanProduct}_${index}.webp`;
-    const filePath = path.join(imageDir, fileName);
-
-    // Convert buffer to WebP with lossless compression
     const buffer = Buffer.from(base64Data, 'base64');
-    const compressedBuffer = await sharp(buffer)
-      .webp({ lossless: true })
+
+    // Get size configuration
+    const size = typeof sizeConfig === 'string'
+      ? IMAGE_SIZES[sizeConfig] || IMAGE_SIZES.default
+      : sizeConfig;
+
+    // Create directory
+    const imageDir = path.join(ASSETS_DIR, 'images', dirPath);
+    await fsp.mkdir(imageDir, { recursive: true });
+
+    // Process image with sharp
+    let sharpInstance = sharp(buffer);
+
+    if (size) {
+      sharpInstance = sharpInstance.resize(size.width, size.height, {
+        fit: size.fit || 'cover',
+        position: 'center',
+        withoutEnlargement: size.withoutEnlargement !== false
+      });
+    }
+
+    const compressedBuffer = await sharpInstance
+      .webp({ quality: 82, effort: 6, smartSubsample: true })
       .toBuffer();
 
-    await writeFile(filePath, compressedBuffer);
+    // Generate fingerprint and save
+    const fingerprint = generateFingerprint(compressedBuffer);
+    const fullFileName = `${fileName}.${fingerprint}.webp`;
+    const filePath = path.join(imageDir, fullFileName);
 
-    // Return relative path for database
-    return `/assets/images/brand/${cleanBrand}/${fileName}`;
+    await fsp.writeFile(filePath, compressedBuffer);
+
+    return `/assets/images/${dirPath}/${fullFileName}`;
   } catch (error) {
-    logger.error('Error saving image:', error);
+    logger.error('Error saving image:', { dirPath, fileName, error: error.message });
     throw new Error(`Failed to save image: ${error.message}`);
   }
 };
 
 /**
- * Save PDF to filesystem
+ * Save PDF to filesystem with fingerprinting
  */
-const savePDF = async (base64PDF, brandName, productName, type) => {
+const savePDF = async (base64PDF, dirPath, fileName) => {
+  if (!base64PDF) return null;
+
   try {
-    if (!base64PDF) return null;
-    
     const { base64Data } = parseBase64(base64PDF);
-    
-    const cleanBrand = cleanFileName(brandName);
-    const cleanProduct = cleanFileName(productName);
-    
-    // Create directory path
-    const pdfDir = path.join(ASSETS_DIR, 'pdf', 'brand', cleanBrand, cleanProduct);
-    await mkdir(pdfDir, { recursive: true });
-    
-    // Create filename based on type (brochure or specs)
-    const fileName = type === 'brochure' ? 'brochure.pdf' : 'specs.pdf';
-    const filePath = path.join(pdfDir, fileName);
-    
-    // Write file
     const buffer = Buffer.from(base64Data, 'base64');
-    await writeFile(filePath, buffer);
-    
-    // Return relative path for database
-    return `/assets/pdf/brand/${cleanBrand}/${cleanProduct}/${fileName}`;
+
+    const pdfDir = path.join(ASSETS_DIR, 'pdf', dirPath);
+    await fsp.mkdir(pdfDir, { recursive: true });
+
+    const fingerprint = generateFingerprint(buffer);
+    const fullFileName = `${fileName}.${fingerprint}.pdf`;
+    const filePath = path.join(pdfDir, fullFileName);
+
+    await fsp.writeFile(filePath, buffer);
+
+    return `/assets/pdf/${dirPath}/${fullFileName}`;
   } catch (error) {
-    logger.error('Error saving PDF:', error);
+    logger.error('Error saving PDF:', { dirPath, fileName, error: error.message });
     throw new Error(`Failed to save PDF: ${error.message}`);
   }
 };
 
 /**
- * Delete image from filesystem
+ * Save video to filesystem with fingerprinting
  */
-const deleteImage = async (imagePath) => {
-  try {
-    if (!imagePath) return;
-    
-    const fullPath = path.join(__dirname, '..', imagePath);
-    
-    if (fs.existsSync(fullPath)) {
-      await unlink(fullPath);
-    }
-  } catch (error) {
-    logger.error('Error deleting image:', error);
-    // Don't throw error for cleanup operations
+const saveVideo = async (base64Video, dirPath, fileName) => {
+  if (!base64Video || typeof base64Video !== 'string') {
+    throw new Error('Invalid video data');
   }
-};
 
-/**
- * Delete PDF from filesystem
- */
-const deletePDF = async (pdfPath) => {
   try {
-    if (!pdfPath) return;
-
-    const fullPath = path.join(__dirname, '..', pdfPath);
-
-    if (fs.existsSync(fullPath)) {
-      await unlink(fullPath);
-    }
-  } catch (error) {
-    logger.error('Error deleting PDF:', error);
-    // Don't throw error for cleanup operations
-  }
-};
-
-/**
- * Delete video from filesystem
- */
-const deleteVideo = async (videoPath) => {
-  try {
-    if (!videoPath) return;
-
-    const fullPath = path.join(__dirname, '..', videoPath);
-
-    if (fs.existsSync(fullPath)) {
-      await unlink(fullPath);
-    }
-  } catch (error) {
-    logger.error('Error deleting video:', error);
-    // Don't throw error for cleanup operations
-  }
-};
-
-/**
- * Delete all product files
- */
-const deleteProductFiles = async (brandName, productName, images, brochureUrl, specSheetUrl) => {
-  try {
-    // Delete images
-    if (images && images.length > 0) {
-      await Promise.all(images.map(img => deleteImage(img)));
-    }
-    
-    // Delete PDFs
-    if (brochureUrl) await deletePDF(brochureUrl);
-    if (specSheetUrl) await deletePDF(specSheetUrl);
-    
-    // Try to remove empty directories
-    const cleanBrand = cleanFileName(brandName);
-    const cleanProduct = cleanFileName(productName);
-    
-    const pdfDir = path.join(ASSETS_DIR, 'pdf', 'brand', cleanBrand, cleanProduct);
-    const imageDir = path.join(ASSETS_DIR, 'images', 'brand', cleanBrand);
-    
-    // Remove directories if empty
-    try {
-      if (fs.existsSync(pdfDir)) {
-        const pdfFiles = await readdir(pdfDir);
-        if (pdfFiles.length === 0) {
-          fs.rmdirSync(pdfDir);
-        }
-      }
-    } catch (err) {
-      // Directory not empty or doesn't exist
-    }
-  } catch (error) {
-    logger.error('Error deleting product files:', error);
-  }
-};
-
-/**
- * Generic save image function with custom directory path
- */
-const saveImageGeneric = async (base64Image, dirPath, fileName, resize = false, size = { width: 1600, height: 900, fit: 'cover' }) => {
-  try {
-    const { base64Data } = parseBase64(base64Image);
-
-    // Create directory path
-    const imageDir = path.join(ASSETS_DIR, 'images', dirPath);
-    await mkdir(imageDir, { recursive: true });
-
-    // Create filename with .webp extension
-    const fullFileName = `${fileName}.webp`;
-    const filePath = path.join(imageDir, fullFileName);
-
-    // Convert buffer to WebP with optimized lossy compression
-    const buffer = Buffer.from(base64Data, 'base64');
-    const compressedBuffer = await sharp(buffer)
-      .resize(resize ? size.width : null, resize ? size.height : null, {
-          fit: size.fit || 'cover',
-          position: 'center',
-          withoutEnlargement: size.withoutEnlargement !== false // default true, set false to upscale
-      })
-      .webp({
-        quality: 82,      // 80-85 is visually lossless for most images
-        effort: 6,        // max compression effort (0-6)
-        smartSubsample: true // better color sampling
-      })
-      .toBuffer();
-
-    await writeFile(filePath, compressedBuffer);
-
-    // Return relative path for database
-    return `/assets/images/${dirPath}/${fullFileName}`;
-  } catch (error) {
-    logger.error('Error saving image:', error);
-    throw new Error(`Failed to save image: ${error.message}`);
-  }
-};
-const saveVideoGeneric = async (base64Video, dirPath, fileName) => {
-  try {
-    if (!base64Video || typeof base64Video !== 'string') {
-      throw new Error('Invalid video data: must be a non-empty string');
-    }
-
     const { base64Data, ext } = parseBase64(base64Video);
+    const buffer = Buffer.from(base64Data, 'base64');
 
-    // Create directory path
     const videoDir = path.join(ASSETS_DIR, 'videos', dirPath);
-    await mkdir(videoDir, { recursive: true });
+    await fsp.mkdir(videoDir, { recursive: true });
 
-    // Create filename
-    const fullFileName = `${fileName}.${ext}`;
+    const fingerprint = generateFingerprint(buffer);
+    const fullFileName = `${fileName}.${fingerprint}.${ext}`;
     const filePath = path.join(videoDir, fullFileName);
 
-    // Write file
-    const buffer = Buffer.from(base64Data, 'base64');
-    await writeFile(filePath, buffer);
+    await fsp.writeFile(filePath, buffer);
 
-    // Return relative path for database
     return `/assets/videos/${dirPath}/${fullFileName}`;
   } catch (error) {
-    logger.error('Error saving video:', error);
+    logger.error('Error saving video:', { dirPath, fileName, error: error.message });
     throw new Error(`Failed to save video: ${error.message}`);
   }
 };
 
 /**
- * Process product data and save files
- * Only processes fields that are present in productData to support partial updates
+ * Process a single image field - saves if base64, returns existing path otherwise
+ */
+const processImageField = async (image, dirPath, fileName, sizeConfig = null) => {
+  if (!image) return image;
+  if (!isBase64(image)) return image;
+  return saveImage(image, dirPath, fileName, sizeConfig);
+};
+
+/**
+ * Process an array of images in parallel
+ */
+const processImageArray = async (images, dirPath, fileNamePrefix, sizeConfig = null) => {
+  if (!images || !Array.isArray(images) || images.length === 0) return [];
+
+  return Promise.all(
+    images.map((image, index) =>
+      processImageField(image, dirPath, `${fileNamePrefix}_${index}`, sizeConfig)
+    )
+  );
+};
+
+// ============================================================================
+// Entity-specific processors
+// ============================================================================
+
+/**
+ * Process product files
  */
 const processProductFiles = async (productData) => {
-  try {
-    const result = { ...productData };
-
-    // Get required fields for file paths
-    const productName = productData.name;
-    const brandName = productData.brand;
-    if (!productName || !brandName) {
-      throw new Error('Product name and brand are required for processing files');
-    }
-
-    // Process images only if present
-    if (productData.images !== undefined) {
-      const savedImagePaths = [];
-      if (productData.images && productData.images.length > 0) {
-        for (let i = 0; i < productData.images.length; i++) {
-          const image = productData.images[i];
-          // Check if it's base64 data
-          if (image.startsWith('data:')) {
-            const savedPath = await saveImage(image, brandName, productName, i);
-            savedImagePaths.push(savedPath);
-          } else {
-            // Already a path, keep it
-            savedImagePaths.push(image);
-          }
-        }
-      }
-      result.images = savedImagePaths;
-    }
-
-    // Process brochure only if present
-    if (productData.brochureUrl !== undefined) {
-      if (productData.brochureUrl && productData.brochureUrl.startsWith('data:')) {
-        result.brochureUrl = await savePDF(productData.brochureUrl, brandName, productName, 'brochure');
-      }
-    }
-
-    // Process spec sheet only if present
-    if (productData.specSheetUrl !== undefined) {
-      if (productData.specSheetUrl && productData.specSheetUrl.startsWith('data:')) {
-        result.specSheetUrl = await savePDF(productData.specSheetUrl, brandName, productName, 'specs');
-      }
-    }
-
-    return result;
-  } catch (error) {
-    logger.error('Error processing product files:', error);
-    throw error;
+  const { name: productName, brand: brandName } = productData;
+  if (!productName || !brandName) {
+    throw new Error('Product name and brand are required');
   }
+
+  const cleanBrand = cleanFileName(brandName);
+  const cleanProduct = cleanFileName(productName);
+  const result = { ...productData };
+
+  // Process images in parallel
+  if (productData.images !== undefined) {
+    result.images = await processImageArray(
+      productData.images,
+      `brand/${cleanBrand}`,
+      cleanProduct
+    );
+  }
+
+  // Process PDFs in parallel
+  const pdfPromises = [];
+  if (productData.brochureUrl !== undefined && isBase64(productData.brochureUrl)) {
+    pdfPromises.push(
+      savePDF(productData.brochureUrl, `brand/${cleanBrand}/${cleanProduct}`, 'brochure')
+        .then(path => { result.brochureUrl = path; })
+    );
+  }
+  if (productData.specSheetUrl !== undefined && isBase64(productData.specSheetUrl)) {
+    pdfPromises.push(
+      savePDF(productData.specSheetUrl, `brand/${cleanBrand}/${cleanProduct}`, 'specs')
+        .then(path => { result.specSheetUrl = path; })
+    );
+  }
+  await Promise.all(pdfPromises);
+
+  return result;
+};
+
+/**
+ * Delete product files
+ */
+const deleteProductFiles = async (files) => {
+  if (!files || !Array.isArray(files)) return;
+  await deleteFiles(files);
 };
 
 /**
  * Process hero image files
  */
 const processHeroImageFiles = async (heroImageData) => {
-  try {
-    const { image, title } = heroImageData;
+  const { image, title } = heroImageData;
+  const cleanTitle = cleanFileName(title);
 
-    let savedImagePath = image;
-    if (image && image.startsWith('data:')) {
-      const cleanTitle = cleanFileName(title);
-      savedImagePath = await saveImageGeneric(image, 'hero', `hero_${cleanTitle}_${Date.now()}`, true);
-    }
-
-    return {
-      ...heroImageData,
-      image: savedImagePath
-    };
-  } catch (error) {
-    logger.error('Error processing hero image files:', error);
-    throw error;
-  }
+  return {
+    ...heroImageData,
+    image: await processImageField(image, 'hero', `hero_${cleanTitle}_${Date.now()}`, 'hero')
+  };
 };
 
 /**
  * Delete hero image files
  */
-const deleteHeroImageFiles = async (imagePath) => {
-  try {
-    if (imagePath) await deleteImage(imagePath);
-  } catch (error) {
-    logger.error('Error deleting hero image files:', error);
-  }
-};
+const deleteHeroImageFiles = async (imagePath) => deleteFile(imagePath);
 
 /**
- * Process product type files (within Brand)
+ * Process product type files
  */
 const processProductTypeFiles = async (productTypeData, brandName) => {
-  try {
-    const { image, type } = productTypeData;
+  const { image, type } = productTypeData;
+  const cleanBrand = cleanFileName(brandName);
+  const cleanType = cleanFileName(type);
 
-    let savedImagePath = image;
-    if (image && image.startsWith('data:')) {
-      const cleanBrand = cleanFileName(brandName);
-      const cleanType = cleanFileName(type);
-      savedImagePath = await saveImageGeneric(image, `brand/${cleanBrand}/product-types`, cleanType);
-    }
-
-    return {
-      ...productTypeData,
-      image: savedImagePath
-    };
-  } catch (error) {
-    logger.error('Error processing product type files:', error);
-    throw error;
-  }
+  return {
+    ...productTypeData,
+    image: await processImageField(image, `brand/${cleanBrand}/product-types`, cleanType)
+  };
 };
 
 /**
  * Process brand files
- * Only processes fields that are present in brandData to support partial updates
  */
 const processBrandFiles = async (brandData) => {
-  try {
-    const result = { ...brandData };
-
-    // Get brand name for file paths (required field)
-    const brandName = brandData.name;
-    if (!brandName) {
-      throw new Error('Brand name is required for processing files');
-    }
-    const cleanBrand = cleanFileName(brandName);
-
-    // Process hero image only if present
-    if (brandData.heroImage !== undefined) {
-      if (brandData.heroImage && brandData.heroImage.startsWith('data:')) {
-        result.heroImage = await saveImageGeneric(brandData.heroImage, `brand/${cleanBrand}`, 'hero', true);
-      }
-    }
-
-    // Process logo only if present
-    if (brandData.logo !== undefined) {
-      if (brandData.logo && brandData.logo.startsWith('data:')) {
-        result.logo = await saveImageGeneric(brandData.logo, `brand/${cleanBrand}`, 'logo', true, { width: 600, height: 600, fit: 'inside', withoutEnlargement: false });
-      }
-    }
-
-    // Process video only if present
-    if (brandData.video !== undefined) {
-      if (brandData.video && typeof brandData.video === 'string' && brandData.video.startsWith('data:')) {
-        result.video = await saveVideoGeneric(brandData.video, `brand/${cleanBrand}`, 'video');
-      } else if (brandData.video === '' || brandData.video === null) {
-        // Handle empty video field
-        result.video = '';
-      }
-      // If it's already a path (doesn't start with 'data:'), keep it as is
-    }
-
-    // Process additional images only if present
-    if (brandData.images !== undefined) {
-      const savedImagePaths = [];
-      if (brandData.images && brandData.images.length > 0) {
-        for (let i = 0; i < brandData.images.length; i++) {
-          const image = brandData.images[i];
-          if (image.startsWith('data:')) {
-            const savedPath = await saveImageGeneric(image, `brand/${cleanBrand}`, `image_${i}`);
-            savedImagePaths.push(savedPath);
-          } else {
-            savedImagePaths.push(image);
-          }
-        }
-      }
-      result.images = savedImagePaths;
-    }
-
-    return result;
-  } catch (error) {
-    logger.error('Error processing brand files:', error);
-    throw error;
+  const { name: brandName } = brandData;
+  if (!brandName) {
+    throw new Error('Brand name is required');
   }
+
+  const cleanBrand = cleanFileName(brandName);
+  const dirPath = `brand/${cleanBrand}`;
+  const result = { ...brandData };
+
+  // Process all media in parallel
+  const promises = [];
+
+  if (brandData.heroImage !== undefined && isBase64(brandData.heroImage)) {
+    promises.push(
+      saveImage(brandData.heroImage, dirPath, 'hero', 'hero')
+        .then(path => { result.heroImage = path; })
+    );
+  }
+
+  if (brandData.logo !== undefined && isBase64(brandData.logo)) {
+    promises.push(
+      saveImage(brandData.logo, dirPath, 'logo', 'logo')
+        .then(path => { result.logo = path; })
+    );
+  }
+
+  if (brandData.video !== undefined) {
+    if (isBase64(brandData.video)) {
+      promises.push(
+        saveVideo(brandData.video, dirPath, 'video')
+          .then(path => { result.video = path; })
+      );
+    } else if (brandData.video === '' || brandData.video === null) {
+      result.video = '';
+    }
+  }
+
+  if (brandData.images !== undefined) {
+    promises.push(
+      processImageArray(brandData.images, dirPath, 'image')
+        .then(paths => { result.images = paths; })
+    );
+  }
+
+  await Promise.all(promises);
+  return result;
 };
 
 /**
- * Delete brand files
+ * Delete brand files - only deletes files that have been replaced
+ * If newData is not provided (delete operation), deletes all files
  */
-const deleteBrandFiles = async (heroImage, logo, images, productType, video) => {
-  try {
-    if (heroImage) await deleteImage(heroImage);
-    if (logo) await deleteImage(logo);
+const deleteBrandFiles = async (oldData, newData) => {
+  const filesToDelete = [];
 
-    if (images && images.length > 0) {
-      await Promise.all(images.map(img => deleteImage(img)));
+  if (!newData) {
+    // Delete operation - delete all files
+    if (oldData.heroImage) filesToDelete.push(oldData.heroImage);
+    if (oldData.logo) filesToDelete.push(oldData.logo);
+    if (oldData.video) filesToDelete.push(oldData.video);
+    if (oldData.images?.length) filesToDelete.push(...oldData.images);
+    if (oldData.productTypes?.length) {
+      filesToDelete.push(...oldData.productTypes.map(pt => pt.image).filter(Boolean));
     }
-    if (productType) {
-      await deleteImage(productType.image);
+  } else {
+    // Update operation - only delete replaced files
+    if (wasReplaced(oldData.heroImage, newData.heroImage)) {
+      filesToDelete.push(oldData.heroImage);
     }
-    if (video) await deleteVideo(video);
+    if (wasReplaced(oldData.logo, newData.logo)) {
+      filesToDelete.push(oldData.logo);
+    }
+    if (wasReplaced(oldData.video, newData.video)) {
+      filesToDelete.push(oldData.video);
+    }
 
-  } catch (error) {
-    logger.error('Error deleting brand files:', error);
+    // Check images array - delete old images not in new array
+    filesToDelete.push(
+      ...getReplacedArrayFiles(oldData.images, newData.images, isImageArray=true)
+    );
+
+    // Check product types array - delete replaced images
+    filesToDelete.push(
+      ...getReplacedArrayFiles(oldData.productTypes, newData.productTypes)
+    );
+
+
   }
+
+  await deleteFiles(filesToDelete);
 };
 
 /**
  * Process news article files
  */
 const processNewsArticleFiles = async (newsArticleData) => {
-  try {
-    const { image, title } = newsArticleData;
+  const { image, title } = newsArticleData;
+  const cleanTitle = cleanFileName(title);
 
-    let savedImagePath = image;
-    if (image && image.startsWith('data:')) {
-      const cleanTitle = cleanFileName(title);
-      savedImagePath = await saveImageGeneric(image, 'news', `news_${cleanTitle}_${Date.now()}`);
-    }
-
-    return {
-      ...newsArticleData,
-      image: savedImagePath
-    };
-  } catch (error) {
-    logger.error('Error processing news article files:', error);
-    throw error;
-  }
+  return {
+    ...newsArticleData,
+    image: await processImageField(image, 'news', `news_${cleanTitle}_${Date.now()}`)
+  };
 };
 
 /**
  * Delete news article files
  */
-const deleteNewsArticleFiles = async (imagePath) => {
-  try {
-    if (imagePath) await deleteImage(imagePath);
-  } catch (error) {
-    logger.error('Error deleting news article files:', error);
-  }
-};
+const deleteNewsArticleFiles = async (imagePath) => deleteFile(imagePath);
 
 /**
  * Process gallery files
  */
 const processGalleryFiles = async (galleryData) => {
-    try {
-        const { image } = galleryData;
-        let savedImagePath = image;
-        if (image && image.startsWith('data:')) {
-            const cleanTitle = cleanFileName();
-            savedImagePath = await saveImageGeneric(image, 'gallery', `gallery_${cleanTitle}_${Date.now()}`, true, { width: 1200, height: 800 });
-        }
+  const { image } = galleryData;
 
-        return {
-            ...galleryData,
-            image: savedImagePath
-        };
-    } catch (error) {
-        logger.error('Error processing gallery files:', error);
-        throw error;
-    }
+  return {
+    ...galleryData,
+    image: await processImageField(image, 'gallery', `gallery_${Date.now()}`, 'gallery')
+  };
 };
+
 /**
  * Delete gallery files
  */
-const deleteGalleryFiles = async (imagePath) => {
-    try {
-        if (imagePath) await deleteImage(imagePath);
-    } catch (error) {
-        logger.error('Error deleting gallery files:', error);
-    }
-};
+const deleteGalleryFiles = async (imagePath) => deleteFile(imagePath);
 
 /**
  * Process testimonial files
-*/
+ */
 const processTestimonialFiles = async (testimonialData) => {
-    try {
-        const { image, video, name } = testimonialData;
-        
-        let savedImagePath = image;
-        if (image && image.startsWith('data:')) {
-            const cleanName = cleanFileName(name);
-            savedImagePath = await saveImageGeneric(image, 'testimonials', `testimonial_${cleanName}_${Date.now()}`);
-        }
-        let savedVideoPath = video;
-        if (video && typeof video === 'string' && video.startsWith('data:')) {
-            const cleanName = cleanFileName(name);
-            savedVideoPath = await saveVideoGeneric(video, 'testimonials', `testimonial_${cleanName}_${Date.now()}`);
-        }
+  const { image, video, name } = testimonialData;
+  const cleanName = cleanFileName(name);
+  const timestamp = Date.now();
+  const result = { ...testimonialData };
 
-        return {
-            ...testimonialData,
-            image: savedImagePath,
-            video: savedVideoPath
-        };
-    } catch (error) {
-        logger.error('Error processing testimonial files:', error);
-        throw error;
-    }
+  const promises = [];
+
+  if (isBase64(image)) {
+    promises.push(
+      saveImage(image, 'testimonials', `testimonial_${cleanName}_${timestamp}`)
+        .then(path => { result.image = path; })
+    );
+  }
+
+  if (isBase64(video)) {
+    promises.push(
+      saveVideo(video, 'testimonials', `testimonial_${cleanName}_${timestamp}`)
+        .then(path => { result.video = path; })
+    );
+  }
+
+  await Promise.all(promises);
+  return result;
 };
 
 /**
  * Delete testimonial files
  */
-const deleteTestimonialFiles = async (imagePath, videoPath) => {
-  try {
-    if (imagePath) await deleteImage(imagePath);
-    if (videoPath) await deleteVideo(videoPath);
-  } catch (error) {
-    logger.error('Error deleting testimonial files:', error);
-  }
+const deleteTestimonialFiles = async (files) => {
+    if (!files || !Array.isArray(files)) return;
+    await deleteFiles(files);
 };
 
 /**
  * Process about us files
- * Only processes fields that are present in aboutUsData to support partial updates
  */
 const processAboutUsFiles = async (aboutUsData) => {
-  try {
-    const result = { ...aboutUsData };
+  const result = { ...aboutUsData };
+  const promises = [];
 
-    // Process main image only if present
-    if (aboutUsData.image !== undefined) {
-      if (aboutUsData.image && aboutUsData.image.startsWith('data:')) {
-        result.image = await saveImageGeneric(aboutUsData.image, 'about', `about_main_${Date.now()}`, true, { width: 1600, height: 900 });
-      }
-    }
-
-    // Process milestones only if present
-    if (aboutUsData.milestones !== undefined) {
-      const processedMilestones = [];
-      if (aboutUsData.milestones && aboutUsData.milestones.length > 0) {
-        for (let i = 0; i < aboutUsData.milestones.length; i++) {
-          const milestone = aboutUsData.milestones[i];
-          let milestoneImage = milestone.image;
-          if (milestoneImage && milestoneImage.startsWith('data:')) {
-            milestoneImage = await saveImageGeneric(milestoneImage, 'about/milestones', `milestone_${milestone.year}_${i}`, true, { width: 800, height: 600 });
-          }
-          processedMilestones.push({ ...milestone, image: milestoneImage });
-        }
-      }
-      result.milestones = processedMilestones;
-    }
-
-    // Process chairman message only if present
-    if (aboutUsData.chairman_message !== undefined) {
-      let chairmanImage = aboutUsData.chairman_message?.image;
-      if (chairmanImage && chairmanImage.startsWith('data:')) {
-        chairmanImage = await saveImageGeneric(chairmanImage, 'about/leadership', 'chairman', true, { width: 600, height: 800 });
-      }
-      result.chairman_message = aboutUsData.chairman_message ? { ...aboutUsData.chairman_message, image: chairmanImage } : aboutUsData.chairman_message;
-    }
-
-    // Process MD message only if present
-    if (aboutUsData.md_message !== undefined) {
-      let mdImage = aboutUsData.md_message?.image;
-      if (mdImage && mdImage.startsWith('data:')) {
-        mdImage = await saveImageGeneric(mdImage, 'about/leadership', 'md', true, { width: 600, height: 800 });
-      }
-      result.md_message = aboutUsData.md_message ? { ...aboutUsData.md_message, image: mdImage } : aboutUsData.md_message;
-    }
-
-    // Process team only if present
-    if (aboutUsData.team !== undefined) {
-      const processedTeam = [];
-      if (aboutUsData.team && aboutUsData.team.length > 0) {
-        for (const member of aboutUsData.team) {
-          let memberImage = member.image;
-          if (memberImage && memberImage.startsWith('data:')) {
-            const cleanName = cleanFileName(member.name || 'member');
-            memberImage = await saveImageGeneric(memberImage, 'about/team', `team_${cleanName}_${member.id}`);
-          }
-          processedTeam.push({ ...member, image: memberImage });
-        }
-      }
-      result.team = processedTeam;
-    }
-
-    // Process certifications only if present
-    if (aboutUsData.certifications !== undefined) {
-      const processedCertifications = [];
-      if (aboutUsData.certifications && aboutUsData.certifications.length > 0) {
-        for (const cert of aboutUsData.certifications) {
-          let certImage = cert.image;
-          if (certImage && certImage.startsWith('data:')) {
-            certImage = await saveImageGeneric(certImage, 'about/certifications', `cert_${cert.id}`);
-          }
-          processedCertifications.push({ ...cert, image: certImage });
-        }
-      }
-      result.certifications = processedCertifications;
-    }
-
-    // Process awards only if present
-    if (aboutUsData.awards !== undefined) {
-      const processedAwards = [];
-      if (aboutUsData.awards && aboutUsData.awards.length > 0) {
-        for (const award of aboutUsData.awards) {
-          let awardImage = award.image;
-          if (awardImage && awardImage.startsWith('data:')) {
-            awardImage = await saveImageGeneric(awardImage, 'about/awards', `award_${award.id}`);
-          }
-          processedAwards.push({ ...award, image: awardImage });
-        }
-      }
-      result.awards = processedAwards;
-    }
-
-    return result;
-  } catch (error) {
-    logger.error('Error processing about us files:', error);
-    throw error;
+  // Main image
+  if (aboutUsData.image !== undefined && isBase64(aboutUsData.image)) {
+    promises.push(
+      saveImage(aboutUsData.image, 'about', `about_main_${Date.now()}`, 'hero')
+        .then(path => { result.image = path; })
+    );
   }
+
+  // Milestones - process in parallel
+  if (aboutUsData.milestones?.length > 0) {
+    promises.push(
+      Promise.all(
+        aboutUsData.milestones.map(async (milestone, i) => ({
+          ...milestone,
+          image: await processImageField(
+            milestone.image,
+            'about/milestones',
+            `milestone_${milestone.year}_${i}`,
+            { width: 800, height: 600, fit: 'cover' }
+          )
+        }))
+      ).then(milestones => { result.milestones = milestones; })
+    );
+  }
+
+  // Leadership images
+  if (aboutUsData.chairman_message?.image !== undefined && isBase64(aboutUsData.chairman_message.image)) {
+    promises.push(
+      saveImage(aboutUsData.chairman_message.image, 'about/leadership', 'chairman', 'portrait')
+        .then(path => {
+          result.chairman_message = { ...aboutUsData.chairman_message, image: path };
+        })
+    );
+  }
+
+  if (aboutUsData.md_message?.image !== undefined && isBase64(aboutUsData.md_message.image)) {
+    promises.push(
+      saveImage(aboutUsData.md_message.image, 'about/leadership', 'md', 'portrait')
+        .then(path => {
+          result.md_message = { ...aboutUsData.md_message, image: path };
+        })
+    );
+  }
+
+  // Team members - process in parallel
+  if (aboutUsData.team?.length > 0) {
+    promises.push(
+      Promise.all(
+        aboutUsData.team.map(async (member) => ({
+          ...member,
+          image: await processImageField(
+            member.image,
+            'about/team',
+            `team_${cleanFileName(member.name || 'member')}_${member.id}`
+          )
+        }))
+      ).then(team => { result.team = team; })
+    );
+  }
+
+  // Certifications - process in parallel
+  if (aboutUsData.certifications?.length > 0) {
+    promises.push(
+      Promise.all(
+        aboutUsData.certifications.map(async (cert) => ({
+          ...cert,
+          image: await processImageField(cert.image, 'about/certifications', `cert_${cert.id}`)
+        }))
+      ).then(certs => { result.certifications = certs; })
+    );
+  }
+
+  // Awards - process in parallel
+  if (aboutUsData.awards?.length > 0) {
+    promises.push(
+      Promise.all(
+        aboutUsData.awards.map(async (award) => ({
+          ...award,
+          image: await processImageField(award.image, 'about/awards', `award_${award.id}`)
+        }))
+      ).then(awards => { result.awards = awards; })
+    );
+  }
+
+  await Promise.all(promises);
+  return result;
 };
 
 /**
- * Delete about us files
+ * Delete about us files - only deletes files that have been replaced
+ * If processedData is not provided (delete operation), deletes all files
  */
-const deleteAboutUsFiles = async (aboutUsData) => {
-  try {
-    const { image, milestones, chairman_message, md_message, team, certifications, awards } = aboutUsData;
-
-    if (image) await deleteImage(image);
-
-    if (milestones) {
-      await Promise.all(milestones.map(m => m.image ? deleteImage(m.image) : Promise.resolve()));
+const deleteAboutUsFiles = async (oldData, processedData) => {
+  const filesToDelete = [];
+  // If no processedData, delete all files (delete operation)
+  if (!processedData) {
+    const { image, milestones, chairman_message, md_message, team, certifications, awards } = oldData;
+    filesToDelete.push(
+      image,
+      chairman_message?.image,
+      md_message?.image,
+      ...(milestones?.map(m => m.image) || []),
+      ...(team?.map(m => m.image) || []),
+      ...(certifications?.map(c => c.image) || []),
+      ...(awards?.map(a => a.image) || [])
+    );
+  } else {
+    // Update operation - only delete replaced files
+    if (wasReplaced(oldData.image, processedData.image)) {
+      filesToDelete.push(oldData.image);
+    }
+    if (wasReplaced(oldData.chairman_message?.image, processedData.chairman_message?.image)) {
+      filesToDelete.push(oldData.chairman_message.image);
+    }
+    if (wasReplaced(oldData.md_message?.image, processedData.md_message?.image)) {
+      filesToDelete.push(oldData.md_message.image);
     }
 
-    if (chairman_message?.image) await deleteImage(chairman_message.image);
-    if (md_message?.image) await deleteImage(md_message.image);
-
-    if (team) {
-      await Promise.all(team.map(m => m.image ? deleteImage(m.image) : Promise.resolve()));
-    }
-
-    if (certifications) {
-      await Promise.all(certifications.map(c => c.image ? deleteImage(c.image) : Promise.resolve()));
-    }
-
-    if (awards) {
-      await Promise.all(awards.map(a => a.image ? deleteImage(a.image) : Promise.resolve()));
-    }
-  } catch (error) {
-    logger.error('Error deleting about us files:', error);
+    // Check arrays for replaced files
+    filesToDelete.push(
+      ...getReplacedArrayFiles(oldData.milestones, processedData.milestones),
+      ...getReplacedArrayFiles(oldData.team, processedData.team),
+      ...getReplacedArrayFiles(oldData.certifications, processedData.certifications),
+      ...getReplacedArrayFiles(oldData.awards, processedData.awards)
+    );
   }
+
+  await deleteFiles(filesToDelete);
 };
 
 /**
  * Process CSR initiative files
  */
 const processCSRInitiativeFiles = async (csrInitiativeData) => {
-  try {
-    const { image, title } = csrInitiativeData;
+  const { image, title } = csrInitiativeData;
+  const cleanTitle = cleanFileName(title);
 
-    let savedImagePath = image;
-    if (image && image.startsWith('data:')) {
-      const cleanTitle = cleanFileName(title);
-      savedImagePath = await saveImageGeneric(image, 'csr/initiatives', `initiative_${cleanTitle}_${Date.now()}`);
-    }
-
-    return {
-      ...csrInitiativeData,
-      image: savedImagePath
-    };
-  } catch (error) {
-    logger.error('Error processing CSR initiative files:', error);
-    throw error;
-  }
+  return {
+    ...csrInitiativeData,
+    image: await processImageField(image, 'csr/initiatives', `initiative_${cleanTitle}_${Date.now()}`)
+  };
 };
 
 /**
  * Delete CSR initiative files
  */
-const deleteCSRInitiativeFiles = async (imagePath) => {
-  try {
-    if (imagePath) await deleteImage(imagePath);
-  } catch (error) {
-    logger.error('Error deleting CSR initiative files:', error);
-  }
-};
+const deleteCSRInitiativeFiles = async (imagePath) => deleteFile(imagePath);
 
 /**
  * Process CSR hero files
  */
 const processCSRHeroFiles = async (csrHeroData) => {
-  try {
-    const { image, title } = csrHeroData;
+  const { image, title } = csrHeroData;
+  const cleanTitle = cleanFileName(title);
 
-    let savedImagePath = image;
-    if (image && image.startsWith('data:')) {
-      const cleanTitle = cleanFileName(title);
-      savedImagePath = await saveImageGeneric(image, 'csr/hero', `csr_hero_${cleanTitle}_${Date.now()}`, true);
-    }
-
-    return {
-      ...csrHeroData,
-      image: savedImagePath
-    };
-  } catch (error) {
-    logger.error('Error processing CSR hero files:', error);
-    throw error;
-  }
+  return {
+    ...csrHeroData,
+    image: await processImageField(image, 'csr/hero', `csr_hero_${cleanTitle}_${Date.now()}`, 'hero')
+  };
 };
 
 /**
  * Delete CSR hero files
  */
-const deleteCSRHeroFiles = async (imagePath) => {
-  try {
-    if (imagePath) await deleteImage(imagePath);
-  } catch (error) {
-    logger.error('Error deleting CSR hero files:', error);
-  }
-};
+const deleteCSRHeroFiles = async (imagePath) => deleteFile(imagePath);
 
 /**
  * Process sister company files
- * Only processes fields that are present in sisterCompanyData to support partial updates
  */
 const processSisterCompanyFiles = async (sisterCompanyData) => {
-  try {
-    const result = { ...sisterCompanyData };
-
-    // Get name for file paths (required field)
-    const name = sisterCompanyData.name;
-    if (!name) {
-      throw new Error('Sister company name is required for processing files');
-    }
-    const cleanName = cleanFileName(name);
-
-    // Process logo only if present
-    if (sisterCompanyData.logo !== undefined) {
-      if (sisterCompanyData.logo && sisterCompanyData.logo.startsWith('data:')) {
-        result.logo = await saveImageGeneric(sisterCompanyData.logo, 'sister-companies', `${cleanName}_logo`, true, { width: 600, height: 600, fit: 'inside', withoutEnlargement: false });
-      }
-    }
-
-    // Process image only if present
-    if (sisterCompanyData.image !== undefined) {
-      if (sisterCompanyData.image && sisterCompanyData.image.startsWith('data:')) {
-        result.image = await saveImageGeneric(sisterCompanyData.image, 'sister-companies', `${cleanName}_image`, true);
-      }
-    }
-
-    return result;
-  } catch (error) {
-    logger.error('Error processing sister company files:', error);
-    throw error;
+  const { name } = sisterCompanyData;
+  if (!name) {
+    throw new Error('Sister company name is required');
   }
+
+  const cleanName = cleanFileName(name);
+  const result = { ...sisterCompanyData };
+  const promises = [];
+
+  if (sisterCompanyData.logo !== undefined && isBase64(sisterCompanyData.logo)) {
+    promises.push(
+      saveImage(sisterCompanyData.logo, 'sister-companies', `${cleanName}_logo`, 'logo')
+        .then(path => { result.logo = path; })
+    );
+  }
+
+  if (sisterCompanyData.image !== undefined && isBase64(sisterCompanyData.image)) {
+    promises.push(
+      saveImage(sisterCompanyData.image, 'sister-companies', `${cleanName}_image`, 'hero')
+        .then(path => { result.image = path; })
+    );
+  }
+
+  await Promise.all(promises);
+  return result;
 };
 
 /**
  * Delete sister company files
  */
-const deleteSisterCompanyFiles = async (logo, image) => {
-  try {
-    if (logo) await deleteImage(logo);
-    if (image) await deleteImage(image);
-  } catch (error) {
-    logger.error('Error deleting sister company files:', error);
-  }
+const deleteSisterCompanyFiles = async (files) => {
+  if (files && files.length > 0) {
+    await deleteFiles(files);
+  } 
 };
 
 /**
  * Process spare part files
- * Only processes fields that are present in sparePartData to support partial updates
  */
 const processSparePartFiles = async (sparePartData) => {
-  try {
-    const result = { ...sparePartData };
+  const result = { ...sparePartData };
+  const promises = [];
 
-    // Process main image only if present
-    if (sparePartData.image !== undefined) {
-      if (sparePartData.image && sparePartData.image.startsWith('data:')) {
-        result.image = await saveImageGeneric(sparePartData.image, 'spare-parts', `spare_main_${Date.now()}`);
-      }
-    }
-
-    // Process parts images only if present
-    if (sparePartData.parts !== undefined) {
-      const processedParts = [];
-      if (sparePartData.parts && sparePartData.parts.length > 0) {
-        for (const part of sparePartData.parts) {
-          let partImage = part.image;
-          if (partImage && partImage.startsWith('data:')) {
-            partImage = await saveImageGeneric(partImage, 'spare-parts/parts', `part_${part.partId}`);
-          }
-          processedParts.push({ ...part, image: partImage });
-        }
-      }
-      result.parts = processedParts;
-    }
-
-    return result;
-  } catch (error) {
-    logger.error('Error processing spare part files:', error);
-    throw error;
+  if (sparePartData.image !== undefined && isBase64(sparePartData.image)) {
+    promises.push(
+      saveImage(sparePartData.image, 'spare-parts', `spare_main_${Date.now()}`)
+        .then(path => { result.image = path; })
+    );
   }
+
+  if (sparePartData.parts?.length > 0) {
+    promises.push(
+      Promise.all(
+        sparePartData.parts.map(async (part) => ({
+          ...part,
+          image: await processImageField(part.image, 'spare-parts/parts', `part_${part.partId}`)
+        }))
+      ).then(parts => { result.parts = parts; })
+    );
+  }
+
+  await Promise.all(promises);
+  return result;
 };
 
 /**
- * Delete spare part files
+ * Delete spare part files - only deletes files that have been replaced
+ * If newData is not provided (delete operation), deletes all files
  */
-const deleteSparePartFiles = async (image, parts) => {
-  try {
-    if (image) await deleteImage(image);
-
-    if (parts && parts.length > 0) {
-      await Promise.all(parts.map(p => p.image ? deleteImage(p.image) : Promise.resolve()));
-    }
-  } catch (error) {
-    logger.error('Error deleting spare part files:', error);
+const deleteSparePartFiles = async (oldData, newData) => {
+  const filesToDelete = [];
+  if (wasReplaced(oldData?.image, newData?.image)) {
+      filesToDelete.push(oldData.image);
   }
-};
+    // Check parts array for replaced files
+    filesToDelete.push(
+      ...getReplacedArrayFiles(oldData.parts, newData.parts)
+    );
 
-// Export all functions
+
+  await deleteFiles(filesToDelete);
+}
+// ============================================================================
+// Exports
+// ============================================================================
+
 module.exports = {
+  // Core utilities
   saveImage,
   savePDF,
-  deleteImage,
-  deletePDF,
-  deleteVideo,
-  deleteProductFiles,
+  saveVideo,
+  deleteFile,
+  deleteFiles,
+  cleanFileName,
+  isBase64,
+  IMAGE_SIZES,
+
+  // Entity processors
   processProductFiles,
+  deleteProductFiles,
   processHeroImageFiles,
   deleteHeroImageFiles,
   processProductTypeFiles,
@@ -898,6 +787,8 @@ module.exports = {
   deleteBrandFiles,
   processNewsArticleFiles,
   deleteNewsArticleFiles,
+  processGalleryFiles,
+  deleteGalleryFiles,
   processTestimonialFiles,
   deleteTestimonialFiles,
   processAboutUsFiles,
@@ -909,7 +800,5 @@ module.exports = {
   processSisterCompanyFiles,
   deleteSisterCompanyFiles,
   processSparePartFiles,
-  deleteSparePartFiles,
-  processGalleryFiles,
-  deleteGalleryFiles
+  deleteSparePartFiles
 };
