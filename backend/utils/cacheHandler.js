@@ -110,10 +110,10 @@ const refreshCacheInBackground = async (refresh = false) => {
         const data = await fetchAllDataFromDB();
         await writeDataFile(data);
         setMemoryCache(data);
+        if (refresh) return data;
     } catch (error) {
         logger.error('Error refreshing cache:', error);
     }
-    if (refresh) return data;
 };
 
 const getData = async () => {

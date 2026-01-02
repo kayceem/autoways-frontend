@@ -86,6 +86,13 @@ const LocationSchema = new Schema({
 
 // ==================== Product Specifications Schema ====================
 const ProductSpecificationsSchema = new Schema({
+    colors: {
+        type: [{
+            name: String,
+            value: String,
+            hexSecondary: String
+        }],
+    },
     general: Schema.Types.Mixed,
     engine: Schema.Types.Mixed,
     motor: Schema.Types.Mixed,
