@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Save, Trash, Upload, Plus, Trash2, Edit2, ChevronDown, ChevronUp, Package } from 'lucide-react';
 import toast from 'react-hot-toast';
 import useSparepartsQuery from '../../hooks/useSparepartsQuery';
-import { useUpdateSparePart, useCreateSparePart, useDeleteSparePart } from '../../hooks/useSparePartsMutation';
+import { useUpdateSparePart, useCreateSparePart } from '../../hooks/useSparePartsMutation';
 import { assetUrl } from '../../utils';
 import handleError from '../../utils/handleError';
 import LoadingSpinner from '../../components/common/Loading';
@@ -11,7 +11,6 @@ const SparePartsAdmin = () => {
   const { data: sparePartsData, isLoading, refetch } = useSparepartsQuery();
   const updateSparePart = useUpdateSparePart();
   const createSparePart = useCreateSparePart();
-  const deleteSparePart = useDeleteSparePart();
 
   const [sparePartData, setSparePartData] = useState(null);
   const [expandedSections, setExpandedSections] = useState({

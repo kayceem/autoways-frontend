@@ -201,7 +201,7 @@ router.delete('/spare-parts/:id', deleteSparePart);
 
 // Customer routes
 router.get('/customers', getCustomers);
-router.get('/customers/:id', deleteCustomer);
+router.delete('/customers/:id', deleteCustomer);
 
 // Gallery routes
 router.get('/gallery', getGalleries);

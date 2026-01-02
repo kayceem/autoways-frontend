@@ -1,14 +1,30 @@
 import { useContext } from "react";
 import { ContentContext } from "../../context/globalContext";
 import LoadingSpinner from "../../components/common/Loading";
+import { useDeleteCustomer } from '../../hooks/useCustomersMutation';
+import { Trash2 } from 'lucide-react';
+import handleError from '../../utils/handleError';
 
 const CustomerAdmin = () => {
     const { content, isLoading, refetch } = useContext(ContentContext);
     const customerInfo = content?.customers || [];
+    const deleteCustomer = useDeleteCustomer();
+
+    const handleDelete = async (id) => {
+        if (!window.confirm('Are you sure you want to delete this customer?')) return;
+
+        try {
+            await deleteCustomer.mutateAsync(id);
+            await refetch();
+        } catch (error) {
+            handleError(error);
+        }
+    };
 
     if (isLoading) {
         return <LoadingSpinner />;
     }
+
     const formatTime = (timestamp) => {
         const date = new Date(timestamp);
         return date.toLocaleDateString();
@@ -42,10 +58,13 @@ const CustomerAdmin = () => {
                                         Phone
                                     </th>
                                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Registered At
+                                        Registered
                                     </th>
                                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         Tickets
+                                    </th>
+                                    <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Actions
                                     </th>
                                 </tr>
                             </thead>
@@ -84,6 +103,16 @@ const CustomerAdmin = () => {
                                             <div className="text-sm text-gray-600">
                                                 {customer.tickets?.length || 0}
                                             </div>
+                                        </td>
+                                        <td className="px-6 py-4 text-right">
+                                            <button
+                                                type="button"
+                                                onClick={() => handleDelete(customer._id)}
+                                                disabled={deleteCustomer.isPending}
+                                                className="text-red-600 hover:text-red-700 disabled:opacity-50"
+                                            >
+                                                <Trash2 className="w-4 h-4" />
+                                            </button>
                                         </td>
                                     </tr>
                                 ))}
