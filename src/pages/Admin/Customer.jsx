@@ -11,7 +11,7 @@ const CustomerAdmin = () => {
     }
     const formatTime = (timestamp) => {
         const date = new Date(timestamp);
-        return date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
+        return date.toLocaleDateString();
     };
     
     return (
@@ -57,12 +57,12 @@ const CustomerAdmin = () => {
                                     >
                                         <td className="px-6 py-4">
                                             <div className="text-sm font-medium text-gray-900">
-                                                {customer?.name?.toUpperCase()}
+                                                {customer?.name}
                                             </div>
                                         </td>
                                         <td className="px-6 py-4">
                                             <a 
-                                                className="text-sm font-medium text-accent"
+                                                className="text-sm font-medium text-neutral-600 hover:text-neutral-800"
                                                 href={`mailto:${customer.email}`}
                                             >
                                                 {customer.email}

@@ -1693,6 +1693,19 @@ const getCustomers = asyncHandler(async (req, res) => {
     });
 });
 
+const deleteCustomer = asyncHandler(async (req, res) => {
+    const customer = await Customer.findByIdAndDelete(req.params.id);
+    if (!customer) {
+        return res.status(404).json({ success: false, error: 'Customer not found' });
+    }
+    
+    await refreshCacheInBackground();
+    res.json({
+        success: true,
+        message: 'Customer deleted successfully'
+    });
+});
+
 const createCustomerUtil = async (customerData, ticketData) => {
     try {
         const customer = await Customer.findOneAndUpdate(
@@ -1800,6 +1813,7 @@ module.exports = {
     updateSparePart,
     deleteSparePart,
     getCustomers,
+    deleteCustomer,
     createCustomerUtil,
     createGallery,
     deleteGallery,

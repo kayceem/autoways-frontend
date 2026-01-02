@@ -77,6 +77,7 @@ const {
   updateSparePart,
   deleteSparePart,
   getCustomers,
+  deleteCustomer,
   getGalleries,
   createGallery,
   deleteGallery,
@@ -200,6 +201,7 @@ router.delete('/spare-parts/:id', deleteSparePart);
 
 // Customer routes
 router.get('/customers', getCustomers);
+router.get('/customers/:id', deleteCustomer);
 
 // Gallery routes
 router.get('/gallery', getGalleries);

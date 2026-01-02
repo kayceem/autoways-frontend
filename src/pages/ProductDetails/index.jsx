@@ -241,7 +241,7 @@ const ProductDetails = () => {
             )}
 
             {/* Color Options Section */}
-            {product?.specifications?.colors && product.specifications.colors?.length && (
+            {product?.specifications?.colors?.length > 0 && (
                 <section className="bg-primary relative overflow-hidden">
                     <WaveBackground opacity={0.08} waveColor="#9f9f9fff" />
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16 relative z-10">
