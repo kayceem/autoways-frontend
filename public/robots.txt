@@ -4,9 +4,9 @@
 User-agent: *
 Allow: /
 
-# Block admin and private routes
-Disallow: /admin
+# Block admin and API routes
 Disallow: /admin/
+Disallow: /api/
 Disallow: /cgi-bin/
 
 # Sitemap location

@@ -121,14 +121,14 @@ export const getOptimalOGImageSize = () => {
 
 /**
  * Generate canonical URL
+ * Always uses https://autoways.com.np as the canonical base
  * @param {string} path - Page path
- * @param {string} baseUrl - Base URL (default from window.location)
+ * @param {string} baseUrl - Base URL (default: https://autoways.com.np)
  * @returns {string} Full canonical URL
  */
-export const generateCanonicalUrl = (path, baseUrl) => {
-  const base = baseUrl || `${window.location.protocol}//${window.location.host}`;
+export const generateCanonicalUrl = (path, baseUrl = 'https://autoways.com.np') => {
   const cleanPath = path.startsWith('/') ? path : `/${path}`;
-  return `${base}${cleanPath}`;
+  return `${baseUrl}${cleanPath}`;
 };
 
 /**

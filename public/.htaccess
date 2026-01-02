@@ -1,0 +1,108 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # Force HTTPS
+  RewriteCond %{HTTPS} off
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [L,R=301]
+
+  # Remove www
+  RewriteCond %{HTTP_HOST} ^www\.autoways\.com\.np [NC]
+  RewriteRule ^(.*)$ https://autoways.com.np/$1 [L,R=301]
+
+  # Whitelist valid routes - serve index.html with 200 status
+  # Skip check if it's an actual file (images, css, js, etc)
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # Allow root path
+  RewriteCond %{REQUEST_URI} ^/$ [OR]
+  # Allow specific paths
+  # Allow shop with specific brands (and any subpaths like /shop/toyota/trucks/camry-123)
+  RewriteCond %{REQUEST_URI} ^/(about|contact|locations|news|testimonials|csr|sister-companies|spare-parts|gallery|careers|admin)(/.*)?$ [NC,OR]
+  RewriteCond %{REQUEST_URI} ^/shop/(ather|bull|dongfeng|eicher|komatsu|toyota|xcmg)(/.*)?$ [NC]
+  RewriteRule ^ /index.html [L]
+
+  # Everything else - serve 404.html with 404 status
+  RewriteRule ^ /404.html [L,R=404]
+</IfModule>
+
+# Compression
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json image/svg+xml
+</IfModule>
+
+# Browser Caching
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresDefault "access plus 1 month"
+
+  # HTML - no cache (SPA needs fresh HTML)
+  ExpiresByType text/html "access plus 0 seconds"
+
+  # Images - 1 year
+  ExpiresByType image/jpg "access plus 1 year"
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/gif "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType image/avif "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 1 year"
+  ExpiresByType image/x-icon "access plus 1 year"
+
+  # Web fonts - 1 year
+  ExpiresByType font/woff "access plus 1 year"
+  ExpiresByType font/woff2 "access plus 1 year"
+  ExpiresByType font/ttf "access plus 1 year"
+  ExpiresByType font/otf "access plus 1 year"
+  ExpiresByType application/font-woff "access plus 1 year"
+  ExpiresByType application/font-woff2 "access plus 1 year"
+
+  # CSS and JavaScript - 1 year (Vite adds hash to filenames)
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType application/x-javascript "access plus 1 year"
+  ExpiresByType text/javascript "access plus 1 year"
+
+  # Documents
+  ExpiresByType application/pdf "access plus 1 month"
+  ExpiresByType application/json "access plus 0 seconds"
+
+  # Manifest and service worker
+  ExpiresByType application/manifest+json "access plus 0 seconds"
+</IfModule>
+
+# Cache-Control Headers
+<IfModule mod_headers.c>
+  # Default: Cache for 1 month
+  Header set Cache-Control "public, max-age=2592000, must-revalidate"
+
+  # HTML: No cache
+  <FilesMatch "\.(html|htm)$">
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+    Header set Pragma "no-cache"
+    Header set Expires "0"
+  </FilesMatch>
+
+  # Static assets with hash in filename: Cache for 1 year (immutable)
+  <FilesMatch "\.(jpg|jpeg|png|gif|webp|avif|svg|ico|woff|woff2|ttf|otf|js|css)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+
+  # JSON: No cache
+  <FilesMatch "\.json$">
+    Header set Cache-Control "no-cache, must-revalidate"
+  </FilesMatch>
+</IfModule>
+
+# Security Headers
+<IfModule mod_headers.c>
+  Header set X-Content-Type-Options "nosniff"
+  Header set X-Frame-Options "SAMEORIGIN"
+  Header set X-XSS-Protection "1; mode=block"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# Custom 404 error page (serves 404.html with proper 404 status)
+ErrorDocument 404 /404.html
