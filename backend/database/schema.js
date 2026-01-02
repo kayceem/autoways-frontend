@@ -225,11 +225,6 @@ const PartnerSchema = new Schema({
 
 // ==================== Client Schema ====================
 const ClientSchema = new Schema({
-    clientKey: {
-        type: String,
-        required: true,
-        unique: true
-    },
     name: {
         type: String,
         required: true
