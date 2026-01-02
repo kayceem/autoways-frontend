@@ -25,6 +25,7 @@ const ProductForm = ({
     brochureUrl: '',
     specSheetUrl: '',
     specifications: {
+      colors: [],
       general: [],
       engine: [],
       motor: [],
@@ -56,6 +57,7 @@ const ProductForm = ({
 
   // Specification categories with their display names
   const specificationCategories = [
+    { key: 'colors', label: 'Colors' },
     { key: 'general', label: 'General' },
     { key: 'engine', label: 'Engine' },
     { key: 'motor', label: 'Motor' },
@@ -93,6 +95,7 @@ const ProductForm = ({
     if (editingProduct) {
       // Convert existing specifications object to array format
       const loadedSpecs = {
+        colors: [],
         general: [],
         engine: [],
         motor: [],
@@ -360,6 +363,9 @@ const ProductForm = ({
             const data = {
                 name: field.name.trim(),
                 value: field.value.trim()
+            }
+            if (category === 'colors' && field.hexSecondary) {
+                data.hexSecondary = field.hexSecondary;
             }
             processedSpecs[category].push(data);
         }
@@ -695,6 +701,17 @@ const ProductForm = ({
                                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                                 />
                               </div>
+                              { category.key === 'colors' && (
+                              <div>
+                                <input
+                                  type="text"
+                                  value={field.hexSecondary}
+                                  onChange={(e) => handleSpecFieldChange(category.key, index, 'hexSecondary', e.target.value)}
+                                  placeholder="Secondary Color Hex (Optional)"
+                                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                                />
+                              </div>
+                              )}
                             </div>
                             <button
                               type="button"

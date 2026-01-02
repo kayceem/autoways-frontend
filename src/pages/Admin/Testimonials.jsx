@@ -98,8 +98,8 @@ const TestimonialsAdmin = () => {
         return;
       }
 
-      if (file.size > 100 * 1024 * 1024) {
-        handleError('Video size must be less than 100MB');
+      if (file.size > 30 * 1024 * 1024) {
+        handleError('Video size must be less than 30MB');
         return;
       }
 

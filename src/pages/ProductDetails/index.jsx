@@ -8,7 +8,7 @@ import {
     Check,
     Fuel,
     Battery,
-    Zap,
+    Zap
 } from 'lucide-react';
 import ImageGallery from '../../components/common/ImageGallery';
 import SpecificationsDisplay from '../../components/common/SpecificationsDisplay';
@@ -225,7 +225,7 @@ const ProductDetails = () => {
             {/* Features Section */}
             {product?.features && product?.features.length > 0 && (
                 <section className="bg-accent/30 border-neutral-200 relative overflow-hidden">
-                    <WaveBackground position="top" opacity={0.08} waveColor="#35621b" />
+                    <WaveBackground position="top" opacity={0.04} waveColor="#35621b" />
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16 relative z-10">
                         <h2 className="text-2xl lg:text-3xl font-bold mb-8 lg:mb-10 text-center text-secondary animate-fade-in">Key Features</h2>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -233,6 +233,51 @@ const ProductDetails = () => {
                                 <div key={index} className="flex items-start gap-3 p-4 bg-primary rounded-lg border border-neutral-200 hover:border-accent/60 hover:shadow-md transition-all duration-300 animate-slide-up cursor-default hover:-translate-y-1" style={{animationDelay: `${index * 50}ms`}}>
                                     <Check className="flex-shrink-0 text-accent mt-0.5" size={18} />
                                     <span className="text-sm lg:text-base font-medium leading-relaxed text-secondary">{feature}</span>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            )}
+
+            {/* Color Options Section */}
+            {product?.specifications?.colors && product.specifications.colors?.length && (
+                <section className="bg-primary relative overflow-hidden">
+                    <WaveBackground opacity={0.08} waveColor="#9f9f9fff" />
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16 relative z-10">
+                        <h2 className="text-2xl lg:text-3xl font-bold mb-8 lg:mb-10 text-center text-secondary animate-fade-in">Color Options</h2>
+                        <div className="flex flex-wrap justify-center gap-20">
+                            {product?.specifications?.colors.map((color, index) => (
+                                <div key={index} className="flex flex-col items-center gap-4 cursor-default animate-slide-up" style={{animationDelay: `${index * 50}ms`}}>
+                                    <div className='flex items-center '>
+                                        <div className="relative group">
+                                            <div
+                                                className="w-15 h-15 rounded-full border-2 border-neutral-300 hover:border-accent transition-all duration-300 hover:scale-115"
+                                                style={{ background: color.value }}
+                                                ></div>
+                                            
+                                            {/* Tooltip */}
+                                            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1 bg-neutral-800 text-white text-sm rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap">
+                                                {color.value}
+                                            </div>
+                                        </div>
+                                    { color.hexSecondary && (
+                                        <>
+                                        <span className="text-neutral-600 font-semibold px-1" style={{ fontSize: '2.5rem' }}>/</span>
+                                        <div className="relative group">
+                                        <div
+                                            className="w-15 h-15 rounded-full border-2 border-neutral-300 hover:border-accent transition-all duration-300 hover:scale-115"
+                                            style={{ background: color.hexSecondary }}
+                                            ></div>
+                                            {/* Tooltip */}
+                                            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1 bg-neutral-800 text-white text-sm rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap">
+                                                {color.hexSecondary}
+                                            </div>
+                                        </div>
+                                        </>
+                                    )}
+                                    </div>
+                                    <span className="text-sm lg:text-base font-semibold font-medium text-secondary">{color.name}</span>
                                 </div>
                             ))}
                         </div>
