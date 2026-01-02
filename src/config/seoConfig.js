@@ -5,7 +5,7 @@ const seoConfig = {
   siteUrl: 'https://autoways.com.np',
   defaultTitle: 'Autoways Nepal | Premium Automotive Solutions',
   defaultDescription: 'Autoways is the leading distributor of Bull machines in Nepal and dealer for Toyota, Eicher, Komatsu, Dongfeng, XCMG, and Ather. Discover trucks, buses, construction equipment, and electric vehicles.',
-  defaultKeywords:  'autoways nepal, toyota nepal, construction vehicle nepal, bull machines, bull machines nepal, bull nepal, bull pokhara, dozer nepal, loader nepal, eicher trucks, komatsu nepal, construction equipment nepal, electric vehicles nepal, ather nepal, automotive nepal, vehicles nepal',
+  defaultKeywords:  'autoways nepal, bull nepal, toyota nepal, construction vehicle nepal, bull machines, bull machines nepal, bull nepal, bull pokhara, dozer nepal, loader nepal, eicher trucks, komatsu nepal, construction equipment nepal, electric vehicles nepal, ather nepal, automotive nepal, vehicles nepal',
 
   // Default OG Image (Autoways Logo)
   defaultOGImage: '/autoways-text-logo.webp',

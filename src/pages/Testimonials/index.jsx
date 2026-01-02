@@ -22,11 +22,11 @@ const Testimonials = () => {
   const aboutUs = content?.aboutUs?.[0] || {};
   const { stats = { yearsOfExperience: 0, happyCustomers: 0, vehiclesSold: 0, serviceCenters: 0, brands: 0, employees: 0 }} = aboutUs;
 
-  const categories = [...new Set(testimonials.map(t => t.category))];
+const categories = Array.from(new Set(testimonials.map(t => t.category))).sort((a, b) => a.localeCompare(b));
 
   const categoryMap = {
-    video: 'Videos',
-    text: 'Reviews',
+      video: 'Videos',
+      text: 'Reviews',
   };
   const filteredTestimonials = testimonials.filter(t => t.category === selectedCategory);
 
@@ -177,7 +177,7 @@ const Testimonials = () => {
                 <div className="border-t border-secondary border-opacity-20 pt-4">
                   <div className="font-bold text-secondary flex items-center justify-between text-lg mb-1">
                     {testimonial.name}
-                    {testimonial.image && (
+                    {testimonial.category === 'text' && testimonial.image && (
                       <img
                         src={assetUrl(testimonial.image)}
                         alt={`${testimonial.name}'s photo`}

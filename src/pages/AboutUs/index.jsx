@@ -72,7 +72,7 @@ const handleNext = () => {
       <SEO
         title="About Us | Leading Automotive Distributor in Nepal"
         description="Learn about Autoways - Nepal's premier automotive company since 2002. Discover our mission, vision, values, and the team driving automotive excellence across Nepal."
-        keywords="about autoways, autoways nepal history, automotive company nepal, bull machines distributor"
+        keywords="about autoways, autoways nepal history, automotive company nepal, bull machines nepal, bull nepal"
         url="/about"
         type="website"
       />

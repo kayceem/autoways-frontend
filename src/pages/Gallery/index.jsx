@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useContent } from '../../context/globalContext';
 import LoadingSpinner from '../../components/common/Loading';
 import WaveBackground from '../../components/common/WaveBackground';
@@ -11,59 +11,58 @@ const Gallery = () => {
   const { content, isLoading } = useContent();
   const galleryData = content?.gallery || [];
 
-  const [visibleImages, setVisibleImages] = useState([]);
-  const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedImageIndex, setSelectedImageIndex] = useState(null);
-  const observerRef = useRef(null);
   const loadMoreRef = useRef(null);
-  const isInitialized = useRef(false);
+  const currentIndexRef = useRef(0);
+  const [, forceUpdate] = useState(0);
 
   const IMAGES_PER_ROW = 4;
   const INITIAL_ROWS = 2;
   const LOAD_MORE_ROWS = 1;
 
+  const visibleImages = galleryData.slice(0, currentIndexRef.current);
+  const hasMore = currentIndexRef.current < galleryData.length;
+
+  // Initialize when gallery data loads
   useEffect(() => {
-    if (galleryData.length > 0 && !isInitialized.current) {
-      const initialCount = IMAGES_PER_ROW * INITIAL_ROWS;
-      setVisibleImages(galleryData.slice(0, initialCount));
-      setCurrentIndex(initialCount);
-      isInitialized.current = true;
+    if (galleryData.length > 0 && currentIndexRef.current === 0) {
+      const initialCount = Math.min(IMAGES_PER_ROW * INITIAL_ROWS, galleryData.length);
+      currentIndexRef.current = initialCount;
+      forceUpdate(n => n + 1);
     }
-  }, [galleryData]);
+  }, [galleryData.length]);
+
+  const loadMoreImages = useCallback(() => {
+    if (currentIndexRef.current >= galleryData.length) return;
+
+    const newIndex = Math.min(
+      currentIndexRef.current + (IMAGES_PER_ROW * LOAD_MORE_ROWS),
+      galleryData.length
+    );
+
+    if (newIndex > currentIndexRef.current) {
+      currentIndexRef.current = newIndex;
+      forceUpdate(n => n + 1);
+    }
+  }, [galleryData.length]);
 
   useEffect(() => {
-    if (!loadMoreRef.current) return;
+    const element = loadMoreRef.current;
+    if (!element || !hasMore) return;
 
-    const options = {
-      root: null,
-      rootMargin: '100px',
-      threshold: 0.1,
-    };
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          loadMoreImages();
+        }
+      },
+      { root: null, rootMargin: '100px', threshold: 0.1 }
+    );
 
-    observerRef.current = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting && currentIndex < galleryData.length) {
-        loadMoreImages();
-      }
-    }, options);
+    observer.observe(element);
 
-    observerRef.current.observe(loadMoreRef.current);
-
-    return () => {
-      if (observerRef.current) {
-        observerRef.current.disconnect();
-      }
-    };
-  }, [currentIndex, galleryData.length]);
-
-  const loadMoreImages = () => {
-    const endIdx = currentIndex + (IMAGES_PER_ROW * LOAD_MORE_ROWS);
-    const nextImages = galleryData.slice(currentIndex, endIdx);
-
-    if (nextImages.length > 0) {
-      setVisibleImages((prev) => [...prev, ...nextImages]);
-      setCurrentIndex(endIdx);
-    }
-  };
+    return () => observer.disconnect();
+  }, [hasMore, loadMoreImages]);
 
   const openLightbox = (index) => {
     setSelectedImageIndex(index);
@@ -168,7 +167,7 @@ const Gallery = () => {
                     <div className="absolute inset-0 bg-gradient-to-t from-dark via-dark/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                       {item.title && (
                         <div className="absolute bottom-0 left-0 right-0 p-4">
-                          <h3 className="text-secondary font-semibold text-lg">
+                          <h3 className="text-white font-bold text-lg whitespace-nowrap overflow-hidden text-ellipsis text-shadow">
                             {item.title}
                           </h3>
                         </div>
@@ -180,7 +179,7 @@ const Gallery = () => {
               </div>
 
               {/* Load More Trigger */}
-              {currentIndex < galleryData.length && (
+              {hasMore && (
                 <div ref={loadMoreRef} className="flex justify-center py-8">
                   <div className="animate-pulse text-secondary opacity-50">
                     Loading more images...
@@ -188,7 +187,7 @@ const Gallery = () => {
                 </div>
               )}
 
-              {currentIndex >= galleryData.length && galleryData.length > 0 && (
+              {!hasMore && galleryData.length > 0 && (
                 <div className="text-center py-8">
                   <p className="text-secondary opacity-50">
                     You've reached the end of the gallery

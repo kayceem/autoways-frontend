@@ -122,7 +122,7 @@ const Navbar = ({ className = "" }) => {
                                 to="/shop/bull"
                                 className="nav-link-underline text-secondary hover:text-accent transition-colors duration-200 font-medium py-2"
                             >
-                                Bull
+                                Bull Machines
                             </Link>
                             <Dropdown
                                 label="Dealerships"
@@ -261,7 +261,7 @@ const Navbar = ({ className = "" }) => {
                                             className="block px-4 py-3 text-secondary hover:bg-accent/20 hover:text-accent transition-colors duration-200 font-medium rounded-lg"
                                             onClick={handleLinkClick}
                                         >
-                                            Bull
+                                            Bull Machines
                                         </Link>
 
                                         <button
