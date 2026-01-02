@@ -44,7 +44,9 @@ const {
     processSparePartFiles,
     deleteSparePartFiles,
     processGalleryFiles,
-    deleteGalleryFiles
+    deleteGalleryFiles,
+    processClientFiles,
+    deleteClientFiles
 } = require('./utils.js');
 
 const asyncHandler = (fn) => (req, res, next) => {
@@ -1127,7 +1129,16 @@ const deletePartner = asyncHandler(async (req, res) => {
 
 // ==================== CLIENT ROUTES ====================
 const createClient = asyncHandler(async (req, res) => {
-    const client = await Client.create(req.body);
+    let processedData;
+    try {
+        processedData = await processClientFiles(req.body);
+    } catch (error) {
+        return res.status(400).json({ 
+            success: false, 
+            error: `Error processing files`
+        });
+    }
+    const client = await Client.create(processedData);
     await refreshCacheInBackground();
     res.status(201).json({
         success: true,
@@ -1136,14 +1147,32 @@ const createClient = asyncHandler(async (req, res) => {
 });
 
 const updateClient = asyncHandler(async (req, res) => {
-    const client = await Client.findByIdAndUpdate(
-        req.params.id,
-        req.body,
-        { new: true, runValidators: true }
-    );
+  let client = await Client.findById(req.params.id);
     if (!client) {
         return res.status(404).json({ success: false, error: 'Client not found' });
     }
+
+    const oldLogo = client.logo;
+    let processedData;
+    try {
+        processedData = await processClientFiles(req.body);
+    } catch (error) {
+        return res.status(400).json({ 
+            success: false, 
+            error: `Error processing files`
+        });
+    }
+
+    client = await Client.findByIdAndUpdate(
+        req.params.id,
+        processedData,
+        { new: true, runValidators: true }
+    );
+
+    if (oldLogo && oldLogo !== processedData.logo) {
+        await deleteClientFiles(oldLogo);
+    }
+
     await refreshCacheInBackground();
     res.json({
         success: true,
@@ -1156,6 +1185,7 @@ const deleteClient = asyncHandler(async (req, res) => {
     if (!client) {
         return res.status(404).json({ success: false, error: 'Client not found' });
     }
+    await deleteClientFiles(client.logo);
     await refreshCacheInBackground();
     res.json({
         success: true,

@@ -678,6 +678,35 @@ const deleteCSRHeroFiles = async (imagePath) => deleteFile(imagePath);
 
 /**
  * Process sister company files
+*/
+const processClientFiles = async (clientData) => {
+    const { name } = clientData;
+    if (!name) {
+        throw new Error('Client name is required');
+    }
+    
+    const cleanName = cleanFileName(name);
+    const result = { ...clientData };
+    const promises = [];
+    
+    if (clientData.logo !== undefined && isBase64(clientData.logo)) {
+        promises.push(
+            saveImage(clientData.logo, 'clients', `${cleanName}_logo`, 'logo')
+            .then(path => { result.logo = path; })
+        );
+    }
+    
+    await Promise.all(promises);
+    return result;
+};
+
+/**
+ * Delete CSR hero files
+ */
+const deleteClientFiles = async (logoPath) => deleteFile(logoPath);
+
+/**
+ * Process sister company files
  */
 const processSisterCompanyFiles = async (sisterCompanyData) => {
   const { name } = sisterCompanyData;
@@ -800,5 +829,7 @@ module.exports = {
   processSisterCompanyFiles,
   deleteSisterCompanyFiles,
   processSparePartFiles,
-  deleteSparePartFiles
+  deleteSparePartFiles,
+  processClientFiles,
+  deleteClientFiles
 };

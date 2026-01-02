@@ -1,9 +1,7 @@
 import { Link } from 'react-router-dom';
 import { assetUrl } from '../../../utils';
 
-const PartnersSection = ({ partnersArray = [], className = '' }) => {
-  // Convert partners object to array
-
+const SisterCompaniesSection = ({ sisterCompaniesArray = [], className = '' }) => {
   return (
     <section className={`py-10 lg:py-20 px-4 lg:px-6 bg-primary ${className}`}>
       <div className="w-full mx-auto">
@@ -24,10 +22,10 @@ const PartnersSection = ({ partnersArray = [], className = '' }) => {
 
                 {/* Scrollable Cards */}
                 <div className="flex gap-4 lg:gap-8 overflow-x-auto scrollbar-hide px-4 lg:px-6 pb-4 scroll-smooth">
-                    {partnersArray.map((partner, index) => (
+                    {sisterCompaniesArray.map((sisterCompany, index) => (
                         <Link
                             key={index}
-                            to={`/sister-companies/${partner.slug}`}
+                            to={`/sister-companies/${sisterCompany.slug}`}
                             className="group flex-shrink-0"
                             style={{
                                 animation: `slideInFromRight 0.6s ease-out ${
@@ -41,7 +39,7 @@ const PartnersSection = ({ partnersArray = [], className = '' }) => {
                             >
                                 {/* Vertical Layout */}
                                 <div className="flex flex-col">
-                                    {/* partner Logo - Top Section (Square) */}
+                                    {/* sisterCompany Logo - Top Section (Square) */}
                                     <div className="w-full aspect-square bg-white flex items-center justify-center p-6 lg:p-12 relative overflow-hidden">
                                         {/* Subtle Glow on Hover */}
                                         <div className="absolute inset-0 bg-accent/0 group-hover:bg-accent/5 transition-all duration-500" />
@@ -49,20 +47,20 @@ const PartnersSection = ({ partnersArray = [], className = '' }) => {
                                         {/* Logo with fixed size container */}
                                         <div className="w-full h-full flex items-center justify-center relative z-10">
                                             <img
-                                                src={assetUrl(partner.logo) || assetUrl(partner.image)}
-                                                alt={`${partner.name} logo`}
+                                                src={assetUrl(sisterCompany.logo) || assetUrl(sisterCompany.image)}
+                                                alt={`${sisterCompany.name} logo`}
                                                 loading="lazy"
                                                 className="max-w-full max-h-full object-contain group-hover:scale-110 transition-all duration-500"
                                             />
                                         </div>
                                     </div>
 
-                                    {/* partner Info - Bottom Section */}
+                                    {/* sisterCompany Info - Bottom Section */}
                                     <div
                                         className={`p-4 lg:p-6 flex flex-col items-center justify-center relative bg-transparent h-[40px]`}
                                     >
                                         <h3 className="text-base lg:text-xl font-bold text-secondary inline-flex items-center group-hover:text-accent transition-colors duration-300 relative z-10 text-center">
-                                            {partner.name}
+                                            {sisterCompany.name}
                                         </h3>
                                     </div>
                                 </div>
@@ -72,8 +70,8 @@ const PartnersSection = ({ partnersArray = [], className = '' }) => {
 
                 </div>
                 </div>
-        {/* View All Partners Link */}
-        {partnersArray?.length > 8 && (
+        {/* View All Sister Companies Link */}
+        {sisterCompaniesArray?.length > 8 && (
           <div className="text-center mt-8 lg:mt-12">
             <Link
               to="/sister-companies"
@@ -101,4 +99,4 @@ const PartnersSection = ({ partnersArray = [], className = '' }) => {
   );
 };
 
-export default PartnersSection;
+export default SisterCompaniesSection;

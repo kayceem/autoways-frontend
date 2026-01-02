@@ -5,7 +5,7 @@ import BullSection from '../../components/home/BullSection';
 import BrandsSection from '../../components/home/BrandsSection';
 import AboutSection from '../../components/home/AboutSection';
 import CTASection from '../../components/home/CTA';
-import PartnersSection from '../../components/home/PartnersSection';
+import SisterCompaniesSection from '../../components/home/SisterCompaniesSection';
 import ClientsSection from '../../components/home/ClientsSection';
 import SEO from '../../components/common/SEO';
 import StructuredData from '../../components/common/StructuredData';
@@ -61,14 +61,14 @@ const Home = () => {
           />
         )}
 
-        {/* Partners Section - Our trusted partners */}
+        {/* Sister Companies Section - Our sister companies */}
         {content.sisterCompanies && Object.keys(content.sisterCompanies).length > 0 && (
-          <PartnersSection partnersArray={content.sisterCompanies} />
+          <SisterCompaniesSection sisterCompaniesArray={content.sisterCompanies} />
         )}
 
         {/* Clients Section - Trusted by leading organizations */}
-        {content.clients && content.brands.length > 0 && (
-          <ClientsSection clients={content.brands} stats={content.aboutUs?.[0]?.stats || {}} />
+        {content.clients && content.clients.length > 0 && (
+          <ClientsSection clients={content.clients} stats={content.aboutUs?.[0]?.stats || {}} />
         )}
 
         {/* CTA Section - Get in touch */}
