@@ -44,6 +44,7 @@ const AdminLayout = () => {
     { path: '/admin/news-media', label: 'News & Media', icon: Newspaper },
     { path: '/admin/gallery', label: 'Gallery', icon: Image },
     { path: '/admin/spare-parts', label: 'Spare Parts', icon: Wrench },
+    { path: '/admin/clients', label: 'Clients', icon: Building2 },
     { path: '/admin/careers', label: 'Careers', icon: Briefcase },
     { path: '/admin/logs', label: 'System Logs', icon: FileText },
   ];

@@ -18,6 +18,7 @@ import TestimonialsAdmin from "./Testimonials";
 import GalleryAdmin from "./Gallery";
 import CareersAdmin from "./Careers";
 import LogsAdmin from "./Logs";
+import ClientsAdmin from "./Clients";
 
 const AdminRoutes = () => {
     return (
@@ -40,6 +41,7 @@ const AdminRoutes = () => {
                 <Route path="sister-companies" element={<SisterCompaniesAdmin />} />
                 <Route path="gallery" element={<GalleryAdmin />} />
                 <Route path="careers" element={<CareersAdmin />} />
+                <Route path="clients" element={<ClientsAdmin />} />
                 <Route path="logs" element={<LogsAdmin />} />
             </Route>
         </Routes>

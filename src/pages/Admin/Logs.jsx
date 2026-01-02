@@ -354,7 +354,8 @@ const LogsAdmin = () => {
                     </td>
                     <td className="px-4 py-3 whitespace-nowrap">
                       <div className="text-sm text-gray-900">
-                        {log.timestamp ? new Date(log.timestamp).toLocaleString() : '-'}
+                        {/* set to user time zone */}
+                        {log.timestamp ? new Date(log.timestamp + 'Z').toLocaleString() : '-'}
                       </div>
                     </td>
                     <td className="px-4 py-3">
