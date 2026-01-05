@@ -30,8 +30,7 @@ const Home = () => {
   return (
     <>
       <SEO
-        title="Premium Automotive Solutions"
-        description="Autoways is the leading distributor of Bull machines in Nepal and dealer for Toyota, Eicher, Komatsu, Dongfeng, XCMG, and Ather. Discover trucks, buses, construction equipment, and electric vehicles."
+        description="Autoways is the leading distributor of Bull machine in Nepal and dealer for Toyota, Eicher, Komatsu, Dongfeng, XCMG, and Ather. Discover trucks, buses, construction equipment, and electric vehicles."
         url="/"
         type="website"
       />
