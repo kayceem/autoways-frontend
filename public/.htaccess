@@ -10,6 +10,10 @@
   RewriteCond %{HTTP_HOST} ^www\.autoways\.com\.np [NC]
   RewriteRule ^(.*)$ https://autoways.com.np/$1 [L,R=301]
 
+  # Block URLs with query parameters - redirect to 404
+  RewriteCond %{QUERY_STRING} .
+  RewriteRule ^ /404.html [L,R=404]
+
   # Whitelist valid routes - serve index.html with 200 status
   # Skip check if it's an actual file (images, css, js, etc)
   RewriteCond %{REQUEST_FILENAME} -f [OR]

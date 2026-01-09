@@ -59,6 +59,7 @@ const BrandsSection = ({ brands = {}, className = "" }) => {
                                         <div className="w-full h-full flex items-center justify-center relative z-10">
                                             <img
                                                 src={assetUrl(brand.logo) || assetUrl(brand.image)}
+                                                loading="lazy"
                                                 alt={`${brand.name} logo`}
                                                 className="max-w-full h-25 lg:h-40 object-contain group-hover:scale-110 transition-all duration-500"
                                             />
