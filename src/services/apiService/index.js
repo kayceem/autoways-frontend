@@ -37,6 +37,21 @@ axiosInstance.interceptors.response.use(
     return response;
   },
   (error) => {
+    // Handle 401 Unauthorized - token expired or invalid
+    if (error.response?.status === 401) {
+      const isAdmin = localStorage.getItem('isAdmin');
+
+      if (isAdmin) {
+        // Clear admin session
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('isAdmin');
+
+        // Redirect to admin login
+        if (typeof window !== 'undefined') {
+          window.location.href = '/admin/login';
+        }
+      }
+    }
 
     console.error('API Error:', error);
     return Promise.reject(error.response?.data || {
