@@ -125,6 +125,8 @@ const ProductDetails = () => {
         image: product?.images?.[0] ? assetUrl(product.images[0]) : undefined,
         brand: capitalizeWords(brand),
         url: `/shop/${brand}/${typeSlug}/${id}`,
+        ratingValue: product?.ratingValue,
+        reviewCount: product?.reviewCount,
     });
 
     return (

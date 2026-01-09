@@ -144,6 +144,8 @@ const ProductSchema = new Schema({
     features: [String],
     brochureUrl: String,
     specSheetUrl: String,
+    ratingValue: Number,
+    reviewCount: Number,
     brand: {
         type: String,
         required: true

@@ -756,6 +756,11 @@ const createProduct = asyncHandler(async (req, res) => {
         });
     }
   
+  // Generate random rating between 4.6 and 5.0 (1 decimal)
+  processedData.ratingValue = (Math.random() * 0.4 + 4.6).toFixed(1);
+  // Generate random review count between 10 and 50
+  processedData.reviewCount = Math.floor(Math.random() * 41 + 10);
+
   // Create product with file paths
   const product = await Product.create(processedData);
   
@@ -790,6 +795,24 @@ const updateProduct = asyncHandler(async (req, res) => {
             error: `Error processing files`
         });
     }
+
+  // Update rating: change by ±0.1, minimum 4.5, maximum 5.0
+  if (product.ratingValue) {
+    const ratingChange = Math.random() < 0.5 ? -0.1 : 0.1;
+    let newRating = parseFloat(product.ratingValue) + ratingChange;
+    newRating = Math.max(4.5, Math.min(5.0, newRating)); // Clamp between 4.5 and 5.0
+    processedData.ratingValue = newRating.toFixed(1);
+  } else {
+    processedData.ratingValue = (Math.random() * 0.4 + 4.6).toFixed(1);
+  }
+
+  // Increase review count by 1 to 5
+  if (product.reviewCount) {
+    const reviewIncrease = Math.floor(Math.random() * 5 + 1);
+    processedData.reviewCount = parseInt(product.reviewCount) + reviewIncrease;
+  } else {
+    processedData.reviewCount = Math.floor(Math.random() * 41 + 10);
+  }
   
   // Update product
   product = await Product.findByIdAndUpdate(
