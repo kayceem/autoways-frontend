@@ -17,6 +17,7 @@ import SparesParts from "../SparesParts";
 import Gallery from "../Gallery";
 import Careers from "../Careers";
 import NotFound from "../NotFound";
+import { PrivacyPolicy, TermsAndConditions } from "../Legal";
 import Navbar from "../../components/common/NavBar";
 import Footer from "../../components/common/Footer";
 import ScrollToTop from "../../components/common/ScrollToTop";
@@ -72,6 +73,8 @@ const PageRoutes = () => {
                             <Route path="/spare-parts" element={<SparesParts />} />
                             <Route path="/gallery" element={<Gallery />} />
                             <Route path="/careers" element={<Careers />} />
+                            <Route path="/privacy" element={<PrivacyPolicy />} />
+                            <Route path="/terms" element={<TermsAndConditions />} />
                             <Route path="/shop/:brand" element={<BrandLanding />} />
                             <Route path="/shop/:brand/:typeSlug" element={<ProductType />} />
                             <Route path="/shop/:brand/:typeSlug/:id" element={<ProductDetails />} />
